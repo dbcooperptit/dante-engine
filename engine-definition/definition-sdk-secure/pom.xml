@@ -41,7 +41,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
-            <artifactId>definition-sdk-common</artifactId>
+            <artifactId>definition-core</artifactId>
         </dependency>
 
         <dependency>

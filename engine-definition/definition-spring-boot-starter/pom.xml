@@ -35,19 +35,11 @@
         <version>3.0.0</version>
     </parent>
 
-
     <artifactId>definition-spring-boot-starter</artifactId>
     <version>3.0.0</version>
     <packaging>jar</packaging>
+
     <dependencies>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>definition-sdk-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>definition-sdk-secure</artifactId>
-        </dependency>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
             <artifactId>definition-sdk-jackson</artifactId>

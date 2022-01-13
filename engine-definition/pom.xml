@@ -40,7 +40,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>definition-sdk-common</module>
+        <module>definition-core</module>
         <module>definition-sdk-secure</module>
         <module>definition-sdk-jackson</module>
         <module>definition-spring-boot-starter</module>

@@ -25,9 +25,9 @@
 
 package cn.herodotus.engine.definition.autoconfigure;
 
-import cn.herodotus.engine.definition.common.utils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 
@@ -37,9 +37,10 @@ import javax.annotation.PostConstruct;
  * @author : gengwei.zheng
  * @date : 2022/1/13 20:00
  */
+@Configuration(proxyBeanMethods = false)
 public class AutoConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(BeanUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
