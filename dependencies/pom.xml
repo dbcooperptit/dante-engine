@@ -84,7 +84,6 @@
         <commons-io.version>2.11.0</commons-io.version>
         <guava.version>31.0.1-jre</guava.version>
 
-
         <!-- 应用开发辅助工具组件 -->
         <antisamy.version>1.6.4</antisamy.version>
         <influxdb.version>2.22</influxdb.version>
@@ -169,6 +168,21 @@
             </dependency>
 
             <!-- Herodotus Engine -->
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>definition-sdk-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>definition-sdk-secure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>definition-sdk-jackson</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Maven 相关依赖 -->
             <!-- https://mvnrepository.com/artifact/org.apache.maven/maven-embedder -->

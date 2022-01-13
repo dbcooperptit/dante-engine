@@ -27,23 +27,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <artifactId>herodotus-engine</artifactId>
+        <artifactId>engine-definition</artifactId>
         <groupId>cn.herodotus.engine</groupId>
         <version>3.0.0</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>engine-definition</artifactId>
+    <artifactId>definition-sdk-jackson</artifactId>
     <version>3.0.0</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
-    <modules>
-        <module>definition-sdk-common</module>
-        <module>definition-sdk-secure</module>
-        <module>definition-sdk-jackson</module>
-        <module>definition-spring-boot-starter</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>definition-sdk-secure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -123,6 +123,7 @@
 
     <modules>
         <module>engine-definition</module>
+        <module>engine-cache</module>
     </modules>
 
 </project>

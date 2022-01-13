@@ -30,20 +30,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>herodotus-engine</artifactId>
+        <artifactId>engine-definition</artifactId>
         <groupId>cn.herodotus.engine</groupId>
         <version>3.0.0</version>
     </parent>
 
-    <artifactId>engine-definition</artifactId>
-    <version>3.0.0</version>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>definition-sdk-common</module>
-        <module>definition-sdk-secure</module>
-        <module>definition-sdk-jackson</module>
-        <module>definition-spring-boot-starter</module>
-    </modules>
+    <artifactId>definition-spring-boot-starter</artifactId>
+    <version>3.0.0</version>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>definition-sdk-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>definition-sdk-secure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>definition-sdk-jackson</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
