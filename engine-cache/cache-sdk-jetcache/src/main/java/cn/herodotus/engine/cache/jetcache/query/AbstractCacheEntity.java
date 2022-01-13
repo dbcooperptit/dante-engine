@@ -39,6 +39,7 @@ public abstract class AbstractCacheEntity implements Entity {
 
     /**
      * 实体主键，作为默认Cache Key
+     *
      * @return 实体主键
      */
     public abstract String getId();

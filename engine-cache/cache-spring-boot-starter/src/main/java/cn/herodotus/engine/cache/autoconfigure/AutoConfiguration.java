@@ -53,6 +53,6 @@ public class AutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Component [Engine Definition Starter] Auto Configure.");
+        log.info("[Herodotus] |- Starter [Engine Cache] Auto Configure.");
     }
 }
