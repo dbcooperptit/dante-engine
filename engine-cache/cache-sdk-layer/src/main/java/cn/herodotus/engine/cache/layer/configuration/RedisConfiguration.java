@@ -23,12 +23,13 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.redis.configuration;
+package cn.herodotus.engine.cache.layer.configuration;
 
-import cn.herodotus.engine.cache.core.properties.CacheProperties;
-import cn.herodotus.engine.cache.redis.enhance.HerodotusRedisCacheManager;
+import cn.herodotus.engine.cache.layer.properties.CacheProperties;
+import cn.herodotus.engine.cache.layer.enhance.redis.HerodotusRedisCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -62,7 +63,7 @@ public class RedisConfiguration {
 
     @Resource
     private LettuceConnectionFactory lettuceConnectionFactory;
-    @Resource
+    @Autowired
     private CacheProperties cacheProperties;
 
     private RedisSerializer<String> keySerializer() {

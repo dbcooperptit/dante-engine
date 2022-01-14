@@ -36,7 +36,7 @@
     </parent>
 
 
-    <artifactId>cache-sdk-redission</artifactId>
+    <artifactId>cache-sdk-redisson</artifactId>
     <version>3.0.0</version>
     <packaging>jar</packaging>
 

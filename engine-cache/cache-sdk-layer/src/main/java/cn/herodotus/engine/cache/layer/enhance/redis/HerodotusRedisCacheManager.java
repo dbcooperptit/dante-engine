@@ -23,9 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.redis.enhance;
+package cn.herodotus.engine.cache.layer.enhance.redis;
 
-import cn.herodotus.engine.cache.core.properties.CacheProperties;
+import cn.herodotus.engine.cache.layer.properties.CacheProperties;
 import cn.herodotus.engine.cache.core.properties.Expire;
 import cn.herodotus.engine.definition.core.constants.SymbolConstants;
 import org.apache.commons.collections4.MapUtils;

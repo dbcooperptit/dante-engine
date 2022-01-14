@@ -23,36 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.autoconfigure;
+package cn.herodotus.engine.cache.layer.enhance.caffeine;
 
-import cn.herodotus.engine.cache.jetcache.configuration.JetCacheConfiguration;
-import cn.herodotus.engine.cache.layer.configuration.LayerConfiguration;
-import cn.herodotus.engine.cache.redisson.configuration.RedissonConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-import javax.annotation.PostConstruct;
+import com.github.benmanes.caffeine.cache.Expiry;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * <p>Description: Cache 配置 </p>
+ * <p>Description: Caffeine 缓存永不过期时间配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 22:29
+ * @date : 2021/7/30 15:07
  */
-@Configuration(proxyBeanMethods = false)
-@Import({
-        LayerConfiguration.class,
-        RedissonConfiguration.class,
-        JetCacheConfiguration.class,
-})
-public class AutoConfiguration {
+public class CaffeineNeverExpire<K, V> implements Expiry<K, V> {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    @Override
+    public long expireAfterCreate(@NonNull K key, @NonNull V value, long currentTime) {
+        return Long.MAX_VALUE;
+    }
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Cache Starter] Auto Configure.");
+    @Override
+    public long expireAfterUpdate(@NonNull K key, @NonNull V value, long currentTime, @NonNegative long currentDuration) {
+        return currentDuration;
+    }
+
+    @Override
+    public long expireAfterRead(@NonNull K key, @NonNull V value, long currentTime, @NonNegative long currentDuration) {
+        return currentDuration;
     }
 }

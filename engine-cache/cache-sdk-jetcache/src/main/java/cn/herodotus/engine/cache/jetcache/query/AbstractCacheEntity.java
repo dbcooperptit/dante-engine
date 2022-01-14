@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.cache.jetcache.query;
 
-import cn.herodotus.engine.definition.core.entity.Entity;
+import cn.herodotus.engine.definition.core.domain.Entity;
 
 /**
  * <p>Description: 自定义缓存基础实体 </p>
