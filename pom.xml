@@ -124,6 +124,9 @@
     <modules>
         <module>engine-definition</module>
         <module>engine-cache</module>
+        <module>engine-data</module>
+        <module>engine-web</module>
+        <module>engine-rest</module>
     </modules>
 
 </project>

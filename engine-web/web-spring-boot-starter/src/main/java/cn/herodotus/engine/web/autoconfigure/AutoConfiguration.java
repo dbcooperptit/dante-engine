@@ -23,14 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.definition.core.domain;
+package cn.herodotus.engine.web.autoconfigure;
+
+import cn.herodotus.engine.web.configuration.JacksonConfiguration;
+import cn.herodotus.engine.web.configuration.RestTemplateConfiguration;
+import cn.herodotus.engine.web.configuration.ServiceConfiguration;
+import cn.herodotus.engine.web.configuration.UndertowWebServerFactoryCustomizer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
- * <p>Description: DTO基类定义 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/4/30 22:30
+ * @date : 2022/1/14 15:43
  */
-public abstract class BaseDto extends AbstractEntity {
-
+@Configuration(proxyBeanMethods = false)
+@Import({
+        ServiceConfiguration.class,
+        JacksonConfiguration.class,
+        RestTemplateConfiguration.class,
+        UndertowWebServerFactoryCustomizer.class
+})
+public class AutoConfiguration {
 }

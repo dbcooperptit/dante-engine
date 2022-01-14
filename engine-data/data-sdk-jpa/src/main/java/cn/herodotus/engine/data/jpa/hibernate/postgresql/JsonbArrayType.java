@@ -23,15 +23,42 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.definition.core.domain;
+package cn.herodotus.engine.data.jpa.hibernate.postgresql;
 
+import org.hibernate.HibernateException;
+import org.springframework.util.ObjectUtils;
+
+import java.io.Serializable;
 
 /**
- * <p> Description : BaseCacheEntity </p>
+ * <p>Description: 自定义Jsonb数组类型 </p>
  *
  * @author : gengwei.zheng
- * @date : 2020/2/24 16:38
+ * @date : 2019/11/15 10:32
  */
-public abstract class AbstractEntity implements Entity {
+public class JsonbArrayType extends TextArrayType implements Serializable {
 
+    @Override
+    protected String dbRealTypeName() {
+        return "JSONB";
+    }
+
+    @Override
+    public boolean isMutable() {
+        return true;
+    }
+
+    @Override
+    public int hashCode(Object x) throws HibernateException {
+        if (x == null) {
+            return 0;
+        }
+
+        return x.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object x, Object y) throws HibernateException {
+        return ObjectUtils.nullSafeEquals(x, y);
+    }
 }

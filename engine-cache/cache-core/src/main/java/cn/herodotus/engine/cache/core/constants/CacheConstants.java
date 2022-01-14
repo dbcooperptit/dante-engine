@@ -31,37 +31,35 @@ package cn.herodotus.engine.cache.core.constants;
  * @author : gengwei.zheng
  * @date : 2022/1/13 21:04
  */
-public class CacheConstants {
+public interface CacheConstants {
 
-    public static final String CACHE_PREFIX = "cache:";
+    String CACHE_PREFIX = "cache:";
 
-    public static final String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
-    public static final String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
+    String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
+    String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
 
-    public static final String CACHE_SECURITY_PREFIX = CACHE_PREFIX + "security:";
-    public static final String CACHE_SECURITY_METADATA_PREFIX = CACHE_SECURITY_PREFIX + "metadata:";
+    String CACHE_SECURITY_PREFIX = CACHE_PREFIX + "security:";
+    String CACHE_SECURITY_METADATA_PREFIX = CACHE_SECURITY_PREFIX + "metadata:";
 
-    public static final String CACHE_NAME_TOKEN_CAPTCHA = CACHE_TOKEN_BASE_PREFIX + "captcha:";
-    public static final String CACHE_NAME_TOKEN_IDEMPOTENT = CACHE_TOKEN_BASE_PREFIX + "idempotent:";
-    public static final String CACHE_NAME_TOKEN_ACCESS_LIMITED = CACHE_TOKEN_BASE_PREFIX + "access_limited:";
-    public static final String CACHE_NAME_TOKEN_SECURE_KEY = CACHE_TOKEN_BASE_PREFIX + "secure_key:";
-    public static final String CACHE_NAME_TOKEN_VERIFICATION_CODE = CACHE_TOKEN_BASE_PREFIX + "verification:";
-    public static final String CACHE_NAME_TOKEN_EASEMOB = CACHE_TOKEN_BASE_PREFIX + "easemob:";
-    public static final String CACHE_NAME_TOKEN_JUSTAUTH_STATE = CACHE_TOKEN_BASE_PREFIX + "justauth_state:";
-    public static final String CACHE_NAME_TOKEN_PAY = CACHE_TOKEN_BASE_PREFIX + "pay:";
+    String CACHE_NAME_TOKEN_CAPTCHA = CACHE_TOKEN_BASE_PREFIX + "captcha:";
 
-    public static final String CACHE_NAME_CAPTCHA_JIGSAW = CACHE_NAME_TOKEN_CAPTCHA + "jigsaw:";
-    public static final String CACHE_NAME_CAPTCHA_WORD_CLICK = CACHE_NAME_TOKEN_CAPTCHA + "word_click:";
-    public static final String CACHE_NAME_CAPTCHA_GRAPHIC = CACHE_NAME_TOKEN_CAPTCHA + "graphic:";
+    String CACHE_NAME_TOKEN_VERIFICATION_CODE = CACHE_TOKEN_BASE_PREFIX + "verification:";
+    String CACHE_NAME_TOKEN_EASEMOB = CACHE_TOKEN_BASE_PREFIX + "easemob:";
+    String CACHE_NAME_TOKEN_JUSTAUTH_STATE = CACHE_TOKEN_BASE_PREFIX + "justauth_state:";
+    String CACHE_NAME_TOKEN_PAY = CACHE_TOKEN_BASE_PREFIX + "pay:";
 
-    public static final String CACHE_NAME_SECURITY_METADATA_ATTRIBUTES = CACHE_SECURITY_METADATA_PREFIX + "attributes:";
-    public static final String CACHE_NAME_SECURITY_METADATA_INDEXABLE = CACHE_SECURITY_METADATA_PREFIX + "indexable:";
-    public static final String CACHE_NAME_SECURITY_METADATA_COMPATIBLE = CACHE_SECURITY_METADATA_PREFIX + "compatible:";
+    String CACHE_NAME_CAPTCHA_JIGSAW = CACHE_NAME_TOKEN_CAPTCHA + "jigsaw:";
+    String CACHE_NAME_CAPTCHA_WORD_CLICK = CACHE_NAME_TOKEN_CAPTCHA + "word_click:";
+    String CACHE_NAME_CAPTCHA_GRAPHIC = CACHE_NAME_TOKEN_CAPTCHA + "graphic:";
 
-    public static final String CACHE_NAME_PAY_ALIPAY = CACHE_NAME_TOKEN_PAY + "alipay:";
+    String CACHE_NAME_SECURITY_METADATA_ATTRIBUTES = CACHE_SECURITY_METADATA_PREFIX + "attributes:";
+    String CACHE_NAME_SECURITY_METADATA_INDEXABLE = CACHE_SECURITY_METADATA_PREFIX + "indexable:";
+    String CACHE_NAME_SECURITY_METADATA_COMPATIBLE = CACHE_SECURITY_METADATA_PREFIX + "compatible:";
 
-    public static final int DEFAULT_UPMS_CACHE_EXPIRE = 86400;
-    public static final int DEFAULT_UPMS_LOCAL_LIMIT = 1000;
+    String CACHE_NAME_PAY_ALIPAY = CACHE_NAME_TOKEN_PAY + "alipay:";
 
-    public static final String INDEX_CACHE_NAME = "index:";
+    int DEFAULT_UPMS_CACHE_EXPIRE = 86400;
+    int DEFAULT_UPMS_LOCAL_LIMIT = 1000;
+
+    String INDEX_CACHE_NAME = "index:";
 }
