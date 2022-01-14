@@ -48,7 +48,7 @@ public class ServiceConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- Plugin [Herodotus Service] Auto Configure.");
+        log.info("[Herodotus] |- SDK [Engine Web] Auto Configure.");
     }
 
     @Bean

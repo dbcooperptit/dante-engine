@@ -28,7 +28,7 @@ package cn.herodotus.engine.web.core.constants;
 import cn.herodotus.engine.definition.core.constants.PropertyConstants;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Web包属性常量 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/1/14 17:34

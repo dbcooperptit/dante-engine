@@ -30,7 +30,7 @@ import cn.herodotus.engine.web.core.constants.WebPropertyConstants;
 import org.springframework.core.env.Environment;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Web属性处理器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/1/14 18:08
