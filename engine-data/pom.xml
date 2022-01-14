@@ -41,10 +41,10 @@
 
     <modules>
         <module>data-core</module>
-        <module>data-spring-boot-starter</module>
         <module>data-sdk-p6spy</module>
         <module>data-sdk-jpa</module>
-        <module>data-sdk-mybatisplus</module>
+        <module>data-sdk-mybatis-plus</module>
+        <module>data-spring-boot-starter</module>
     </modules>
 
 </project>

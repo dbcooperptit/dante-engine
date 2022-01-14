@@ -28,7 +28,7 @@ package cn.herodotus.engine.data.core.constants;
 import cn.herodotus.engine.definition.core.constants.PropertyConstants;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 数据模块属性常量 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/1/14 11:16

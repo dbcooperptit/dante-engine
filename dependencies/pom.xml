@@ -225,7 +225,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
-                <artifactId>data-sdk-mybatisplus</artifactId>
+                <artifactId>data-sdk-mybatis-plus</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
