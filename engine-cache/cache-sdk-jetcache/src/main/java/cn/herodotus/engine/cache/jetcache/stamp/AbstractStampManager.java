@@ -25,10 +25,10 @@
 
 package cn.herodotus.engine.cache.jetcache.stamp;
 
-import cn.herodotus.engine.cache.jetcache.exception.StampDeleteFailedException;
-import cn.herodotus.engine.cache.jetcache.exception.StampHasExpiredException;
-import cn.herodotus.engine.cache.jetcache.exception.StampMismatchException;
-import cn.herodotus.engine.cache.jetcache.exception.StampParameterIllegalException;
+import cn.herodotus.engine.cache.core.exception.StampDeleteFailedException;
+import cn.herodotus.engine.cache.core.exception.StampHasExpiredException;
+import cn.herodotus.engine.cache.core.exception.StampMismatchException;
+import cn.herodotus.engine.cache.core.exception.StampParameterIllegalException;
 import com.alicp.jetcache.AutoReleaseLock;
 import com.alicp.jetcache.Cache;
 import org.apache.commons.lang3.ObjectUtils;

@@ -57,6 +57,6 @@ public class JetCacheAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- Component [Herodotus Custom JetCache] Auto Configure.");
+        log.debug("[Herodotus] |- Plugin [Herodotus Custom JetCache] Auto Configure.");
     }
 }

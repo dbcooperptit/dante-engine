@@ -23,27 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.definition.core.utils;
+package cn.herodotus.engine.cache.core.exception;
 
 /**
- * <p>Description: 常用正则表达式 </p>
+ * <p>Description: 请求参数中缺少幂等Token错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/10/12 10:43
+ * @date : 2021/8/23 12:29
  */
-public class RegexPool implements cn.hutool.core.lang.RegexPool {
+public class StampParameterIllegalException extends StampException {
 
-    /**
-     * 匹配大括号以及其中的内容，
-     * <p>
-     * 示例： "ab{gnfnm}ah{hell}o"，匹配结果：{gnfnm}、{hell}
-     */
-    public static final String BRACES_AND_CONTENT = "\\{([^}])*\\}";
+    public StampParameterIllegalException() {
+    }
 
-    /**
-     * 匹配所有字符
-     * <p>
-     * 示例：String cat = "abc", cat.split((?!^)) 将得到 array["a", "b", "c"]
-     */
-    public static final String ALL_CHARACTERS = "(?!^)";
+    public StampParameterIllegalException(String message) {
+        super(message);
+    }
+
+    public StampParameterIllegalException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public StampParameterIllegalException(Throwable cause) {
+        super(cause);
+    }
+
+    public StampParameterIllegalException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

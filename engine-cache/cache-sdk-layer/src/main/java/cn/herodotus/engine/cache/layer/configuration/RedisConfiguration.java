@@ -25,13 +25,12 @@
 
 package cn.herodotus.engine.cache.layer.configuration;
 
-import cn.herodotus.engine.cache.layer.properties.CacheProperties;
 import cn.herodotus.engine.cache.layer.enhance.redis.HerodotusRedisCacheManager;
+import cn.herodotus.engine.cache.layer.properties.CacheProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -55,7 +54,6 @@ import javax.annotation.Resource;
  * @author gengwei.zheng
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnClass({CacheProperties.class})
 @AutoConfigureAfter({RedisAutoConfiguration.class})
 public class RedisConfiguration {
 

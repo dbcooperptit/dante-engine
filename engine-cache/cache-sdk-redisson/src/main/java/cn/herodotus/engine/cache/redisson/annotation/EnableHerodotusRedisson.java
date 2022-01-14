@@ -23,32 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.jetcache.exception;
+package cn.herodotus.engine.cache.redisson.annotation;
+
+import cn.herodotus.engine.cache.redisson.configuration.RedissonConfiguration;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
- * <p>Description: Stamp签章删除失败Exception </p>
+ * <p>Description: 手动开启Redisson注入 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/8/23 13:51
+ * @date : 2022/1/14 23:06
  */
-public class StampDeleteFailedException extends StampException {
-
-    public StampDeleteFailedException() {
-    }
-
-    public StampDeleteFailedException(String message) {
-        super(message);
-    }
-
-    public StampDeleteFailedException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public StampDeleteFailedException(Throwable cause) {
-        super(cause);
-    }
-
-    public StampDeleteFailedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Import(RedissonConfiguration.class)
+public @interface EnableHerodotusRedisson {
 }

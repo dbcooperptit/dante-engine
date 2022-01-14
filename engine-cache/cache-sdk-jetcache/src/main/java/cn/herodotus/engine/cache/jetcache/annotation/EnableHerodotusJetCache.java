@@ -23,32 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.jetcache.exception;
+package cn.herodotus.engine.cache.jetcache.annotation;
+
+import cn.herodotus.engine.cache.jetcache.configuration.JetCacheConfiguration;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
- * <p>Description: Stamp签章 已过期错误 </p>
+ * <p>Description: 手动开启JetCache注入 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/8/23 12:36
+ * @date : 2022/1/14 22:51
  */
-public class StampHasExpiredException extends StampException {
-
-    public StampHasExpiredException() {
-    }
-
-    public StampHasExpiredException(String message) {
-        super(message);
-    }
-
-    public StampHasExpiredException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public StampHasExpiredException(Throwable cause) {
-        super(cause);
-    }
-
-    public StampHasExpiredException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Import(JetCacheConfiguration.class)
+public @interface EnableHerodotusJetCache {
 }

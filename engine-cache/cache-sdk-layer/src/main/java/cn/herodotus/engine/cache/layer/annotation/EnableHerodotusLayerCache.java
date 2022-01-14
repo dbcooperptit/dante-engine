@@ -23,32 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.jetcache.exception;
+package cn.herodotus.engine.cache.layer.annotation;
+
+import cn.herodotus.engine.cache.layer.configuration.LayerConfiguration;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
- * <p>Description: 请求参数中缺少幂等Token错误 </p>
+ * <p>Description: 手动开启LayerCache注入 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/8/23 12:29
+ * @date : 2022/1/14 22:56
  */
-public class StampParameterIllegalException extends StampException {
-
-    public StampParameterIllegalException() {
-    }
-
-    public StampParameterIllegalException(String message) {
-        super(message);
-    }
-
-    public StampParameterIllegalException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public StampParameterIllegalException(Throwable cause) {
-        super(cause);
-    }
-
-    public StampParameterIllegalException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Import(LayerConfiguration.class)
+public @interface EnableHerodotusLayerCache {
 }

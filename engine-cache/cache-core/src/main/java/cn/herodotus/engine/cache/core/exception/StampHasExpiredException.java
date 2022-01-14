@@ -23,38 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.jetcache.query;
-
-import cn.herodotus.engine.definition.core.domain.entity.Entity;
+package cn.herodotus.engine.cache.core.exception;
 
 /**
- * <p>Description: 自定义缓存基础实体 </p>
- * <p>
- * 把早期自定义多级缓存使用到的基础类提取出来，一方面减少对其它代码的影响，另一方面做代码保存备用。
+ * <p>Description: Stamp签章 已过期错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/12/14 16:11
+ * @date : 2021/8/23 12:36
  */
-public abstract class AbstractCacheEntity implements Entity {
+public class StampHasExpiredException extends StampException {
 
-    /**
-     * 实体主键，作为默认Cache Key
-     *
-     * @return 实体主键
-     */
-    public abstract String getId();
+    public StampHasExpiredException() {
+    }
 
-    /**
-     * 数据表中除主键以外的唯一数据属性
-     * <p>
-     * 有些实体，只使用一个属性作为Cache Key  不能满足需求。
-     * 例如：SysUser，使用UserId和UserName查询都比较频繁，用UserId作为缓存的Key，那么用UserName就无法从缓存读取。
-     * 除非用UserId作为缓存Key，缓存一遍实体，用UserName再作为缓存Key，缓存一遍实体。这样增加缓存管理复杂度。
-     * <p>
-     * 通过getLinkedProperty()，维护一个Map。
-     * 通过这个Map，实现指定属性与CacheKey的映射。
-     *
-     * @return LinkedProperty
-     */
-    public abstract String getLinkedProperty();
+    public StampHasExpiredException(String message) {
+        super(message);
+    }
+
+    public StampHasExpiredException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public StampHasExpiredException(Throwable cause) {
+        super(cause);
+    }
+
+    public StampHasExpiredException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

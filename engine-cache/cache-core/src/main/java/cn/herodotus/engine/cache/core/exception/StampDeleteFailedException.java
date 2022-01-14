@@ -23,32 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.jetcache.exception;
+package cn.herodotus.engine.cache.core.exception;
 
 /**
- * <p>Description: Stamp签章校验错误 </p>
+ * <p>Description: Stamp签章删除失败Exception </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/8/23 12:32
+ * @date : 2021/8/23 13:51
  */
-public class StampMismatchException extends StampException {
+public class StampDeleteFailedException extends StampException {
 
-    public StampMismatchException() {
+    public StampDeleteFailedException() {
     }
 
-    public StampMismatchException(String message) {
+    public StampDeleteFailedException(String message) {
         super(message);
     }
 
-    public StampMismatchException(String message, Throwable cause) {
+    public StampDeleteFailedException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public StampMismatchException(Throwable cause) {
+    public StampDeleteFailedException(Throwable cause) {
         super(cause);
     }
 
-    public StampMismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public StampDeleteFailedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

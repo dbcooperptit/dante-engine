@@ -51,8 +51,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
+            <groupId>com.alicp.jetcache</groupId>
+            <artifactId>jetcache-starter-redis-lettuce</artifactId>
         </dependency>
 
         <dependency>
@@ -60,11 +60,6 @@
             <artifactId>mybatis</artifactId>
             <scope>compile</scope>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alicp.jetcache</groupId>
-            <artifactId>jetcache-starter-redis-lettuce</artifactId>
         </dependency>
     </dependencies>
 
