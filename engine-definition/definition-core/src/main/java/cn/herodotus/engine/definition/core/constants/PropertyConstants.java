@@ -48,4 +48,17 @@ public interface PropertyConstants {
     String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
     String PROPERTY_HERODOTUS_MANAGEMENT = PROPERTY_PREFIX_HERODOTUS + ".management";
 
+    /* ---------- Spring 详细配置属性路径 ---------- */
+
+    String ITEM_SPRING_APPLICATION_NAME = "spring.application.name";
+    String ITEM_SPRING_JPA_HIBERNATE_DDL_AUTO = "spring.jpa.hibernate.ddl-auto";
+    String ITEM_SPRING_SQL_INIT_PLATFORM = "spring.sql.init.platform";
+
+    /* ---------- 注解属性通用值 ---------- */
+
+    String ANNOTATION_PREFIX = "${";
+    String ANNOTATION_SUFFIX = "}";
+
+    String ANNOTATION_APPLICATION_NAME = ANNOTATION_PREFIX + ITEM_SPRING_APPLICATION_NAME + ANNOTATION_SUFFIX;
+
 }

@@ -23,32 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.definition.core.rest;
-
-import com.ejlchina.okhttps.HTTP;
-import com.ejlchina.okhttps.fastjson.FastjsonMsgConvertor;
+package cn.herodotus.engine.definition.core.enums;
 
 /**
- * <p>File: AbstractRestApiService </p>
- *
- * <p>Description: 外部Rest API抽象服务 </p>
+ * <p>Description: Protocol枚举 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/4/10 15:33
+ * @date : 2021/6/12 14:48
  */
-public abstract class AbstractRestApi {
-
+public enum ProtocolType {
     /**
-     * 获取外部Rest API基础地址
-     *
-     * @return {@link HTTP}
+     * 协议类型
      */
-    protected abstract String getBaseUrl();
+    HTTP("http://", "http"),
+    HTTPS("https://", "https");
 
-    protected HTTP http() {
-        return HTTP.builder()
-                .baseUrl(getBaseUrl())
-                .addMsgConvertor(new FastjsonMsgConvertor())
-                .build();
+    private final String format;
+    private final String prefix;
+
+    ProtocolType(String format, String prefix) {
+        this.format = format;
+        this.prefix = prefix;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 }

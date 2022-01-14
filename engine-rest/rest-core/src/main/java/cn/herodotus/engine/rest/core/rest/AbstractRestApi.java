@@ -23,16 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.definition.core.dto;
+package cn.herodotus.engine.rest.core.rest;
 
-import cn.herodotus.engine.definition.core.entity.AbstractEntity;
+import com.ejlchina.okhttps.HTTP;
+import com.ejlchina.okhttps.fastjson.FastjsonMsgConvertor;
 
 /**
- * <p>Description: DTO基类定义 </p>
+ * <p>File: AbstractRestApiService </p>
+ *
+ * <p>Description: 外部Rest API抽象服务 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/4/30 22:30
+ * @date : 2021/4/10 15:33
  */
-public abstract class BaseDTO extends AbstractEntity {
+public abstract class AbstractRestApi {
 
+    /**
+     * 获取外部Rest API基础地址
+     *
+     * @return {@link HTTP}
+     */
+    protected abstract String getBaseUrl();
+
+    protected HTTP http() {
+        return HTTP.builder()
+                .baseUrl(getBaseUrl())
+                .addMsgConvertor(new FastjsonMsgConvertor())
+                .build();
+    }
 }

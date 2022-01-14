@@ -23,16 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.definition.core.entity;
+package cn.herodotus.engine.definition.core.domain;
 
-import java.io.Serializable;
 
 /**
- * <p>Description: BaseEntity </p>
+ * <p> Description : BaseCacheEntity </p>
  *
  * @author : gengwei.zheng
- * @date : 2020/4/29 17:27
+ * @date : 2020/2/24 16:38
  */
-public interface Entity extends Serializable {
+public abstract class AbstractEntity implements Entity {
 
 }

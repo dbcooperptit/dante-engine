@@ -27,7 +27,7 @@ package cn.herodotus.engine.definition.core.utils;
 
 
 import cn.herodotus.engine.definition.core.constants.SymbolConstants;
-import cn.herodotus.engine.definition.core.enums.Protocols;
+import cn.herodotus.engine.definition.core.enums.ProtocolType;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -42,11 +42,11 @@ public class ConvertUtils {
      * 将IP地址加端口号，转换为http地址。
      *
      * @param address             ip地址加端口号，格式：ip:port
-     * @param protocolType        http协议类型 {@link Protocols}
+     * @param protocolType        http协议类型 {@link ProtocolType}
      * @param endWithForwardSlash 是否在结尾添加“/”
      * @return http格式地址
      */
-    public static String addressToUri(String address, Protocols protocolType, boolean endWithForwardSlash) {
+    public static String addressToUri(String address, ProtocolType protocolType, boolean endWithForwardSlash) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(protocolType.getFormat());
         stringBuilder.append(address);
@@ -71,7 +71,7 @@ public class ConvertUtils {
      * @return http格式地址
      */
     public static String addressToUri(String address, boolean endWithForwardSlash) {
-        return addressToUri(address, Protocols.HTTP, endWithForwardSlash);
+        return addressToUri(address, ProtocolType.HTTP, endWithForwardSlash);
     }
 
     /**

@@ -23,15 +23,14 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.definition.core.entity;
-
+package cn.herodotus.engine.definition.core.domain;
 
 /**
- * <p> Description : BaseCacheEntity </p>
+ * <p>Description: DTO基类定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2020/2/24 16:38
+ * @date : 2021/4/30 22:30
  */
-public abstract class AbstractEntity implements Entity {
+public abstract class BaseDto extends AbstractEntity {
 
 }

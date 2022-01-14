@@ -23,34 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.definition.core.enums;
+package cn.herodotus.engine.definition.core.domain;
+
+import java.io.Serializable;
 
 /**
- * <p>Description: Protocol枚举 </p>
+ * <p>Description: BaseEntity </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/6/12 14:48
+ * @date : 2020/4/29 17:27
  */
-public enum Protocols {
-    /**
-     * 协议类型
-     */
-    HTTP("http://", "http"),
-    HTTPS("https://", "https");
+public interface Entity extends Serializable {
 
-    private final String format;
-    private final String prefix;
-
-    Protocols(String format, String prefix) {
-        this.format = format;
-        this.prefix = prefix;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
 }
