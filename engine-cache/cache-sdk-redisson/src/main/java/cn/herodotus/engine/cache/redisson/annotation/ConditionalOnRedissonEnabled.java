@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.cache.redisson.annotation;
 
-import cn.herodotus.engine.cache.core.constants.CachePropertyConstants;
+import cn.herodotus.engine.cache.core.constants.CacheConstants;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.lang.annotation.*;
@@ -39,6 +39,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
-@ConditionalOnProperty(value = CachePropertyConstants.ITEM_REDISSON_ENABLED, havingValue = "true")
+@ConditionalOnProperty(value = CacheConstants.ITEM_REDISSON_ENABLED, havingValue = "true")
 public @interface ConditionalOnRedissonEnabled {
 }

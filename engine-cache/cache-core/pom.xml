@@ -42,7 +42,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
-            <artifactId>definition-core</artifactId>
+            <artifactId>assistant-core</artifactId>
         </dependency>
     </dependencies>
 

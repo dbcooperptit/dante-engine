@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.cache.layer.properties;
 
-import cn.herodotus.engine.cache.core.constants.CachePropertyConstants;
+import cn.herodotus.engine.cache.core.constants.CacheConstants;
 import cn.herodotus.engine.cache.core.properties.Expire;
 import com.google.common.base.MoreObjects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -39,7 +39,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2021/7/13 10:16
  */
-@ConfigurationProperties(prefix = CachePropertyConstants.PROPERTY_PLATFORM_CACHE)
+@ConfigurationProperties(prefix = CacheConstants.PROPERTY_PLATFORM_CACHE)
 public class CacheProperties extends Expire {
 
     /**

@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.cache.redisson.properties;
 
-import cn.herodotus.engine.cache.core.constants.CachePropertyConstants;
+import cn.herodotus.engine.cache.core.constants.CacheConstants;
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +40,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author : gengwei.zheng
  * @date : 2021/10/22 14:02
  */
-@ConfigurationProperties(prefix = CachePropertyConstants.PROPERTY_REDIS_REDISSON)
+@ConfigurationProperties(prefix = CacheConstants.PROPERTY_REDIS_REDISSON)
 public class RedissonProperties {
 
     /**

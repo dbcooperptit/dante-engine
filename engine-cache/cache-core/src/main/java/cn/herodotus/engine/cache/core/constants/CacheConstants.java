@@ -25,41 +25,27 @@
 
 package cn.herodotus.engine.cache.core.constants;
 
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+
 /**
- * <p>Description: 缓存相关常量 </p>
+ * <p>Description: Cache Property值常量 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 21:04
+ * @date : 2022/1/13 21:22
  */
-public interface CacheConstants {
+public interface CacheConstants extends BaseConstants {
 
-    String CACHE_PREFIX = "cache:";
+    /* ---------- Herodotus 配置属性（第二层） ---------- */
+    /**
+     * platform
+     */
+    String PROPERTY_PLATFORM_CACHE = PROPERTY_HERODOTUS_PLATFORM + ".cache";
+    String PROPERTY_CACHE_REDIS = PROPERTY_PLATFORM_CACHE + ".redis";
+    String PROPERTY_CACHE_CAFFEINE = PROPERTY_PLATFORM_CACHE + ".caffeine";
 
-    String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
-    String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
+    /* ---------- Spring 相关基础配置属性（第一层） ---------- */
 
-    String CACHE_SECURITY_PREFIX = CACHE_PREFIX + "security:";
-    String CACHE_SECURITY_METADATA_PREFIX = CACHE_SECURITY_PREFIX + "metadata:";
+    String PROPERTY_REDIS_REDISSON = PROPERTY_SPRING_REDIS + ".redisson";
 
-    String CACHE_NAME_TOKEN_CAPTCHA = CACHE_TOKEN_BASE_PREFIX + "captcha:";
-
-    String CACHE_NAME_TOKEN_VERIFICATION_CODE = CACHE_TOKEN_BASE_PREFIX + "verification:";
-    String CACHE_NAME_TOKEN_EASEMOB = CACHE_TOKEN_BASE_PREFIX + "easemob:";
-    String CACHE_NAME_TOKEN_JUSTAUTH_STATE = CACHE_TOKEN_BASE_PREFIX + "justauth_state:";
-    String CACHE_NAME_TOKEN_PAY = CACHE_TOKEN_BASE_PREFIX + "pay:";
-
-    String CACHE_NAME_CAPTCHA_JIGSAW = CACHE_NAME_TOKEN_CAPTCHA + "jigsaw:";
-    String CACHE_NAME_CAPTCHA_WORD_CLICK = CACHE_NAME_TOKEN_CAPTCHA + "word_click:";
-    String CACHE_NAME_CAPTCHA_GRAPHIC = CACHE_NAME_TOKEN_CAPTCHA + "graphic:";
-
-    String CACHE_NAME_SECURITY_METADATA_ATTRIBUTES = CACHE_SECURITY_METADATA_PREFIX + "attributes:";
-    String CACHE_NAME_SECURITY_METADATA_INDEXABLE = CACHE_SECURITY_METADATA_PREFIX + "indexable:";
-    String CACHE_NAME_SECURITY_METADATA_COMPATIBLE = CACHE_SECURITY_METADATA_PREFIX + "compatible:";
-
-    String CACHE_NAME_PAY_ALIPAY = CACHE_NAME_TOKEN_PAY + "alipay:";
-
-    int DEFAULT_UPMS_CACHE_EXPIRE = 86400;
-    int DEFAULT_UPMS_LOCAL_LIMIT = 1000;
-
-    String INDEX_CACHE_NAME = "index:";
+    String ITEM_REDISSON_ENABLED = PROPERTY_REDIS_REDISSON + PROPERTY_ENABLED;
 }
