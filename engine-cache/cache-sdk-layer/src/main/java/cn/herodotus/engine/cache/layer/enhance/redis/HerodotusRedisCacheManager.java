@@ -27,7 +27,7 @@ package cn.herodotus.engine.cache.layer.enhance.redis;
 
 import cn.herodotus.engine.cache.layer.properties.CacheProperties;
 import cn.herodotus.engine.cache.core.properties.Expire;
-import cn.herodotus.engine.definition.core.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

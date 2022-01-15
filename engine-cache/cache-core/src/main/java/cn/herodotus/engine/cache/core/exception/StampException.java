@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.cache.core.exception;
 
-import cn.herodotus.engine.definition.core.exception.PlatformException;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
 
 /**
  * <p>Description: Stamp签章管理错误Exception </p>
