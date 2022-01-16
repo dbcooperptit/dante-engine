@@ -119,6 +119,7 @@
     <modules>
         <module>engine-assistant</module>
         <module>engine-cache</module>
+        <module>engine-web</module>
     </modules>
 
 </project>

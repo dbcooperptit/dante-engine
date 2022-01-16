@@ -23,40 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.constants;
+package cn.herodotus.engine.web.annotation;
+
+import cn.herodotus.engine.web.core.constants.WebConstants;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+
+import java.lang.annotation.*;
 
 /**
- * <p>Description: 基础共用常量值常量 </p>
+ * <p>Description: Swagger条件开启主机 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 21:18
+ * @date : 2021/8/20 11:58
  */
-public interface BaseConstants {
-
-    /* ---------- 通用配置属性常量 ---------- */
-
-    String PROPERTY_ENABLED = ".enabled";
-
-    String PROPERTY_PREFIX_SPRING = "spring";
-    String PROPERTY_PREFIX_HERODOTUS = "herodotus";
-
-    String PROPERTY_SPRING_CLOUD = PROPERTY_PREFIX_SPRING + ".cloud";
-    String PROPERTY_SPRING_REDIS = PROPERTY_PREFIX_SPRING + ".redis";
-
-    String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
-    String PROPERTY_HERODOTUS_MANAGEMENT = PROPERTY_PREFIX_HERODOTUS + ".management";
-    String PROPERTY_HERODOTUS_INTEGRATION = PROPERTY_PREFIX_HERODOTUS + ".integration";
-
-    /* ---------- 注解属性通用值 ---------- */
-
-    String ANNOTATION_PREFIX = "${";
-    String ANNOTATION_SUFFIX = "}";
-
-
-    /* ---------- 通用缓存常量 ---------- */
-
-    String CACHE_PREFIX = "cache:";
-
-    String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
-    String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Documented
+@ConditionalOnProperty(value = WebConstants.ITEM_SWAGGER_ENABLED, havingValue = "true", matchIfMissing = true)
+public @interface ConditionalOnSwaggerEnabled {
 }

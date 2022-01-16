@@ -23,40 +23,38 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.constants;
+package cn.herodotus.engine.web.autoconfigure;
+
+import cn.herodotus.engine.web.configuration.JacksonConfiguration;
+import cn.herodotus.engine.web.configuration.RestTemplateConfiguration;
+import cn.herodotus.engine.web.configuration.ServiceConfiguration;
+import cn.herodotus.engine.web.configuration.UndertowWebServerFactoryCustomizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: 基础共用常量值常量 </p>
+ * <p>Description: Web 自动配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 21:18
+ * @date : 2022/1/14 15:43
  */
-public interface BaseConstants {
+@Configuration(proxyBeanMethods = false)
+@Import({
+        ServiceConfiguration.class,
+        JacksonConfiguration.class,
+        RestTemplateConfiguration.class,
+        UndertowWebServerFactoryCustomizer.class
+})
+public class AutoConfiguration {
 
-    /* ---------- 通用配置属性常量 ---------- */
+    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
 
-    String PROPERTY_ENABLED = ".enabled";
-
-    String PROPERTY_PREFIX_SPRING = "spring";
-    String PROPERTY_PREFIX_HERODOTUS = "herodotus";
-
-    String PROPERTY_SPRING_CLOUD = PROPERTY_PREFIX_SPRING + ".cloud";
-    String PROPERTY_SPRING_REDIS = PROPERTY_PREFIX_SPRING + ".redis";
-
-    String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
-    String PROPERTY_HERODOTUS_MANAGEMENT = PROPERTY_PREFIX_HERODOTUS + ".management";
-    String PROPERTY_HERODOTUS_INTEGRATION = PROPERTY_PREFIX_HERODOTUS + ".integration";
-
-    /* ---------- 注解属性通用值 ---------- */
-
-    String ANNOTATION_PREFIX = "${";
-    String ANNOTATION_SUFFIX = "}";
-
-
-    /* ---------- 通用缓存常量 ---------- */
-
-    String CACHE_PREFIX = "cache:";
-
-    String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
-    String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
+    @PostConstruct
+    public void postConstruct() {
+        log.info("[Herodotus] |- Starter [Engine Web Starter] Auto Configure.");
+    }
 }

@@ -23,40 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.constants;
+package cn.herodotus.engine.web.annotation;
+
+import cn.herodotus.engine.web.condition.DistributedArchitectureCondition;
+import org.springframework.context.annotation.Conditional;
+
+import java.lang.annotation.*;
 
 /**
- * <p>Description: 基础共用常量值常量 </p>
+ * <p>Description: 分布式架构模式条件注解 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 21:18
+ * @date : 2022/1/10 14:54
  */
-public interface BaseConstants {
-
-    /* ---------- 通用配置属性常量 ---------- */
-
-    String PROPERTY_ENABLED = ".enabled";
-
-    String PROPERTY_PREFIX_SPRING = "spring";
-    String PROPERTY_PREFIX_HERODOTUS = "herodotus";
-
-    String PROPERTY_SPRING_CLOUD = PROPERTY_PREFIX_SPRING + ".cloud";
-    String PROPERTY_SPRING_REDIS = PROPERTY_PREFIX_SPRING + ".redis";
-
-    String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
-    String PROPERTY_HERODOTUS_MANAGEMENT = PROPERTY_PREFIX_HERODOTUS + ".management";
-    String PROPERTY_HERODOTUS_INTEGRATION = PROPERTY_PREFIX_HERODOTUS + ".integration";
-
-    /* ---------- 注解属性通用值 ---------- */
-
-    String ANNOTATION_PREFIX = "${";
-    String ANNOTATION_SUFFIX = "}";
-
-
-    /* ---------- 通用缓存常量 ---------- */
-
-    String CACHE_PREFIX = "cache:";
-
-    String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
-    String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Documented
+@Conditional(DistributedArchitectureCondition.class)
+public @interface ConditionalOnDistributedArchitecture {
 }

@@ -67,6 +67,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.ejlchina</groupId>
+            <artifactId>okhttps-fastjson</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

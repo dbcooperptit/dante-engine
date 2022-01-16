@@ -23,40 +23,23 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.constants;
+package cn.herodotus.engine.web.core.enums;
 
 /**
- * <p>Description: 基础共用常量值常量 </p>
+ * <p> Description : 用于区分是单体应用还是微服务应用 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 21:18
+ * @date : 2019/11/26 11:33
  */
-public interface BaseConstants {
+public enum Architecture {
 
-    /* ---------- 通用配置属性常量 ---------- */
+    /**
+     * 分布式架构
+     */
+    DISTRIBUTED,
 
-    String PROPERTY_ENABLED = ".enabled";
-
-    String PROPERTY_PREFIX_SPRING = "spring";
-    String PROPERTY_PREFIX_HERODOTUS = "herodotus";
-
-    String PROPERTY_SPRING_CLOUD = PROPERTY_PREFIX_SPRING + ".cloud";
-    String PROPERTY_SPRING_REDIS = PROPERTY_PREFIX_SPRING + ".redis";
-
-    String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
-    String PROPERTY_HERODOTUS_MANAGEMENT = PROPERTY_PREFIX_HERODOTUS + ".management";
-    String PROPERTY_HERODOTUS_INTEGRATION = PROPERTY_PREFIX_HERODOTUS + ".integration";
-
-    /* ---------- 注解属性通用值 ---------- */
-
-    String ANNOTATION_PREFIX = "${";
-    String ANNOTATION_SUFFIX = "}";
-
-
-    /* ---------- 通用缓存常量 ---------- */
-
-    String CACHE_PREFIX = "cache:";
-
-    String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
-    String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
+    /**
+     * 单体式架构
+     */
+    MONOCOQUE;
 }

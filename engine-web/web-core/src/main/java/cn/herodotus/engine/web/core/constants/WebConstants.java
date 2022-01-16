@@ -23,40 +23,36 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.constants;
+package cn.herodotus.engine.web.core.constants;
+
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 
 /**
- * <p>Description: 基础共用常量值常量 </p>
+ * <p>Description: Web包属性常量 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 21:18
+ * @date : 2022/1/14 17:34
  */
-public interface BaseConstants {
+public interface WebConstants extends BaseConstants {
 
-    /* ---------- 通用配置属性常量 ---------- */
+    String PROPERTY_PLATFORM_REST = PROPERTY_HERODOTUS_PLATFORM + ".rest";
+    String PROPERTY_PLATFORM_SWAGGER = PROPERTY_HERODOTUS_PLATFORM + ".swagger";
 
-    String PROPERTY_ENABLED = ".enabled";
+    /* ---------- Herodotus 详细配置属性路径 ---------- */
 
-    String PROPERTY_PREFIX_SPRING = "spring";
-    String PROPERTY_PREFIX_HERODOTUS = "herodotus";
+    String ITEM_PLATFORM_DATA_ACCESS_STRATEGY = PROPERTY_HERODOTUS_PLATFORM + ".data-access-strategy";
+    String ITEM_PLATFORM_ARCHITECTURE = PROPERTY_HERODOTUS_PLATFORM + ".architecture";
 
-    String PROPERTY_SPRING_CLOUD = PROPERTY_PREFIX_SPRING + ".cloud";
-    String PROPERTY_SPRING_REDIS = PROPERTY_PREFIX_SPRING + ".redis";
+    /* ---------- Spring 详细配置属性路径 ---------- */
 
-    String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
-    String PROPERTY_HERODOTUS_MANAGEMENT = PROPERTY_PREFIX_HERODOTUS + ".management";
-    String PROPERTY_HERODOTUS_INTEGRATION = PROPERTY_PREFIX_HERODOTUS + ".integration";
+    String ITEM_SPRING_APPLICATION_NAME = "spring.application.name";
+    String ITEM_SERVER_PORT = "server.port";
+
+
+    String ITEM_SWAGGER_ENABLED = PROPERTY_PLATFORM_SWAGGER + PROPERTY_ENABLED;
 
     /* ---------- 注解属性通用值 ---------- */
 
-    String ANNOTATION_PREFIX = "${";
-    String ANNOTATION_SUFFIX = "}";
-
-
-    /* ---------- 通用缓存常量 ---------- */
-
-    String CACHE_PREFIX = "cache:";
-
-    String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
-    String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
+    String ANNOTATION_APPLICATION_NAME = ANNOTATION_PREFIX + ITEM_SPRING_APPLICATION_NAME + ANNOTATION_SUFFIX;
+    String ANNOTATION_SERVER_PORT = ANNOTATION_PREFIX + ITEM_SERVER_PORT + ANNOTATION_SUFFIX;
 }

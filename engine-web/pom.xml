@@ -30,33 +30,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>engine-cache</artifactId>
+        <artifactId>herodotus-engine</artifactId>
         <groupId>cn.herodotus.engine</groupId>
         <version>2.7.0.0</version>
     </parent>
 
-    <artifactId>cache-spring-boot-starter</artifactId>
+    <artifactId>engine-web</artifactId>
     <version>2.7.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>cache-sdk-redisson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>cache-sdk-jetcache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>cache-sdk-layer</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-    </dependencies>
-
+    <modules>
+        <module>web-core</module>
+        <module>web-sdk</module>
+        <module>web-spring-boot-starter</module>
+    </modules>
 </project>

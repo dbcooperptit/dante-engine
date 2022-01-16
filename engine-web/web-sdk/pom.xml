@@ -30,32 +30,35 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>engine-cache</artifactId>
+        <artifactId>engine-web</artifactId>
         <groupId>cn.herodotus.engine</groupId>
         <version>2.7.0.0</version>
     </parent>
 
-    <artifactId>cache-spring-boot-starter</artifactId>
+    <artifactId>web-sdk</artifactId>
     <version>2.7.0.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
-            <artifactId>cache-sdk-redisson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>cache-sdk-jetcache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>cache-sdk-layer</artifactId>
+            <artifactId>assistant-sdk-jackson</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>web-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
+
+        <!-- Openfeign 中 包含loadbalancer，所以直接引用该包 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
 
