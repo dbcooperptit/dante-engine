@@ -23,36 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.autoconfigure;
+package cn.herodotus.engine.web.rest.annotation;
 
-import cn.herodotus.engine.web.configuration.UndertowWebServerFactoryCustomizer;
-import cn.herodotus.engine.web.rest.configuration.RestConfiguration;
-import cn.herodotus.engine.web.scan.configuration.ScanConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.engine.web.core.constants.WebConstants;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
-import javax.annotation.PostConstruct;
+import java.lang.annotation.*;
 
 /**
- * <p>Description: Web 自动配置 </p>
+ * <p>Description: Swagger条件开启主机 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 15:43
+ * @date : 2021/8/20 11:58
  */
-@Configuration(proxyBeanMethods = false)
-@Import({
-        RestConfiguration.class,
-        ScanConfiguration.class,
-        UndertowWebServerFactoryCustomizer.class
-})
-public class AutoConfiguration {
-
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
-
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Web Starter] Auto Configure.");
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Documented
+@ConditionalOnProperty(value = WebConstants.ITEM_SWAGGER_ENABLED, havingValue = "true", matchIfMissing = true)
+public @interface ConditionalOnSwaggerEnabled {
 }

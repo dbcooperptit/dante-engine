@@ -23,36 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.autoconfigure;
+package cn.herodotus.engine.web.rest.processor;
 
-import cn.herodotus.engine.web.configuration.UndertowWebServerFactoryCustomizer;
-import cn.herodotus.engine.web.rest.configuration.RestConfiguration;
-import cn.herodotus.engine.web.scan.configuration.ScanConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.engine.web.core.definition.OpenApiServerResolver;
+import cn.herodotus.engine.web.core.support.ContextHolder;
+import com.google.common.collect.ImmutableList;
+import io.swagger.v3.oas.models.servers.Server;
 
-import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
- * <p>Description: Web 自动配置 </p>
+ * <p>Description: 默认的OpenApi Serv处理器。 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 15:43
+ * @date : 2022/1/16 22:15
  */
-@Configuration(proxyBeanMethods = false)
-@Import({
-        RestConfiguration.class,
-        ScanConfiguration.class,
-        UndertowWebServerFactoryCustomizer.class
-})
-public class AutoConfiguration {
+public class DefaultOpenApiServerResolver implements OpenApiServerResolver {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    private final ContextHolder contextHolder;
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Web Starter] Auto Configure.");
+    public DefaultOpenApiServerResolver(ContextHolder contextHolder) {
+        this.contextHolder = contextHolder;
+    }
+
+    @Override
+    public List<Server> getServers() {
+        Server server = new Server();
+        server.setUrl(contextHolder.getServiceContext().getAddress());
+        return ImmutableList.of(server);
     }
 }

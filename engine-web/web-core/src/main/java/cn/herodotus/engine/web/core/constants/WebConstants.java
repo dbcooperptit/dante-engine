@@ -38,6 +38,10 @@ public interface WebConstants extends BaseConstants {
     String PROPERTY_PLATFORM_REST = PROPERTY_HERODOTUS_PLATFORM + ".rest";
     String PROPERTY_PLATFORM_SWAGGER = PROPERTY_HERODOTUS_PLATFORM + ".swagger";
 
+    String PROPERTY_REST_TEMPLATE = PROPERTY_PLATFORM_REST + ".rest-template";
+    String PROPERTY_REST_SCAN = PROPERTY_PLATFORM_REST + ".scan";
+
+
     /* ---------- Herodotus 详细配置属性路径 ---------- */
 
     String ITEM_PLATFORM_DATA_ACCESS_STRATEGY = PROPERTY_HERODOTUS_PLATFORM + ".data-access-strategy";

@@ -23,36 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.autoconfigure;
+package cn.herodotus.engine.web.rest.condition;
 
-import cn.herodotus.engine.web.configuration.UndertowWebServerFactoryCustomizer;
-import cn.herodotus.engine.web.rest.configuration.RestConfiguration;
-import cn.herodotus.engine.web.scan.configuration.ScanConfiguration;
+import cn.herodotus.engine.web.core.enums.Architecture;
+import cn.herodotus.engine.web.core.definition.WebPropertyResolver;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-import javax.annotation.PostConstruct;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * <p>Description: Web 自动配置 </p>
+ * <p>Description: 单体架构条件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 15:43
+ * @date : 2022/1/9 10:47
  */
-@Configuration(proxyBeanMethods = false)
-@Import({
-        RestConfiguration.class,
-        ScanConfiguration.class,
-        UndertowWebServerFactoryCustomizer.class
-})
-public class AutoConfiguration {
+public class MonocoqueArchitectureCondition implements Condition {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(MonocoqueArchitectureCondition.class);
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Web Starter] Auto Configure.");
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
+        String property = WebPropertyResolver.getArchitecture(conditionContext.getEnvironment());
+        boolean result = StringUtils.isNotBlank(property) && StringUtils.equalsIgnoreCase(property, Architecture.MONOCOQUE.name());
+        log.debug("[Herodotus] |- Condition [Monocoque Architecture] value is [{}]", result);
+        return result;
     }
 }

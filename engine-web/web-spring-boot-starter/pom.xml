@@ -41,7 +41,11 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
-            <artifactId>web-sdk</artifactId>
+            <artifactId>web-sdk-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>web-sdk-scan</artifactId>
         </dependency>
 
         <dependency>

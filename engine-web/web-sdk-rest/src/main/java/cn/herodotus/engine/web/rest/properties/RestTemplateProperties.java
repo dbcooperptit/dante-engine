@@ -23,36 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.autoconfigure;
+package cn.herodotus.engine.web.rest.properties;
 
-import cn.herodotus.engine.web.configuration.UndertowWebServerFactoryCustomizer;
-import cn.herodotus.engine.web.rest.configuration.RestConfiguration;
-import cn.herodotus.engine.web.scan.configuration.ScanConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-import javax.annotation.PostConstruct;
+import cn.herodotus.engine.web.core.constants.WebConstants;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * <p>Description: Web 自动配置 </p>
+ * <p>Description: Rest Template 配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 15:43
+ * @date : 2022/1/16 18:57
  */
-@Configuration(proxyBeanMethods = false)
-@Import({
-        RestConfiguration.class,
-        ScanConfiguration.class,
-        UndertowWebServerFactoryCustomizer.class
-})
-public class AutoConfiguration {
+@ConfigurationProperties(prefix = WebConstants.PROPERTY_REST_TEMPLATE)
+public class RestTemplateProperties {
+    /**
+     * RestTemplate 读取超时5秒,默认无限限制,单位：毫秒
+     */
+    private int readTimeout = 15000;
+    /**
+     * 连接超时15秒，默认无限制，单位：毫秒
+     */
+    private int connectTimeout = 15000;
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    public int getReadTimeout() {
+        return readTimeout;
+    }
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Web Starter] Auto Configure.");
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
+    }
+
+    public int getConnectTimeout() {
+        return connectTimeout;
+    }
+
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
     }
 }

@@ -58,4 +58,12 @@ public class ContextHolder implements ApplicationContextAware, InitializingBean 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.serviceContext.setApplicationContext(applicationContext);
     }
+
+    public PlatformProperties getPlatformProperties() {
+        return platformProperties;
+    }
+
+    public ServiceContext getServiceContext() {
+        return serviceContext;
+    }
 }

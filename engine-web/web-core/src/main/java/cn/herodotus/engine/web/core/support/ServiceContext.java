@@ -30,7 +30,7 @@ import cn.herodotus.engine.assistant.core.utils.ConvertUtils;
 import cn.herodotus.engine.assistant.core.utils.EnvUtils;
 import cn.herodotus.engine.web.core.enums.Architecture;
 import cn.herodotus.engine.web.core.enums.DataAccessStrategy;
-import cn.herodotus.engine.web.core.resolver.WebPropertyResolver;
+import cn.herodotus.engine.web.core.definition.WebPropertyResolver;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;

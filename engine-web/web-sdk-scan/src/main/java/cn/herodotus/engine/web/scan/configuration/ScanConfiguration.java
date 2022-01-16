@@ -23,36 +23,48 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.autoconfigure;
+package cn.herodotus.engine.web.scan.configuration;
 
-import cn.herodotus.engine.web.configuration.UndertowWebServerFactoryCustomizer;
-import cn.herodotus.engine.web.rest.configuration.RestConfiguration;
-import cn.herodotus.engine.web.scan.configuration.ScanConfiguration;
+import cn.herodotus.engine.web.core.definition.RequestMappingScanManager;
+import cn.herodotus.engine.web.scan.processor.RequestMappingScanner;
+import cn.herodotus.engine.web.scan.properties.ScanProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: Web 自动配置 </p>
+ * <p>Description: 接口扫描配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 15:43
+ * @date : 2022/1/16 18:40
  */
 @Configuration(proxyBeanMethods = false)
-@Import({
-        RestConfiguration.class,
-        ScanConfiguration.class,
-        UndertowWebServerFactoryCustomizer.class
-})
-public class AutoConfiguration {
+@ConditionalOnBean(RequestMappingScanManager.class)
+@EnableConfigurationProperties(ScanProperties.class)
+public class ScanConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(ScanConfiguration.class);
+
+    @Autowired
+    private RequestMappingScanManager requestMappingScanManager;
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Web Starter] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Engine Web Scan] Auto Configure.");
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RequestMappingScanner requestMappingScanner(ScanProperties scanProperties, RequestMappingScanManager requestMappingScanManager) {
+        RequestMappingScanner requestMappingScanner = new RequestMappingScanner(scanProperties, requestMappingScanManager);
+        log.trace("[Herodotus] |- Bean [Request Mapping Scanner] Auto Configure.");
+        return requestMappingScanner;
     }
 }

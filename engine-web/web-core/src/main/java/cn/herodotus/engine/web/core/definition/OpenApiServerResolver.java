@@ -23,36 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.autoconfigure;
+package cn.herodotus.engine.web.core.definition;
 
-import cn.herodotus.engine.web.configuration.UndertowWebServerFactoryCustomizer;
-import cn.herodotus.engine.web.rest.configuration.RestConfiguration;
-import cn.herodotus.engine.web.scan.configuration.ScanConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import io.swagger.v3.oas.models.servers.Server;
 
-import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
- * <p>Description: Web 自动配置 </p>
+ * <p>Description: OpenApi Server 处理器 </p>
+ * <p>
+ * 单体和分布式架构，提供给OpenAPI展示的地址不同。
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 15:43
+ * @date : 2022/1/16 18:56
  */
-@Configuration(proxyBeanMethods = false)
-@Import({
-        RestConfiguration.class,
-        ScanConfiguration.class,
-        UndertowWebServerFactoryCustomizer.class
-})
-public class AutoConfiguration {
+public interface OpenApiServerResolver {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
-
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Web Starter] Auto Configure.");
-    }
+    /**
+     * 获取 Open Api 所需的 Server 地址。
+     *
+     * @return Open Api Servers 值
+     */
+    List<Server> getServers();
 }
