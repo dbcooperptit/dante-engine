@@ -44,6 +44,10 @@ import java.util.stream.Stream;
 public class ScanProperties {
 
     /**
+     * 是否开启注解扫描
+     */
+    private Boolean enabled;
+    /**
      * 指定扫描的命名空间。未指定的命名空间中，即使包含RequestMapping，也不会被添加进来。
      */
     private List<String> scanGroupIds;
@@ -54,12 +58,20 @@ public class ScanProperties {
      */
     private boolean justScanRestController = false;
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public void setScanGroupIds(List<String> scanGroupIds) {
         this.scanGroupIds = scanGroupIds;
     }
 
     public List<String> getScanGroupIds() {
-        List<String> defaultGroupIds = Stream.of("cn.herodotus.engine", "cn.herodotus.cloud").collect(Collectors.toList());
+        List<String> defaultGroupIds = Stream.of("cn.herodotus.engine", "cn.herodotus.rocket", "cn.herodotus.cloud").collect(Collectors.toList());
 
         if (CollectionUtils.isEmpty(this.scanGroupIds)) {
             this.scanGroupIds = new ArrayList<>();

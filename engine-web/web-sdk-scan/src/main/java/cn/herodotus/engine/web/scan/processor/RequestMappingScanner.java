@@ -76,8 +76,9 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        if (requestMappingScanManager.isEnabled()) {
-            ApplicationContext applicationContext = event.getApplicationContext();
+        ApplicationContext applicationContext = event.getApplicationContext();
+
+        if (WebPropertyResolver.isScanEnabled(applicationContext.getEnvironment())) {
             log.debug("[Herodotus] |- [1] Application is READY, start to scan request mapping!");
             onApplicationEvent(applicationContext);
         }
@@ -88,7 +89,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         String serviceId = WebPropertyResolver.getApplicationName(applicationContext.getEnvironment());
 
         // 2、只针对有EnableResourceServer注解的微服务进行扫描。如果变为单体架构目前不会用到EnableResourceServer所以增加的了一个Architecture判断
-        if (!requestMappingScanManager.isPerformScan()) {
+        if (!requestMappingScanManager.isPerformScan(applicationContext)) {
             // 只扫描资源服务器
             log.debug("[Herodotus] |- Can not found annotation 'EnableResourceServer' in Service [{}], Skip!", serviceId);
             return;

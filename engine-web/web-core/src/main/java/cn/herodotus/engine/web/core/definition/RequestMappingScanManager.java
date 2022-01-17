@@ -43,19 +43,15 @@ import java.util.Map;
 public interface RequestMappingScanManager {
 
     /**
-     * 获取 Spring Boot 应用上下文
-     * @return 上下文 {@link ApplicationContext}
-     */
-    ApplicationContext getApplicationContext();
-
-    /**
      * 获取是否执行扫描的标记注解。
+     *
      * @return 标记注解
      */
     Class<? extends Annotation> getScanAnnotationClass();
 
     /**
      * 是否是分布式架构。
+     *
      * @return true 分布式架构，false 单体架构。
      */
     boolean isDistributedArchitecture();
@@ -63,20 +59,19 @@ public interface RequestMappingScanManager {
     /**
      * 是否满足执行扫描的条件。
      * 根据扫描标记注解 {@link #getScanAnnotationClass()} 以及 是否是分布式架构 {@link #isDistributedArchitecture()} 决定是否执行接口的扫描。
-     *
-     * 与 {@link #isEnabled()} 不同，isEnabled 是全局控制是否开启扫描，isPerformScan 是在 isEnabled 的条件下，判断执行条件是否满足。
-     *
+     * <p>
      * 分布式架构根据注解判断是否扫描，单体架构直接扫描即可无须判断
      *
+     * @param applicationContext 应用上下文 {@link ApplicationContext}
      * @return true 执行， false 不执行
      */
-    default boolean isPerformScan() {
-        if(isDistributedArchitecture()) {
-            if (ObjectUtils.isEmpty(getScanAnnotationClass()) || ObjectUtils.isEmpty(getApplicationContext())) {
+    default boolean isPerformScan(ApplicationContext applicationContext) {
+        if (isDistributedArchitecture()) {
+            if (ObjectUtils.isEmpty(getScanAnnotationClass()) || ObjectUtils.isEmpty(applicationContext)) {
                 return false;
             }
 
-            Map<String, Object> content = getApplicationContext().getBeansWithAnnotation(getScanAnnotationClass());
+            Map<String, Object> content = applicationContext.getBeansWithAnnotation(getScanAnnotationClass());
             return !MapUtils.isEmpty(content);
         }
 
@@ -84,18 +79,12 @@ public interface RequestMappingScanManager {
     }
 
     /**
-     * 是否开启了接口扫描。
-     * @return true 开启，false 关闭。
-     */
-    boolean isEnabled();
-
-    /**
      * 发布远程事件，传送RequestMapping
      *
-     * @param requestMappings    扫描到的RequestMapping
-     * @param applicationContext {@link ApplicationContext}
-     * @param serviceId          当前服务的service name。目前取的是：spring.application.name, applicationContext.getApplicationName取到的是空串
-     * @param isDistributedArchitecture      是否是分布式架构
+     * @param requestMappings           扫描到的RequestMapping
+     * @param applicationContext        {@link ApplicationContext}
+     * @param serviceId                 当前服务的service name。目前取的是：spring.application.name, applicationContext.getApplicationName取到的是空串
+     * @param isDistributedArchitecture 是否是分布式架构
      */
     void postProcess(List<RequestMapping> requestMappings, ApplicationContext applicationContext, String serviceId, boolean isDistributedArchitecture);
 

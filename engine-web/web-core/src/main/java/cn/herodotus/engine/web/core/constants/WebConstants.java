@@ -46,6 +46,7 @@ public interface WebConstants extends BaseConstants {
 
     String ITEM_PLATFORM_DATA_ACCESS_STRATEGY = PROPERTY_HERODOTUS_PLATFORM + ".data-access-strategy";
     String ITEM_PLATFORM_ARCHITECTURE = PROPERTY_HERODOTUS_PLATFORM + ".architecture";
+    String ITEM_SCAN_ENABLED = PROPERTY_REST_SCAN + PROPERTY_ENABLED;
 
     /* ---------- Spring 详细配置属性路径 ---------- */
 

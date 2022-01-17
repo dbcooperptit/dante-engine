@@ -60,4 +60,8 @@ public class WebPropertyResolver {
     public static String getServerPort(Environment environment) {
         return PropertyResolver.getProperty(environment, WebConstants.ITEM_SERVER_PORT);
     }
+
+    public static boolean isScanEnabled(Environment environment) {
+        return PropertyResolver.getBooleanProperty(environment, WebConstants.ITEM_SCAN_ENABLED);
+    }
 }

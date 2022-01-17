@@ -59,7 +59,7 @@ public class RestConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Web] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Engine Web Rest] Auto Configure.");
     }
 
     @Bean

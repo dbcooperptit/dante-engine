@@ -25,6 +25,8 @@
 
 package cn.herodotus.engine.assistant.core.support;
 
+import cn.hutool.core.util.BooleanUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
 
@@ -80,5 +82,57 @@ public class PropertyResolver {
      */
     public static String getProperty(ConditionContext conditionContext, String property, String defaultValue) {
         return getProperty(conditionContext.getEnvironment(), property, defaultValue);
+    }
+
+    /**
+     * 从条件上下文中获取Boolean类型值配置信息
+     *
+     * @param environment  Spring Boot ConditionContext {@link ConditionContext}
+     * @param property     配置名称
+     * @param defaultValue 默认值
+     * @return 配置属性值
+     */
+    public static boolean getBooleanProperty(Environment environment, String property, String defaultValue) {
+        String stringValue = getProperty(environment, property, defaultValue);
+
+        if (StringUtils.isNotBlank(stringValue)) {
+            return BooleanUtil.toBoolean(stringValue);
+        } else {
+            return BooleanUtil.toBoolean(defaultValue);
+        }
+    }
+
+    /**
+     * 从条件上下文中获取Boolean类型值配置信息
+     *
+     * @param environment Spring Boot ConditionContext {@link ConditionContext}
+     * @param property    配置名称
+     * @return 配置属性值
+     */
+    public static boolean getBooleanProperty(Environment environment, String property) {
+        return getBooleanProperty(environment, property, Boolean.FALSE.toString());
+    }
+
+    /**
+     * 从条件上下文中获取Boolean类型值配置信息
+     *
+     * @param conditionContext Spring Boot ConditionContext {@link ConditionContext}
+     * @param property         配置名称
+     * @return 配置属性值
+     */
+    public static boolean getBooleanProperty(ConditionContext conditionContext, String property) {
+        return getBooleanProperty(conditionContext.getEnvironment(), property);
+    }
+
+    /**
+     * 从条件上下文中获取Boolean类型值配置信息
+     *
+     * @param conditionContext Spring Boot ConditionContext {@link ConditionContext}
+     * @param property         配置名称
+     * @param defaultValue     默认值
+     * @return 配置属性值
+     */
+    public static boolean getBooleanProperty(ConditionContext conditionContext, String property, String defaultValue) {
+        return getBooleanProperty(conditionContext.getEnvironment(), property, defaultValue);
     }
 }
