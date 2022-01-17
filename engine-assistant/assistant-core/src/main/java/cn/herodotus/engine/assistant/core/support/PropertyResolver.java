@@ -25,8 +25,6 @@
 
 package cn.herodotus.engine.assistant.core.support;
 
-import cn.hutool.core.util.BooleanUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
 
@@ -84,6 +82,22 @@ public class PropertyResolver {
         return getProperty(conditionContext.getEnvironment(), property, defaultValue);
     }
 
+    public static <T> T getProperty(Environment environment, String property, Class<T> targetType) {
+        return environment.getProperty(property, targetType);
+    }
+
+    public static <T> T getProperty(Environment environment, String property, Class<T> targetType, T defaultValue) {
+        return environment.getProperty(property, targetType, defaultValue);
+    }
+
+    public static <T> T getProperty(ConditionContext conditionContext, String property, Class<T> targetType) {
+        return getProperty(conditionContext.getEnvironment(), property, targetType);
+    }
+
+    public static <T> T getProperty(ConditionContext conditionContext, String property, Class<T> targetType, T defaultValue) {
+        return getProperty(conditionContext.getEnvironment(), property, targetType, defaultValue);
+    }
+
     /**
      * 从条件上下文中获取Boolean类型值配置信息
      *
@@ -92,14 +106,8 @@ public class PropertyResolver {
      * @param defaultValue 默认值
      * @return 配置属性值
      */
-    public static boolean getBooleanProperty(Environment environment, String property, String defaultValue) {
-        String stringValue = getProperty(environment, property, defaultValue);
-
-        if (StringUtils.isNotBlank(stringValue)) {
-            return BooleanUtil.toBoolean(stringValue);
-        } else {
-            return BooleanUtil.toBoolean(defaultValue);
-        }
+    public static boolean getBoolean(Environment environment, String property, boolean defaultValue) {
+        return getProperty(environment, property, Boolean.class, defaultValue);
     }
 
     /**
@@ -109,8 +117,8 @@ public class PropertyResolver {
      * @param property    配置名称
      * @return 配置属性值
      */
-    public static boolean getBooleanProperty(Environment environment, String property) {
-        return getBooleanProperty(environment, property, Boolean.FALSE.toString());
+    public static boolean getBoolean(Environment environment, String property) {
+        return getProperty(environment, property, Boolean.class);
     }
 
     /**
@@ -120,8 +128,8 @@ public class PropertyResolver {
      * @param property         配置名称
      * @return 配置属性值
      */
-    public static boolean getBooleanProperty(ConditionContext conditionContext, String property) {
-        return getBooleanProperty(conditionContext.getEnvironment(), property);
+    public static boolean getBoolean(ConditionContext conditionContext, String property) {
+        return getProperty(conditionContext, property, Boolean.class);
     }
 
     /**
@@ -132,7 +140,7 @@ public class PropertyResolver {
      * @param defaultValue     默认值
      * @return 配置属性值
      */
-    public static boolean getBooleanProperty(ConditionContext conditionContext, String property, String defaultValue) {
-        return getBooleanProperty(conditionContext.getEnvironment(), property, defaultValue);
+    public static boolean getBoolean(ConditionContext conditionContext, String property, boolean defaultValue) {
+        return getProperty(conditionContext, property, Boolean.class, defaultValue);
     }
 }

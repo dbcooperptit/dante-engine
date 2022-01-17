@@ -62,6 +62,6 @@ public class WebPropertyResolver {
     }
 
     public static boolean isScanEnabled(Environment environment) {
-        return PropertyResolver.getBooleanProperty(environment, WebConstants.ITEM_SCAN_ENABLED);
+        return PropertyResolver.getBoolean(environment, WebConstants.ITEM_SCAN_ENABLED);
     }
 }
