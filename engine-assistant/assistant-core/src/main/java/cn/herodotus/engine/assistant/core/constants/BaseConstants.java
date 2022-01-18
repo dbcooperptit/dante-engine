@@ -45,8 +45,16 @@ public interface BaseConstants {
 
     String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
     String PROPERTY_HERODOTUS_MESSAGE = PROPERTY_PREFIX_HERODOTUS + ".message";
-    String PROPERTY_HERODOTUS_MANAGEMENT = PROPERTY_PREFIX_HERODOTUS + ".management";
-    String PROPERTY_HERODOTUS_INTEGRATION = PROPERTY_PREFIX_HERODOTUS + ".integration";
+
+
+    /* ---------- Herodotus 配置属性（第二层） ---------- */
+
+    /**
+     * platform
+     */
+    public static final String PROPERTY_PLATFORM_CACHE = PROPERTY_HERODOTUS_PLATFORM + ".cache";
+    public static final String PROPERTY_PLATFORM_REST = PROPERTY_HERODOTUS_PLATFORM + ".rest";
+    public static final String PROPERTY_PLATFORM_SECURITY = PROPERTY_HERODOTUS_PLATFORM + ".security";
 
     /* ---------- 注解属性通用值 ---------- */
 
