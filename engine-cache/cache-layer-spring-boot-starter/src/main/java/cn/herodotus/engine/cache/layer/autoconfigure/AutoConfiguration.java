@@ -23,34 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.autoconfigure;
+package cn.herodotus.engine.cache.layer.autoconfigure;
 
-import cn.herodotus.engine.cache.jetcache.configuration.JetCacheConfiguration;
-import cn.herodotus.engine.cache.redisson.configuration.RedissonConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: Cache 配置 </p>
+ * <p>Description: Layer Cache 自动配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 22:29
+ * @date : 2022/1/18 16:43
  */
 @Configuration(proxyBeanMethods = false)
-@Import({
-        RedissonConfiguration.class,
-        JetCacheConfiguration.class,
-})
 public class AutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Cache Starter] Auto Configure.");
+        log.info("[Herodotus] |- Starter [Engine Cache Layer Starter] Auto Configure.");
     }
 }

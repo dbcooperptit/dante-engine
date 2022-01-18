@@ -23,34 +23,36 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.autoconfigure;
-
-import cn.herodotus.engine.cache.jetcache.configuration.JetCacheConfiguration;
-import cn.herodotus.engine.cache.redisson.configuration.RedissonConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-import javax.annotation.PostConstruct;
+package cn.herodotus.engine.cache.layer.original;
 
 /**
- * <p>Description: Cache 配置 </p>
+ * <p>Description: 迁移的Redis原始代码 </p>
+ * <p>
+ * 从 Spring Boot Redis 中迁移出的代码，解决以包的形式，自定义RedisTemplate无法配置问题。
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 22:29
+ * @date : 2022/1/18 16:18
  */
-@Configuration(proxyBeanMethods = false)
-@Import({
-        RedissonConfiguration.class,
-        JetCacheConfiguration.class,
-})
-public class AutoConfiguration {
+public class RedisUrlSyntaxException extends RuntimeException {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    private final String url;
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Cache Starter] Auto Configure.");
+    RedisUrlSyntaxException(String url, Exception cause) {
+        super(buildMessage(url), cause);
+        this.url = url;
     }
+
+    RedisUrlSyntaxException(String url) {
+        super(buildMessage(url));
+        this.url = url;
+    }
+
+    String getUrl() {
+        return this.url;
+    }
+
+    private static String buildMessage(String url) {
+        return "Invalid Redis URL '" + url + "'";
+    }
+
 }

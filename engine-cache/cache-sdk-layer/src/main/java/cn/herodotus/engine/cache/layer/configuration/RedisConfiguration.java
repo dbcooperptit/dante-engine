@@ -26,19 +26,23 @@
 package cn.herodotus.engine.cache.layer.configuration;
 
 import cn.herodotus.engine.cache.layer.enhance.redis.HerodotusRedisCacheManager;
+import cn.herodotus.engine.cache.layer.original.LettuceConnectionConfiguration;
 import cn.herodotus.engine.cache.layer.properties.CacheProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -46,7 +50,6 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 /**
  * Redis缓存配置
@@ -54,13 +57,13 @@ import javax.annotation.Resource;
  * @author gengwei.zheng
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter({RedisAutoConfiguration.class})
+@AutoConfigureBefore(RedisAutoConfiguration.class)
+@EnableConfigurationProperties(RedisProperties.class)
+@Import({LettuceConnectionConfiguration.class})
 public class RedisConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(RedisConfiguration.class);
 
-    @Resource
-    private LettuceConnectionFactory lettuceConnectionFactory;
     @Autowired
     private CacheProperties cacheProperties;
 
@@ -83,10 +86,10 @@ public class RedisConfiguration {
      * @return {@link RedisTemplate}
      */
     @Bean(name = "redisTemplate")
-    @ConditionalOnMissingBean(RedisTemplate.class)
-    public RedisTemplate<Object, Object> redisTemplate() {
+    @ConditionalOnMissingBean
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(lettuceConnectionFactory);
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(keySerializer());
         redisTemplate.setHashKeySerializer(keySerializer());
         redisTemplate.setValueSerializer(valueSerializer());
@@ -100,10 +103,10 @@ public class RedisConfiguration {
     }
 
     @Bean(name = "stringRedisTemplate")
-    @ConditionalOnMissingBean(StringRedisTemplate.class)
-    public StringRedisTemplate stringRedisTemplate() {
+    @ConditionalOnMissingBean
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
-        stringRedisTemplate.setConnectionFactory(lettuceConnectionFactory);
+        stringRedisTemplate.setConnectionFactory(redisConnectionFactory);
         stringRedisTemplate.afterPropertiesSet();
 
         log.trace("[Herodotus] |- Bean [String Redis Template] Auto Configure.");
@@ -113,8 +116,8 @@ public class RedisConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(RedisCacheManager.class)
-    public RedisCacheManager redisCacheManager() {
-        RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(lettuceConnectionFactory);
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
+        RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
 
         // 注意：这里 RedisCacheConfiguration 每一个方法调用之后，都会返回一个新的 RedisCacheConfiguration 对象，所以要注意对象的引用关系。
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(cacheProperties.getTtl());

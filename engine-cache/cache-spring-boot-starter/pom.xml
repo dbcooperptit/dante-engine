@@ -50,7 +50,7 @@
         </dependency>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
-            <artifactId>cache-sdk-layer</artifactId>
+            <artifactId>cache-layer-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
