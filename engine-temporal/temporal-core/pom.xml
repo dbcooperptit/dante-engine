@@ -35,10 +35,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>temporal-core</artifactId>
+    <version>2.7.0.0</version>
+    <packaging>jar</packaging>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>assistant-core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
