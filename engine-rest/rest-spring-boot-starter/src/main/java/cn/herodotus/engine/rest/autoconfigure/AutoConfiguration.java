@@ -23,9 +23,10 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.data.autoconfigure;
+package cn.herodotus.engine.rest.autoconfigure;
 
-import cn.herodotus.engine.data.mybatis.plus.configuration.MybatisPlusConfiguration;
+import cn.herodotus.engine.rest.crypto.configuration.CryptoConfiguration;
+import cn.herodotus.engine.rest.secure.configuration.SecureConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -34,14 +35,15 @@ import org.springframework.context.annotation.Import;
 import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: Data组件自动注入 </p>
+ * <p>Description: Rest 自动注入 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 19:03
+ * @date : 2022/1/19 23:16
  */
 @Configuration(proxyBeanMethods = false)
 @Import({
-        MybatisPlusConfiguration.class
+        CryptoConfiguration.class,
+        SecureConfiguration.class
 })
 public class AutoConfiguration {
 
@@ -49,6 +51,6 @@ public class AutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Data Starter] Auto Configure.");
+        log.info("[Herodotus] |- Starter [Engine Rest Starter] Auto Configure.");
     }
 }

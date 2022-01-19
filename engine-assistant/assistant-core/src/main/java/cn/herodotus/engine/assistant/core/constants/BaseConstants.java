@@ -53,9 +53,9 @@ public interface BaseConstants {
     /**
      * platform
      */
-    public static final String PROPERTY_PLATFORM_CACHE = PROPERTY_HERODOTUS_PLATFORM + ".cache";
-    public static final String PROPERTY_PLATFORM_REST = PROPERTY_HERODOTUS_PLATFORM + ".rest";
-    public static final String PROPERTY_PLATFORM_SECURITY = PROPERTY_HERODOTUS_PLATFORM + ".security";
+    String PROPERTY_PLATFORM_CACHE = PROPERTY_HERODOTUS_PLATFORM + ".cache";
+    String PROPERTY_PLATFORM_REST = PROPERTY_HERODOTUS_PLATFORM + ".rest";
+    String PROPERTY_PLATFORM_SECURITY = PROPERTY_HERODOTUS_PLATFORM + ".security";
 
     /* ---------- 注解属性通用值 ---------- */
 

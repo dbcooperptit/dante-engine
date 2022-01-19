@@ -126,6 +126,7 @@
         <module>engine-captcha</module>
         <module>engine-websocket</module>
         <module>engine-data</module>
+        <module>engine-rest</module>
     </modules>
 
 </project>

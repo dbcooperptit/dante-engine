@@ -23,32 +23,24 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.data.autoconfigure;
+package cn.herodotus.engine.rest.secure.annotation;
 
-import cn.herodotus.engine.data.mybatis.plus.configuration.MybatisPlusConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import cn.herodotus.engine.cache.jetcache.annotation.EnableHerodotusJetCache;
+import cn.herodotus.engine.rest.secure.configuration.SecureConfiguration;
 import org.springframework.context.annotation.Import;
 
-import javax.annotation.PostConstruct;
+import java.lang.annotation.*;
 
 /**
- * <p>Description: Data组件自动注入 </p>
+ * <p>Description: 手动开启 Rest Secure </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 19:03
+ * @date : 2022/1/19 23:41
  */
-@Configuration(proxyBeanMethods = false)
-@Import({
-        MybatisPlusConfiguration.class
-})
-public class AutoConfiguration {
-
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
-
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Data Starter] Auto Configure.");
-    }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@EnableHerodotusJetCache
+@Import(SecureConfiguration.class)
+public @interface EnableHerodotusRestSecure {
 }

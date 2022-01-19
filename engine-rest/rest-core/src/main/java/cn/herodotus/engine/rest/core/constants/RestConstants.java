@@ -23,40 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.core.constants;
+package cn.herodotus.engine.rest.core.constants;
 
 import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 
 /**
- * <p>Description: Web包属性常量 </p>
+ * <p>Description: Rest 模块常量 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 17:34
+ * @date : 2022/1/19 23:13
  */
-public interface WebConstants extends BaseConstants {
+public interface RestConstants extends BaseConstants {
 
-    String PROPERTY_PLATFORM_SWAGGER = PROPERTY_HERODOTUS_PLATFORM + ".swagger";
+    String PROPERTY_REST_SECURE = PROPERTY_PLATFORM_REST + ".secure";
 
-    String PROPERTY_REST_TEMPLATE = PROPERTY_PLATFORM_REST + ".rest-template";
-    String PROPERTY_REST_SCAN = PROPERTY_PLATFORM_REST + ".scan";
-
-
-    /* ---------- Herodotus 详细配置属性路径 ---------- */
-
-    String ITEM_PLATFORM_DATA_ACCESS_STRATEGY = PROPERTY_HERODOTUS_PLATFORM + ".data-access-strategy";
-    String ITEM_PLATFORM_ARCHITECTURE = PROPERTY_HERODOTUS_PLATFORM + ".architecture";
-    String ITEM_SCAN_ENABLED = PROPERTY_REST_SCAN + PROPERTY_ENABLED;
-
-    /* ---------- Spring 详细配置属性路径 ---------- */
-
-    String ITEM_SPRING_APPLICATION_NAME = "spring.application.name";
-    String ITEM_SERVER_PORT = "server.port";
-
-
-    String ITEM_SWAGGER_ENABLED = PROPERTY_PLATFORM_SWAGGER + PROPERTY_ENABLED;
-
-    /* ---------- 注解属性通用值 ---------- */
-
-    String ANNOTATION_APPLICATION_NAME = ANNOTATION_PREFIX + ITEM_SPRING_APPLICATION_NAME + ANNOTATION_SUFFIX;
-    String ANNOTATION_SERVER_PORT = ANNOTATION_PREFIX + ITEM_SERVER_PORT + ANNOTATION_SUFFIX;
+    String CACHE_NAME_TOKEN_IDEMPOTENT = CACHE_TOKEN_BASE_PREFIX + "idempotent:";
+    String CACHE_NAME_TOKEN_ACCESS_LIMITED = CACHE_TOKEN_BASE_PREFIX + "access_limited:";
+    String CACHE_NAME_TOKEN_SECURE_KEY = CACHE_TOKEN_BASE_PREFIX + "secure_key:";
 }
