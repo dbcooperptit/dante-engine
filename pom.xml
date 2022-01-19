@@ -124,6 +124,7 @@
         <module>engine-temporal</module>
         <module>engine-pay</module>
         <module>engine-captcha</module>
+        <module>engine-websocket</module>
     </modules>
 
 </project>
