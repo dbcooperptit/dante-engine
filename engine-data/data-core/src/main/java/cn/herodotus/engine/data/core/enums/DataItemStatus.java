@@ -23,8 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.enums;
+package cn.herodotus.engine.data.core.enums;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,44 +36,50 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: 应用类别 </p>
- *
- * @author : gengwei.zheng
- * @date : 2020/5/4 12:01
+ * @author gengwei.zheng
  */
-@Schema(title = "应用类型")
-public enum ApplicationType {
+@Schema(title = "数据状态")
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+public enum DataItemStatus {
 
     /**
-     * 应用类型
+     * 数据条目已启用
      */
-    WEB(0, "PC网页应用"),
-    SERVICE(1, "服务应用"),
-    APP(2, "手机应用"),
-    WAP(3, "手机网页应用"),
-    MINI(4, "小程序应用");
+    ENABLE(0, "启用"),
+    /**
+     * 数据条目被启用
+     */
+    FORBIDDEN(1, "禁用"),
+    /**
+     * 数据条目被锁定
+     */
+    LOCKING(2, "锁定"),
+    /**
+     * 数据条目已过期
+     */
+    EXPIRED(3, "过期");
 
     @Schema(title = "索引")
     private final Integer index;
     @Schema(title = "文字")
     private final String text;
 
-    private static final Map<Integer, ApplicationType> indexMap = new HashMap<>();
-    private static final List<Map<String, Object>> toJsonStruct = new ArrayList<>();
+    private static final Map<Integer, DataItemStatus> INDEX_MAP = new HashMap<>();
+    private static final List<Map<String, Object>> TO_JSON_STRUCT = new ArrayList<>();
 
     static {
-        for (ApplicationType applicationType : ApplicationType.values()) {
-            indexMap.put(applicationType.getIndex(), applicationType);
-            toJsonStruct.add(applicationType.getIndex(),
+        for (DataItemStatus dataItemStatus : DataItemStatus.values()) {
+            INDEX_MAP.put(dataItemStatus.getIndex(), dataItemStatus);
+            TO_JSON_STRUCT.add(dataItemStatus.getIndex(),
                     ImmutableMap.<String, Object>builder()
-                            .put("value", applicationType.getIndex())
-                            .put("key", applicationType.name())
-                            .put("text", applicationType.getText())
+                            .put("value", dataItemStatus.getIndex())
+                            .put("key", dataItemStatus.name())
+                            .put("text", dataItemStatus.getText())
                             .build());
         }
     }
 
-    ApplicationType(Integer index, String text) {
+    DataItemStatus(Integer index, String text) {
         this.index = index;
         this.text = text;
     }
@@ -94,11 +101,11 @@ public enum ApplicationType {
         return this.text;
     }
 
-    public static ApplicationType getApplicationType(Integer index) {
-        return indexMap.get(index);
+    public static DataItemStatus getStatus(Integer status) {
+        return INDEX_MAP.get(status);
     }
 
     public static List<Map<String, Object>> getToJsonStruct() {
-        return toJsonStruct;
+        return TO_JSON_STRUCT;
     }
 }
