@@ -23,27 +23,13 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.pay.core.constants;
-
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+package cn.herodotus.engine.event.core.constants;
 
 /**
- * <p>Description: 支付模块常量 </p>
+ * <p>Description: 事件组件常量 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 17:14
+ * @date : 2022/1/20 18:49
  */
-public interface PayConstants extends BaseConstants {
-
-    String PROPERTY_HERODOTUS_PAY = PROPERTY_PREFIX_HERODOTUS + ".pay";
-
-    String PROPERTY_PAY_ALIPAY = PROPERTY_HERODOTUS_PAY + ".alipay";
-    String PROPERTY_PAY_WXPAY = PROPERTY_HERODOTUS_PAY + ".wxpay";
-
-    String CACHE_NAME_TOKEN_PAY = CACHE_TOKEN_BASE_PREFIX + "pay:";
-
-    String ITEM_ALIPAY_ENABLED = PROPERTY_PAY_ALIPAY + PROPERTY_ENABLED;
-    String ITEM_WXPAY_ENABLED = PROPERTY_PAY_WXPAY + PROPERTY_ENABLED;
-
-
+public interface EventConstants {
 }

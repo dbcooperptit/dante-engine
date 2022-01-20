@@ -127,6 +127,9 @@
         <module>engine-websocket</module>
         <module>engine-data</module>
         <module>engine-rest</module>
+        <module>engine-message</module>
+        <module>engine-security</module>
+        <module>engine-event</module>
     </modules>
 
 </project>

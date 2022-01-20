@@ -23,27 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.pay.core.constants;
+package cn.herodotus.engine.event.pay.configuration;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
+import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: 支付模块常量 </p>
+ * <p>Description: 支付事件配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 17:14
+ * @date : 2022/1/20 19:04
  */
-public interface PayConstants extends BaseConstants {
+@Configuration(proxyBeanMethods = false)
+@RemoteApplicationEventScan({
+        "cn.herodotus.engine.event.pay.remote"
+})
+public class PayEventConfiguration {
 
-    String PROPERTY_HERODOTUS_PAY = PROPERTY_PREFIX_HERODOTUS + ".pay";
+    private static final Logger log = LoggerFactory.getLogger(PayEventConfiguration.class);
 
-    String PROPERTY_PAY_ALIPAY = PROPERTY_HERODOTUS_PAY + ".alipay";
-    String PROPERTY_PAY_WXPAY = PROPERTY_HERODOTUS_PAY + ".wxpay";
-
-    String CACHE_NAME_TOKEN_PAY = CACHE_TOKEN_BASE_PREFIX + "pay:";
-
-    String ITEM_ALIPAY_ENABLED = PROPERTY_PAY_ALIPAY + PROPERTY_ENABLED;
-    String ITEM_WXPAY_ENABLED = PROPERTY_PAY_WXPAY + PROPERTY_ENABLED;
-
-
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Herodotus] |- SDK [Engine Event Pay] Auto Configure.");
+    }
 }

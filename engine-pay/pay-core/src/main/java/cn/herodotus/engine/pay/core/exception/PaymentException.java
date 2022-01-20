@@ -23,27 +23,35 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.pay.core.constants;
+package cn.herodotus.engine.pay.core.exception;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
 
 /**
- * <p>Description: 支付模块常量 </p>
+ * <p>Description: 支付基础Exception </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 17:14
+ * @date : 2022/1/20 17:13
  */
-public interface PayConstants extends BaseConstants {
+public class PaymentException extends PlatformException {
 
-    String PROPERTY_HERODOTUS_PAY = PROPERTY_PREFIX_HERODOTUS + ".pay";
+    public PaymentException() {
+        super();
+    }
 
-    String PROPERTY_PAY_ALIPAY = PROPERTY_HERODOTUS_PAY + ".alipay";
-    String PROPERTY_PAY_WXPAY = PROPERTY_HERODOTUS_PAY + ".wxpay";
+    public PaymentException(String message) {
+        super(message);
+    }
 
-    String CACHE_NAME_TOKEN_PAY = CACHE_TOKEN_BASE_PREFIX + "pay:";
+    public PaymentException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-    String ITEM_ALIPAY_ENABLED = PROPERTY_PAY_ALIPAY + PROPERTY_ENABLED;
-    String ITEM_WXPAY_ENABLED = PROPERTY_PAY_WXPAY + PROPERTY_ENABLED;
+    public PaymentException(Throwable cause) {
+        super(cause);
+    }
 
-
+    public PaymentException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

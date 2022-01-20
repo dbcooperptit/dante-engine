@@ -30,24 +30,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>engine-pay</artifactId>
+        <artifactId>herodotus-engine</artifactId>
         <groupId>cn.herodotus.engine</groupId>
         <version>2.7.0.0</version>
     </parent>
 
-    <artifactId>pay-spring-boot-starter</artifactId>
+    <artifactId>engine-security</artifactId>
     <version>2.7.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>pay-sdk-alipay</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>pay-sdk-wxpay</artifactId>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>security-core</module>
+    </modules>
 
 </project>

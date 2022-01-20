@@ -39,7 +39,7 @@
     <modules>
         <module>pay-core</module>
         <module>pay-sdk-alipay</module>
-        <module>pay-sdk-wechat</module>
+        <module>pay-sdk-wxpay</module>
         <module>pay-spring-boot-starter</module>
     </modules>
 
