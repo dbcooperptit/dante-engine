@@ -42,11 +42,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
-            <artifactId>pay-sdk-alipay</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>pay-sdk-wxpay</artifactId>
+            <artifactId>pay-sdk-all</artifactId>
         </dependency>
     </dependencies>
 
