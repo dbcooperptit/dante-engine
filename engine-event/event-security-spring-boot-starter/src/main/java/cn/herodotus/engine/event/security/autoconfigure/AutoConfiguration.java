@@ -25,9 +25,11 @@
 
 package cn.herodotus.engine.event.security.autoconfigure;
 
+import cn.herodotus.engine.event.security.configuration.SecurityEventConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import javax.annotation.PostConstruct;
 
@@ -38,6 +40,9 @@ import javax.annotation.PostConstruct;
  * @date : 2022/1/23 12:13
  */
 @Configuration(proxyBeanMethods = false)
+@Import({
+        SecurityEventConfiguration.class
+})
 public class AutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);

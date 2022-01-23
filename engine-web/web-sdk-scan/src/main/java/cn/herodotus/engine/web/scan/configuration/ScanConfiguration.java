@@ -46,14 +46,10 @@ import javax.annotation.PostConstruct;
  * @date : 2022/1/16 18:40
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnBean(RequestMappingScanManager.class)
 @EnableConfigurationProperties(ScanProperties.class)
 public class ScanConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(ScanConfiguration.class);
-
-    @Autowired
-    private RequestMappingScanManager requestMappingScanManager;
 
     @PostConstruct
     public void postConstruct() {
