@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.event.pay.autoconfigure;
+package cn.herodotus.engine.event.security.autoconfigure;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +32,10 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: Pay Event 自动注入配置 </p>
+ * <p>Description: Security Event 自动配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/20 19:07
+ * @date : 2022/1/23 12:13
  */
 @Configuration(proxyBeanMethods = false)
 public class AutoConfiguration {
@@ -44,6 +44,6 @@ public class AutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Event Pay Starter] Auto Configure.");
+        log.info("[Herodotus] |- Starter [Engine Event Security Starter] Auto Configure.");
     }
 }

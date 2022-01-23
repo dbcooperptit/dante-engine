@@ -23,27 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.event.pay.autoconfigure;
+package cn.herodotus.engine.security.accelerator.response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
-import javax.annotation.PostConstruct;
+import java.util.Locale;
 
 /**
- * <p>Description: Pay Event 自动注入配置 </p>
+ * <p>File: HerodotusSecurityMessageSource </p>
+ *
+ * <p>Description: 将错误消息指定为中文 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/20 19:07
+ * @date : 2021/4/30 11:06
  */
-@Configuration(proxyBeanMethods = false)
-public class AutoConfiguration {
+public class HerodotusSecurityMessageSource extends ResourceBundleMessageSource {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    public HerodotusSecurityMessageSource() {
+        setBasename("classpath:messages/messages");
+        setDefaultLocale(Locale.CHINA);
+    }
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Event Pay Starter] Auto Configure.");
+    public static MessageSourceAccessor getAccessor() {
+        return new MessageSourceAccessor(new HerodotusSecurityMessageSource());
     }
 }

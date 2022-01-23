@@ -26,9 +26,12 @@
 package cn.herodotus.engine.web.core.definition;
 
 import cn.herodotus.engine.web.core.domain.RequestMapping;
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEvent;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -57,6 +60,59 @@ public interface RequestMappingScanManager {
     boolean isDistributedArchitecture();
 
     /**
+     * Request Mapping 收集汇总的服务名称
+     *
+     * @return 服务名称
+     */
+    String getDestinationServiceName();
+
+    /**
+     * 执行本地数据存储
+     *
+     * @param requestMappings 扫描到的RequestMapping
+     */
+    void postLocalStorage(List<RequestMapping> requestMappings);
+
+    /**
+     * 本地 Request Mapping 收集事件
+     * <p>
+     * 如果是单体架构，或者Request Mapping 收集汇总的服务本身，需要使用本地收集事件处理 Request Mapping
+     * @param requestMappings 扫描到的RequestMapping
+     * @return 本地收集事件
+     */
+    ApplicationEvent createLocalGatherEvent(List<RequestMapping> requestMappings);
+
+    /**
+     * 远程 Request Mapping 收集事件
+     *
+     * 分布式架构使用
+     *
+     * @param source JSON 格式的传输数据
+     * @param originService 发送远程事件的服务
+     * @param destinationService 接收远程事件的服务
+     * @return 远程收集事件
+     */
+    ApplicationEvent createRemoteGatherEvent(String source, String originService, String destinationService);
+
+    /**
+     * 发布远程事件，传送RequestMapping
+     *
+     * @param requestMappings    扫描到的RequestMapping
+     * @param applicationContext {@link ApplicationContext}
+     * @param originService          当前服务的service name。目前取的是：spring.application.name, applicationContext.getApplicationName取到的是空串
+     */
+    default void postProcess(List<RequestMapping> requestMappings, ApplicationContext applicationContext, String originService) {
+        postLocalStorage(requestMappings);
+
+        if (!isDistributedArchitecture() || StringUtils.equals(originService, getDestinationServiceName())) {
+            applicationContext.publishEvent(createLocalGatherEvent(requestMappings));
+        } else {
+            String source = JSON.toJSONString(requestMappings);
+            applicationContext.publishEvent(createRemoteGatherEvent(source, originService, getDestinationServiceName()));
+        }
+    }
+
+    /**
      * 是否满足执行扫描的条件。
      * 根据扫描标记注解 {@link #getScanAnnotationClass()} 以及 是否是分布式架构 {@link #isDistributedArchitecture()} 决定是否执行接口的扫描。
      * <p>
@@ -76,26 +132,5 @@ public interface RequestMappingScanManager {
         }
 
         return true;
-    }
-
-    /**
-     * 发布远程事件，传送RequestMapping
-     *
-     * @param requestMappings           扫描到的RequestMapping
-     * @param applicationContext        {@link ApplicationContext}
-     * @param serviceId                 当前服务的service name。目前取的是：spring.application.name, applicationContext.getApplicationName取到的是空串
-     * @param isDistributedArchitecture 是否是分布式架构
-     */
-    void postProcess(List<RequestMapping> requestMappings, ApplicationContext applicationContext, String serviceId, boolean isDistributedArchitecture);
-
-    /**
-     * 发布远程事件，传送RequestMapping
-     *
-     * @param requestMappings    扫描到的RequestMapping
-     * @param applicationContext {@link ApplicationContext}
-     * @param serviceId          当前服务的service name。目前取的是：spring.application.name, applicationContext.getApplicationName取到的是空串
-     */
-    default void postProcess(List<RequestMapping> requestMappings, ApplicationContext applicationContext, String serviceId) {
-        postProcess(requestMappings, applicationContext, serviceId, isDistributedArchitecture());
     }
 }

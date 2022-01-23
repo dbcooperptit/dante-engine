@@ -23,27 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.event.pay.autoconfigure;
+package cn.herodotus.engine.event.core.local;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import cn.herodotus.engine.web.core.domain.RequestMapping;
+import org.springframework.context.ApplicationEvent;
 
-import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
- * <p>Description: Pay Event 自动注入配置 </p>
+ * <p>Description: 本地RequestMapping收集事件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/20 19:07
+ * @date : 2021/8/8 21:55
  */
-@Configuration(proxyBeanMethods = false)
-public class AutoConfiguration {
+public class LocalRequestMappingGatherEvent extends ApplicationEvent {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    private final List<RequestMapping> requestMappings;
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Event Pay Starter] Auto Configure.");
+    public LocalRequestMappingGatherEvent(List<RequestMapping> requestMappings) {
+        super(requestMappings);
+        this.requestMappings = requestMappings;
+    }
+
+    public List<RequestMapping> getRequestMappings() {
+        return requestMappings;
     }
 }

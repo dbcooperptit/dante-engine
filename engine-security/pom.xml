@@ -41,6 +41,7 @@
 
     <modules>
         <module>security-core</module>
+        <module>security-sdk-accelerator</module>
     </modules>
 
 </project>

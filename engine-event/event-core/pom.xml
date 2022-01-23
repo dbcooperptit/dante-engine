@@ -42,7 +42,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
-            <artifactId>message-core</artifactId>
+            <artifactId>web-core</artifactId>
         </dependency>
     </dependencies>
 

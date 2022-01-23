@@ -23,27 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.event.pay.autoconfigure;
+package cn.herodotus.engine.event.security.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: Pay Event 自动注入配置 </p>
+ * <p>Description: Security Event 配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/20 19:07
+ * @date : 2022/1/23 12:09
  */
 @Configuration(proxyBeanMethods = false)
-public class AutoConfiguration {
+@RemoteApplicationEventScan({
+        "cn.herodotus.engine.event.security.remote"
+})
+public class SecurityEventConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(SecurityEventConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Event Pay Starter] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Engine Event Security] Auto Configure.");
     }
 }
