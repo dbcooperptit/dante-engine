@@ -98,6 +98,14 @@ public class PropertyResolver {
         return getProperty(conditionContext.getEnvironment(), property, targetType, defaultValue);
     }
 
+    public static boolean contains(Environment environment, String property) {
+        return environment.containsProperty(property);
+    }
+
+    public static boolean contains(ConditionContext conditionContext, String property) {
+        return contains(conditionContext.getEnvironment(), property);
+    }
+
     /**
      * 从条件上下文中获取Boolean类型值配置信息
      *
