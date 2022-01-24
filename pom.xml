@@ -41,7 +41,7 @@
     <version>2.7.0.0</version>
     <packaging>pom</packaging>
 
-    <name>herodotus-engine</name>
+    <name>application-root</name>
     <description>Herodotus Engine</description>
 
     <!-- ${basedir} 项目根目录 -->
