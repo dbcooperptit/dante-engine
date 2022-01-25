@@ -1,25 +1,26 @@
 /*
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ * Copyright (c) 2020-2030 ZHENGGENGWEI(码匠君)<herodotus@aliyun.com>
  *
- * Copyright 2019-2021 Zhenggengwei<码匠君>, herodotus@aliyun.com
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This file is part of Herodotus Cloud.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Herodotus Cloud is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser
- * General Public License as published by the Free Software Foundation; either version 2.1 of the License, or
- * (at your option) any later version.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
- * Herodotus Cloud is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
+ * Eurynome Cloud 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *
- * You should have received a copy of the GNU Lesser General Public License along with with Herodotus Cloud;
- * if no see <https://gitee.com/herodotus/herodotus-cloud>
- *
- * - Author: Zhenggengwei<码匠君>
- * - Contact: herodotus@aliyun.com
- * - License: GNU Lesser General Public License (LGPL)
- * - Blog and source code availability: https://gitee.com/herodotus/herodotus-cloud
+ * 1.请不要删除和修改根目录下的LICENSE文件。
+ * 2.请不要删除和修改Guns源码头部的版权声明。
+ * 3.请保留源码和相关描述文件的项目出处，作者声明等。
+ * 4.分发源码时候，请注明软件出处 https://gitee.com/herodotus/eurynome-cloud
+ * 5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://gitee.com/herodotus/eurynome-cloud
+ * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
 package cn.herodotus.engine.security.accelerator.enhance;
@@ -31,6 +32,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
+import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
@@ -49,9 +51,9 @@ public class HerodotusUserAuthenticationConverter extends DefaultUserAuthenticat
     @Override
     public Map<String, ?> convertUserAuthentication(Authentication authentication) {
         Map<String, Object> response = new LinkedHashMap<>();
-        response.put(USERNAME, authentication.getPrincipal());
+        response.put(UserAuthenticationConverter.USERNAME, authentication.getPrincipal());
         if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
-            response.put(AUTHORITIES, AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
+            response.put(UserAuthenticationConverter.AUTHORITIES, AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
         }
         return response;
     }
@@ -66,7 +68,7 @@ public class HerodotusUserAuthenticationConverter extends DefaultUserAuthenticat
     private Object converterUserDetails(Map<String, ?> map) {
         Map<String, Object> params = new HashMap<>(8);
         for (String key : map.keySet()) {
-            if (USERNAME.equals(key)) {
+            if (UserAuthenticationConverter.USERNAME.equals(key)) {
                 if (map.get(key) instanceof Map) {
                     params.putAll((Map) map.get(key));
                 } else if (map.get(key) instanceof HerodotusUserDetails) {
@@ -79,8 +81,8 @@ public class HerodotusUserAuthenticationConverter extends DefaultUserAuthenticat
             }
         }
         HerodotusUserDetails herodotusUserDetails = BeanUtil.mapToBean(params, HerodotusUserDetails.class, true);
-        if (params.get(USERNAME) != null) {
-            herodotusUserDetails.setUsername(params.get(USERNAME).toString());
+        if (params.get(UserAuthenticationConverter.USERNAME) != null) {
+            herodotusUserDetails.setUsername(params.get(UserAuthenticationConverter.USERNAME).toString());
         }
 
         herodotusUserDetails.setAuthorities(getAuthorities(map));
@@ -95,7 +97,7 @@ public class HerodotusUserAuthenticationConverter extends DefaultUserAuthenticat
      */
     @Override
     public Authentication extractAuthentication(Map<String, ?> map) {
-        if (map.containsKey(USERNAME)) {
+        if (map.containsKey(UserAuthenticationConverter.USERNAME)) {
             Object principal = converterUserDetails(map);
             Collection<? extends GrantedAuthority> authorities = getAuthorities(map);
             if (principal != null) {
@@ -114,10 +116,10 @@ public class HerodotusUserAuthenticationConverter extends DefaultUserAuthenticat
      * @return
      */
     private Collection<? extends GrantedAuthority> getAuthorities(Map<String, ?> map) {
-        if (!map.containsKey(AUTHORITIES)) {
+        if (!map.containsKey(UserAuthenticationConverter.AUTHORITIES)) {
             return AuthorityUtils.NO_AUTHORITIES;
         }
-        Object authorities = map.get(AUTHORITIES);
+        Object authorities = map.get(UserAuthenticationConverter.AUTHORITIES);
         if (authorities instanceof String) {
             return AuthorityUtils.commaSeparatedStringToAuthorityList((String) authorities);
         }

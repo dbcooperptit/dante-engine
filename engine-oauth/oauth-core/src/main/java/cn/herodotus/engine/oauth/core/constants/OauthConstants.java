@@ -23,32 +23,13 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.rest.autoconfigure;
-
-import cn.herodotus.engine.rest.configuration.WebMvcConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-import javax.annotation.PostConstruct;
+package cn.herodotus.engine.oauth.core.constants;
 
 /**
- * <p>Description: Rest 自动注入 </p>
+ * <p>Description: OAuth2 常量 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 23:16
+ * @date : 2022/1/24 18:58
  */
-@Configuration(proxyBeanMethods = false)
-@Import({
-        WebMvcConfiguration.class
-})
-public class AutoConfiguration {
-
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
-
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Rest Starter] Auto Configure.");
-    }
+public interface OauthConstants {
 }
