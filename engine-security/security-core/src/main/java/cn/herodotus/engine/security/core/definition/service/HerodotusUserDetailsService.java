@@ -24,7 +24,7 @@
 
 package cn.herodotus.engine.security.core.definition.service;
 
-import cn.herodotus.engine.security.core.definition.domain.HerodotusSocialDetails;
+import cn.herodotus.engine.assistant.core.domain.AccessPrincipal;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,10 +43,10 @@ public interface HerodotusUserDetailsService extends UserDetailsService {
      * <p>
      * 如果是短信验证码，openId就是手机号码
      *
-     * @param herodotusSocialDetails 社交登录提供的相关信息
-     * @param source                 社交集成提供商类型
+     * @param accessPrincipal 社交登录提供的相关信息
+     * @param source          社交集成提供商类型
      * @return {@link UserDetails}
      * @throws UsernameNotFoundException 用户不存在
      */
-    UserDetails loadUserBySocial(String source, HerodotusSocialDetails herodotusSocialDetails) throws AuthenticationException;
+    UserDetails loadUserBySocial(String source, AccessPrincipal accessPrincipal) throws AuthenticationException;
 }

@@ -32,4 +32,5 @@ package cn.herodotus.engine.security.core.constants;
  * @date : 2022/1/20 17:06
  */
 public interface SecurityConstants {
+
 }
