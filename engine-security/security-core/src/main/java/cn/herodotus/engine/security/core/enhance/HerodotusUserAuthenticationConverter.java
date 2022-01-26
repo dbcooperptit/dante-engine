@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.security.accelerator.enhance;
+package cn.herodotus.engine.security.core.enhance;
 
 import cn.herodotus.engine.security.core.definition.domain.HerodotusUserDetails;
 import cn.hutool.core.bean.BeanUtil;

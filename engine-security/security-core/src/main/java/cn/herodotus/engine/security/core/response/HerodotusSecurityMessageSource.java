@@ -23,28 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.security.accelerator.response;
+package cn.herodotus.engine.security.core.response;
 
-import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.engine.security.core.exception.SecurityGlobalExceptionHandler;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
+import java.util.Locale;
 
 /**
- * @author gengwei.zheng
+ * <p>File: HerodotusSecurityMessageSource </p>
+ *
+ * <p>Description: 将错误消息指定为中文 </p>
+ *
+ * @author : gengwei.zheng
+ * @date : 2021/4/30 11:06
  */
+public class HerodotusSecurityMessageSource extends ResourceBundleMessageSource {
 
-public class HerodotusWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+    public HerodotusSecurityMessageSource() {
+        setBasename("classpath:messages/messages");
+        setDefaultLocale(Locale.CHINA);
+    }
 
-    @Override
-    public ResponseEntity<Result<String>> translate(Exception e) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        Result<String> result = SecurityGlobalExceptionHandler.resolveOauthException(e, request.getRequestURI());
-        return ResponseEntity.status(result.getStatus()).body(result);
+    public static MessageSourceAccessor getAccessor() {
+        return new MessageSourceAccessor(new HerodotusSecurityMessageSource());
     }
 }

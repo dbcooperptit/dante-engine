@@ -23,29 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.security.accelerator.response;
+package cn.herodotus.engine.security.core.response;
 
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import cn.herodotus.engine.assistant.core.domain.Result;
+import cn.herodotus.engine.security.core.exception.SecurityGlobalExceptionHandler;
+import cn.herodotus.engine.web.core.utils.WebUtils;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
-import java.util.Locale;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
- * <p>File: HerodotusSecurityMessageSource </p>
- *
- * <p>Description: 将错误消息指定为中文 </p>
- *
- * @author : gengwei.zheng
- * @date : 2021/4/30 11:06
+ * 自定义访问拒绝
+ * @author gengwei.zheng
  */
-public class HerodotusSecurityMessageSource extends ResourceBundleMessageSource {
+public class HerodotusAccessDeniedHandler implements AccessDeniedHandler {
 
-    public HerodotusSecurityMessageSource() {
-        setBasename("classpath:messages/messages");
-        setDefaultLocale(Locale.CHINA);
-    }
-
-    public static MessageSourceAccessor getAccessor() {
-        return new MessageSourceAccessor(new HerodotusSecurityMessageSource());
+    @Override
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception) throws IOException, ServletException {
+        Result<String> result = SecurityGlobalExceptionHandler.resolveException(exception, request.getRequestURI());
+        response.setStatus(result.getStatus());
+        WebUtils.renderJson(response, result);
     }
 }

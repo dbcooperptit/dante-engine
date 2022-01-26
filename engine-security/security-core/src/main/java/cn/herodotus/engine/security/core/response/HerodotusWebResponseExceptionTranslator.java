@@ -23,14 +23,28 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.security.core.constants;
+package cn.herodotus.engine.security.core.response;
+
+import cn.herodotus.engine.assistant.core.domain.Result;
+import cn.herodotus.engine.security.core.exception.SecurityGlobalExceptionHandler;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
- * <p>Description: Security 常量 </p>
- *
- * @author : gengwei.zheng
- * @date : 2022/1/20 17:06
+ * @author gengwei.zheng
  */
-public interface SecurityConstants {
 
+public class HerodotusWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+
+    @Override
+    public ResponseEntity<Result<String>> translate(Exception e) throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        Result<String> result = SecurityGlobalExceptionHandler.resolveOauthException(e, request.getRequestURI());
+        return ResponseEntity.status(result.getStatus()).body(result);
+    }
 }
