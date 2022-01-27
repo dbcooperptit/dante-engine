@@ -126,7 +126,7 @@ public class PropertyResolver {
      * @return 配置属性值
      */
     public static boolean getBoolean(Environment environment, String property) {
-        return getProperty(environment, property, Boolean.class);
+        return getProperty(environment, property, Boolean.class, false);
     }
 
     /**
@@ -137,7 +137,7 @@ public class PropertyResolver {
      * @return 配置属性值
      */
     public static boolean getBoolean(ConditionContext conditionContext, String property) {
-        return getProperty(conditionContext, property, Boolean.class);
+        return getProperty(conditionContext, property, Boolean.class, false);
     }
 
     /**
