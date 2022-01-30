@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.security.core.exception.constants;
+package cn.herodotus.engine.security.core.constants;
 
 /**
  * <p>Description: Security 常量 </p>

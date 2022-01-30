@@ -69,4 +69,8 @@ public interface BaseConstants {
 
     String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
     String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
+
+    /* ---------- 通用数据缓存常量 ---------- */
+
+    String AREA_PREFIX = "data:upms:";
 }

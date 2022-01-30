@@ -119,16 +119,16 @@
     <modules>
         <module>engine-assistant</module>
         <module>engine-cache</module>
+        <module>engine-data</module>
         <module>engine-web</module>
+        <module>engine-rest</module>
+        <module>engine-security</module>
+        <module>engine-captcha</module>
         <module>engine-oss</module>
         <module>engine-temporal</module>
         <module>engine-pay</module>
-        <module>engine-captcha</module>
         <module>engine-websocket</module>
-        <module>engine-data</module>
-        <module>engine-rest</module>
         <module>engine-message</module>
-        <module>engine-security</module>
         <module>engine-event</module>
         <module>engine-oauth</module>
     </modules>
