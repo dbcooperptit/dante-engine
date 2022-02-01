@@ -25,12 +25,16 @@
 
 package cn.herodotus.engine.security.core.constants;
 
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+
 /**
  * <p>Description: Security 常量 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/1/20 17:06
  */
-public interface SecurityConstants {
+public interface SecurityConstants extends BaseConstants {
+
+    String PROPERTY_PLATFORM_SECURITY = PROPERTY_HERODOTUS_PLATFORM + ".security";
 
 }

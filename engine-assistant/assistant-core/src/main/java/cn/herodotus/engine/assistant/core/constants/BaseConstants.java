@@ -33,6 +33,10 @@ package cn.herodotus.engine.assistant.core.constants;
  */
 public interface BaseConstants {
 
+    String NONE = "none";
+
+    String DEFAULT_TREE_ROOT_ID = "0";
+
     /* ---------- 通用配置属性常量 ---------- */
 
     String PROPERTY_ENABLED = ".enabled";

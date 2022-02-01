@@ -41,6 +41,9 @@
 
     <modules>
         <module>security-core</module>
+        <module>security-sdk-extend</module>
+        <module>security-sdk-authorize</module>
+        <module>security-sdk-log</module>
     </modules>
 
 </project>

@@ -130,7 +130,6 @@
         <module>engine-websocket</module>
         <module>engine-message</module>
         <module>engine-event</module>
-        <module>engine-oauth</module>
     </modules>
 
 </project>
