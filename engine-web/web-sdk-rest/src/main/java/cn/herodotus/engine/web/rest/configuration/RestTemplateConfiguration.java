@@ -60,7 +60,7 @@ public class RestTemplateConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- Plugin [Herodotus Rest Template] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Engine Web Rest Template] Auto Configure.");
     }
 
     /**

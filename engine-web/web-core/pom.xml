@@ -50,6 +50,12 @@
             <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
 
+        <!-- Openfeign 中 包含loadbalancer，所以直接引用该包 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

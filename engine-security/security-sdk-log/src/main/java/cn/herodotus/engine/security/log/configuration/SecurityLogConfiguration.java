@@ -23,55 +23,44 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.rest.configuration;
+package cn.herodotus.engine.security.log.configuration;
 
-import cn.herodotus.engine.assistant.jackson.utils.JacksonUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cn.herodotus.engine.security.log.listener.AuthenticationFailureListener;
+import cn.herodotus.engine.security.log.listener.AuthenticationSuccessListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: Jackson配置 </p>
+ * <p>Description: 安全认证后续操作配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2019/11/8 17:15
+ * @date : 2022/2/1 16:21
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration.class)
-public class JacksonConfiguration {
+public class SecurityLogConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(JacksonConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(SecurityLogConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Web Rest Jackson] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Engine Security Log] Auto Configure.");
     }
 
-    @Bean(name = "jacksonObjectMapper")
-    @ConditionalOnMissingBean(ObjectMapper.class)
-    @Primary
-    public ObjectMapper jacksonObjectMapper() {
-        log.trace("[Herodotus] |- Bean [Jackson Object Mapper] Auto Configure.");
-        return JacksonUtils.getObjectMapper();
-    }
-
-    /**
-     * 转换器全局配置
-     *
-     * @return MappingJackson2HttpMessageConverter
-     */
     @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
-        log.trace("[Herodotus] |- Bean [Jackson Http Message Converter] Auto Configure.");
-        return new MappingJackson2HttpMessageConverter(objectMapper);
+    public AuthenticationSuccessListener authenticationSuccessListener() {
+        AuthenticationSuccessListener authenticationSuccessListener = new AuthenticationSuccessListener();
+        log.trace("[Herodotus] |- Bean [Authentication Success Listener] Auto Configure.");
+        return authenticationSuccessListener;
     }
 
+    @Bean
+    public AuthenticationFailureListener authenticationFailureListener() {
+        AuthenticationFailureListener authenticationFailureListener = new AuthenticationFailureListener();
+        log.trace("[Herodotus] |- Bean [Authentication Failure Listener] Auto Configure.");
+        return authenticationFailureListener;
+    }
 }

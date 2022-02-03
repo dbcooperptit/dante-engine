@@ -30,7 +30,7 @@ import cn.herodotus.engine.assistant.core.utils.ConvertUtils;
 import cn.herodotus.engine.assistant.core.utils.EnvUtils;
 import cn.herodotus.engine.web.core.enums.Architecture;
 import cn.herodotus.engine.web.core.enums.DataAccessStrategy;
-import cn.herodotus.engine.web.core.definition.WebPropertyResolver;
+import cn.herodotus.engine.web.core.definition.WebPropertyFinder;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
@@ -134,8 +134,8 @@ public class ServiceContext {
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
         if (ObjectUtils.isNotEmpty(this.applicationContext)) {
-            this.setApplicationName(WebPropertyResolver.getApplicationName(this.applicationContext.getEnvironment()));
-            this.setPort(WebPropertyResolver.getServerPort(this.applicationContext.getEnvironment()));
+            this.setApplicationName(WebPropertyFinder.getApplicationName(this.applicationContext.getEnvironment()));
+            this.setPort(WebPropertyFinder.getServerPort(this.applicationContext.getEnvironment()));
         }
     }
 

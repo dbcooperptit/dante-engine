@@ -27,7 +27,7 @@ package cn.herodotus.engine.web.scan.processor;
 import cn.herodotus.engine.assistant.core.constants.SecurityConstants;
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import cn.herodotus.engine.web.core.definition.RequestMappingScanManager;
-import cn.herodotus.engine.web.core.definition.WebPropertyResolver;
+import cn.herodotus.engine.web.core.definition.WebPropertyFinder;
 import cn.herodotus.engine.web.core.domain.RequestMapping;
 import cn.herodotus.engine.web.scan.properties.ScanProperties;
 import cn.hutool.core.util.HashUtil;
@@ -78,7 +78,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
 
         ApplicationContext applicationContext = event.getApplicationContext();
 
-        if (WebPropertyResolver.isScanEnabled(applicationContext.getEnvironment())) {
+        if (WebPropertyFinder.isScanEnabled(applicationContext.getEnvironment())) {
             log.debug("[Herodotus] |- [1] Application is READY, start to scan request mapping!");
             onApplicationEvent(applicationContext);
         }
@@ -86,7 +86,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
 
     public void onApplicationEvent(ApplicationContext applicationContext) {
         // 1、获取服务ID：该服务ID对于微服务是必需的。
-        String serviceId = WebPropertyResolver.getApplicationName(applicationContext.getEnvironment());
+        String serviceId = WebPropertyFinder.getApplicationName(applicationContext.getEnvironment());
 
         // 2、只针对有EnableResourceServer注解的微服务进行扫描。如果变为单体架构目前不会用到EnableResourceServer所以增加的了一个Architecture判断
         if (!requestMappingScanManager.isPerformScan(applicationContext)) {

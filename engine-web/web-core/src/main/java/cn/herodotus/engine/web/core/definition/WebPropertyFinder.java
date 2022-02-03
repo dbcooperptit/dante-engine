@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.web.core.definition;
 
+import cn.herodotus.engine.assistant.core.support.PropertyFinder;
 import cn.herodotus.engine.assistant.core.support.PropertyResolver;
 import cn.herodotus.engine.web.core.constants.WebConstants;
 import org.springframework.core.env.Environment;
@@ -35,31 +36,7 @@ import org.springframework.core.env.Environment;
  * @author : gengwei.zheng
  * @date : 2022/1/14 18:08
  */
-public class WebPropertyResolver {
-
-    public static String getDataAccessStrategy(Environment environment, String defaultValue) {
-        return PropertyResolver.getProperty(environment, WebConstants.ITEM_PLATFORM_DATA_ACCESS_STRATEGY, defaultValue);
-    }
-
-    public static String getDataAccessStrategy(Environment environment) {
-        return PropertyResolver.getProperty(environment, WebConstants.ITEM_PLATFORM_DATA_ACCESS_STRATEGY);
-    }
-
-    public static String getArchitecture(Environment environment, String defaultValue) {
-        return PropertyResolver.getProperty(environment, WebConstants.ITEM_PLATFORM_ARCHITECTURE, defaultValue);
-    }
-
-    public static String getArchitecture(Environment environment) {
-        return PropertyResolver.getProperty(environment, WebConstants.ITEM_PLATFORM_ARCHITECTURE);
-    }
-
-    public static String getApplicationName(Environment environment) {
-        return PropertyResolver.getProperty(environment, WebConstants.ITEM_SPRING_APPLICATION_NAME);
-    }
-
-    public static String getServerPort(Environment environment) {
-        return PropertyResolver.getProperty(environment, WebConstants.ITEM_SERVER_PORT);
-    }
+public class WebPropertyFinder extends PropertyFinder {
 
     public static boolean isScanEnabled(Environment environment) {
         return PropertyResolver.getBoolean(environment, WebConstants.ITEM_SCAN_ENABLED);

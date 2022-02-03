@@ -23,33 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.rest.condition;
+package cn.herodotus.engine.security.authorize.configuration;
 
-import cn.herodotus.engine.web.core.enums.Architecture;
-import cn.herodotus.engine.web.core.definition.WebPropertyResolver;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Condition;
-import org.springframework.context.annotation.ConditionContext;
-import org.springframework.core.type.AnnotatedTypeMetadata;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: 分布式架构条件 </p>
+ * <p>Description: Security 授权配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/10 14:51
+ * @date : 2022/2/1 16:24
  */
-public class DistributedArchitectureCondition implements Condition {
+@Configuration(proxyBeanMethods = false)
+@ComponentScan({
+        "cn.herodotus.engine.security.authorize.service",
+        "cn.herodotus.engine.security.authorize.controller"
+})
+public class SecurityAuthorizeConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(DistributedArchitectureCondition.class);
+    private static final Logger log = LoggerFactory.getLogger(SecurityAuthorizeConfiguration.class);
 
-    @SuppressWarnings("NullableProblems")
-    @Override
-    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
-        String property = WebPropertyResolver.getArchitecture(conditionContext.getEnvironment(), Architecture.DISTRIBUTED.name());
-        boolean result = StringUtils.equalsIgnoreCase(property, Architecture.DISTRIBUTED.name());
-        log.debug("[Herodotus] |- Condition [Distributed Architecture] value is [{}]", result);
-        return result;
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Herodotus] |- SDK [Engine Security Authorize] Auto Configure.");
     }
 }

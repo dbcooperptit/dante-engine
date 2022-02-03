@@ -47,24 +47,35 @@ public interface BaseConstants {
     String PROPERTY_SPRING_CLOUD = PROPERTY_PREFIX_SPRING + ".cloud";
     String PROPERTY_SPRING_REDIS = PROPERTY_PREFIX_SPRING + ".redis";
 
+    /* ---------- Herodotus 基础配置属性（第一层） ---------- */
+
     String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
     String PROPERTY_HERODOTUS_MANAGEMENT = PROPERTY_PREFIX_HERODOTUS + ".management";
-    String PROPERTY_HERODOTUS_MESSAGE = PROPERTY_PREFIX_HERODOTUS + ".message";
-
 
     /* ---------- Herodotus 配置属性（第二层） ---------- */
 
     /**
      * platform
      */
-    String PROPERTY_PLATFORM_CACHE = PROPERTY_HERODOTUS_PLATFORM + ".cache";
     String PROPERTY_PLATFORM_REST = PROPERTY_HERODOTUS_PLATFORM + ".rest";
     String PROPERTY_PLATFORM_SECURITY = PROPERTY_HERODOTUS_PLATFORM + ".security";
+    String PROPERTY_PLATFORM_SWAGGER = PROPERTY_HERODOTUS_PLATFORM + ".swagger";
+
+    /* ---------- Herodotus 详细配置属性路径 ---------- */
+
+    String ITEM_SWAGGER_ENABLED = PROPERTY_PLATFORM_SWAGGER + PROPERTY_ENABLED;
+
+    /* ---------- Spring 详细配置属性路径 ---------- */
+
+    String ITEM_SPRING_APPLICATION_NAME = "spring.application.name";
+    String ITEM_SERVER_PORT = "server.port";
 
     /* ---------- 注解属性通用值 ---------- */
 
     String ANNOTATION_PREFIX = "${";
     String ANNOTATION_SUFFIX = "}";
+
+    String ANNOTATION_APPLICATION_NAME = ANNOTATION_PREFIX + ITEM_SPRING_APPLICATION_NAME + ANNOTATION_SUFFIX;
 
 
     /* ---------- 通用缓存常量 ---------- */

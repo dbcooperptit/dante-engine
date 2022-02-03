@@ -35,6 +35,4 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface SecurityConstants extends BaseConstants {
 
-    String PROPERTY_PLATFORM_SECURITY = PROPERTY_HERODOTUS_PLATFORM + ".security";
-
 }

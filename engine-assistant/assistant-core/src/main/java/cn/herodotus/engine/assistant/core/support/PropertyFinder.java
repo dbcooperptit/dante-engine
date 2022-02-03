@@ -23,22 +23,24 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.rest.annotation;
+package cn.herodotus.engine.assistant.core.support;
 
-import cn.herodotus.engine.web.rest.condition.MonocoqueArchitectureCondition;
-import org.springframework.context.annotation.Conditional;
-
-import java.lang.annotation.*;
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import org.springframework.core.env.Environment;
 
 /**
- * <p>Description: 单体架构模式条件注解 </p>
+ * <p>Description: 通用属性读取器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/9 10:42
+ * @date : 2022/2/1 18:10
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Documented
-@Conditional(MonocoqueArchitectureCondition.class)
-public @interface ConditionalOnMonocoqueArchitecture {
+public class PropertyFinder {
+
+    public static String getApplicationName(Environment environment) {
+        return PropertyResolver.getProperty(environment, BaseConstants.ITEM_SPRING_APPLICATION_NAME);
+    }
+
+    public static String getServerPort(Environment environment) {
+        return PropertyResolver.getProperty(environment, BaseConstants.ITEM_SERVER_PORT);
+    }
 }
