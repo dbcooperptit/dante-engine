@@ -41,15 +41,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>cache-sdk-redisson</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>cache-sdk-jetcache</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>cache-layer-spring-boot-starter</artifactId>
         </dependency>
 

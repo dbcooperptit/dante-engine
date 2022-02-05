@@ -41,13 +41,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>event-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>message-core</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>event-core-remote</artifactId>
         </dependency>
     </dependencies>
 

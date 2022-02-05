@@ -41,12 +41,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>cache-sdk-jetcache</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>rest-core</artifactId>
         </dependency>
     </dependencies>

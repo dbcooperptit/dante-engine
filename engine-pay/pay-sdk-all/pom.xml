@@ -41,11 +41,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>pay-sdk-alipay</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>pay-sdk-wxpay</artifactId>
         </dependency>
     </dependencies>

@@ -46,26 +46,26 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>rest-sdk-crypto</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>rest-sdk-secure</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>cache-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>web-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>data-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>

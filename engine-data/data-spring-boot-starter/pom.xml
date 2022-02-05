@@ -40,15 +40,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>data-sdk-jpa</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>data-sdk-mybatis-plus</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>data-sdk-p6spy</artifactId>
         </dependency>
 

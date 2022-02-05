@@ -41,19 +41,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>pay-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>event-sdk-pay</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>event-pay-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>web-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>cache-sdk-jetcache</artifactId>
         </dependency>
         <dependency>

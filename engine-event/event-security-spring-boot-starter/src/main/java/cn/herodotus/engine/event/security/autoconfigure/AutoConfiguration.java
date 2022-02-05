@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.event.security.autoconfigure;
 
-import cn.herodotus.engine.event.security.configuration.SecurityEventConfiguration;
+import cn.herodotus.engine.event.security.configuration.EventSecurityConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +41,7 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @Import({
-        SecurityEventConfiguration.class
+        EventSecurityConfiguration.class
 })
 public class AutoConfiguration {
 

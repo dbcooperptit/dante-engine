@@ -40,7 +40,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>assistant-sdk-secure</artifactId>
         </dependency>
         <dependency>

@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.pay.all.configuration;
 
-import cn.herodotus.engine.pay.aliypay.configuration.AlipayConfiguration;
+import cn.herodotus.engine.pay.alipay.configuration.AlipayConfiguration;
 import cn.herodotus.engine.pay.wechat.configuration.WxpayConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

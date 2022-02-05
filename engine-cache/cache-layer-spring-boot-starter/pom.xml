@@ -40,7 +40,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>cache-sdk-layer</artifactId>
         </dependency>
     </dependencies>

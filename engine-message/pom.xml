@@ -41,7 +41,7 @@
 
     <modules>
         <module>message-core</module>
-        <module>message-sdk-event</module>
+        <module>message-spring-boot-starter</module>
     </modules>
 
 </project>
