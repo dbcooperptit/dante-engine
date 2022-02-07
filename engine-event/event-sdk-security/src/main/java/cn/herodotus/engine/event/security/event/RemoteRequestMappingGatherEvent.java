@@ -25,7 +25,6 @@
 
 package cn.herodotus.engine.event.security.event;
 
-import cn.herodotus.engine.event.core.remote.definition.HerodotusRemoteApplicationEvent;
 import org.springframework.cloud.bus.event.Destination;
 import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
@@ -35,16 +34,23 @@ import org.springframework.cloud.bus.event.RemoteApplicationEvent;
  * @author : gengwei.zheng
  * @date : 2021/8/6 11:23
  */
-public class RemoteRequestMappingGatherEvent extends HerodotusRemoteApplicationEvent {
+public class RemoteRequestMappingGatherEvent extends RemoteApplicationEvent {
+
+    private String data;
 
     public RemoteRequestMappingGatherEvent() {
     }
 
-    public RemoteRequestMappingGatherEvent(String data, String originService, String destinationService) {
-        super(data, originService, destinationService);
-    }
-
     public RemoteRequestMappingGatherEvent(String data, String originService, Destination destination) {
         super(data, originService, destination);
+        this.data = data;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

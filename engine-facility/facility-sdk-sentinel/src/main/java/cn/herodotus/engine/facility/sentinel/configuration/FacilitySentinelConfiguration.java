@@ -69,7 +69,6 @@ import java.util.Optional;
  */
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
-@Import({FeignConfiguration.class})
 public class FacilitySentinelConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(FacilitySentinelConfiguration.class);
@@ -123,6 +122,7 @@ public class FacilitySentinelConfiguration {
     @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
     @ConditionalOnProperty(name = "spring.cloud.sentinel.enabled", matchIfMissing = true)
     @EnableConfigurationProperties(SentinelProperties.class)
+    @Import({FeignConfiguration.class})
     public static class SentinelWebConfiguration {
 
         @Autowired

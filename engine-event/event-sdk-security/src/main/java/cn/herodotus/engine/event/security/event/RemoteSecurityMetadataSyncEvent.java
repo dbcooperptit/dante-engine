@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.event.security.event;
 
-import cn.herodotus.engine.event.core.remote.definition.HerodotusRemoteApplicationEvent;
 import org.springframework.cloud.bus.event.Destination;
+import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
 /**
  * <p>Description: Security Metadata 远程刷新事件 </p>
@@ -34,16 +34,19 @@ import org.springframework.cloud.bus.event.Destination;
  * @author : gengwei.zheng
  * @date : 2021/8/6 11:24
  */
-public class RemoteSecurityMetadataSyncEvent extends HerodotusRemoteApplicationEvent {
+public class RemoteSecurityMetadataSyncEvent extends RemoteApplicationEvent {
+
+    private String data;
 
     public RemoteSecurityMetadataSyncEvent() {
     }
 
-    public RemoteSecurityMetadataSyncEvent(String data, String originService, String destinationService) {
-        super(data, originService, destinationService);
-    }
-
     public RemoteSecurityMetadataSyncEvent(String data, String originService, Destination destination) {
         super(data, originService, destination);
+        this.data = data;
+    }
+
+    public String getData() {
+        return data;
     }
 }
