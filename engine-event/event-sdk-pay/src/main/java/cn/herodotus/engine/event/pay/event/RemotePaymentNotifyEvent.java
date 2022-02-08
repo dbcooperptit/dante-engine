@@ -27,6 +27,7 @@ package cn.herodotus.engine.event.pay.event;
 
 import cn.herodotus.engine.event.core.remote.definition.HerodotusRemoteApplicationEvent;
 import org.springframework.cloud.bus.event.Destination;
+import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
 /**
  * <p>Description: 远程支付通知事件 </p>
@@ -34,16 +35,19 @@ import org.springframework.cloud.bus.event.Destination;
  * @author : gengwei.zheng
  * @date : 2022/1/10 14:44
  */
-public class RemotePaymentNotifyEvent extends HerodotusRemoteApplicationEvent {
+public class RemotePaymentNotifyEvent extends RemoteApplicationEvent {
+
+    private String data;
 
     public RemotePaymentNotifyEvent() {
     }
 
-    public RemotePaymentNotifyEvent(String data, String originService, String destinationService) {
-        super(data, originService, destinationService);
-    }
-
     public RemotePaymentNotifyEvent(String data, String originService, Destination destination) {
         super(data, originService, destination);
+        this.data = data;
+    }
+
+    public String getData() {
+        return data;
     }
 }

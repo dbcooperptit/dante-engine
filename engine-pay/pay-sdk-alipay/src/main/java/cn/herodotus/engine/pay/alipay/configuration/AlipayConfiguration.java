@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.pay.alipay.configuration;
 
-import cn.herodotus.engine.pay.alipay.annotation.ConditionalOnAlipay;
+import cn.herodotus.engine.pay.alipay.annotation.ConditionalOnAlipayEnabled;
 import cn.herodotus.engine.pay.alipay.definition.AlipayPaymentTemplate;
 import cn.herodotus.engine.pay.alipay.definition.AlipayProfileStorage;
 import cn.herodotus.engine.pay.alipay.properties.AlipayProperties;
@@ -47,7 +47,7 @@ import javax.annotation.PostConstruct;
  * @date : 2022/1/8 21:19
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnAlipay
+@ConditionalOnAlipayEnabled
 @EnableConfigurationProperties(AlipayProperties.class)
 @ComponentScan(basePackages = {
         "cn.herodotus.engine.pay.alipay.controller"

@@ -79,10 +79,8 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
 
         ApplicationContext applicationContext = event.getApplicationContext();
 
-        if (WebPropertyFinder.isScanEnabled(applicationContext.getEnvironment())) {
-            log.debug("[Herodotus] |- [1] Application is READY, start to scan request mapping!");
-            onApplicationEvent(applicationContext);
-        }
+        log.debug("[Herodotus] |- [1] Application is READY, start to scan request mapping!");
+        onApplicationEvent(applicationContext);
     }
 
     public void onApplicationEvent(ApplicationContext applicationContext) {

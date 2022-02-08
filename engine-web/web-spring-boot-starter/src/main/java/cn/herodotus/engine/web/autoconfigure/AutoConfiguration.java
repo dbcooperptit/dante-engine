@@ -26,8 +26,6 @@
 package cn.herodotus.engine.web.autoconfigure;
 
 import cn.herodotus.engine.web.configuration.UndertowWebServerFactoryCustomizer;
-import cn.herodotus.engine.web.rest.configuration.RestConfiguration;
-import cn.herodotus.engine.web.scan.configuration.ScanConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -43,8 +41,6 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @Import({
-        RestConfiguration.class,
-        ScanConfiguration.class,
         UndertowWebServerFactoryCustomizer.class
 })
 public class AutoConfiguration {

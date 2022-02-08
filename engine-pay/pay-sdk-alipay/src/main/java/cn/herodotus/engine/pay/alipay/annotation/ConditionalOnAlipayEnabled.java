@@ -40,5 +40,5 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @ConditionalOnProperty(value = PayConstants.ITEM_ALIPAY_ENABLED, havingValue = "true")
-public @interface ConditionalOnAlipay {
+public @interface ConditionalOnAlipayEnabled {
 }

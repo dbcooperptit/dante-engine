@@ -26,6 +26,8 @@
 package cn.herodotus.engine.event.core.remote.definition;
 
 import cn.herodotus.engine.event.core.remote.processor.DestinationResolver;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.cloud.bus.event.Destination;
 import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
@@ -35,6 +37,11 @@ import org.springframework.cloud.bus.event.RemoteApplicationEvent;
  * @author : gengwei.zheng
  * @date : 2022/2/4 15:20
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type"
+)
+@JsonIgnoreProperties({"data"})
 public class HerodotusRemoteApplicationEvent extends RemoteApplicationEvent {
 
     /**
