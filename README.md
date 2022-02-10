@@ -61,10 +61,10 @@ eurynome-cloud
 ├    ├── assistant-sdk-secure -- Xss 和 SQL 注入等安全组件
 ├    └── assistant-spring-boot-starter -- Assistant  模块统一 Starter
 ├── engine-cache -- 缓存模块
-├    ├── cache-core -- 缓存共性通用代码
-├    ├── cache-layer-spring-boot-starter -- 自定义多级缓存 Starter
+├    ├── cache-core -- 缓存通用代码
+├    ├── cache-layer-spring-boot-starter -- 自研多级缓存 Starter
 ├    ├── cache-sdk-jetcache -- JetCache 组件相关代码模块
-├    ├── cache-sdk-layer -- 自定义多级缓存组件相关代码模块
+├    ├── cache-sdk-layer -- 自研多级缓存组件相关代码模块
 ├    ├── cache-sdk-redisson -- Redisson 组件相关代码模块
 ├    └── cache-spring-boot-starter -- Cache  模块统一 Starter
 ├── engine-captcha -- 验证码模块

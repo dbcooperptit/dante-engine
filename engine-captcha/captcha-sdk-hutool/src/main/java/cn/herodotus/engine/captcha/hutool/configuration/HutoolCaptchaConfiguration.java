@@ -46,9 +46,9 @@ import javax.annotation.PostConstruct;
  * @date : 2022/1/18 20:57
  */
 @Configuration(proxyBeanMethods = false)
-public class HutoolConfiguration {
+public class HutoolCaptchaConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(HutoolConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(HutoolCaptchaConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {

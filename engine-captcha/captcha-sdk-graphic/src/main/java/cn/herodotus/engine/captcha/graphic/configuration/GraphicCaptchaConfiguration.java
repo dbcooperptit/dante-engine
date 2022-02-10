@@ -43,9 +43,9 @@ import javax.annotation.PostConstruct;
  * @date : 2022/1/18 20:56
  */
 @Configuration(proxyBeanMethods = false)
-public class GraphicConfiguration {
+public class GraphicCaptchaConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(GraphicConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(GraphicCaptchaConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
