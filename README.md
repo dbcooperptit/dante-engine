@@ -52,6 +52,7 @@
 
 ## 工程结构
 
+```
 eurynome-cloud
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
 ├── documents -- 需要放置的文档位置
