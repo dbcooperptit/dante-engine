@@ -54,8 +54,8 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/OliverLiy/fast-sso</url>
-        <connection>https://github.com/OliverLiy/fast-sso.git</connection>
+        <url>https://github.com/herodotus-cloud/herodotus-engine</url>
+        <connection>https://github.com/herodotus-cloud/herodotus-engine.git</connection>
     </scm>
 
     <developers>
