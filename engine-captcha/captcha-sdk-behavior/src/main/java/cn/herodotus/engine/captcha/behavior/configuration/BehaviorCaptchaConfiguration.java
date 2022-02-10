@@ -44,9 +44,9 @@ import javax.annotation.PostConstruct;
  * @date : 2022/1/18 20:57
  */
 @Configuration(proxyBeanMethods = false)
-public class BehaviorConfiguration {
+public class BehaviorCaptchaConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(BehaviorConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(BehaviorCaptchaConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
