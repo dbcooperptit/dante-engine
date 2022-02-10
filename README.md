@@ -1,6 +1,6 @@
 <p align="center"><img src="./documents/readme/images/logo.png" height="150" width="150" alt="logo"/></p>
 <h2 align="center">简洁优雅 · 稳定高效 | 宁静致远 · 精益求精 </h2>
-<h3 align="center">Herodotus Engine 基于 Spring Boot 2.X， 是 Eurynome Cloud 微服务架构基础内核模块公共组件库，可用于任何 Spring Boot 工程</h3>
+<p align="center">Herodotus Engine 基于 Spring Boot 2.X， 是 Eurynome Cloud 微服务架构内核核心组件库，可用于任何 Spring Boot 工程</p>
 
 ---
 
@@ -13,8 +13,6 @@
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
     <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta1-red" alt="Version 2.7.0.Beta1"></a>
-    <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/star.svg?theme=dark" alt="Gitee star"></a>
-    <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
 </p>
 
 <p align="center">
