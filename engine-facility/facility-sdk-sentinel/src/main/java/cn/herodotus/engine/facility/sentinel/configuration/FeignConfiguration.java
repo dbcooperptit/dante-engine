@@ -39,10 +39,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * <p> Description : 自定义通用的Feign Fallback处理工厂(基于Sentinel) </p>
  * <p>
- * {@see https://blog.csdn.net/ttzommed/article/details/90669320}
  *
  * @author : gengwei.zheng
  * @date : 2020/3/1 18:35
+ * @see <a href="https://blog.csdn.net/ttzommed/article/details/90669320">参考文档</a>
  */
 @Configuration(proxyBeanMethods = false)
 public class FeignConfiguration {
@@ -79,7 +79,8 @@ public class FeignConfiguration {
      * 1、不要采用Ribbon配置而要直接配置FeignClient，即配置feign.client.xx
      * 2、配置文件配置全体FeignClient的超时设置，同时对特定服务有特殊设置的，也在配置文件里配置
      * <p>
-     * {@see :https://blog.csdn.net/weixin_36244726/article/details/103953852}
+     *
+     * @see <a href="https://blog.csdn.net/weixin_36244726/article/details/103953852"></a>
      */
     @Bean
     public Request.Options options() {

@@ -43,6 +43,47 @@
 
     <description>Herodotus Dependencies</description>
 
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <comments>Copyright 2014-2015 the original author or authors.
+
+                Licensed under the Apache License, Version 2.0 (the "License");
+                you may not use this file except in compliance with the License.
+                You may obtain a copy of the License at
+
+                https://www.apache.org/licenses/LICENSE-2.0
+
+                Unless required by applicable law or agreed to in writing, software
+                distributed under the License is distributed on an "AS IS" BASIS,
+                WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+                implied.
+
+                See the License for the specific language governing permissions and
+                limitations under the License.</comments>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/herodotus-cloud/herodotus-engine</url>
+        <connection>
+            scm:git:git://github.com/herodotus-cloud/herodotus-engine.git
+        </connection>
+        <developerConnection>
+            scm:git:ssh://github.com/herodotus-cloud/herodotus-engine.git
+        </developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    <developers>
+        <developer>
+            <id>herodotus-cloud</id>
+            <name>Herodotus</name>
+            <email>herodotus@aliyun.com</email>
+            <url>https://www.herodotus.cn</url>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
     <!-- ${basedir} 项目根目录 -->
     <!-- ${project.build.directory} 构建目录，缺省为target -->
     <!-- ${project.build.outputDirectory} 构建过程输出目录，缺省为target/classes -->
@@ -136,7 +177,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Spring 家族 -->
+            <!-- Spring Dependencies -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -981,20 +1022,48 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <skipTests>true</skipTests>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven-javadoc-plugin.version}</version>
                     <configuration>
-                        <!-- jdk1.8要加上，1.7要去掉，否则会报错 -->
-                        <additionalJOptions>
-                            <additionalJOption>-Xdoclint:none</additionalJOption>
-                        </additionalJOptions>
+                        <show>package</show>
+                        <tags>
+                            <tag>
+                                <name>date</name>
+                            </tag>
+                        </tags>
                     </configuration>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
+                            <phase>package</phase>
                             <goals>
                                 <goal>jar</goal>
                             </goals>
+                            <configuration>
+                                <doclint>none</doclint>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
@@ -1004,7 +1073,7 @@
                     <version>${maven-gpg-plugin.version}</version>
                     <executions>
                         <execution>
-                            <id>sign-artifacts</id>
+                            <id>ossrh</id>
                             <phase>verify</phase>
                             <goals>
                                 <goal>sign</goal>
@@ -1017,31 +1086,7 @@
                     <artifactId>maven-archetype-plugin</artifactId>
                     <version>${maven-archetype-plugin.version}</version>
                 </plugin>
-                <plugin>
-                    <!--打包跳过测试-->
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven-surefire-plugin.version}</version>
-                    <configuration>
-                        <skipTests>true</skipTests>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven-source-plugin.version}</version>
-                    <configuration>
-                        <attach>true</attach>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <goals>
-                                <goal>jar-no-fork</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -1090,5 +1135,41 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>sonatype-nexus-snapshots</id>
+                    <name>Sonatype Nexus Snapshots</name>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>sonatype-nexus-release</id>
+                    <name>Nexus Release Repository</name>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
 
 </project>

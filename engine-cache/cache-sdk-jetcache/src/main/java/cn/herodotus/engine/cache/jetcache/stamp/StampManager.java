@@ -167,12 +167,12 @@ public interface StampManager<K, V> extends InitializingBean {
      * 锁定值
      * <p>
      * 非堵塞的尝试获取一个锁，如果对应的key还没有锁，返回一个AutoReleaseLock，否则立即返回空。如果Cache实例是本地的，它是一个本地锁，在本JVM中有效；如果是redis等远程缓存，它是一个不十分严格的分布式锁。锁的超时时间由expire和timeUnit指定。多级缓存的情况会使用最后一级做tryLock操作。
-     * {@see https://github.com/alibaba/jetcache/wiki/CacheAPI_CN}
      *
      * @param key      存储Key
      * @param expire   过期时间
      * @param timeUnit 过期时间单位
      * @return {@link AutoReleaseLock}
+     * @see <a href="https://github.com/alibaba/jetcache/wiki/CacheAPI_CN">JetCache Wiki</a>
      */
     AutoReleaseLock lock(K key, long expire, TimeUnit timeUnit);
 
@@ -180,11 +180,11 @@ public interface StampManager<K, V> extends InitializingBean {
      * 锁定值
      * <p>
      * 非堵塞的尝试获取一个锁，如果对应的key还没有锁，返回一个AutoReleaseLock，否则立即返回空。如果Cache实例是本地的，它是一个本地锁，在本JVM中有效；如果是redis等远程缓存，它是一个不十分严格的分布式锁。锁的超时时间由expire和timeUnit指定。多级缓存的情况会使用最后一级做tryLock操作。
-     * {@see https://github.com/alibaba/jetcache/wiki/CacheAPI_CN}
      *
      * @param key    存储Key
      * @param expire 过期时间{@link Duration}
      * @return {@link AutoReleaseLock}
+     * @see <a href="https://github.com/alibaba/jetcache/wiki/CacheAPI_CN">JetCache Wiki</a>
      */
     default AutoReleaseLock lock(K key, Duration expire) {
         return lock(key, expire.toMillis(), TimeUnit.MILLISECONDS);
@@ -194,10 +194,11 @@ public interface StampManager<K, V> extends InitializingBean {
      * 锁定值
      * <p>
      * 非堵塞的尝试获取一个锁，如果对应的key还没有锁，返回一个AutoReleaseLock，否则立即返回空。如果Cache实例是本地的，它是一个本地锁，在本JVM中有效；如果是redis等远程缓存，它是一个不十分严格的分布式锁。锁的超时时间由expire和timeUnit指定。多级缓存的情况会使用最后一级做tryLock操作。
-     * {@see https://github.com/alibaba/jetcache/wiki/CacheAPI_CN}
+     * *
      *
      * @param key 存储Key
      * @return {@link AutoReleaseLock}
+     * @see <a href="https://github.com/alibaba/jetcache/wiki/CacheAPI_CN">JetCache Wiki</a>
      */
     default AutoReleaseLock lock(K key) {
         return lock(key, getExpire());
@@ -207,13 +208,13 @@ public interface StampManager<K, V> extends InitializingBean {
      * 锁定并执行操作
      * <p>
      * 非堵塞的尝试获取一个锁，如果对应的key还没有锁，返回一个AutoReleaseLock，否则立即返回空。如果Cache实例是本地的，它是一个本地锁，在本JVM中有效；如果是redis等远程缓存，它是一个不十分严格的分布式锁。锁的超时时间由expire和timeUnit指定。多级缓存的情况会使用最后一级做tryLock操作。
-     * {@see https://github.com/alibaba/jetcache/wiki/CacheAPI_CN}
      *
      * @param key      存储Key
      * @param expire   过期时间
      * @param timeUnit 过期时间单位
      * @param action   需要执行的操作 {@link Runnable}
      * @return 是否执行成功
+     * @see <a href="https://github.com/alibaba/jetcache/wiki/CacheAPI_CN">JetCache Wiki</a>
      */
     boolean lockAndRun(K key, long expire, TimeUnit timeUnit, Runnable action);
 
@@ -221,12 +222,12 @@ public interface StampManager<K, V> extends InitializingBean {
      * 锁定并执行操作
      * <p>
      * 非堵塞的尝试获取一个锁，如果对应的key还没有锁，返回一个AutoReleaseLock，否则立即返回空。如果Cache实例是本地的，它是一个本地锁，在本JVM中有效；如果是redis等远程缓存，它是一个不十分严格的分布式锁。锁的超时时间由expire和timeUnit指定。多级缓存的情况会使用最后一级做tryLock操作。
-     * {@see https://github.com/alibaba/jetcache/wiki/CacheAPI_CN}
      *
      * @param key    存储Key
      * @param expire 过期时间{@link Duration}
      * @param action 需要执行的操作 {@link Runnable}
      * @return 是否执行成功
+     * @see <a href="https://github.com/alibaba/jetcache/wiki/CacheAPI_CN">JetCache Wiki</a>
      */
     default boolean lockAndRun(K key, Duration expire, Runnable action) {
         return lockAndRun(key, expire.toMillis(), TimeUnit.MILLISECONDS, action);
@@ -236,11 +237,11 @@ public interface StampManager<K, V> extends InitializingBean {
      * 锁定并执行操作
      * <p>
      * 非堵塞的尝试获取一个锁，如果对应的key还没有锁，返回一个AutoReleaseLock，否则立即返回空。如果Cache实例是本地的，它是一个本地锁，在本JVM中有效；如果是redis等远程缓存，它是一个不十分严格的分布式锁。锁的超时时间由expire和timeUnit指定。多级缓存的情况会使用最后一级做tryLock操作。
-     * {@see https://github.com/alibaba/jetcache/wiki/CacheAPI_CN}
      *
      * @param key    存储Key
      * @param action 需要执行的操作 {@link Runnable}
      * @return 是否执行成功
+     * @see <a href="https://github.com/alibaba/jetcache/wiki/CacheAPI_CN">JetCache Wiki</a>
      */
     default boolean lockAndRun(K key, Runnable action) {
         return lockAndRun(key, getExpire(), action);

@@ -179,7 +179,7 @@ public interface ReadableService<E extends Entity, ID extends Serializable> {
      *
      * @param pageNumber 当前页码, 起始页码 0
      * @param pageSize   每页显示的数据条数
-     * @param direction  {@link Sort.Direction}
+     * @param direction  {@link org.springframework.data.domain.Sort.Direction}
      * @return 分页数据
      */
     default Page<E> findByPage(int pageNumber, int pageSize, Sort.Direction direction) {
@@ -191,7 +191,7 @@ public interface ReadableService<E extends Entity, ID extends Serializable> {
      *
      * @param pageNumber 当前页码, 起始页码 0
      * @param pageSize   每页显示的数据条数
-     * @param direction  {@link Sort.Direction}
+     * @param direction  {@link org.springframework.data.domain.Sort.Direction}
      * @param properties 排序的属性名称
      * @return 分页数据
      */

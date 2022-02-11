@@ -40,7 +40,7 @@ public abstract class AbstractRest {
 
     /**
      * 获取外部Rest API基础地址
-     * @return
+     * @return 访问接口的统一BaseURL
      */
     protected abstract String getBaseUrl();
 
