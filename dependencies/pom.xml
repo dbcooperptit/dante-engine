@@ -38,7 +38,7 @@
 
     <groupId>cn.herodotus.engine</groupId>
     <artifactId>dependencies</artifactId>
-    <version>2.7.0.Beta1</version>
+    <version>2.7.0.Beta2</version>
     <packaging>pom</packaging>
 
     <description>Herodotus Dependencies</description>
@@ -93,19 +93,20 @@
 
     <properties>
         <!--Spring 家族-->
+        <spring-boot-admin.version>2.6.2</spring-boot-admin.version>
         <spring-boot-dependencies.version>2.6.3</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>2021.0.0</spring-cloud-dependencies.version>
         <spring-cloud-alibaba-dependencies.version>2021.1</spring-cloud-alibaba-dependencies.version>
-        <spring-boot-admin.version>2.6.2</spring-boot-admin.version>
         <spring-security-oauth2.version>2.3.4.RELEASE</spring-security-oauth2.version>
+        <spring-security-oauth2-authorization-server.version>0.2.2</spring-security-oauth2-authorization-server.version>
 
         <!--Maven Plugin 相关组件-->
+        <archetype-packaging.verison>3.2.1</archetype-packaging.verison>
         <docker-maven-plugin.version>0.39.0</docker-maven-plugin.version>
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <mapstruct-processor.version>1.4.2.Final</mapstruct-processor.version>
         <maven-archetype-plugin.version>3.2.1</maven-archetype-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-        <archetype-packaging.verison>3.2.1</archetype-packaging.verison>
         <maven-embedder.version>3.8.4</maven-embedder.version>
         <maven-compat.version>3.8.4</maven-compat.version>
         <maven-invoker.verison>3.1.0</maven-invoker.verison>
@@ -196,6 +197,11 @@
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-server</artifactId>
                 <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${spring-security-oauth2-authorization-server.version}</version>
             </dependency>
 
             <!-- Herodotus Engine -->
