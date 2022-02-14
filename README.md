@@ -12,7 +12,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.0.3-brightgreen" alt="Nacos 2.0.3"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta1-red" alt="Version 2.7.0.Beta1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta2-red" alt="Version 2.7.0.Beta2"></a>
 </p>
 
 <p align="center">
@@ -51,7 +51,7 @@
 ## 工程结构
 
 ```
-eurynome-cloud
+herodotus-engine
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
 ├── documents -- 需要放置的文档位置
 ├    └── readme -- README 相关素材放置目录
@@ -147,7 +147,7 @@ eurynome-cloud
 
 ### 二、独立性阅读
 
-很多组件都是相对独立的，组件间的关联性非常弱。可分开独立阅读和了解代码：
+部分组件都是相对独立的，组件间的关联性非常弱。可分开独立阅读和了解代码：
 
 * engine-captcha
 * engine-oss

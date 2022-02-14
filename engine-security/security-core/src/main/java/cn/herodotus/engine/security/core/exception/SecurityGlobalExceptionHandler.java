@@ -72,9 +72,8 @@ public class SecurityGlobalExceptionHandler {
      * @param ex       错误
      * @param request  请求
      * @param response 响应
-     * @return {@link Result<String>}
-     * <p>
-     * {@see :https://www.baeldung.com/spring-rest-template-error-handling}
+     * @return Result 对象
+     * @see <a href="https://www.baeldung.com/spring-rest-template-error-handling">baeldung</a>
      */
     @ExceptionHandler({HttpClientErrorException.class, HttpServerErrorException.class})
     public static Result<String> restTemplateException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
@@ -110,7 +109,7 @@ public class SecurityGlobalExceptionHandler {
      * @param ex       错误
      * @param request  请求
      * @param response 响应
-     * @return {@link Result<String>}
+     * @return Result 对象
      */
     @ExceptionHandler({AuthenticationException.class})
     @ResponseBody
@@ -126,7 +125,7 @@ public class SecurityGlobalExceptionHandler {
      * @param ex       错误
      * @param request  请求
      * @param response 响应
-     * @return {@link Result<String>}
+     * @return Result 对象
      */
     @ExceptionHandler({OAuth2Exception.class, ClientAuthenticationException.class})
     @ResponseBody
@@ -144,7 +143,7 @@ public class SecurityGlobalExceptionHandler {
      * 静态解析认证异常
      *
      * @param exception 错误信息
-     * @return {@link Result<String>}
+     * @return Result 对象
      */
     public static Result<String> resolveOauthException(Exception exception, String path) {
 

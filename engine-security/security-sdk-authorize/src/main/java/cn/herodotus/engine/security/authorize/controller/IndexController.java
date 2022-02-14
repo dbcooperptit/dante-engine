@@ -66,7 +66,7 @@ public class IndexController {
     /**
      * 欢迎页
      *
-     * @return
+     * @return 登录地址
      */
     @RequestMapping("/")
     public String welcome() {
@@ -76,7 +76,7 @@ public class IndexController {
     /**
      * 登录页
      *
-     * @return
+     * @return 视图模型 {@link ModelAndView}
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(Map<String, Object> model, HttpServletRequest request) throws DecoderException {
@@ -109,9 +109,9 @@ public class IndexController {
     /**
      * 确认授权页
      *
-     * @param request
-     * @param model
-     * @return
+     * @param request 请求对象
+     * @param model   模型对象
+     * @return 视图模型 {@link ModelAndView}
      */
     @RequestMapping("/oauth/confirm_access")
     public ModelAndView confirmAccess(Map<String, Object> model, HttpServletRequest request) {
@@ -134,8 +134,8 @@ public class IndexController {
     /**
      * 自定义oauth2错误页
      *
-     * @param request
-     * @return
+     * @param request 请求对象
+     * @return 页面地址
      */
     @RequestMapping("/oauth/error")
     public String handleError(Map<String, Object> model, HttpServletRequest request) {

@@ -53,7 +53,7 @@ import javax.annotation.Resource;
 
 /**
  * @author gengwei.zheng
- * @see :@refer:https://conkeyn.iteye.com/blog/2296406
+ * @see <a href="https://conkeyn.iteye.com/blog/2296406">参考文档</a>
  */
 @RestController
 @Tag(name = "平台认证接口")

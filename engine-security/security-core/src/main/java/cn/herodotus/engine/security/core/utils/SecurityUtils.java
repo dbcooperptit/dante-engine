@@ -88,7 +88,7 @@ public class SecurityUtils {
     /**
      * 获取认证用户信息
      *
-     * @return
+     * @return 自定义 UserDetails {@link HerodotusUserDetails}
      */
     @SuppressWarnings("unchecked")
     public static HerodotusUserDetails getPrincipal() {
