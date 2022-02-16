@@ -1079,7 +1079,6 @@
                     <version>${maven-gpg-plugin.version}</version>
                     <executions>
                         <execution>
-                            <id>ossrh</id>
                             <phase>verify</phase>
                             <goals>
                                 <goal>sign</goal>
