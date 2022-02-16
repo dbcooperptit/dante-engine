@@ -141,9 +141,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
     /**
      * 客户端返回JSON字符串
      *
-     * @param response
-     * @param object
-     * @return
+     * @param response HttpServletResponse
+     * @param object   需要转换的对象
      */
     public static void renderJson(HttpServletResponse response, Object object) {
         renderJson(response, JSON.toJSONString(object), MediaType.APPLICATION_JSON.toString());
@@ -152,9 +151,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
     /**
      * 客户端返回字符串
      *
-     * @param response
-     * @param string
-     * @return
+     * @param response HttpServletResponse
+     * @param string   需要绘制的信息
      */
     public static void renderJson(HttpServletResponse response, String string, String type) {
         try {

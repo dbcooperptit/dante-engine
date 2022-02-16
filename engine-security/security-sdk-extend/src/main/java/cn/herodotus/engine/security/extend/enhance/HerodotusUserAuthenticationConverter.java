@@ -92,8 +92,8 @@ public class HerodotusUserAuthenticationConverter extends DefaultUserAuthenticat
     /**
      * 读取认证信息
      *
-     * @param map
-     * @return
+     * @param map 认证信息存储对象
+     * @return OAuth2 认证对象
      */
     @Override
     public Authentication extractAuthentication(Map<String, ?> map) {
