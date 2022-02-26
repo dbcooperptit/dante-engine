@@ -169,14 +169,8 @@ public class HerodotusExceptionHandler {
         EXCEPTION_DICTIONARY.put("CacheConfigException", getResult(ResultStatus.CACHE_CONFIG_NOT_FOUND, HttpStatus.SC_NOT_IMPLEMENTED));
     }
 
-    /**
-     * 401	Unauthorized	请求要求用户的身份认证
-     *
-     * @param resultCode 401
-     * @return {@link Result}
-     */
-    private static Result<String> getUnauthorizedResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_UNAUTHORIZED);
+    protected static Result<String> getResult(ResultStatus resultStatus, int httpStatus) {
+        return Result.failure(resultStatus.getMessage(), resultStatus.getCode(), httpStatus, null);
     }
 
     /**
@@ -185,8 +179,8 @@ public class HerodotusExceptionHandler {
      * @param resultCode 401
      * @return {@link Result}
      */
-    private static Result<String> getForbiddenResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_FORBIDDEN);
+    public static Result<String> getUnauthorizedResult(ResultStatus resultCode) {
+        return getResult(resultCode, HttpStatus.SC_UNAUTHORIZED);
     }
 
     /**
@@ -195,7 +189,17 @@ public class HerodotusExceptionHandler {
      * @param resultCode 403
      * @return {@link Result}
      */
-    private static Result<String> getNotAcceptableResult(ResultStatus resultCode) {
+    public static Result<String> getForbiddenResult(ResultStatus resultCode) {
+        return getResult(resultCode, HttpStatus.SC_FORBIDDEN);
+    }
+
+    /**
+     * 406	Not Acceptable	服务器无法根据客户端请求的内容特性完成请求
+     *
+     * @param resultCode 406
+     * @return {@link Result}
+     */
+    public static Result<String> getNotAcceptableResult(ResultStatus resultCode) {
         return getResult(resultCode, HttpStatus.SC_NOT_ACCEPTABLE);
     }
 
@@ -205,9 +209,30 @@ public class HerodotusExceptionHandler {
      * @param resultCode 412
      * @return {@link Result}
      */
-    private static Result<String> getPreconditionFailedResult(ResultStatus resultCode) {
+    public static Result<String> getPreconditionFailedResult(ResultStatus resultCode) {
         return getResult(resultCode, HttpStatus.SC_PRECONDITION_FAILED);
     }
+
+    /**
+     * 500	Internal Server Error	服务器内部错误，无法完成请求
+     *
+     * @param resultCode 500
+     * @return {@link Result}
+     */
+    public static Result<String> getInternalServerErrorResult(ResultStatus resultCode) {
+        return getResult(resultCode, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * 503	Service Unavailable	由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
+     *
+     * @param resultCode 503
+     * @return {@link Result}
+     */
+    public static Result<String> getServiceUnavailableResult(ResultStatus resultCode) {
+        return getResult(resultCode, HttpStatus.SC_SERVICE_UNAVAILABLE);
+    }
+
 
     /**
      * 415	Unsupported Media Type	服务器无法处理请求附带的媒体格式
@@ -227,28 +252,17 @@ public class HerodotusExceptionHandler {
         return getResult(resultCode, HttpStatus.SC_NOT_ACCEPTABLE);
     }
 
-    private static Result<String> getInternalServerErrorResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_INTERNAL_SERVER_ERROR);
-    }
 
     private static Result<String> getGatewayTimeoutResult(ResultStatus resultCode) {
         return getResult(resultCode, HttpStatus.SC_GATEWAY_TIMEOUT);
     }
 
-    private static Result<String> getServiceUnavailableResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_SERVICE_UNAVAILABLE);
-    }
-
-
-    protected static Result<String> getResult(ResultStatus resultStatus, int httpStatus) {
-        return Result.failure(resultStatus.getMessage(), resultStatus.getCode(), httpStatus, null);
-    }
 
     public static Result<String> resolveException(Exception ex, String path) {
 
         log.trace("[Herodotus] |- Global Exception Handler, Path : [{}], Exception : [{}]", path, ex);
 
-        Result<String> result = new Result<String>().failed();
+        Result<String> result = Result.failure();
 
         String exceptionName = ex.getClass().getSimpleName();
         if (StringUtils.isNotEmpty(exceptionName)) {

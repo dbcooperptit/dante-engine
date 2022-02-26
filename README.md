@@ -12,7 +12,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.0.3-brightgreen" alt="Nacos 2.0.3"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta2-red" alt="Version 2.7.0.Beta2"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta3-red" alt="Version 2.7.0.Beta3"></a>
 </p>
 
 <p align="center">
@@ -22,11 +22,11 @@
 
 ## 背景
 
-> 2021年11月8日 Spring 官方已经强烈建议使用 `Spring Authorization Server` 替换已经过时的 `Spring Security OAuth2.0`。距离 `Spring Security OAuth2.0` 结束生命周期还有小半年的时间，所以准备用 `Spring Authorization Server` 对已有的 `Eurynome Cloud` 微服务架构进行升级。
+> 2021年11月8日 Spring 官方已经强烈建议使用 `Spring HerodotusAuthorization Server` 替换已经过时的 `Spring Security OAuth2.0`。距离 `Spring Security OAuth2.0` 结束生命周期还有小半年的时间，所以准备用 `Spring HerodotusAuthorization Server` 对已有的 `Eurynome Cloud` 微服务架构进行升级。
 
-`Eurynome Cloud` 微服务架构，一直遵循“高内聚、低耦合”的原则，在开发和维护的过程中不断优化已有代码，尽一切可能降低代码的耦合性。但是，毕竟所有的代码都堆积在同一个工程中，代码间的过度依赖和互相耦合还是较为严重。这为 `Spring Authorization Server` 替换 `Spring Security OAuth2.0` 带来了较大的阻力和难度。如果完全推翻现有代码，基于 `Spring Authorization Server` 重新构建系统，投入成本太大而且是一种极大的浪费；在现有工程中直接改造，由于代码间的耦合，改造过程也是困难重重。
+`Eurynome Cloud` 微服务架构，一直遵循“高内聚、低耦合”的原则，在开发和维护的过程中不断优化已有代码，尽一切可能降低代码的耦合性。但是，毕竟所有的代码都堆积在同一个工程中，代码间的过度依赖和互相耦合还是较为严重。这为 `Spring HerodotusAuthorization Server` 替换 `Spring Security OAuth2.0` 带来了较大的阻力和难度。如果完全推翻现有代码，基于 `Spring HerodotusAuthorization Server` 重新构建系统，投入成本太大而且是一种极大的浪费；在现有工程中直接改造，由于代码间的耦合，改造过程也是困难重重。
 
-最终，采取了一个折中的方案：对现有的 `Eurynome Cloud` 微服务架构，来一次深度的“庖丁解牛”，将一个完整的微服务架构，根据涉及组件的职责以及用途，拆解为多个细化的、各自独立组件模块，在最大程度上降低代码间的耦合。那么在使用 `Spring Authorization Server` 进行改造时影响和涉及的代码量将会极大地降低。因此，就有了本项目。
+最终，采取了一个折中的方案：对现有的 `Eurynome Cloud` 微服务架构，来一次深度的“庖丁解牛”，将一个完整的微服务架构，根据涉及组件的职责以及用途，拆解为多个细化的、各自独立组件模块，在最大程度上降低代码间的耦合。那么在使用 `Spring HerodotusAuthorization Server` 进行改造时影响和涉及的代码量将会极大地降低。因此，就有了本项目。
 
 ## 特点
 
@@ -44,7 +44,7 @@
 
 1. 虽然模块看似很多，但是每个模块职责单一、代码清晰，更有利于聚焦和定位问题。
 2. 通过对微服务架构的“庖丁解牛”，初学者不再需要在代码的海洋里“遨游”，通过针对性地了解各个模块，以点带面快速掌握微服务架构整体结构。
-3. 模块间的依赖极大的降低，想要替换为 `Spring Authorization Server`，影响到的代码和范围将会很小。该工程也是使用 `Spring Authorization Server` 的前序工作
+3. 模块间的依赖极大的降低，想要替换为 `Spring HerodotusAuthorization Server`，影响到的代码和范围将会很小。该工程也是使用 `Spring HerodotusAuthorization Server` 的前序工作
 4. 每个模块均是最小化依赖第三包，规避依赖包过度依赖，特别是 starter 过多依赖，导致不可预知、难以调试、不好修改等问题。
 5. 降低微服务系统代码量，独立组件可提前编译并上传至Maven仓库，降低工程代码编译耗时，改进 CICD 效率。
 
