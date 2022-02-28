@@ -34,4 +34,8 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  * @date : 2022/2/25 9:44
  */
 public interface OAuth2Constants extends BaseConstants {
+
+    String REGION_OAUTH2_AUTHORIZATION = AREA_PREFIX + "oauth2:authorization";
+    String REGION_OAUTH2_AUTHORIZATION_CONSENT = AREA_PREFIX + "oauth2:authorization:consent";
+    String REGION_OAUTH2_REGISTERED_CLIENT = AREA_PREFIX + "oauth2:registered:client";
 }

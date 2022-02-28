@@ -23,54 +23,77 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.manager.service;
+package cn.herodotus.engine.oauth2.manager.storage;
 
+import cn.herodotus.engine.oauth2.core.jackson.HerodotusUserModule;
 import cn.herodotus.engine.oauth2.manager.entity.HerodotusAuthorization;
-import cn.herodotus.engine.oauth2.manager.utils.OAuth2ServiceUtils;
+import cn.herodotus.engine.oauth2.manager.service.HerodotusAuthorizationService;
+import cn.herodotus.engine.oauth2.manager.utils.OAuth2StorageUtils;
 import cn.hutool.core.date.DateUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 基于 JPA 的 OAuth2 认证服务 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/2/25 22:16
  */
-public class JpaAuthorizationService implements OAuth2AuthorizationService {
+public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService {
+
+    private static final Logger log = LoggerFactory.getLogger(JpaOAuth2AuthorizationService.class);
 
     private final HerodotusAuthorizationService herodotusAuthorizationService;
-    private final JpaRegisteredClientService jpaRegisteredClientService;
+    private final RegisteredClientRepository registeredClientRepository;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public JpaAuthorizationService(HerodotusAuthorizationService herodotusAuthorizationService, JpaRegisteredClientService jpaRegisteredClientService) {
+    public JpaOAuth2AuthorizationService(HerodotusAuthorizationService herodotusAuthorizationService, RegisteredClientRepository registeredClientRepository) {
         this.herodotusAuthorizationService = herodotusAuthorizationService;
-        this.jpaRegisteredClientService = jpaRegisteredClientService;
+        this.registeredClientRepository = registeredClientRepository;
 
+        ClassLoader classLoader = JpaOAuth2AuthorizationService.class.getClassLoader();
+        List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
+        this.objectMapper.registerModules(securityModules);
+        this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        this.objectMapper.registerModules(new HerodotusUserModule());
     }
 
     @Override
     public void save(OAuth2Authorization authorization) {
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service save entity.");
         this.herodotusAuthorizationService.save(toEntity(authorization));
     }
 
     @Override
     public void remove(OAuth2Authorization authorization) {
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service remove entity.");
         this.herodotusAuthorizationService.deleteById(authorization.getId());
     }
 
     @Override
     public OAuth2Authorization findById(String id) {
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service findById.");
         HerodotusAuthorization herodotusAuthorization = this.herodotusAuthorizationService.findById(id);
         if (ObjectUtils.isNotEmpty(herodotusAuthorization)) {
             return toObject(herodotusAuthorization);
@@ -81,6 +104,8 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
 
     @Override
     public OAuth2Authorization findByToken(String token, OAuth2TokenType tokenType) {
+
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service findByToken.");
 
         Optional<HerodotusAuthorization> result;
         if (tokenType == null) {
@@ -101,7 +126,7 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
     }
 
     private OAuth2Authorization toObject(HerodotusAuthorization entity) {
-        RegisteredClient registeredClient = this.jpaRegisteredClientService.findById(entity.getRegisteredClientId());
+        RegisteredClient registeredClient = this.registeredClientRepository.findById(entity.getRegisteredClientId());
         if (registeredClient == null) {
             throw new DataRetrievalFailureException(
                     "The RegisteredClient with id '" + entity.getRegisteredClientId() + "' was not found in the RegisteredClientRepository.");
@@ -110,8 +135,8 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
         OAuth2Authorization.Builder builder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .id(entity.getId())
                 .principalName(entity.getPrincipalName())
-                .authorizationGrantType(OAuth2ServiceUtils.resolveAuthorizationGrantType(entity.getAuthorizationGrantType()))
-                .attributes(attributes -> attributes.putAll(OAuth2ServiceUtils.parseMap(entity.getAttributes())));
+                .authorizationGrantType(OAuth2StorageUtils.resolveAuthorizationGrantType(entity.getAuthorizationGrantType()))
+                .attributes(attributes -> attributes.putAll(parseMap(entity.getAttributes())));
         if (entity.getState() != null) {
             builder.attribute(OAuth2ParameterNames.STATE, entity.getState());
         }
@@ -121,7 +146,7 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
                     entity.getAuthorizationCode(),
                     DateUtil.toInstant(entity.getAuthorizationCodeIssuedAt()),
                     DateUtil.toInstant(entity.getAuthorizationCodeExpiresAt()));
-            builder.token(authorizationCode, metadata -> metadata.putAll(OAuth2ServiceUtils.parseMap(entity.getAuthorizationCodeMetadata())));
+            builder.token(authorizationCode, metadata -> metadata.putAll(parseMap(entity.getAuthorizationCodeMetadata())));
         }
 
         if (entity.getAccessToken() != null) {
@@ -130,7 +155,7 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
                     entity.getAccessToken(),
                     DateUtil.toInstant(entity.getAccessTokenIssuedAt()),
                     DateUtil.toInstant(entity.getAccessTokenExpiresAt()));
-            builder.token(accessToken, metadata -> metadata.putAll(OAuth2ServiceUtils.parseMap(entity.getAccessTokenMetadata())));
+            builder.token(accessToken, metadata -> metadata.putAll(parseMap(entity.getAccessTokenMetadata())));
         }
 
         if (entity.getRefreshToken() != null) {
@@ -138,7 +163,7 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
                     entity.getRefreshToken(),
                     DateUtil.toInstant(entity.getRefreshTokenIssuedAt()),
                     DateUtil.toInstant(entity.getRefreshTokenExpiresAt()));
-            builder.token(refreshToken, metadata -> metadata.putAll(OAuth2ServiceUtils.parseMap(entity.getRefreshTokenMetadata())));
+            builder.token(refreshToken, metadata -> metadata.putAll(parseMap(entity.getRefreshTokenMetadata())));
         }
 
         if (entity.getOidcIdToken() != null) {
@@ -146,8 +171,8 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
                     entity.getOidcIdToken(),
                     DateUtil.toInstant(entity.getOidcIdTokenIssuedAt()),
                     DateUtil.toInstant(entity.getOidcIdTokenExpiresAt()),
-                    OAuth2ServiceUtils.parseMap(entity.getOidcIdTokenClaims()));
-            builder.token(idToken, metadata -> metadata.putAll(OAuth2ServiceUtils.parseMap(entity.getOidcIdTokenMetadata())));
+                    parseMap(entity.getOidcIdTokenClaims()));
+            builder.token(idToken, metadata -> metadata.putAll(parseMap(entity.getOidcIdTokenMetadata())));
         }
 
         return builder.build();
@@ -159,7 +184,7 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
         entity.setRegisteredClientId(authorization.getRegisteredClientId());
         entity.setPrincipalName(authorization.getPrincipalName());
         entity.setAuthorizationGrantType(authorization.getAuthorizationGrantType().getValue());
-        entity.setAttributes(OAuth2ServiceUtils.writeMap(authorization.getAttributes()));
+        entity.setAttributes(writeMap(authorization.getAttributes()));
         entity.setState(authorization.getAttribute(OAuth2ParameterNames.STATE));
 
         OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode =
@@ -205,7 +230,7 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
                 entity::setOidcIdTokenMetadata
         );
         if (oidcIdToken != null) {
-            entity.setOidcIdTokenClaims(OAuth2ServiceUtils.writeMap(oidcIdToken.getClaims()));
+            entity.setOidcIdTokenClaims(writeMap(oidcIdToken.getClaims()));
         }
 
         return entity;
@@ -222,7 +247,23 @@ public class JpaAuthorizationService implements OAuth2AuthorizationService {
             tokenValueConsumer.accept(oAuth2Token.getTokenValue());
             issuedAtConsumer.accept(DateUtil.toLocalDateTime(oAuth2Token.getIssuedAt()));
             expiresAtConsumer.accept(DateUtil.toLocalDateTime(oAuth2Token.getExpiresAt()));
-            metadataConsumer.accept(OAuth2ServiceUtils.writeMap(token.getMetadata()));
+            metadataConsumer.accept(writeMap(token.getMetadata()));
+        }
+    }
+
+    private Map<String, Object> parseMap(String data) {
+        try {
+            return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {});
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex.getMessage(), ex);
+        }
+    }
+
+    private String writeMap(Map<String, Object> data) {
+        try {
+            return this.objectMapper.writeValueAsString(data);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex.getMessage(), ex);
         }
     }
 }

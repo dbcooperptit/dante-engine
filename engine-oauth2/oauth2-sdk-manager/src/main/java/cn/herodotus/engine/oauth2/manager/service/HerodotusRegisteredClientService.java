@@ -29,6 +29,8 @@ import cn.herodotus.engine.data.core.repository.BaseRepository;
 import cn.herodotus.engine.data.core.service.BaseLayeredService;
 import cn.herodotus.engine.oauth2.manager.entity.HerodotusRegisteredClient;
 import cn.herodotus.engine.oauth2.manager.repository.HerodotusRegisteredClientRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +47,8 @@ import java.util.Optional;
 @Service
 public class HerodotusRegisteredClientService extends BaseLayeredService<HerodotusRegisteredClient, String> {
 
+    private static final Logger log = LoggerFactory.getLogger(HerodotusRegisteredClientService.class);
+
     private final HerodotusRegisteredClientRepository registeredClientRepository;
 
     @Autowired
@@ -58,6 +62,8 @@ public class HerodotusRegisteredClientService extends BaseLayeredService<Herodot
     }
 
     public Optional<HerodotusRegisteredClient> findByClientId(String clientId) {
-        return this.registeredClientRepository.findByClientId(clientId);
+        Optional<HerodotusRegisteredClient> result = this.registeredClientRepository.findByClientId(clientId);
+        log.debug("[Herodotus] |- HerodotusRegisteredClient Service findByClientId.");
+        return result;
     }
 }

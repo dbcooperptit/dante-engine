@@ -23,27 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.manager.service;
+package cn.herodotus.engine.oauth2.manager.storage;
 
-import cn.herodotus.engine.oauth2.core.definition.HerodotusGrantType;
-import cn.herodotus.engine.oauth2.manager.entity.HerodotusRegisteredClient;
 import cn.herodotus.engine.oauth2.core.jackson.HerodotusUserModule;
+import cn.herodotus.engine.oauth2.manager.entity.HerodotusRegisteredClient;
+import cn.herodotus.engine.oauth2.manager.service.HerodotusRegisteredClientService;
+import cn.herodotus.engine.oauth2.manager.utils.OAuth2StorageUtils;
 import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -52,26 +51,24 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * <p>Description: JpaRegisteredClientService </p>
- *
- *
+ * <p>Description: 基于Jpa 的 RegisteredClient服务 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/2/25 21:27
  */
-@Service
-public class JpaRegisteredClientService implements RegisteredClientRepository {
+public class JpaRegisteredClientRepository implements RegisteredClientRepository {
 
-    private final HerodotusRegisteredClientService registeredClientService;
+    private static final Logger log = LoggerFactory.getLogger(JpaRegisteredClientRepository.class);
+
+    private final HerodotusRegisteredClientService herodotusRegisteredClientService;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Autowired
-    public JpaRegisteredClientService(HerodotusRegisteredClientService registeredClientService, PasswordEncoder passwordEncoder) {
-        this.registeredClientService = registeredClientService;
+    public JpaRegisteredClientRepository(HerodotusRegisteredClientService herodotusRegisteredClientService, PasswordEncoder passwordEncoder) {
+        this.herodotusRegisteredClientService = herodotusRegisteredClientService;
         this.passwordEncoder = passwordEncoder;
 
-        ClassLoader classLoader = JpaRegisteredClientService.class.getClassLoader();
+        ClassLoader classLoader = JpaRegisteredClientRepository.class.getClassLoader();
         List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
         this.objectMapper.registerModules(securityModules);
         this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
@@ -80,12 +77,14 @@ public class JpaRegisteredClientService implements RegisteredClientRepository {
 
     @Override
     public void save(RegisteredClient registeredClient) {
-        this.registeredClientService.save(toEntity(registeredClient));
+        log.debug("[Herodotus] |- Jpa Registered Client Repository save entity.");
+        this.herodotusRegisteredClientService.save(toEntity(registeredClient));
     }
 
     @Override
     public RegisteredClient findById(String id) {
-        HerodotusRegisteredClient herodotusRegisteredClient = this.registeredClientService.findById(id);
+        log.debug("[Herodotus] |- Jpa Registered Client Repository findById.");
+        HerodotusRegisteredClient herodotusRegisteredClient = this.herodotusRegisteredClientService.findById(id);
         if (ObjectUtils.isNotEmpty(herodotusRegisteredClient)) {
             return toObject(herodotusRegisteredClient);
         }
@@ -94,7 +93,8 @@ public class JpaRegisteredClientService implements RegisteredClientRepository {
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
-        return this.registeredClientService.findByClientId(clientId).map(this::toObject).orElse(null);
+        log.debug("[Herodotus] |- Jpa Registered Client Repository findByClientId.");
+        return this.herodotusRegisteredClientService.findByClientId(clientId).map(this::toObject).orElse(null);
     }
 
     private RegisteredClient toObject(HerodotusRegisteredClient herodotusRegisteredClient) {
@@ -115,10 +115,10 @@ public class JpaRegisteredClientService implements RegisteredClientRepository {
                 .clientName(herodotusRegisteredClient.getClientName())
                 .clientAuthenticationMethods(authenticationMethods ->
                         clientAuthenticationMethods.forEach(authenticationMethod ->
-                                authenticationMethods.add(resolveClientAuthenticationMethod(authenticationMethod))))
+                                authenticationMethods.add(OAuth2StorageUtils.resolveClientAuthenticationMethod(authenticationMethod))))
                 .authorizationGrantTypes((grantTypes) ->
                         authorizationGrantTypes.forEach(grantType ->
-                                grantTypes.add(resolveAuthorizationGrantType(grantType))))
+                                grantTypes.add(OAuth2StorageUtils.resolveAuthorizationGrantType(grantType))))
                 .redirectUris((uris) -> uris.addAll(redirectUris))
                 .scopes((scopes) -> scopes.addAll(clientScopes));
 
@@ -157,6 +157,13 @@ public class JpaRegisteredClientService implements RegisteredClientRepository {
         return entity;
     }
 
+    private String encode(String value) {
+        if (value != null) {
+            return this.passwordEncoder.encode(value);
+        }
+        return null;
+    }
+
     private Map<String, Object> parseMap(String data) {
         try {
             return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {});
@@ -171,36 +178,5 @@ public class JpaRegisteredClientService implements RegisteredClientRepository {
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }
-    }
-
-    private String encode(String value) {
-        if (value != null) {
-            return this.passwordEncoder.encode(value);
-        }
-        return null;
-    }
-
-    private static AuthorizationGrantType resolveAuthorizationGrantType(String authorizationGrantType) {
-        if (AuthorizationGrantType.AUTHORIZATION_CODE.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.AUTHORIZATION_CODE;
-        } else if (AuthorizationGrantType.CLIENT_CREDENTIALS.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.CLIENT_CREDENTIALS;
-        } else if (AuthorizationGrantType.REFRESH_TOKEN.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.REFRESH_TOKEN;
-        } else if (AuthorizationGrantType.PASSWORD.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.PASSWORD;
-        }
-        return HerodotusGrantType.SOCIAL;
-    }
-
-    private static ClientAuthenticationMethod resolveClientAuthenticationMethod(String clientAuthenticationMethod) {
-        if (ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.CLIENT_SECRET_BASIC;
-        } else if (ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.CLIENT_SECRET_POST;
-        } else if (ClientAuthenticationMethod.NONE.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.NONE;
-        }
-        return new ClientAuthenticationMethod(clientAuthenticationMethod);
     }
 }

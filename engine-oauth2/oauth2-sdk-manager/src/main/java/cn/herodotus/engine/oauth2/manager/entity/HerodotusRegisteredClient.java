@@ -11,6 +11,8 @@
 package cn.herodotus.engine.oauth2.manager.entity;
 
 import cn.herodotus.engine.assistant.core.domain.entity.AbstractEntity;
+import cn.herodotus.engine.oauth2.core.constants.OAuth2Constants;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -18,13 +20,15 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: OAuth2 客户端实体 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/1/22 17:18
  */
 @Entity
 @Table(name = "oauth2_registered_client", indexes = {@Index(name = "oauth2_registered_client_id_idx", columnList = "id")})
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = OAuth2Constants.REGION_OAUTH2_REGISTERED_CLIENT)
 public class HerodotusRegisteredClient extends AbstractEntity {
 
     @Id

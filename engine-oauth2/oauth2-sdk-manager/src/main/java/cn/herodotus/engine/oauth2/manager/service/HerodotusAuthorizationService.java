@@ -29,13 +29,12 @@ import cn.herodotus.engine.data.core.repository.BaseRepository;
 import cn.herodotus.engine.data.core.service.BaseLayeredService;
 import cn.herodotus.engine.oauth2.manager.entity.HerodotusAuthorization;
 import cn.herodotus.engine.oauth2.manager.repository.HerodotusAuthorizationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.QueryHint;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +51,8 @@ import java.util.Optional;
 @Service
 public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusAuthorization, String> {
 
+    private static final Logger log = LoggerFactory.getLogger(HerodotusAuthorizationService.class);
+
     private final HerodotusAuthorizationRepository herodotusAuthorizationRepository;
 
     @Autowired
@@ -65,19 +66,27 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
     }
 
     public Optional<HerodotusAuthorization> findByState(String state) {
-        return this.herodotusAuthorizationRepository.findByState(state);
+        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByState(state);
+        log.debug("[Herodotus] |- HerodotusAuthorization Service findByState.");
+        return result;
     }
 
     public Optional<HerodotusAuthorization> findByAuthorizationCode(String authorizationCode) {
-        return this.herodotusAuthorizationRepository.findByAuthorizationCode(authorizationCode);
+        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByAuthorizationCode(authorizationCode);
+        log.debug("[Herodotus] |- HerodotusAuthorization Service findByAuthorizationCode.");
+        return result;
     }
 
     public Optional<HerodotusAuthorization> findByAccessToken(String accessToken) {
-        return this.herodotusAuthorizationRepository.findByAccessToken(accessToken);
+        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByAccessToken(accessToken);
+        log.debug("[Herodotus] |- HerodotusAuthorization Service findByAccessToken.");
+        return result;
     }
 
     public Optional<HerodotusAuthorization> findByRefreshToken(String refreshToken) {
-        return this.herodotusAuthorizationRepository.findByRefreshToken(refreshToken);
+        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByRefreshToken(refreshToken);
+        log.debug("[Herodotus] |- HerodotusAuthorization Service findByRefreshToken.");
+        return result;
     }
 
     public Optional<HerodotusAuthorization> findByDetection(String token) {
@@ -94,6 +103,8 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
             return criteriaQuery.getRestriction();
         };
 
-        return this.herodotusAuthorizationRepository.findOne(specification);
+        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findOne(specification);
+        log.debug("[Herodotus] |- HerodotusAuthorization Service findByDetection.");
+        return result;
     }
 }

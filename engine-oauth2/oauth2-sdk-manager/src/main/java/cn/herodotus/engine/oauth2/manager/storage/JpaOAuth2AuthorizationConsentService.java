@@ -23,60 +23,65 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.manager.service;
+package cn.herodotus.engine.oauth2.manager.storage;
 
 import cn.herodotus.engine.oauth2.manager.entity.HerodotusAuthorizationConsent;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.herodotus.engine.oauth2.manager.service.HerodotusAuthorizationConsentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.stereotype.Service;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 基于 JPA 的 OAuth2 认证服务 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/2/25 22:15
  */
-@Service
-public class JpaAuthorizationConsentService implements OAuth2AuthorizationConsentService {
+public class JpaOAuth2AuthorizationConsentService implements OAuth2AuthorizationConsentService {
+
+    private static final Logger log = LoggerFactory.getLogger(JpaOAuth2AuthorizationConsentService.class);
 
     private final HerodotusAuthorizationConsentService herodotusAuthorizationConsentService;
-    private final JpaRegisteredClientService jpaRegisteredClientService;
+    private final RegisteredClientRepository registeredClientRepository;
 
-    @Autowired
-    public JpaAuthorizationConsentService(HerodotusAuthorizationConsentService herodotusAuthorizationConsentService, JpaRegisteredClientService jpaRegisteredClientService) {
+    public JpaOAuth2AuthorizationConsentService(HerodotusAuthorizationConsentService herodotusAuthorizationConsentService, RegisteredClientRepository registeredClientRepository) {
         this.herodotusAuthorizationConsentService = herodotusAuthorizationConsentService;
-        this.jpaRegisteredClientService = jpaRegisteredClientService;
+        this.registeredClientRepository = registeredClientRepository;
     }
 
     @Override
     public void save(OAuth2AuthorizationConsent authorizationConsent) {
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Consent Service save entity.");
         this.herodotusAuthorizationConsentService.save(toEntity(authorizationConsent));
     }
 
     @Override
     public void remove(OAuth2AuthorizationConsent authorizationConsent) {
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Consent Service remove entity.");
         this.herodotusAuthorizationConsentService.deleteByRegisteredClientIdAndPrincipalName(
                 authorizationConsent.getRegisteredClientId(), authorizationConsent.getPrincipalName());
     }
 
     @Override
     public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Consent Service findById.");
         return this.herodotusAuthorizationConsentService.findByRegisteredClientIdAndPrincipalName(
                 registeredClientId, principalName).map(this::toObject).orElse(null);
     }
 
     private OAuth2AuthorizationConsent toObject(HerodotusAuthorizationConsent authorizationConsent) {
         String registeredClientId = authorizationConsent.getRegisteredClientId();
-        RegisteredClient registeredClient = this.jpaRegisteredClientService.findById(registeredClientId);
+        RegisteredClient registeredClient = this.registeredClientRepository.findById(registeredClientId);
         if (registeredClient == null) {
             throw new DataRetrievalFailureException(
                     "The RegisteredClient with id '" + registeredClientId + "' was not found in the RegisteredClientRepository.");

@@ -11,7 +11,9 @@
 package cn.herodotus.engine.oauth2.manager.entity;
 
 import cn.herodotus.engine.assistant.core.domain.entity.AbstractEntity;
+import cn.herodotus.engine.oauth2.core.constants.OAuth2Constants;
 import com.google.common.base.MoreObjects;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -25,6 +27,8 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "oauth2_authorization", indexes = {@Index(name = "oauth2_authorization_id_idx", columnList = "id")})
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = OAuth2Constants.REGION_OAUTH2_AUTHORIZATION)
 public class HerodotusAuthorization extends AbstractEntity {
 
     @Id
@@ -48,7 +52,7 @@ public class HerodotusAuthorization extends AbstractEntity {
     @Column(name = "state", length = 500)
     private String state;
 
-    @Column(name = "authorization_code", columnDefinition="TEXT")
+    @Column(name = "authorization_code_value", columnDefinition="TEXT")
     private String authorizationCode;
 
     @Column(name = "authorization_code_issued_at")
@@ -60,7 +64,7 @@ public class HerodotusAuthorization extends AbstractEntity {
     @Column(name = "authorization_code_metadata", columnDefinition="TEXT")
     private String authorizationCodeMetadata;
 
-    @Column(name = "access_token", columnDefinition="TEXT")
+    @Column(name = "access_token_value", columnDefinition="TEXT")
     private String accessToken;
 
     @Column(name = "access_token_issued_at")
@@ -78,7 +82,7 @@ public class HerodotusAuthorization extends AbstractEntity {
     @Column(name = "access_token_scopes", length = 1000)
     private String accessTokenScopes;
 
-    @Column(name = "oidc_id_token", columnDefinition="TEXT")
+    @Column(name = "oidc_id_token_value", columnDefinition="TEXT")
     private String oidcIdToken;
 
     @Column(name = "oidc_id_token_issued_at")
@@ -265,14 +269,6 @@ public class HerodotusAuthorization extends AbstractEntity {
         this.oidcIdTokenMetadata = oidcIdTokenMetadata;
     }
 
-    public String getOidcIdTokenClaims() {
-        return oidcIdTokenClaims;
-    }
-
-    public void setOidcIdTokenClaims(String oidcIdTokenClaims) {
-        this.oidcIdTokenClaims = oidcIdTokenClaims;
-    }
-
     public String getRefreshToken() {
         return refreshToken;
     }
@@ -305,33 +301,22 @@ public class HerodotusAuthorization extends AbstractEntity {
         this.refreshTokenMetadata = refreshTokenMetadata;
     }
 
+    public String getOidcIdTokenClaims() {
+        return oidcIdTokenClaims;
+    }
+
+    public void setOidcIdTokenClaims(String oidcIdTokenClaims) {
+        this.oidcIdTokenClaims = oidcIdTokenClaims;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
                 .add("registeredClientId", registeredClientId)
                 .add("principalName", principalName)
-                .add("authorizationGrantType", authorizationGrantType)
                 .add("attributes", attributes)
                 .add("state", state)
-                .add("authorizationCodeValue", authorizationCode)
-                .add("authorizationCodeIssuedAt", authorizationCodeIssuedAt)
-                .add("authorizationCodeExpiresAt", authorizationCodeExpiresAt)
-                .add("authorizationCodeMetadata", authorizationCodeMetadata)
-                .add("accessTokenValue", accessToken)
-                .add("accessTokenIssuedAt", accessTokenIssuedAt)
-                .add("accessTokenExpiresAt", accessTokenExpiresAt)
-                .add("accessTokenMetadata", accessTokenMetadata)
-                .add("accessTokenType", accessTokenType)
-                .add("accessTokenScopes", accessTokenScopes)
-                .add("oidcIdTokenValue", oidcIdToken)
-                .add("oidcIdTokenIssuedAt", oidcIdTokenIssuedAt)
-                .add("oidcIdTokenExpiresAt", oidcIdTokenExpiresAt)
-                .add("oidcIdTokenMetadata", oidcIdTokenMetadata)
-                .add("refreshTokenValue", refreshToken)
-                .add("refreshTokenIssuedAt", refreshTokenIssuedAt)
-                .add("refreshTokenExpiresAt", refreshTokenExpiresAt)
-                .add("refreshTokenMetadata", refreshTokenMetadata)
                 .toString();
     }
 }

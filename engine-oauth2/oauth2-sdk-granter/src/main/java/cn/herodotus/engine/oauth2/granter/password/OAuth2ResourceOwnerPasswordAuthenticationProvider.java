@@ -207,9 +207,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
         Map<String, Object> tokenAdditionalParameters = new HashMap<>();
         claims.getClaims().forEach((key, value) -> {
             if (!key.equals(OAuth2ParameterNames.SCOPE) &&
-                    !key.equals(JwtClaimNames.IAT) &&
-                    !key.equals(JwtClaimNames.EXP) &&
-                    !key.equals(JwtClaimNames.NBF)) {
+                    !key.equals(JwtClaimNames.JTI)) {
                 tokenAdditionalParameters.put(key, value);
             }
         });

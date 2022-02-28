@@ -11,9 +11,11 @@
 package cn.herodotus.engine.oauth2.manager.entity;
 
 import cn.herodotus.engine.assistant.core.domain.entity.AbstractEntity;
+import cn.herodotus.engine.oauth2.core.constants.OAuth2Constants;
 import cn.herodotus.engine.oauth2.manager.generator.HerodotusAuthorizationConsentId;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
@@ -28,6 +30,8 @@ import javax.persistence.*;
         @Index(name = "oauth2_authorization_consent_rcid_idx", columnList = "registered_client_id"),
         @Index(name = "oauth2_authorization_consent_pn_idx", columnList = "principal_name")})
 @IdClass(HerodotusAuthorizationConsentId.class)
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = OAuth2Constants.REGION_OAUTH2_AUTHORIZATION_CONSENT)
 public class HerodotusAuthorizationConsent extends AbstractEntity {
 
     @Id

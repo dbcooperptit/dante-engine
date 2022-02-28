@@ -30,6 +30,8 @@ import cn.herodotus.engine.data.core.service.BaseLayeredService;
 import cn.herodotus.engine.oauth2.manager.entity.HerodotusAuthorizationConsent;
 import cn.herodotus.engine.oauth2.manager.generator.HerodotusAuthorizationConsentId;
 import cn.herodotus.engine.oauth2.manager.repository.HerodotusAuthorizationConsentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,8 @@ import java.util.Optional;
 @Service
 public class HerodotusAuthorizationConsentService extends BaseLayeredService<HerodotusAuthorizationConsent, HerodotusAuthorizationConsentId> {
 
+    private static final Logger log = LoggerFactory.getLogger(HerodotusAuthorizationConsentService.class);
+
     private final HerodotusAuthorizationConsentRepository authorizationConsentRepository;
 
     @Autowired
@@ -58,11 +62,14 @@ public class HerodotusAuthorizationConsentService extends BaseLayeredService<Her
         return this.authorizationConsentRepository;
     }
 
-    Optional<HerodotusAuthorizationConsent> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName) {
-        return this.authorizationConsentRepository.findByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
+    public Optional<HerodotusAuthorizationConsent> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName) {
+        Optional<HerodotusAuthorizationConsent> result = this.authorizationConsentRepository.findByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
+        log.debug("[Herodotus] |- HerodotusAuthorizationConsent Service findByRegisteredClientIdAndPrincipalName.");
+        return result;
     }
 
-    void deleteByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName){
+    public void deleteByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName){
         this.authorizationConsentRepository.deleteByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
+        log.debug("[Herodotus] |- HerodotusAuthorizationConsent Service deleteByRegisteredClientIdAndPrincipalName.");
     }
 }
