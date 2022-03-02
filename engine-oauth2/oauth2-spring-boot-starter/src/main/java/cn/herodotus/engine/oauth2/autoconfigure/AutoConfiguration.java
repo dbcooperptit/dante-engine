@@ -23,22 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.constants;
+package cn.herodotus.engine.oauth2.autoconfigure;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: OAuth2 模块通用常量 </p>
+ * <p>Description: OAuth2 模块自动配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/25 9:44
+ * @date : 2022/3/2 20:42
  */
-public interface OAuth2Constants extends BaseConstants {
+@Configuration(proxyBeanMethods = false)
+public class AutoConfiguration {
 
-    String REGION_OAUTH2_AUTHORIZATION = AREA_PREFIX + "oauth2:authorization";
-    String REGION_OAUTH2_AUTHORIZATION_CONSENT = AREA_PREFIX + "oauth2:authorization:consent";
-    String REGION_OAUTH2_REGISTERED_CLIENT = AREA_PREFIX + "oauth2:registered:client";
-    String REGION_OAUTH2_APPLICATION = AREA_PREFIX + "oauth2:application";
-    String REGION_OAUTH2_SCOPE = AREA_PREFIX + "oauth2:scope";
-    String REGION_OAUTH2_APPLICATION_SCOPE = AREA_PREFIX + "oauth2:application:scope";
+    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.info("[Herodotus] |- Starter [Engine OAuth2 Starter] Auto Configure.");
+    }
 }

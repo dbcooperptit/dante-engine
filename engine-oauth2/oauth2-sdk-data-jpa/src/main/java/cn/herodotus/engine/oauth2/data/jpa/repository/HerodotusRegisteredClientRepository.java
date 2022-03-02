@@ -23,22 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.constants;
+package cn.herodotus.engine.oauth2.data.jpa.repository;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.data.core.repository.BaseRepository;
+import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusRegisteredClient;
+
+import java.util.Optional;
 
 /**
- * <p>Description: OAuth2 模块通用常量 </p>
+ * <p>Description: HerodotusRegisteredClientRepository </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/25 9:44
+ * @date : 2022/2/25 21:05
  */
-public interface OAuth2Constants extends BaseConstants {
+public interface HerodotusRegisteredClientRepository extends BaseRepository<HerodotusRegisteredClient, String> {
 
-    String REGION_OAUTH2_AUTHORIZATION = AREA_PREFIX + "oauth2:authorization";
-    String REGION_OAUTH2_AUTHORIZATION_CONSENT = AREA_PREFIX + "oauth2:authorization:consent";
-    String REGION_OAUTH2_REGISTERED_CLIENT = AREA_PREFIX + "oauth2:registered:client";
-    String REGION_OAUTH2_APPLICATION = AREA_PREFIX + "oauth2:application";
-    String REGION_OAUTH2_SCOPE = AREA_PREFIX + "oauth2:scope";
-    String REGION_OAUTH2_APPLICATION_SCOPE = AREA_PREFIX + "oauth2:application:scope";
+    /**
+     * 根据 ClientId 查询 RegisteredClient
+     *
+     * @param clientId OAuth2 客户端ID
+     * @return OAuth2 客户端配置
+     */
+    Optional<HerodotusRegisteredClient> findByClientId(String clientId);
 }

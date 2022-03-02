@@ -23,22 +23,36 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.constants;
+package cn.herodotus.engine.oauth2.data.jpa.repository;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.data.core.repository.BaseRepository;
+import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorizationConsent;
+import cn.herodotus.engine.oauth2.data.jpa.generator.HerodotusAuthorizationConsentId;
+
+import java.util.Optional;
 
 /**
- * <p>Description: OAuth2 模块通用常量 </p>
+ * <p>Description: HerodotusAuthorizationConsentRepository </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/25 9:44
+ * @date : 2022/2/25 20:54
  */
-public interface OAuth2Constants extends BaseConstants {
+public interface HerodotusAuthorizationConsentRepository extends BaseRepository<HerodotusAuthorizationConsent, HerodotusAuthorizationConsentId> {
 
-    String REGION_OAUTH2_AUTHORIZATION = AREA_PREFIX + "oauth2:authorization";
-    String REGION_OAUTH2_AUTHORIZATION_CONSENT = AREA_PREFIX + "oauth2:authorization:consent";
-    String REGION_OAUTH2_REGISTERED_CLIENT = AREA_PREFIX + "oauth2:registered:client";
-    String REGION_OAUTH2_APPLICATION = AREA_PREFIX + "oauth2:application";
-    String REGION_OAUTH2_SCOPE = AREA_PREFIX + "oauth2:scope";
-    String REGION_OAUTH2_APPLICATION_SCOPE = AREA_PREFIX + "oauth2:application:scope";
+    /**
+     * 根据 client id 和 principalName 查询 OAuth2 确认信息
+     *
+     * @param registeredClientId 注册OAuth2客户端ID
+     * @param principalName      用户名
+     * @return OAuth2 认证确认信息 {@link HerodotusAuthorizationConsent}
+     */
+    Optional<HerodotusAuthorizationConsent> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
+
+    /**
+     * 根据 client id 和 principalName 删除 OAuth2 确认信息
+     *
+     * @param registeredClientId 注册OAuth2客户端ID
+     * @param principalName      用户名
+     */
+    void deleteByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
 }

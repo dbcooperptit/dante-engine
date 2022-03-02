@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.herodotus.engine.oauth2.autoconfigure.AutoConfiguration,\
+  cn.herodotus.engine.oauth2.data.jpa.configuration.OAuth2DataJpaModuleConfiguration,\
+  cn.herodotus.engine.oauth2.manager.configuration.OAuth2ManagerModuleConfiguration

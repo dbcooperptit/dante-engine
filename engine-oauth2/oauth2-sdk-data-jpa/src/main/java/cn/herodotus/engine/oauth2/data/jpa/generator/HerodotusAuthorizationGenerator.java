@@ -23,22 +23,39 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.constants;
+package cn.herodotus.engine.oauth2.data.jpa.generator;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorization;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.UUIDGenerator;
+
+import java.io.Serializable;
 
 /**
- * <p>Description: OAuth2 模块通用常量 </p>
+ * <p>Description: OAuth2Authorization Id 生成器 </p>
+ *
+ * 指定ID生成器，解决实体ID无法手动设置问题。
  *
  * @author : gengwei.zheng
- * @date : 2022/2/25 9:44
+ * @date : 2022/1/22 18:10
  */
-public interface OAuth2Constants extends BaseConstants {
+public class HerodotusAuthorizationGenerator extends UUIDGenerator {
 
-    String REGION_OAUTH2_AUTHORIZATION = AREA_PREFIX + "oauth2:authorization";
-    String REGION_OAUTH2_AUTHORIZATION_CONSENT = AREA_PREFIX + "oauth2:authorization:consent";
-    String REGION_OAUTH2_REGISTERED_CLIENT = AREA_PREFIX + "oauth2:registered:client";
-    String REGION_OAUTH2_APPLICATION = AREA_PREFIX + "oauth2:application";
-    String REGION_OAUTH2_SCOPE = AREA_PREFIX + "oauth2:scope";
-    String REGION_OAUTH2_APPLICATION_SCOPE = AREA_PREFIX + "oauth2:application:scope";
+    @Override
+    public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
+        if (ObjectUtils.isEmpty(object)) {
+            throw new HibernateException(new NullPointerException());
+        }
+
+        HerodotusAuthorization HerodotusAuthorization = (HerodotusAuthorization) object;
+
+        if (StringUtils.isEmpty(HerodotusAuthorization.getId())) {
+            return super.generate(session, object);
+        } else {
+            return HerodotusAuthorization.getId();
+        }
+    }
 }

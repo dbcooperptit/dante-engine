@@ -23,22 +23,51 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.constants;
+package cn.herodotus.engine.oauth2.manager.dto;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import javax.validation.constraints.NotBlank;
 
 /**
- * <p>Description: OAuth2 模块通用常量 </p>
+ * <p>Description: 机要传递实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/25 9:44
+ * @date : 2021/10/2 16:29
  */
-public interface OAuth2Constants extends BaseConstants {
+@Schema(title = "机要传递实体")
+public class SessionExchange {
 
-    String REGION_OAUTH2_AUTHORIZATION = AREA_PREFIX + "oauth2:authorization";
-    String REGION_OAUTH2_AUTHORIZATION_CONSENT = AREA_PREFIX + "oauth2:authorization:consent";
-    String REGION_OAUTH2_REGISTERED_CLIENT = AREA_PREFIX + "oauth2:registered:client";
-    String REGION_OAUTH2_APPLICATION = AREA_PREFIX + "oauth2:application";
-    String REGION_OAUTH2_SCOPE = AREA_PREFIX + "oauth2:scope";
-    String REGION_OAUTH2_APPLICATION_SCOPE = AREA_PREFIX + "oauth2:application:scope";
+    @NotBlank(message = "confidential参数不能为空")
+    @Schema(title = "用后端RSA PublicKey加密的前端RSA PublicKey")
+    private String confidential;
+
+    @NotBlank(message = "Session Key不能为空")
+    @Schema(title = "未登录前端身份标识")
+    private String sessionId;
+
+    public String getConfidential() {
+        return confidential;
+    }
+
+    public void setConfidential(String confidential) {
+        this.confidential = confidential;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("confidential", confidential)
+                .add("sessionId", sessionId)
+                .toString();
+    }
 }

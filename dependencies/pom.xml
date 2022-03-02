@@ -390,17 +390,22 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
+                <artifactId>oauth2-sdk-data-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oauth2-sdk-granter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
-                <artifactId>oauth2-sdk-identification</artifactId>
+                <artifactId>oauth2-sdk-manager</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
-                    <artifactId>oauth2-sdk-manager</artifactId>
+                <artifactId>oauth2-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

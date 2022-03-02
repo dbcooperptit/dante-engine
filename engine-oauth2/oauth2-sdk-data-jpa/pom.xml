@@ -27,38 +27,32 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>engine-oauth2</artifactId>
         <groupId>cn.herodotus.engine</groupId>
         <version>2.7.0.Beta3</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>oauth2-sdk-manager</artifactId>
+    <artifactId>oauth2-sdk-data-jpa</artifactId>
+    <version>2.7.0.Beta3</version>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>assistant-sdk-jackson</artifactId>
+            <artifactId>data-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>captcha-spring-boot-starter</artifactId>
+            <artifactId>oauth2-core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>rest-sdk-secure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>rest-sdk-crypto</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>oauth2-sdk-data-jpa</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-authorization-server</artifactId>
         </dependency>
     </dependencies>
 

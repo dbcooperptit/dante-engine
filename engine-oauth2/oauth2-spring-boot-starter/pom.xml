@@ -35,10 +35,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>oauth2-spring-boot-starter</artifactId>
+    <version>2.7.0.Beta3</version>
+    <packaging>jar</packaging>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>oauth2-sdk-granter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>oauth2-sdk-manager</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

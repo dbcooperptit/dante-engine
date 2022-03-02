@@ -34,6 +34,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.QueryHint;
 import java.io.Serializable;
@@ -88,4 +89,8 @@ public interface BaseRepository<E extends Entity, ID extends Serializable> exten
     @QueryHints(@QueryHint(name = org.hibernate.annotations.QueryHints.CACHEABLE, value = "true"))
     @Override
     long count();
+
+    @Transactional
+    @Override
+    void deleteById(ID id);
 }
