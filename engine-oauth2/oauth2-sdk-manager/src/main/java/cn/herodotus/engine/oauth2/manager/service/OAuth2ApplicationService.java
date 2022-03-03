@@ -14,6 +14,7 @@ import cn.herodotus.engine.assistant.core.exception.TransactionRollbackException
 import cn.herodotus.engine.data.core.repository.BaseRepository;
 import cn.herodotus.engine.data.core.service.BaseLayeredService;
 import cn.herodotus.engine.oauth2.data.jpa.configuration.OAuth2DataJpaModuleConfiguration;
+import cn.herodotus.engine.oauth2.data.jpa.repository.HerodotusRegisteredClientRepository;
 import cn.herodotus.engine.oauth2.data.jpa.storage.JpaRegisteredClientRepository;
 import cn.herodotus.engine.oauth2.data.jpa.utils.OAuth2AuthorizationUtils;
 import cn.herodotus.engine.oauth2.manager.entity.OAuth2Application;
@@ -29,6 +30,7 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient.Builder;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 import org.springframework.stereotype.Service;
@@ -51,11 +53,14 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
 
     private static final Logger log = LoggerFactory.getLogger(OAuth2ApplicationService.class);
 
-    private final JpaRegisteredClientRepository jpaRegisteredClientRepository;
+    private final RegisteredClientRepository registeredClientRepository;
+    private final HerodotusRegisteredClientRepository herodotusRegisteredClientRepository;
     private final OAuth2ApplicationRepository applicationRepository;
 
-    public OAuth2ApplicationService(JpaRegisteredClientRepository jpaRegisteredClientRepository, OAuth2ApplicationRepository applicationRepository) {
-        this.jpaRegisteredClientRepository = jpaRegisteredClientRepository;
+    @Autowired
+    public OAuth2ApplicationService(RegisteredClientRepository registeredClientRepository, HerodotusRegisteredClientRepository herodotusRegisteredClientRepository, OAuth2ApplicationRepository applicationRepository) {
+        this.registeredClientRepository = registeredClientRepository;
+        this.herodotusRegisteredClientRepository = herodotusRegisteredClientRepository;
         this.applicationRepository = applicationRepository;
     }
 
@@ -69,7 +74,7 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
     public OAuth2Application saveOrUpdate(OAuth2Application entity) {
         OAuth2Application application = super.saveOrUpdate(entity);
         if (ObjectUtils.isNotEmpty(application)) {
-            jpaRegisteredClientRepository.save(toRegisteredClient(application));
+            registeredClientRepository.save(toRegisteredClient(application));
             log.debug("[Herodotus] |- OAuth2ApplicationService saveOrUpdate.");
             return application;
         } else {
@@ -78,14 +83,15 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
         }
     }
 
+    @Transactional(rollbackFor = TransactionRollbackException.class)
     @Override
     public void deleteById(String id) {
         super.deleteById(id);
-        jpaRegisteredClientRepository.remove(id);
+        herodotusRegisteredClientRepository.deleteById(id);
         log.debug("[Herodotus] |- OAuth2ApplicationService deleteById.");
     }
 
-    @Transactional
+    @Transactional(rollbackFor = TransactionRollbackException.class)
     public OAuth2Application assign(String applicationId, String[] scopeIds) {
 
         Set<OAuth2Scope> scopes = new HashSet<>();

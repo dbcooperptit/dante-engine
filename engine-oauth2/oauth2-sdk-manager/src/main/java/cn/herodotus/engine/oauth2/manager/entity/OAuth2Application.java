@@ -94,8 +94,8 @@ public class OAuth2Application extends BaseSysEntity {
     private Boolean requireProofKey = Boolean.FALSE;
 
     @Schema(name = "需要认证确认", title = "如果客户端在执行授权码授予流时需要提供验证密钥质询和验证器, 默认False")
-    @Column(name = "require_proof_key")
-    private Boolean requireAuthorizationConsent = Boolean.FALSE;
+    @Column(name = "require_authorization_consent")
+    private Boolean requireAuthorizationConsent = Boolean.TRUE;
 
     @Schema(name = "客户端JSON Web密钥集的URL", title = "客户端JSON Web密钥集的URL")
     @Column(name = "jwk_set_url", length = 1000)
@@ -121,9 +121,9 @@ public class OAuth2Application extends BaseSysEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "oauth2_application_scope",
-            joinColumns = {@JoinColumn(name = "app_key")},
+            joinColumns = {@JoinColumn(name = "application_id")},
             inverseJoinColumns = {@JoinColumn(name = "scope_id")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"app_key", "scope_id"})},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"application_id", "scope_id"})},
             indexes = {@Index(name = "oauth2_application_scope_aid_idx", columnList = "application_id"), @Index(name = "oauth2_application_scope_sid_idx", columnList = "scope_id")})
     private Set<OAuth2Scope> scopes = new HashSet<>();
 

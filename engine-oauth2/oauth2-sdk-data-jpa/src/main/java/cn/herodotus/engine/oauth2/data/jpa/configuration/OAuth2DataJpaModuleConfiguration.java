@@ -90,7 +90,7 @@ public class OAuth2DataJpaModuleConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public OAuth2AuthorizationConsentService authorizationConsentService(HerodotusAuthorizationConsentService herodotusAuthorizationConsentService, RegisteredClientRepository registeredClientRepository) {
-        JpaOAuth2AuthorizationConsentService jpaOAuth2AuthorizationConsentService =  new JpaOAuth2AuthorizationConsentService(herodotusAuthorizationConsentService, registeredClientRepository);
+        JpaOAuth2AuthorizationConsentService jpaOAuth2AuthorizationConsentService = new JpaOAuth2AuthorizationConsentService(herodotusAuthorizationConsentService, registeredClientRepository);
         log.debug("[Herodotus] |- Bean [Jpa OAuth2 Authorization Consent Service] Auto Configure.");
         return jpaOAuth2AuthorizationConsentService;
     }
