@@ -57,7 +57,7 @@ herodotus-engine
 ├    └── readme -- README 相关素材放置目录
 ├── engine-assistant -- 基础通用代码包
 ├    ├── assistant-core -- 全局共性通用代码
-├    ├── assistant-sdk-jackson -- Jackson 组件
+├    ├── assistant-sdk-json -- Jackson 组件
 ├    ├── assistant-sdk-secure -- Xss 和 SQL 注入等安全组件
 ├    └── assistant-spring-boot-starter -- Assistant  模块统一 Starter
 ├── engine-cache -- 缓存模块

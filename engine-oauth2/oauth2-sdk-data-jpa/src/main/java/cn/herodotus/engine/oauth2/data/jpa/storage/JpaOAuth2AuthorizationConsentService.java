@@ -27,11 +27,11 @@ package cn.herodotus.engine.oauth2.data.jpa.storage;
 
 import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorizationConsent;
 import cn.herodotus.engine.oauth2.data.jpa.service.HerodotusAuthorizationConsentService;
+import cn.herodotus.engine.security.core.definition.domain.HerodotusGrantedAuthority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -91,7 +91,7 @@ public class JpaOAuth2AuthorizationConsentService implements OAuth2Authorization
                 registeredClientId, authorizationConsent.getPrincipalName());
         if (authorizationConsent.getAuthorities() != null) {
             for (String authority : StringUtils.commaDelimitedListToSet(authorizationConsent.getAuthorities())) {
-                builder.authority(new SimpleGrantedAuthority(authority));
+                builder.authority(new HerodotusGrantedAuthority(authority));
             }
         }
 

@@ -25,7 +25,6 @@
 
 package cn.herodotus.engine.assistant.core.enums;
 
-import cn.herodotus.engine.assistant.core.exception.HerodotusExceptionHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -108,18 +107,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public enum ResultStatus {
 
     /**
-     * 2*.** 成功
-     */
-    OK(20000, "成功"),
-    NO_CONTENT(20400, "无内容"),
-
-    /**
-     * 4*.** Java常规错误
-     */
-    FAIL(40000, "失败"),
-    WARNING(40001, "警告"),
-
-    /**
      * 401.** 未经授权 Unauthorized	请求要求用户的身份认证
      */
     ACCESS_DENIED(40101, "您没有权限，拒绝访问"),
@@ -131,9 +118,12 @@ public enum ResultStatus {
      * 403.** 禁止的请求，与403对应
      */
     INSUFFICIENT_SCOPE(40301, "TOKEN权限不足，您需要更高级别的权限"),
-    REPEAT_SUBMISSION(40302, "请不要重复提交"),
-    FREQUENT_REQUESTS(40303, "请求过于频繁请稍后再试"),
-    SQL_INJECTION_REQUEST(40304, "疑似SQL注入请求"),
+    SQL_INJECTION_REQUEST(40302, "疑似SQL注入请求"),
+
+    /**
+     * 405.** 方法不允许 与405对应
+     */
+    HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION(40501, "请求使用的方法类型不支持"),
 
     /**
      * 406.** 不接受的请求，与406对应
@@ -151,21 +141,47 @@ public enum ResultStatus {
     INVALID_SCOPE(41204, "授权范围错误"),
 
     /**
+     * 415.* Unsupported Media Type	服务器无法处理请求附带的媒体格式
+     */
+    HTTP_MEDIA_TYPE_NOT_ACCEPTABLE_EXCEPTION(41501, "不支持的 Media Type"),
+
+    /**
      * 500.* Internal Server Error	服务器内部错误，无法完成请求
      */
-    ERROR(50000, "服务器内部错误，无法完成请求"),
     SERVER_ERROR(50001, "授权服务器遇到意外情况，无法满足请求"),
+
+    HTTP_MESSAGE_NOT_READABLE_EXCEPTION(50002, "JSON字符串反序列化为实体出错！"),
+    ILLEGAL_ARGUMENT_EXCEPTION(50003, "参数不合法错误，请仔细确认参数使用是否正确。"),
+    IO_EXCEPTION(50004, "IO异常"),
+    MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(50005, "接口参数使用错误或必要参数缺失，请查阅接口文档！"),
+    NULL_POINTER_EXCEPTION(50006, "后台代码执行过程中出现了空值"),
+    TYPE_MISMATCH_EXCEPTION(50007, "类型不匹配"),
 
     /**
      * 503.* Service Unavailable	由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
      */
     TEMPORARILY_UNAVAILABLE(50301, "由于服务器临时超载或维护，授权服务器当前无法处理该请求"),
 
+    /**
+     * 6*.* 为数据操作相关错误
+     */
+    BAD_SQL_GRAMMAR_EXCEPTION(60000, "低级SQL语法错误，检查SQL能否正常运行或者字段名称是否正确"),
+    /**
+     * 62.* 数据库操作相关错误
+     */
+    DATA_INTEGRITY_VIOLATION_EXCEPTION(62000, "该数据正在被其它数据引用，请先删除引用关系，再进行数据删除操作"),
+    TRANSACTION_ROLLBACK_EXCEPTION(62001, "数据事务处理失败，数据回滚"),
+    /**
+     * 63.* Spring Boot Validation校验相关操作
+     */
+    METHOD_ARGUMENT_NOT_VALID_EXCEPTION(63000, "接口参数校验失败，参数使用错误或者未接收到参数"),
 
-
-
-
-
+    /**
+     * 7*.* 基础设施交互错误
+     * 71.* Redis 操作出现错误
+     * 72.* Cache 操作出现错误
+     */
+    PIPELINE_INVALID_COMMANDS_EXCEPTION(71000, "Redis管道包含一个或多个无效命令"),
 
     /* ------ 以下内容需要根据最新代码逻辑和结构进行重新梳理 ------*/
 
@@ -191,10 +207,7 @@ public enum ResultStatus {
     NOT_FOUND(40400, "资源未找到"),
     HANDLER_NOT_FOUND(40401, "处理器未找到"),
 
-    /**
-     * 405.** 方法不允许 与405对应
-     */
-    METHOD_NOT_ALLOWED(40501, "请求方法不支持"),
+
     /**
      * 406.** 不接受的请求，与406对应
      */
@@ -212,47 +225,14 @@ public enum ResultStatus {
 
     INVALID_ARGUMENT(41206, "认证请求参数值错误或者参数缺失."),
 
-    /**
-     * 415.*	Unsupported Media Type	服务器无法处理请求附带的媒体格式
-     */
-    UNSUPPORTED_MEDIA_TYPE(41501, "不支持的 Media Type"),
 
 
-    NULL_POINTER_EXCEPTION(50001, "后台代码出现了空值"),
-    IO_EXCEPTION(50002, "IO异常"),
-    HTTP_MESSAGE_NOT_READABLE_EXCEPTION(50003, "JSON转换为实体出错！"),
-    TYPE_MISMATCH_EXCEPTION(50004, "类型不匹配"),
-    MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(50005, "接口参数使用错误或必要参数缺失，请查阅接口文档！"),
-    ILLEGAL_ARGUMENT(50006, "非法参数错误"),
+
 
     SERVICE_UNAVAILABLE(50301, "Service Unavailable"),
 
-    CLIENT_ABORT(50400, "与后端服务建立的连接已挂起"),
-    /**
-     * 6*.* 为数据操作相关错误
-     */
-    BAD_SQL_GRAMMAR(60000, "低级SQL语法错误，检查SQL能否正常运行或者字段名称是否正确"),
-    /**
-     * 62.* 数据库操作相关错误
-     */
-    DATA_INTEGRITY_VIOLATION(62000, "该数据正在被其它数据引用，请先删除引用关系，再进行数据删除操作"),
-    TRANSACTION_ROLLBACK(62001, "数据事务处理失败，数据回滚"),
-    /**
-     * 63.* Spring Boot Validation校验相关操作
-     */
-    METHOD_ARGUMENT_NOT_VALID(63000, "接口参数校验错误"),
-    /**
-     * 64.* 临时数据操作相关错误
-     */
-    TOKEN_DELETE_FAILED(64000, "Token 删除失败"),
+    CLIENT_ABORT(50400, "与后端服务建立的连接已挂起");
 
-    /**
-     * 7*.* 基础设施交互错误
-     * 71.* Redis 操作出现错误
-     * 72.* Cache 操作出现错误
-     */
-    PIPELINE_INVALID_COMMANDS(71000, "Redis管道包含一个或多个无效命令"),
-    CACHE_CONFIG_NOT_FOUND(72000, "服务需要使用缓存，但是未找到*-cache.yaml配置");
 
     @Schema(title = "结果代码")
     private final int code;
@@ -264,25 +244,6 @@ public enum ResultStatus {
         this.code = code;
         this.message = message;
     }
-
-    public static ResultStatus getResultEnum(int code) {
-        for (ResultStatus type : ResultStatus.values()) {
-            if (type.getCode() == code) {
-                return type;
-            }
-        }
-        return ERROR;
-    }
-
-    public static ResultStatus getResultEnum(String message) {
-        for (ResultStatus type : ResultStatus.values()) {
-            if (type.getMessage().equals(message)) {
-                return type;
-            }
-        }
-        return ERROR;
-    }
-
 
     public int getCode() {
         return code;

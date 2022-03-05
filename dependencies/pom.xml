@@ -216,7 +216,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
-                <artifactId>assistant-sdk-jackson</artifactId>
+                <artifactId>assistant-sdk-json</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

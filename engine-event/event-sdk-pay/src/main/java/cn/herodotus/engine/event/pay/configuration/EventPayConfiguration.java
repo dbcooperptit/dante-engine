@@ -40,7 +40,7 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @RemoteApplicationEventScan({
-        "cn.herodotus.engine.event.pay.event"
+        "cn.herodotus.engine.event.pay.remote"
 })
 public class EventPayConfiguration {
 

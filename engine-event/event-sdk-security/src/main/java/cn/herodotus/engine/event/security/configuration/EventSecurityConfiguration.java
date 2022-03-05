@@ -40,7 +40,7 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @RemoteApplicationEventScan({
-        "cn.herodotus.engine.event.security.event"
+        "cn.herodotus.engine.event.security.remote"
 })
 public class EventSecurityConfiguration {
 

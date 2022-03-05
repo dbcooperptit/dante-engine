@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.oauth2.core.jackson;
 
+import cn.herodotus.engine.security.core.definition.domain.HerodotusGrantedAuthority;
 import cn.herodotus.engine.security.core.definition.domain.HerodotusUser;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -35,7 +36,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.io.IOException;
@@ -49,7 +49,7 @@ import java.util.Set;
  */
 public class HerodotusUserDeserializer extends JsonDeserializer<HerodotusUser> {
 
-    private static final TypeReference<Set<SimpleGrantedAuthority>> SIMPLE_GRANTED_AUTHORITY_SET = new TypeReference<Set<SimpleGrantedAuthority>>() {
+    private static final TypeReference<Set<HerodotusGrantedAuthority>> HERODOTUS_GRANTED_AUTHORITY_SET = new TypeReference<Set<HerodotusGrantedAuthority>>() {
     };
 
     /**
@@ -69,7 +69,7 @@ public class HerodotusUserDeserializer extends JsonDeserializer<HerodotusUser> {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode jsonNode = mapper.readTree(jp);
         Set<? extends GrantedAuthority> authorities = mapper.convertValue(jsonNode.get("authorities"),
-                SIMPLE_GRANTED_AUTHORITY_SET);
+                HERODOTUS_GRANTED_AUTHORITY_SET);
         JsonNode passwordNode = readJsonNode(jsonNode, "password");
         String userId = readJsonNode(jsonNode, "userId").asText();
         String username = readJsonNode(jsonNode, "username").asText();

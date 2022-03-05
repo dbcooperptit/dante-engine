@@ -103,22 +103,6 @@ public class Result<T> implements Serializable {
         return error;
     }
 
-    @Deprecated
-    public Result<T> ok() {
-        this.code = ResultStatus.OK.getCode();
-        this.message = ResultStatus.OK.getMessage();
-        this.status = HttpStatus.SC_OK;
-        return this;
-    }
-
-    @Deprecated
-    public Result<T> failed() {
-        this.code = ResultStatus.FAIL.getCode();
-        this.message = ResultStatus.FAIL.getMessage();
-        this.status = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-        return this;
-    }
-
     public Result<T> code(int code) {
         this.code = code;
         return this;
@@ -203,8 +187,12 @@ public class Result<T> implements Serializable {
         return success(resultStatus.getMessage(), resultStatus.getCode(), data);
     }
 
+    public static <T> Result<T> success(Feedback feedback, T data) {
+        return success(feedback.getMessage(), feedback.getCode(), feedback.getStatus(), data);
+    }
+
     public static <T> Result<T> success(String message, T data) {
-        return success(message, ResultStatus.OK.getCode(), data);
+        return success(message, Feedback.OK.getCode(), data);
     }
 
     public static <T> Result<T> success(String message) {
@@ -243,8 +231,12 @@ public class Result<T> implements Serializable {
         return failure(resultStatus.getMessage(), resultStatus.getCode(), data);
     }
 
+    public static <T> Result<T> failure(Feedback feedback, T data) {
+        return failure(feedback.getMessage(), feedback.getCode(), feedback.getStatus(), data);
+    }
+
     public static <T> Result<T> failure(String message, T data) {
-        return failure(message, ResultStatus.FAIL.getCode(), data);
+        return failure(message, Feedback.ERROR.getCode(), data);
     }
 
     public static <T> Result<T> failure(String message) {
@@ -255,8 +247,16 @@ public class Result<T> implements Serializable {
         return failure("操作失败！");
     }
 
+    public static <T> Result<T> empty(String message, int code, int status) {
+        return create(message, null, code, status, null, null);
+    }
+
     public static <T> Result<T> empty(String message, int code) {
-        return create(message, null, code, HttpStatus.SC_NO_CONTENT, null, null);
+        return empty(message, code, Feedback.NO_CONTENT.getStatus());
+    }
+
+    public static <T> Result<T> empty(Feedback feedback) {
+        return empty(feedback.getMessage(), feedback.getCode(), feedback.getStatus());
     }
 
     public static <T> Result<T> empty(ResultStatus resultStatus) {
@@ -264,7 +264,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> empty(String message) {
-        return empty(message, ResultStatus.NO_CONTENT.getCode());
+        return empty(message, Feedback.NO_CONTENT.getCode());
     }
 
     public static <T> Result<T> empty() {

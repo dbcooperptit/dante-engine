@@ -41,7 +41,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>assistant-sdk-jackson</artifactId>
+            <artifactId>assistant-sdk-json</artifactId>
         </dependency>
 
         <dependency>

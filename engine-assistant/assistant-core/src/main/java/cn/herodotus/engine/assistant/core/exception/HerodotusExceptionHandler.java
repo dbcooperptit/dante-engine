@@ -103,70 +103,25 @@ public class HerodotusExceptionHandler {
     private static final Map<String, Result<String>> EXCEPTION_DICTIONARY = new HashMap<>();
 
     static {
-        // 4**.** 对应错误
-        // 401.** 对应错误
-        EXCEPTION_DICTIONARY.put("UnauthorizedClientException", getUnauthorizedResult(ResultStatus.UNAUTHORIZED_CLIENT));
-        EXCEPTION_DICTIONARY.put("AccessDeniedException", getUnauthorizedResult(ResultStatus.ACCESS_DENIED));
-        EXCEPTION_DICTIONARY.put("AccessDeniedAuthorityLimitedException", getUnauthorizedResult(ResultStatus.ACCESS_DENIED_AUTHORITY_LIMITED));
-        EXCEPTION_DICTIONARY.put("UserDeniedAuthorizationException", getInternalServerErrorResult(ResultStatus.ACCESS_DENIED));
-        EXCEPTION_DICTIONARY.put("UsernameNotFoundException", getUnauthorizedResult(ResultStatus.USERNAME_NOT_FOUND));
-        EXCEPTION_DICTIONARY.put("BadCredentialsException", getUnauthorizedResult(ResultStatus.BAD_CREDENTIALS));
-        EXCEPTION_DICTIONARY.put("AccountExpiredException", getUnauthorizedResult(ResultStatus.ACCOUNT_EXPIRED));
-        EXCEPTION_DICTIONARY.put("LockedException", getUnauthorizedResult(ResultStatus.ACCOUNT_LOCKED));
-        EXCEPTION_DICTIONARY.put("DisabledException", getUnauthorizedResult(ResultStatus.ACCOUNT_DISABLED));
-        EXCEPTION_DICTIONARY.put("CredentialsExpiredException", getUnauthorizedResult(ResultStatus.CREDENTIALS_EXPIRED));
-        EXCEPTION_DICTIONARY.put("InsufficientAuthenticationException", getUnauthorizedResult(ResultStatus.UNAUTHORIZED));
-        EXCEPTION_DICTIONARY.put("InternalAuthenticationServiceException", getUnauthorizedResult(ResultStatus.INTERNAL_AUTHENTICATION));
-        // 403.** 对应错误
-        EXCEPTION_DICTIONARY.put("RepeatSubmissionException", getForbiddenResult(ResultStatus.REPEAT_SUBMISSION));
-        EXCEPTION_DICTIONARY.put("FrequentRequestsException", getForbiddenResult(ResultStatus.FREQUENT_REQUESTS));
-        // 404.** 对应错误
-        EXCEPTION_DICTIONARY.put("NoHandlerFoundException", getResult(ResultStatus.HANDLER_NOT_FOUND, HttpStatus.SC_NOT_FOUND));
         // 405.** 对应错误
-        EXCEPTION_DICTIONARY.put("HttpRequestMethodNotSupportedException", getResult(ResultStatus.METHOD_NOT_ALLOWED, HttpStatus.SC_METHOD_NOT_ALLOWED));
-        // 406.** 对应错误
-        EXCEPTION_DICTIONARY.put("UnsupportedGrantTypeException", getNotAcceptableResult(ResultStatus.UNSUPPORTED_GRANT_TYPE));
-        EXCEPTION_DICTIONARY.put("UnsupportedResponseTypeException", getNotAcceptableResult(ResultStatus.UNSUPPORTED_RESPONSE_TYPE));
-        EXCEPTION_DICTIONARY.put("IllegalStampParameterException", getNotAcceptableResult(ResultStatus.ILLEGAL_STAMP_PARAMETER));
-        EXCEPTION_DICTIONARY.put("StampDeleteFailedException", getNotAcceptableResult(ResultStatus.STAMP_DELETE_FAILED));
-        EXCEPTION_DICTIONARY.put("StampHasExpiredException", getNotAcceptableResult(ResultStatus.STAMP_HAS_EXPIRED));
-        EXCEPTION_DICTIONARY.put("StampMismatchException", getNotAcceptableResult(ResultStatus.STAMP_MISSMATCH));
-        EXCEPTION_DICTIONARY.put("CaptchaCategoryIsIncorrectException", getNotAcceptableResult(ResultStatus.CAPTCHA_CATEGORY_INCORRECT));
-        EXCEPTION_DICTIONARY.put("CaptchaHandlerNotExistException", getNotAcceptableResult(ResultStatus.CAPTCHA_HANDLER_NOT_EXIST));
-        EXCEPTION_DICTIONARY.put("CaptchaHasExpiredException", getNotAcceptableResult(ResultStatus.CAPTCHA_HAS_EXPIRED));
-        EXCEPTION_DICTIONARY.put("CaptchaMismatchException", getNotAcceptableResult(ResultStatus.CAPTCHA_MISSMATCH));
-        EXCEPTION_DICTIONARY.put("CaptchaParameterIllegalException", getNotAcceptableResult(ResultStatus.ILLEGAL_CAPTCHA_PARAMETER));
-        EXCEPTION_DICTIONARY.put("CaptchaIsEmptyException", getNotAcceptableResult(ResultStatus.ILLEGAL_CAPTCHA_PARAMETER));
-        // 412.** 对应错误
-        EXCEPTION_DICTIONARY.put("InvalidGrantException", getPreconditionFailedResult(ResultStatus.INVALID_GRANT));
-        EXCEPTION_DICTIONARY.put("InvalidTokenException", getPreconditionFailedResult(ResultStatus.INVALID_TOKEN));
-        EXCEPTION_DICTIONARY.put("InvalidScopeException", getPreconditionFailedResult(ResultStatus.INVALID_SCOPE));
-        EXCEPTION_DICTIONARY.put("InvalidClientException", getPreconditionFailedResult(ResultStatus.INVALID_GRANT));
-        EXCEPTION_DICTIONARY.put("InvalidRequestException", getPreconditionFailedResult(ResultStatus.INVALID_REQUEST));
-        EXCEPTION_DICTIONARY.put("RedirectMismatchException", getPreconditionFailedResult(ResultStatus.INVALID_REDIRECT_URI));
-        EXCEPTION_DICTIONARY.put("IllegalAuthenticationArgumentException", getPreconditionFailedResult(ResultStatus.INVALID_ARGUMENT));
+        EXCEPTION_DICTIONARY.put("HttpRequestMethodNotSupportedException", getResult(ResultStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, HttpStatus.SC_METHOD_NOT_ALLOWED));
         // 415.** 对应错误
-        EXCEPTION_DICTIONARY.put("HttpMediaTypeNotAcceptableException", getUnsupportedMediaTypeResult(ResultStatus.UNSUPPORTED_MEDIA_TYPE));
-
+        EXCEPTION_DICTIONARY.put("HttpMediaTypeNotAcceptableException", getUnsupportedMediaTypeResult(ResultStatus.HTTP_MEDIA_TYPE_NOT_ACCEPTABLE_EXCEPTION));
         // 5*.** 对应错误
+        EXCEPTION_DICTIONARY.put("IllegalArgumentException", getInternalServerErrorResult(ResultStatus.ILLEGAL_ARGUMENT_EXCEPTION));
         EXCEPTION_DICTIONARY.put("NullPointerException", getInternalServerErrorResult(ResultStatus.NULL_POINTER_EXCEPTION));
         EXCEPTION_DICTIONARY.put("IOException", getInternalServerErrorResult(ResultStatus.IO_EXCEPTION));
         EXCEPTION_DICTIONARY.put("HttpMessageNotReadableException", getInternalServerErrorResult(ResultStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION));
         EXCEPTION_DICTIONARY.put("TypeMismatchException", getInternalServerErrorResult(ResultStatus.TYPE_MISMATCH_EXCEPTION));
         EXCEPTION_DICTIONARY.put("MissingServletRequestParameterException", getInternalServerErrorResult(ResultStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("IllegalArgumentException", getInternalServerErrorResult(ResultStatus.ILLEGAL_ARGUMENT));
-        EXCEPTION_DICTIONARY.put("ClientAbortException", getGatewayTimeoutResult(ResultStatus.CLIENT_ABORT));
-
         // 6*.** 对应错误
-        EXCEPTION_DICTIONARY.put("BadSqlGrammarException", getInternalServerErrorResult(ResultStatus.BAD_SQL_GRAMMAR));
-        EXCEPTION_DICTIONARY.put("DataIntegrityViolationException", getInternalServerErrorResult(ResultStatus.DATA_INTEGRITY_VIOLATION));
-        EXCEPTION_DICTIONARY.put("TransactionRollbackException", getInternalServerErrorResult(ResultStatus.TRANSACTION_ROLLBACK));
-        EXCEPTION_DICTIONARY.put("BindException", getValidationResult(ResultStatus.METHOD_ARGUMENT_NOT_VALID));
-        EXCEPTION_DICTIONARY.put("MethodArgumentNotValidException", getValidationResult(ResultStatus.METHOD_ARGUMENT_NOT_VALID));
-
+        EXCEPTION_DICTIONARY.put("BadSqlGrammarException", getInternalServerErrorResult(ResultStatus.BAD_SQL_GRAMMAR_EXCEPTION));
+        EXCEPTION_DICTIONARY.put("DataIntegrityViolationException", getInternalServerErrorResult(ResultStatus.DATA_INTEGRITY_VIOLATION_EXCEPTION));
+        EXCEPTION_DICTIONARY.put("TransactionRollbackException", getInternalServerErrorResult(ResultStatus.TRANSACTION_ROLLBACK_EXCEPTION));
+        EXCEPTION_DICTIONARY.put("BindException", getNotAcceptableResult(ResultStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION));
+        EXCEPTION_DICTIONARY.put("MethodArgumentNotValidException", getNotAcceptableResult(ResultStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION));
         // 7*.** 对应错误
-        EXCEPTION_DICTIONARY.put("RedisPipelineException", getResult(ResultStatus.PIPELINE_INVALID_COMMANDS, HttpStatus.SC_INTERNAL_SERVER_ERROR));
-        EXCEPTION_DICTIONARY.put("CacheConfigException", getResult(ResultStatus.CACHE_CONFIG_NOT_FOUND, HttpStatus.SC_NOT_IMPLEMENTED));
+        EXCEPTION_DICTIONARY.put("RedisPipelineException", getResult(ResultStatus.PIPELINE_INVALID_COMMANDS_EXCEPTION, HttpStatus.SC_INTERNAL_SERVER_ERROR));
     }
 
     protected static Result<String> getResult(ResultStatus resultStatus, int httpStatus) {
@@ -214,6 +169,16 @@ public class HerodotusExceptionHandler {
     }
 
     /**
+     * 415	Unsupported Media Type	服务器无法处理请求附带的媒体格式
+     *
+     * @param resultCode 415
+     * @return {@link Result}
+     */
+    private static Result<String> getUnsupportedMediaTypeResult(ResultStatus resultCode) {
+        return getResult(resultCode, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
+    }
+
+    /**
      * 500	Internal Server Error	服务器内部错误，无法完成请求
      *
      * @param resultCode 500
@@ -233,52 +198,30 @@ public class HerodotusExceptionHandler {
         return getResult(resultCode, HttpStatus.SC_SERVICE_UNAVAILABLE);
     }
 
-
-    /**
-     * 415	Unsupported Media Type	服务器无法处理请求附带的媒体格式
-     *
-     * @param resultCode 415
-     * @return {@link Result}
-     */
-    private static Result<String> getUnsupportedMediaTypeResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
-    }
-
-    private static Result<String> getBadRequestResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_BAD_REQUEST);
-    }
-
-    private static Result<String> getValidationResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_NOT_ACCEPTABLE);
-    }
-
-
-    private static Result<String> getGatewayTimeoutResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_GATEWAY_TIMEOUT);
-    }
-
-
     public static Result<String> resolveException(Exception ex, String path) {
 
         log.trace("[Herodotus] |- Global Exception Handler, Path : [{}], Exception : [{}]", path, ex);
 
-        Result<String> result = Result.failure();
-
-        String exceptionName = ex.getClass().getSimpleName();
-        if (StringUtils.isNotEmpty(exceptionName)) {
-            if (EXCEPTION_DICTIONARY.containsKey(exceptionName)) {
+        if (ex instanceof PlatformException) {
+            PlatformException exception = (PlatformException) ex;
+            Result<String> result = exception.getResult();
+            result.path(path);
+            return result;
+        } else {
+            Result<String> result = Result.failure();
+            String exceptionName = ex.getClass().getSimpleName();
+            if (StringUtils.isNotEmpty(exceptionName) && EXCEPTION_DICTIONARY.containsKey(exceptionName)) {
                 result = EXCEPTION_DICTIONARY.get(exceptionName);
             } else {
                 log.warn("[Herodotus] |- Global Exception Handler,  Can not find the exception name [{}] in dictionary, please do optimize ", exceptionName);
             }
+
+            result.path(path);
+            result.stackTrace(ex.getStackTrace());
+            result.detail(ex.getMessage());
+
+            log.debug("[Herodotus] |- Global Exception Handler, Error is : {}", result);
+            return result;
         }
-
-        result.path(path);
-        result.stackTrace(ex.getStackTrace());
-        result.detail(ex.getMessage());
-
-        log.debug("[Herodotus] |- Global Exception Handler, Error is : {}", result);
-
-        return result;
     }
 }

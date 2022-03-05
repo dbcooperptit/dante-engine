@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.herodotus.engine.assistant.autoconfigure.AutoConfiguration
+  cn.herodotus.engine.assistant.autoconfigure.AutoConfiguration,\
+  cn.herodotus.engine.assistant.json.configuration.AssistantJsonConfiguration
