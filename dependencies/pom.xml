@@ -483,6 +483,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
+                <artifactId>security-sdk-extend</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
                 <artifactId>security-sdk-log</artifactId>
                 <version>${project.version}</version>
             </dependency>

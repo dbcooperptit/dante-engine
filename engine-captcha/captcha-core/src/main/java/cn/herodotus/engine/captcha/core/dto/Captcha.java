@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.captcha.core.dto;
 
-import cn.herodotus.engine.assistant.core.domain.dto.BaseDto;
+import cn.herodotus.engine.assistant.core.definition.dto.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**

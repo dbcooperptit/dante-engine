@@ -23,34 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.enums;
+package cn.herodotus.engine.oauth2.core.enums;
 
 /**
- * <p>Description: Protocol枚举 </p>
+ * <p>Description: 证书使用策略 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/6/12 14:48
+ * @date : 2022/3/6 18:32
  */
-public enum ProtocolType {
+public enum Certificate {
+
     /**
-     * 协议类型
+     * Spring Authorization Server 默认的 JWK 生成方式
      */
-    HTTP("http://", "http"),
-    HTTPS("https://", "https");
-
-    private final String format;
-    private final String prefix;
-
-    ProtocolType(String format, String prefix) {
-        this.format = format;
-        this.prefix = prefix;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
+    STANDARD,
+    /**
+     * 自定义证书 JWK 生成方式
+     */
+    CUSTOM;
 }

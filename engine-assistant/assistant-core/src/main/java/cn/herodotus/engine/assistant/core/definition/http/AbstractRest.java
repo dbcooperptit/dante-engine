@@ -23,16 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.domain.entity;
+package cn.herodotus.engine.assistant.core.definition.http;
 
-import java.io.Serializable;
+import com.ejlchina.okhttps.HTTP;
+import com.ejlchina.okhttps.fastjson.FastjsonMsgConvertor;
 
 /**
- * <p>Description: BaseEntity </p>
+ * <p>File: AbstractRestApiService </p>
+ *
+ * <p>Description: 外部Rest API抽象服务 </p>
  *
  * @author : gengwei.zheng
- * @date : 2020/4/29 17:27
+ * @date : 2021/4/10 15:33
  */
-public interface Entity extends Serializable {
+public abstract class AbstractRest {
 
+    /**
+     * 获取外部Rest API基础地址
+     * @return 访问接口的统一BaseURL
+     */
+    protected abstract String getBaseUrl();
+
+    protected HTTP http() {
+        return HTTP.builder()
+                .baseUrl(getBaseUrl())
+                .addMsgConvertor(new FastjsonMsgConvertor())
+                .build();
+    }
 }

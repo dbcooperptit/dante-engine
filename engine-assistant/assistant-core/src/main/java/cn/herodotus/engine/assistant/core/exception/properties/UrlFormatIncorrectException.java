@@ -23,16 +23,42 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.domain.dto;
+package cn.herodotus.engine.assistant.core.exception.properties;
 
-import cn.herodotus.engine.assistant.core.domain.entity.AbstractEntity;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: DTO基类定义 </p>
+ * <p>Description: Url 格式错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/4/30 22:30
+ * @date : 2022/3/6 12:49
  */
-public abstract class BaseDto extends AbstractEntity {
+public class UrlFormatIncorrectException extends PlatformException {
 
+    public UrlFormatIncorrectException() {
+        super();
+    }
+
+    public UrlFormatIncorrectException(String message) {
+        super(message);
+    }
+
+    public UrlFormatIncorrectException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public UrlFormatIncorrectException(Throwable cause) {
+        super(cause);
+    }
+
+    protected UrlFormatIncorrectException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(50102, "URL格式错误或者缺少Http协议头", HttpStatus.SC_NOT_IMPLEMENTED);
+    }
 }

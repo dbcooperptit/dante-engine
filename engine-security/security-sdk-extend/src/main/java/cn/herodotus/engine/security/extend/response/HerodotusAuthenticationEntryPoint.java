@@ -23,31 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.definition;
+package cn.herodotus.engine.security.extend.response;
 
-import com.ejlchina.okhttps.HTTP;
-import com.ejlchina.okhttps.fastjson.FastjsonMsgConvertor;
+import cn.herodotus.engine.assistant.core.domain.Result;
+import cn.herodotus.engine.security.core.exception.SecurityGlobalExceptionHandler;
+import cn.herodotus.engine.web.core.utils.WebUtils;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
- * <p>File: AbstractRestApiService </p>
- *
- * <p>Description: 外部Rest API抽象服务 </p>
+ * <p>Description: 自定义未认证处理 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/4/10 15:33
+ * @date : 2022/3/8 8:55
  */
-public abstract class AbstractRest {
+public class HerodotusAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    /**
-     * 获取外部Rest API基础地址
-     * @return 访问接口的统一BaseURL
-     */
-    protected abstract String getBaseUrl();
-
-    protected HTTP http() {
-        return HTTP.builder()
-                .baseUrl(getBaseUrl())
-                .addMsgConvertor(new FastjsonMsgConvertor())
-                .build();
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        Result<String> result = SecurityGlobalExceptionHandler.resolveSecurityException(authException, request.getRequestURI());
+        response.setStatus(result.getStatus());
+        WebUtils.renderJson(response, result);
     }
 }

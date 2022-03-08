@@ -26,7 +26,7 @@
 package cn.herodotus.engine.assistant.core.domain;
 
 
-import cn.herodotus.engine.assistant.core.enums.ResultStatus;
+import cn.herodotus.engine.assistant.core.enums.ResultErrorCodes;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -123,9 +123,9 @@ public class Result<T> implements Serializable {
         return this;
     }
 
-    public Result<T> type(ResultStatus resultStatus) {
-        this.code = resultStatus.getCode();
-        this.message = resultStatus.getMessage();
+    public Result<T> type(ResultErrorCodes resultErrorCodes) {
+        this.code = resultErrorCodes.getCode();
+        this.message = resultErrorCodes.getMessage();
         return this;
     }
 
@@ -183,8 +183,8 @@ public class Result<T> implements Serializable {
         return success(message, code, HttpStatus.SC_OK, data);
     }
 
-    public static <T> Result<T> success(ResultStatus resultStatus, T data) {
-        return success(resultStatus.getMessage(), resultStatus.getCode(), data);
+    public static <T> Result<T> success(ResultErrorCodes resultErrorCodes, T data) {
+        return success(resultErrorCodes.getMessage(), resultErrorCodes.getCode(), data);
     }
 
     public static <T> Result<T> success(Feedback feedback, T data) {
@@ -227,8 +227,8 @@ public class Result<T> implements Serializable {
         return failure(message, message, code, data);
     }
 
-    public static <T> Result<T> failure(ResultStatus resultStatus, T data) {
-        return failure(resultStatus.getMessage(), resultStatus.getCode(), data);
+    public static <T> Result<T> failure(ResultErrorCodes resultErrorCodes, T data) {
+        return failure(resultErrorCodes.getMessage(), resultErrorCodes.getCode(), data);
     }
 
     public static <T> Result<T> failure(Feedback feedback, T data) {
@@ -259,8 +259,8 @@ public class Result<T> implements Serializable {
         return empty(feedback.getMessage(), feedback.getCode(), feedback.getStatus());
     }
 
-    public static <T> Result<T> empty(ResultStatus resultStatus) {
-        return empty(resultStatus.getMessage(), resultStatus.getCode());
+    public static <T> Result<T> empty(ResultErrorCodes resultErrorCodes) {
+        return empty(resultErrorCodes.getMessage(), resultErrorCodes.getCode());
     }
 
     public static <T> Result<T> empty(String message) {

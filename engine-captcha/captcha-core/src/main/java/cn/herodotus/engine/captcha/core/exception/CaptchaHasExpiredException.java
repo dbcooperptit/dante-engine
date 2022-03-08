@@ -25,13 +25,17 @@
 
 package cn.herodotus.engine.captcha.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
+
 /**
  * <p>Description: 验证码已过期 </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/12/15 18:06
  */
-public class CaptchaHasExpiredException extends CaptchaException{
+public class CaptchaHasExpiredException extends PlatformException {
 
     public CaptchaHasExpiredException() {
         super();
@@ -49,7 +53,12 @@ public class CaptchaHasExpiredException extends CaptchaException{
         super(cause);
     }
 
-    public CaptchaHasExpiredException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected CaptchaHasExpiredException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40610, "验证码已过期", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

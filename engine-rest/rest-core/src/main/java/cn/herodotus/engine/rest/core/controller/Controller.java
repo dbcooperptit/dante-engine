@@ -26,7 +26,7 @@
 package cn.herodotus.engine.rest.core.controller;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.engine.assistant.core.domain.entity.AbstractEntity;
+import cn.herodotus.engine.assistant.core.definition.entity.AbstractEntity;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;

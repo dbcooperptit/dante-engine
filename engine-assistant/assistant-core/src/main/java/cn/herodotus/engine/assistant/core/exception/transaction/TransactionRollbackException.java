@@ -23,53 +23,42 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.exception;
+package cn.herodotus.engine.assistant.core.exception.transaction;
 
 import cn.herodotus.engine.assistant.core.domain.Feedback;
-import cn.herodotus.engine.assistant.core.domain.Result;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: 自定义错误基础类 </p>
+ * <p>Description: 事务回滚Exception </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/3/4 18:31
+ * @date : 2021/9/21 11:56
  */
-public abstract class AbstractPlatformException extends RuntimeException {
+public class TransactionRollbackException extends PlatformException {
 
-    public AbstractPlatformException() {
+    public TransactionRollbackException() {
         super();
     }
 
-    public AbstractPlatformException(String message) {
+    public TransactionRollbackException(String message) {
         super(message);
     }
 
-    public AbstractPlatformException(String message, Throwable cause) {
+    public TransactionRollbackException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public AbstractPlatformException(Throwable cause) {
+    public TransactionRollbackException(Throwable cause) {
         super(cause);
     }
 
-    protected AbstractPlatformException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected TransactionRollbackException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    /**
-     * 获取反馈信息
-     *
-     * @return 反馈信息对象 {@link Feedback}
-     */
-    protected abstract Feedback getFeedback();
-
-    public Result<String> getResult() {
-        Result<String> result = Result.failure();
-        result.code(getFeedback().getCode());
-        result.message(getFeedback().getMessage());
-        result.status(getFeedback().getStatus());
-        result.stackTrace(super.getStackTrace());
-        result.detail(super.getMessage());
-        return result;
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(60001, "数据库操作失败，事务回滚", HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 }

@@ -23,15 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.domain.entity;
-
+package cn.herodotus.engine.assistant.core.enums;
 
 /**
- * <p> Description : BaseCacheEntity </p>
+ * <p>Description: Protocol枚举 </p>
  *
  * @author : gengwei.zheng
- * @date : 2020/2/24 16:38
+ * @date : 2021/6/12 14:48
  */
-public abstract class AbstractEntity implements Entity {
+public enum Protocol {
+    /**
+     * 协议类型
+     */
+    HTTP("http://", "http"),
+    HTTPS("https://", "https");
 
+    private final String format;
+    private final String prefix;
+
+    Protocol(String format, String prefix) {
+        this.format = format;
+        this.prefix = prefix;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
 }

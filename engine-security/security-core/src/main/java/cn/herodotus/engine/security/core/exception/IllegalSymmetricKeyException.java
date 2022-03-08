@@ -27,7 +27,7 @@ package cn.herodotus.engine.security.core.exception;
 
 
 /**
- * <p> Description : 非法加密Key Exception </p>
+ * <p> Description : 非法加密Key HerodotusException </p>
  *
  * @author : gengwei.zheng
  * @date : 2020/1/28 17:32

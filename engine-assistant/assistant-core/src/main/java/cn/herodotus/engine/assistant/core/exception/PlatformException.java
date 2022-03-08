@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.assistant.core.exception;
 
+import cn.herodotus.engine.assistant.core.definition.exception.AbstractHerodotusException;
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 
 /**
@@ -33,7 +34,7 @@ import cn.herodotus.engine.assistant.core.domain.Feedback;
  * @author : gengwei.zheng
  * @date : 2019/12/18 15:31
  */
-public class PlatformException extends AbstractPlatformException {
+public class PlatformException extends AbstractHerodotusException {
 
     public PlatformException() {
         super();
@@ -56,7 +57,7 @@ public class PlatformException extends AbstractPlatformException {
     }
 
     @Override
-    protected Feedback getFeedback() {
+    public Feedback getFeedback() {
         return Feedback.ERROR;
     }
 }

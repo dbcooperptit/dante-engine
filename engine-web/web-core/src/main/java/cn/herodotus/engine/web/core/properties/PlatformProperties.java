@@ -27,7 +27,7 @@ package cn.herodotus.engine.web.core.properties;
 
 import cn.herodotus.engine.assistant.core.constants.SecurityConstants;
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
-import cn.herodotus.engine.assistant.core.enums.ProtocolType;
+import cn.herodotus.engine.assistant.core.enums.Protocol;
 import cn.herodotus.engine.web.core.constants.WebConstants;
 import cn.herodotus.engine.web.core.enums.Architecture;
 import cn.herodotus.engine.web.core.enums.DataAccessStrategy;
@@ -101,7 +101,7 @@ public class PlatformProperties {
 
     public static class Endpoint {
 
-        private ProtocolType protocol = ProtocolType.HTTP;
+        private Protocol protocol = Protocol.HTTP;
         /**
          * 网关服务地址。可以是IP+端口，可以是域名
          */
@@ -146,18 +146,18 @@ public class PlatformProperties {
                 content = StringUtils.removeEnd(address, SymbolConstants.FORWARD_SLASH);
             }
 
-            if (StringUtils.startsWith(content, ProtocolType.HTTP.getPrefix())) {
+            if (StringUtils.startsWith(content, Protocol.HTTP.getPrefix())) {
                 return content;
             } else {
                 return this.getProtocol().getFormat() + content;
             }
         }
 
-        public ProtocolType getProtocol() {
+        public Protocol getProtocol() {
             return protocol;
         }
 
-        public void setProtocol(ProtocolType protocol) {
+        public void setProtocol(Protocol protocol) {
             this.protocol = protocol;
         }
 

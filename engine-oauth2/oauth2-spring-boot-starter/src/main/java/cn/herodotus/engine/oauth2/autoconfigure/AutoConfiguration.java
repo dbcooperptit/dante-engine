@@ -25,8 +25,11 @@
 
 package cn.herodotus.engine.oauth2.autoconfigure;
 
+import cn.herodotus.engine.oauth2.core.properties.EndpointProperties;
+import cn.herodotus.engine.oauth2.core.properties.OAuth2Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -38,6 +41,10 @@ import javax.annotation.PostConstruct;
  * @date : 2022/3/2 20:42
  */
 @Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties({
+        EndpointProperties.class,
+        OAuth2Properties.class
+})
 public class AutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);

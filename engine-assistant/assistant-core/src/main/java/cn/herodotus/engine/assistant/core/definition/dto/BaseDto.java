@@ -23,33 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.exception;
+package cn.herodotus.engine.assistant.core.definition.dto;
+
+import cn.herodotus.engine.assistant.core.definition.entity.AbstractEntity;
 
 /**
- * <p>Description: 事务回滚Exception </p>
+ * <p>Description: DTO基类定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/9/21 11:56
+ * @date : 2021/4/30 22:30
  */
-public class TransactionRollbackException extends PlatformException {
+public abstract class BaseDto extends AbstractEntity {
 
-    public TransactionRollbackException() {
-        super();
-    }
-
-    public TransactionRollbackException(String message) {
-        super(message);
-    }
-
-    public TransactionRollbackException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public TransactionRollbackException(Throwable cause) {
-        super(cause);
-    }
-
-    public TransactionRollbackException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

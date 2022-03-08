@@ -25,15 +25,20 @@
 
 package cn.herodotus.engine.cache.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
+
 /**
  * <p>Description: Stamp签章 已过期错误 </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/8/23 12:36
  */
-public class StampHasExpiredException extends StampException {
+public class StampHasExpiredException extends PlatformException {
 
     public StampHasExpiredException() {
+        super();
     }
 
     public StampHasExpiredException(String message) {
@@ -48,7 +53,12 @@ public class StampHasExpiredException extends StampException {
         super(cause);
     }
 
-    public StampHasExpiredException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected StampHasExpiredException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40605, "签章已过期", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

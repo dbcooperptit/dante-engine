@@ -10,26 +10,19 @@
 
 package cn.herodotus.engine.oauth2.manager.service;
 
-import cn.herodotus.engine.assistant.core.exception.TransactionRollbackException;
+import cn.herodotus.engine.assistant.core.exception.transaction.TransactionRollbackException;
 import cn.herodotus.engine.data.core.repository.BaseRepository;
 import cn.herodotus.engine.data.core.service.BaseLayeredService;
-import cn.herodotus.engine.oauth2.data.jpa.configuration.OAuth2DataJpaModuleConfiguration;
 import cn.herodotus.engine.oauth2.data.jpa.repository.HerodotusRegisteredClientRepository;
-import cn.herodotus.engine.oauth2.data.jpa.storage.JpaRegisteredClientRepository;
 import cn.herodotus.engine.oauth2.data.jpa.utils.OAuth2AuthorizationUtils;
 import cn.herodotus.engine.oauth2.manager.entity.OAuth2Application;
 import cn.herodotus.engine.oauth2.manager.entity.OAuth2Scope;
 import cn.herodotus.engine.oauth2.manager.repository.OAuth2ApplicationRepository;
-import cn.hutool.core.util.IdUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient.Builder;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
@@ -37,10 +30,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * <p>Description: OAuth2ApplicationService </p>

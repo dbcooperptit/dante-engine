@@ -34,7 +34,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author : gengwei.zheng
  * @date : 2021/8/7 23:55
  */
-@ConfigurationProperties(prefix = MessageConstants.PROPERTY_MANAGEMENT_QUEUE)
+@ConfigurationProperties(prefix = MessageConstants.PROPERTY_PREFIX_QUEUE)
 public class QueueProperties {
 
     private Kafka kafka = new Kafka();

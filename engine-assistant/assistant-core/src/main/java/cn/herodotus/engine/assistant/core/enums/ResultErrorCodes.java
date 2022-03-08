@@ -23,17 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.exception;
+package cn.herodotus.engine.assistant.core.enums;
 
-import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.engine.assistant.core.enums.ResultStatus;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 统一异常处理器
@@ -93,135 +85,121 @@ import java.util.Map;
  * 503	Service Unavailable	由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
  * 504	Gateway Time-out	充当网关或代理的服务器，未及时从远端服务器获取请求
  * 505	HTTP Version not supported	服务器不支持请求的HTTP协议的版本，无法完成处理
+ * <p>
+ * --- 自定义返回码 ---
+ * <p>
+ * 主要分类说明：
+ * 2**.**   成功，操作被成功接收并处理
+ * 3**.**	需要后续操作，需要进一步的操作以完成请求
+ * 4**.**	HTTP请求错误，请求包含语法错误或无法完成请求，
+ * 5**.**   平台错误，平台相关组件运行及操作错误。
+ * 6**.**	关系数据库错误，服务器在处理请求的过程中发生了数据SQL操作等底层错误
+ * 600.**	JDBC错误，服务器在处理请求的过程中发生了JDBC底层错误。
+ * 601.**	JPA错误，服务器在处理请求的过程中发生了JPA错误。
+ * 602.**	Hibernate错误，服务器在处理请求的过程中发生了Hibernate操作错误。
+ * 603.**   接口参数Validation错误
+ * <p>
+ * 其它内容逐步补充
  *
  * @author gengwei.zheng
  */
-public class HerodotusExceptionHandler {
-
-    private static final Logger log = LoggerFactory.getLogger(HerodotusExceptionHandler.class);
-
-    private static final Map<String, Result<String>> EXCEPTION_DICTIONARY = new HashMap<>();
-
-    static {
-        // 405.** 对应错误
-        EXCEPTION_DICTIONARY.put("HttpRequestMethodNotSupportedException", getResult(ResultStatus.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, HttpStatus.SC_METHOD_NOT_ALLOWED));
-        // 415.** 对应错误
-        EXCEPTION_DICTIONARY.put("HttpMediaTypeNotAcceptableException", getUnsupportedMediaTypeResult(ResultStatus.HTTP_MEDIA_TYPE_NOT_ACCEPTABLE_EXCEPTION));
-        // 5*.** 对应错误
-        EXCEPTION_DICTIONARY.put("IllegalArgumentException", getInternalServerErrorResult(ResultStatus.ILLEGAL_ARGUMENT_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("NullPointerException", getInternalServerErrorResult(ResultStatus.NULL_POINTER_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("IOException", getInternalServerErrorResult(ResultStatus.IO_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("HttpMessageNotReadableException", getInternalServerErrorResult(ResultStatus.HTTP_MESSAGE_NOT_READABLE_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("TypeMismatchException", getInternalServerErrorResult(ResultStatus.TYPE_MISMATCH_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("MissingServletRequestParameterException", getInternalServerErrorResult(ResultStatus.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION));
-        // 6*.** 对应错误
-        EXCEPTION_DICTIONARY.put("BadSqlGrammarException", getInternalServerErrorResult(ResultStatus.BAD_SQL_GRAMMAR_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("DataIntegrityViolationException", getInternalServerErrorResult(ResultStatus.DATA_INTEGRITY_VIOLATION_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("TransactionRollbackException", getInternalServerErrorResult(ResultStatus.TRANSACTION_ROLLBACK_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("BindException", getNotAcceptableResult(ResultStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("MethodArgumentNotValidException", getNotAcceptableResult(ResultStatus.METHOD_ARGUMENT_NOT_VALID_EXCEPTION));
-        // 7*.** 对应错误
-        EXCEPTION_DICTIONARY.put("RedisPipelineException", getResult(ResultStatus.PIPELINE_INVALID_COMMANDS_EXCEPTION, HttpStatus.SC_INTERNAL_SERVER_ERROR));
-    }
-
-    protected static Result<String> getResult(ResultStatus resultStatus, int httpStatus) {
-        return Result.failure(resultStatus.getMessage(), resultStatus.getCode(), httpStatus, null);
-    }
+@Schema(title = "响应结果状态", description = "自定义错误码以及对应的、友好的错误信息")
+public enum ResultErrorCodes {
 
     /**
-     * 401	Unauthorized	请求要求用户的身份认证
-     *
-     * @param resultCode 401
-     * @return {@link Result}
+     * 401.** 未经授权 Unauthorized	请求要求用户的身份认证
      */
-    public static Result<String> getUnauthorizedResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_UNAUTHORIZED);
-    }
+    ACCESS_DENIED(40101, "您没有权限，拒绝访问"),
+    INVALID_CLIENT(40102, "客户端身份验证失败"),
+    INVALID_TOKEN(40103, "提供的访问令牌已过期、吊销、格式错误或无效"),
+    UNAUTHORIZED_CLIENT(40104, "客户端无权使用此方法请求授权码或访问令牌"),
 
     /**
-     * 403	Forbidden	服务器理解请求客户端的请求，但是拒绝执行此请求
-     *
-     * @param resultCode 403
-     * @return {@link Result}
+     * 403.** 禁止的请求，与403对应
      */
-    public static Result<String> getForbiddenResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_FORBIDDEN);
-    }
+    INSUFFICIENT_SCOPE(40301, "TOKEN权限不足，您需要更高级别的权限"),
+    SQL_INJECTION_REQUEST(40302, "疑似SQL注入请求"),
 
     /**
-     * 406	Not Acceptable	服务器无法根据客户端请求的内容特性完成请求
-     *
-     * @param resultCode 406
-     * @return {@link Result}
+     * 405.** 方法不允许 与405对应
      */
-    public static Result<String> getNotAcceptableResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_NOT_ACCEPTABLE);
-    }
+    HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION(40501, "请求使用的方法类型不支持"),
 
     /**
-     * 412 Precondition Failed	客户端请求信息的先决条件错误
-     *
-     * @param resultCode 412
-     * @return {@link Result}
+     * 406.** 不接受的请求，与406对应
      */
-    public static Result<String> getPreconditionFailedResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_PRECONDITION_FAILED);
-    }
+    UNSUPPORTED_GRANT_TYPE(40601, "授权服务器不支持授权授予类型"),
+    UNSUPPORTED_RESPONSE_TYPE(40602, "授权服务器不支持使用此方法获取授权代码或访问令牌"),
+    UNSUPPORTED_TOKEN_TYPE(40603, "授权服务器不支持撤销提供的令牌类型"),
 
     /**
-     * 415	Unsupported Media Type	服务器无法处理请求附带的媒体格式
-     *
-     * @param resultCode 415
-     * @return {@link Result}
+     * 412.* 未经授权 Precondition Failed 客户端请求信息的先决条件错误
      */
-    private static Result<String> getUnsupportedMediaTypeResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
-    }
+    INVALID_GRANT(41201, "提供的授权授予信息无效"),
+    INVALID_REDIRECT_URI(41202, "URI重定向的值无效"),
+    INVALID_REQUEST(41203, "无效的请求，参数使用错误或无效."),
+    INVALID_SCOPE(41204, "授权范围错误"),
 
     /**
-     * 500	Internal Server Error	服务器内部错误，无法完成请求
-     *
-     * @param resultCode 500
-     * @return {@link Result}
+     * 415.* Unsupported Media Type	服务器无法处理请求附带的媒体格式
      */
-    public static Result<String> getInternalServerErrorResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_INTERNAL_SERVER_ERROR);
-    }
+    HTTP_MEDIA_TYPE_NOT_ACCEPTABLE_EXCEPTION(41501, "不支持的 Media Type"),
 
     /**
-     * 503	Service Unavailable	由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
-     *
-     * @param resultCode 503
-     * @return {@link Result}
+     * 500.* Internal Server Error	服务器内部错误，无法完成请求
      */
-    public static Result<String> getServiceUnavailableResult(ResultStatus resultCode) {
-        return getResult(resultCode, HttpStatus.SC_SERVICE_UNAVAILABLE);
+    SERVER_ERROR(50001, "授权服务器遇到意外情况，无法满足请求"),
+
+    HTTP_MESSAGE_NOT_READABLE_EXCEPTION(50002, "JSON字符串反序列化为实体出错！"),
+    ILLEGAL_ARGUMENT_EXCEPTION(50003, "参数不合法错误，请仔细确认参数使用是否正确。"),
+    IO_EXCEPTION(50004, "IO异常"),
+    MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION(50005, "接口参数使用错误或必要参数缺失，请查阅接口文档！"),
+    NULL_POINTER_EXCEPTION(50006, "后台代码执行过程中出现了空值"),
+    TYPE_MISMATCH_EXCEPTION(50007, "类型不匹配"),
+
+    /**
+     * 503.* Service Unavailable	由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
+     */
+    TEMPORARILY_UNAVAILABLE(50301, "由于服务器临时超载或维护，授权服务器当前无法处理该请求"),
+
+    /**
+     * 6*.* 为数据操作相关错误
+     */
+    BAD_SQL_GRAMMAR_EXCEPTION(60000, "低级SQL语法错误，检查SQL能否正常运行或者字段名称是否正确"),
+    /**
+     * 62.* 数据库操作相关错误
+     */
+    DATA_INTEGRITY_VIOLATION_EXCEPTION(62000, "该数据正在被其它数据引用，请先删除引用关系，再进行数据删除操作"),
+    TRANSACTION_ROLLBACK_EXCEPTION(62001, "数据事务处理失败，数据回滚"),
+    /**
+     * 63.* Spring Boot Validation校验相关操作
+     */
+    METHOD_ARGUMENT_NOT_VALID_EXCEPTION(63000, "接口参数校验失败，参数使用错误或者未接收到参数"),
+
+    /**
+     * 7*.* 基础设施交互错误
+     * 71.* Redis 操作出现错误
+     * 72.* Cache 操作出现错误
+     */
+    PIPELINE_INVALID_COMMANDS_EXCEPTION(71000, "Redis管道包含一个或多个无效命令");
+
+
+    @Schema(title = "结果代码")
+    private final int code;
+    @Schema(title = "结果信息")
+    private final String message;
+
+
+    ResultErrorCodes(int code, String message) {
+        this.code = code;
+        this.message = message;
     }
 
-    public static Result<String> resolveException(Exception ex, String path) {
+    public int getCode() {
+        return code;
+    }
 
-        log.trace("[Herodotus] |- Global Exception Handler, Path : [{}], Exception : [{}]", path, ex);
-
-        if (ex instanceof PlatformException) {
-            PlatformException exception = (PlatformException) ex;
-            Result<String> result = exception.getResult();
-            result.path(path);
-            return result;
-        } else {
-            Result<String> result = Result.failure();
-            String exceptionName = ex.getClass().getSimpleName();
-            if (StringUtils.isNotEmpty(exceptionName) && EXCEPTION_DICTIONARY.containsKey(exceptionName)) {
-                result = EXCEPTION_DICTIONARY.get(exceptionName);
-            } else {
-                log.warn("[Herodotus] |- Global Exception Handler,  Can not find the exception name [{}] in dictionary, please do optimize ", exceptionName);
-            }
-
-            result.path(path);
-            result.stackTrace(ex.getStackTrace());
-            result.detail(ex.getMessage());
-
-            log.debug("[Herodotus] |- Global Exception Handler, Error is : {}", result);
-            return result;
-        }
+    public String getMessage() {
+        return message;
     }
 }

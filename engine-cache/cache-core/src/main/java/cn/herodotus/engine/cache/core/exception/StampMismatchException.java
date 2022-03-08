@@ -25,15 +25,20 @@
 
 package cn.herodotus.engine.cache.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
+
 /**
  * <p>Description: Stamp签章校验错误 </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/8/23 12:32
  */
-public class StampMismatchException extends StampException {
+public class StampMismatchException extends PlatformException {
 
     public StampMismatchException() {
+        super();
     }
 
     public StampMismatchException(String message) {
@@ -48,7 +53,12 @@ public class StampMismatchException extends StampException {
         super(cause);
     }
 
-    public StampMismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected StampMismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40606, "签章信息无法匹配", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

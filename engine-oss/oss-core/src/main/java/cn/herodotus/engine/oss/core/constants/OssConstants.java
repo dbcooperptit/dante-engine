@@ -35,9 +35,9 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface OssConstants extends BaseConstants {
 
-    String PROPERTY_HERODOTUS_OSS = PROPERTY_PREFIX_HERODOTUS + ".oss";
+    String PROPERTY_PREFIX_OSS = PROPERTY_PREFIX_HERODOTUS + ".oss";
 
-    String PROPERTY_OSS_MINIO = PROPERTY_HERODOTUS_OSS + ".minio";
+    String PROPERTY_OSS_MINIO = PROPERTY_PREFIX_OSS + ".minio";
 
 
     String ITEM_MINIO_ENDPOINT = PROPERTY_OSS_MINIO + ".endpoint";

@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  * @author : gengwei.zheng
  * @date : 2021/10/24 18:38
  */
-@ConfigurationProperties(prefix = WebSocketConstants.PROPERTY_HERODOTUS_WEBSOCKET)
+@ConfigurationProperties(prefix = WebSocketConstants.PROPERTY_PREFIX_WEBSOCKET)
 public class WebSocketProperties {
 
     /**

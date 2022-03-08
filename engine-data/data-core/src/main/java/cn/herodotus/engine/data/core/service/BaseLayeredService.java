@@ -26,7 +26,7 @@
 package cn.herodotus.engine.data.core.service;
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
-import cn.herodotus.engine.assistant.core.domain.entity.AbstractEntity;
+import cn.herodotus.engine.assistant.core.definition.entity.AbstractEntity;
 
 import java.io.Serializable;
 

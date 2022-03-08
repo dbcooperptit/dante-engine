@@ -25,15 +25,20 @@
 
 package cn.herodotus.engine.cache.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
+
 /**
  * <p>Description: Stamp签章删除失败Exception </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/8/23 13:51
  */
-public class StampDeleteFailedException extends StampException {
+public class StampDeleteFailedException extends PlatformException {
 
     public StampDeleteFailedException() {
+        super();
     }
 
     public StampDeleteFailedException(String message) {
@@ -48,7 +53,12 @@ public class StampDeleteFailedException extends StampException {
         super(cause);
     }
 
-    public StampDeleteFailedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected StampDeleteFailedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40604, "从缓存中删除签章失败", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

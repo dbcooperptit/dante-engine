@@ -25,15 +25,20 @@
 
 package cn.herodotus.engine.cache.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
+
 /**
  * <p>Description: 请求参数中缺少幂等Token错误 </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/8/23 12:29
  */
-public class StampParameterIllegalException extends StampException {
+public class StampParameterIllegalException extends PlatformException {
 
     public StampParameterIllegalException() {
+        super();
     }
 
     public StampParameterIllegalException(String message) {
@@ -48,7 +53,12 @@ public class StampParameterIllegalException extends StampException {
         super(cause);
     }
 
-    public StampParameterIllegalException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected StampParameterIllegalException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40607, "缺少签章身份标记参数", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

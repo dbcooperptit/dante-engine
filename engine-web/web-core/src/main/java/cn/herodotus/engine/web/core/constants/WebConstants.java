@@ -35,8 +35,8 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface WebConstants extends BaseConstants {
 
-    String PROPERTY_REST_TEMPLATE = PROPERTY_PLATFORM_REST + ".rest-template";
-    String PROPERTY_REST_SCAN = PROPERTY_PLATFORM_REST + ".scan";
+    String PROPERTY_REST_TEMPLATE = PROPERTY_PREFIX_REST + ".rest-template";
+    String PROPERTY_REST_SCAN = PROPERTY_PREFIX_REST + ".scan";
 
 
     /* ---------- Herodotus 详细配置属性路径 ---------- */

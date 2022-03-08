@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.oauth2.manager.dto;
 
-import cn.herodotus.engine.assistant.core.domain.dto.BaseDto;
+import cn.herodotus.engine.assistant.core.definition.dto.BaseDto;
 import com.google.common.base.MoreObjects;
 
 /**

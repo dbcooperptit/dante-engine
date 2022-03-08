@@ -23,35 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.captcha.core.exception;
+package cn.herodotus.engine.assistant.core.definition.entity;
 
-import cn.herodotus.engine.assistant.core.exception.PlatformException;
 
 /**
- * <p>Description: 验证码基础Exception </p>
+ * <p> Description : BaseCacheEntity </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/12/14 15:58
+ * @date : 2020/2/24 16:38
  */
-public class CaptchaException extends PlatformException {
+public abstract class AbstractEntity implements Entity {
 
-    public CaptchaException() {
-        super();
-    }
-
-    public CaptchaException(String message) {
-        super(message);
-    }
-
-    public CaptchaException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public CaptchaException(Throwable cause) {
-        super(cause);
-    }
-
-    public CaptchaException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

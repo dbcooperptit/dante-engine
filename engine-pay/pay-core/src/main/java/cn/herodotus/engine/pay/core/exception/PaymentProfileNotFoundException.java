@@ -26,7 +26,7 @@
 package cn.herodotus.engine.pay.core.exception;
 
 /**
- * <p>Description: Profile 未找到 Exception </p>
+ * <p>Description: Profile 未找到 HerodotusException </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/1/7 21:01

@@ -25,16 +25,16 @@
 
 package cn.herodotus.engine.assistant.core.domain;
 
-import cn.herodotus.engine.assistant.core.enums.ResultStatus;
+import cn.herodotus.engine.assistant.core.enums.ResultErrorCodes;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: Exception 交互信息 </p>
+ * <p>Description: HerodotusException 交互信息 </p>
  * <p>
- * 主要用于自定义 Exception 中，显示用户体验更好的错误信息。同时可以解决更好的分包，而不再需要统一在 ResultStatus里面定义。
- * 非自定义 Exception 还是在 ResultStatus 中定义。
+ * 主要用于自定义 HerodotusException 中，显示用户体验更好的错误信息。同时可以解决更好的分包，而不再需要统一在 ResultStatus里面定义。
+ * 非自定义 HerodotusException 还是在 ResultErrorCodes 中定义。
  * <p>
  * 1**	信息，服务器收到请求，需要请求者继续执行操作
  * 2**	成功，操作被成功接收并处理
@@ -117,8 +117,8 @@ public class Feedback {
      */
     private final int status;
 
-    public Feedback(ResultStatus resultStatus, int status) {
-        this(resultStatus.getCode(), resultStatus.getMessage(), status);
+    public Feedback(ResultErrorCodes resultErrorCodes, int status) {
+        this(resultErrorCodes.getCode(), resultErrorCodes.getMessage(), status);
     }
 
     public Feedback(int code, String message, int status) {

@@ -23,35 +23,46 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.core.exception;
+package cn.herodotus.engine.assistant.core.definition.exception;
 
-import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.assistant.core.domain.Result;
 
 /**
- * <p>Description: Stamp签章管理错误Exception </p>
+ * <p>Description: 自定义错误基础类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/13 21:11
+ * @date : 2022/3/4 18:31
  */
-public class StampException extends PlatformException {
+public abstract class AbstractHerodotusException extends RuntimeException implements HerodotusException {
 
-    public StampException() {
+    public AbstractHerodotusException() {
         super();
     }
 
-    public StampException(String message) {
+    public AbstractHerodotusException(String message) {
         super(message);
     }
 
-    public StampException(String message, Throwable cause) {
+    public AbstractHerodotusException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public StampException(Throwable cause) {
+    public AbstractHerodotusException(Throwable cause) {
         super(cause);
     }
 
-    public StampException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected AbstractHerodotusException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Result<String> getResult() {
+        Result<String> result = Result.failure();
+        result.code(getFeedback().getCode());
+        result.message(getFeedback().getMessage());
+        result.status(getFeedback().getStatus());
+        result.stackTrace(super.getStackTrace());
+        result.detail(super.getMessage());
+        return result;
     }
 }

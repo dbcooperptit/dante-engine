@@ -35,7 +35,7 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface DataConstants extends BaseConstants {
 
-    public static final String ITEM_SPRING_SQL_INIT_PLATFORM = "spring.sql.init.platform";
+    String ITEM_SPRING_SQL_INIT_PLATFORM = "spring.sql.init.platform";
 
     String ANNOTATION_SQL_INIT_PLATFORM = ANNOTATION_PREFIX + ITEM_SPRING_SQL_INIT_PLATFORM + ANNOTATION_SUFFIX;
 }

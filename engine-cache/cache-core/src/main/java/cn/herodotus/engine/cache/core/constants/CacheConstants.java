@@ -39,9 +39,7 @@ public interface CacheConstants extends BaseConstants {
     /**
      * platform
      */
-    String PROPERTY_PLATFORM_CACHE = PROPERTY_HERODOTUS_PLATFORM + ".cache";
-    String PROPERTY_CACHE_REDIS = PROPERTY_PLATFORM_CACHE + ".redis";
-    String PROPERTY_CACHE_CAFFEINE = PROPERTY_PLATFORM_CACHE + ".caffeine";
+    String PROPERTY_PREFIX_CACHE = PROPERTY_PREFIX_HERODOTUS + ".cache";
 
     /* ---------- Spring 相关基础配置属性（第一层） ---------- */
 

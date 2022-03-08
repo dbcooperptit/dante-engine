@@ -26,13 +26,12 @@
 package cn.herodotus.engine.security.core.exception;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.engine.assistant.core.enums.ResultStatus;
-import cn.herodotus.engine.assistant.core.exception.HerodotusExceptionHandler;
+import cn.herodotus.engine.assistant.core.enums.ResultErrorCodes;
+import cn.herodotus.engine.assistant.core.exception.GlobalExceptionHandler;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -42,7 +41,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -66,28 +64,20 @@ public class SecurityGlobalExceptionHandler {
     private static final Map<String, Result<String>> EXCEPTION_DICTIONARY = new HashMap<>();
 
     static {
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCESS_DENIED, HerodotusExceptionHandler.getUnauthorizedResult(ResultStatus.ACCESS_DENIED));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INSUFFICIENT_SCOPE, HerodotusExceptionHandler.getForbiddenResult(ResultStatus.INSUFFICIENT_SCOPE));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_CLIENT, HerodotusExceptionHandler.getUnauthorizedResult(ResultStatus.INVALID_CLIENT));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_GRANT, HerodotusExceptionHandler.getPreconditionFailedResult(ResultStatus.INVALID_GRANT));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REDIRECT_URI, HerodotusExceptionHandler.getPreconditionFailedResult(ResultStatus.INVALID_REDIRECT_URI));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REQUEST, HerodotusExceptionHandler.getPreconditionFailedResult(ResultStatus.INVALID_REQUEST));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_SCOPE, HerodotusExceptionHandler.getPreconditionFailedResult(ResultStatus.INVALID_SCOPE));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_TOKEN, HerodotusExceptionHandler.getUnauthorizedResult(ResultStatus.INVALID_TOKEN));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.SERVER_ERROR, HerodotusExceptionHandler.getInternalServerErrorResult(ResultStatus.SERVER_ERROR));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.TEMPORARILY_UNAVAILABLE, HerodotusExceptionHandler.getServiceUnavailableResult(ResultStatus.TEMPORARILY_UNAVAILABLE));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT, HerodotusExceptionHandler.getUnauthorizedResult(ResultStatus.UNAUTHORIZED_CLIENT));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNSUPPORTED_GRANT_TYPE, HerodotusExceptionHandler.getNotAcceptableResult(ResultStatus.UNSUPPORTED_GRANT_TYPE));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNSUPPORTED_RESPONSE_TYPE, HerodotusExceptionHandler.getNotAcceptableResult(ResultStatus.UNSUPPORTED_RESPONSE_TYPE));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNSUPPORTED_TOKEN_TYPE, HerodotusExceptionHandler.getNotAcceptableResult(ResultStatus.UNSUPPORTED_TOKEN_TYPE));
-    }
-
-
-    @ExceptionHandler({Exception.class, PlatformException.class})
-    public static Result<String> exception(Exception ex, HttpServletRequest request, HttpServletResponse response) {
-        Result<String> result = resolveException(ex, request.getRequestURI());
-        response.setStatus(result.getStatus());
-        return result;
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCESS_DENIED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCESS_DENIED));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INSUFFICIENT_SCOPE, GlobalExceptionHandler.getForbiddenResult(ResultErrorCodes.INSUFFICIENT_SCOPE));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_CLIENT, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.INVALID_CLIENT));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_GRANT, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_GRANT));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REDIRECT_URI, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_REDIRECT_URI));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REQUEST, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_REQUEST));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_SCOPE, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_SCOPE));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_TOKEN, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.INVALID_TOKEN));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.SERVER_ERROR, GlobalExceptionHandler.getInternalServerErrorResult(ResultErrorCodes.SERVER_ERROR));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.TEMPORARILY_UNAVAILABLE, GlobalExceptionHandler.getServiceUnavailableResult(ResultErrorCodes.TEMPORARILY_UNAVAILABLE));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.UNAUTHORIZED_CLIENT));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNSUPPORTED_GRANT_TYPE, GlobalExceptionHandler.getNotAcceptableResult(ResultErrorCodes.UNSUPPORTED_GRANT_TYPE));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNSUPPORTED_RESPONSE_TYPE, GlobalExceptionHandler.getNotAcceptableResult(ResultErrorCodes.UNSUPPORTED_RESPONSE_TYPE));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNSUPPORTED_TOKEN_TYPE, GlobalExceptionHandler.getNotAcceptableResult(ResultErrorCodes.UNSUPPORTED_TOKEN_TYPE));
     }
 
     /**
@@ -135,9 +125,15 @@ public class SecurityGlobalExceptionHandler {
      * @param response 响应
      * @return Result 对象
      */
-    @ExceptionHandler({AuthenticationException.class})
-    @ResponseBody
+    @ExceptionHandler({AuthenticationException.class, PlatformAuthenticationException.class})
     public static Result<String> authenticationException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
+        Result<String> result = resolveSecurityException(ex, request.getRequestURI());
+        response.setStatus(result.getStatus());
+        return result;
+    }
+
+    @ExceptionHandler({Exception.class, PlatformException.class})
+    public static Result<String> exception(Exception ex, HttpServletRequest request, HttpServletResponse response) {
         Result<String> result = resolveException(ex, request.getRequestURI());
         response.setStatus(result.getStatus());
         return result;
@@ -145,7 +141,7 @@ public class SecurityGlobalExceptionHandler {
 
 
     public static Result<String> resolveException(Exception ex, String path) {
-        return HerodotusExceptionHandler.resolveException(ex, path);
+        return GlobalExceptionHandler.resolveException(ex, path);
     }
 
     /**
@@ -154,9 +150,7 @@ public class SecurityGlobalExceptionHandler {
      * @param exception 错误信息
      * @return Result 对象
      */
-    public static Result<String> resolveOauthException(Exception exception, String path) {
-
-        Exception reason = null;
+    public static Result<String> resolveSecurityException(Exception exception, String path) {
 
         if (exception instanceof OAuth2AuthenticationException) {
             OAuth2AuthenticationException oAuth2AuthenticationException = (OAuth2AuthenticationException) exception;
@@ -168,18 +162,8 @@ public class SecurityGlobalExceptionHandler {
                 result.detail(exception.getMessage());
                 return result;
             }
-        } else if (exception instanceof InsufficientAuthenticationException) {
-            Throwable throwable = exception.getCause();
-            if (ObjectUtils.isNotEmpty(throwable)) {
-                reason = new Exception(throwable);
-            } else {
-                reason = exception;
-            }
-            log.debug("[Herodotus] |- InsufficientAuthenticationException cause content is [{}]", reason.getClass().getSimpleName());
-        } else {
-            reason = exception;
         }
 
-        return resolveException(reason, path);
+        return resolveException(exception, path);
     }
 }
