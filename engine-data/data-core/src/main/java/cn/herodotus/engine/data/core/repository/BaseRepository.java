@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.data.core.repository;
 
-import cn.herodotus.engine.assistant.core.definition.entity.Entity;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

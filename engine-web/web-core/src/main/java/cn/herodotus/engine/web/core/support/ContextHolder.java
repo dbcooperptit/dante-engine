@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.web.core.support;
 
+import cn.herodotus.engine.web.core.properties.EndpointProperties;
 import cn.herodotus.engine.web.core.properties.PlatformProperties;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -40,10 +41,12 @@ import org.springframework.context.ApplicationContextAware;
 public class ContextHolder implements ApplicationContextAware, InitializingBean {
 
     private final PlatformProperties platformProperties;
+    private final EndpointProperties endpointProperties;
     private final ServiceContext serviceContext;
 
-    public ContextHolder(PlatformProperties platformProperties) {
+    public ContextHolder(PlatformProperties platformProperties, EndpointProperties endpointProperties) {
         this.platformProperties = platformProperties;
+        this.endpointProperties = endpointProperties;
         this.serviceContext = ServiceContext.getInstance();
     }
 
@@ -51,7 +54,7 @@ public class ContextHolder implements ApplicationContextAware, InitializingBean 
     public void afterPropertiesSet() throws Exception {
         this.serviceContext.setArchitecture(this.platformProperties.getArchitecture());
         this.serviceContext.setDataAccessStrategy(this.platformProperties.getDataAccessStrategy());
-        this.serviceContext.setGatewayAddress(this.platformProperties.getEndpoint().getGatewayAddress());
+        this.serviceContext.setGatewayAddress(this.endpointProperties.getGatewayServiceUri());
     }
 
     @Override

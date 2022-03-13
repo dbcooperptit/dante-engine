@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.web.scan.processor;
 
-import cn.herodotus.engine.assistant.core.constants.SecurityConstants;
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import cn.herodotus.engine.web.core.definition.RequestMappingScanManager;
 import cn.herodotus.engine.web.core.definition.WebPropertyFinder;
@@ -233,7 +233,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         // 5.2.9、组装对象
         RequestMapping requestMapping = new RequestMapping();
         requestMapping.setMetadataId(id);
-        requestMapping.setMetadataCode(SecurityConstants.AUTHORITY_PREFIX + code);
+        requestMapping.setMetadataCode(BaseConstants.AUTHORITY_PREFIX + code);
         // 微服务需要明确ServiceId，同时也知道ParentId，Hammer有办法，但是太繁琐，还是生成数据后，配置一把好点。
 //        if (isDistributedArchitecture()) {
 //            requestMapping.setServiceId(identifyingCode);

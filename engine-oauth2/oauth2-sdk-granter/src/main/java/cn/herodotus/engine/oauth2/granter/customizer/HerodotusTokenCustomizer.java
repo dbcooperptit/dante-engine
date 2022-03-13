@@ -25,7 +25,11 @@
 
 package cn.herodotus.engine.oauth2.granter.customizer;
 
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.security.core.definition.domain.HerodotusUser;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,7 +41,6 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
-import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,43 +61,32 @@ public class HerodotusTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodi
     public void customize(JwtEncodingContext context) {
 
         AbstractAuthenticationToken token = null;
-
-        Authentication authenticataion = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authenticataion instanceof OAuth2ClientAuthenticationToken) {
-            token = (OAuth2ClientAuthenticationToken) authenticataion;
+        Authentication clientAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        if (clientAuthentication instanceof OAuth2ClientAuthenticationToken) {
+            token = (OAuth2ClientAuthenticationToken) clientAuthentication;
         }
 
-        if (token != null) {
-
+        if (ObjectUtils.isNotEmpty(token)) {
             if (token.isAuthenticated() && OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
-
                 Authentication authentication = context.getPrincipal();
-
-                if (authentication != null) {
-
+                if (ObjectUtils.isNotEmpty(authentication)) {
                     if (authentication instanceof UsernamePasswordAuthenticationToken) {
                         HerodotusUser principal = (HerodotusUser) authentication.getPrincipal();
                         String userId = principal.getUserId();
                         Set<String> authorities = principal.getAuthorities().stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toSet());
+                        Set<String> authorizedScopes = context.getAuthorizedScopes();
 
-                        Map<String, Object> userAttributes = new HashMap<>();
-                        userAttributes.put("userId", userId);
-
-                        Set<String> contextAuthorizedScopes = context.getAuthorizedScopes();
-
-                        JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
-
-                        if (CollectionUtils.isEmpty(contextAuthorizedScopes)) {
-                            jwtClaimSetBuilder.claim(OAuth2ParameterNames.SCOPE, authorities);
+                        Map<String, Object> attributes = new HashMap<>();
+                        attributes.put(BaseConstants.OPEN_ID, userId);
+                        attributes.put(BaseConstants.AUTHORITIES, authorities);
+                        if (CollectionUtils.isNotEmpty(authorizedScopes)) {
+                            attributes.put(OAuth2ParameterNames.SCOPE, authorizedScopes);
                         }
 
-                        jwtClaimSetBuilder.claims(claims ->
-                                userAttributes.entrySet().stream()
-                                        .forEach(entry -> claims.put(entry.getKey(), entry.getValue()))
-                        );
+                        JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
+                        jwtClaimSetBuilder.claims(claims -> claims.putAll(attributes));
                     }
 
                     if (authentication instanceof OAuth2ClientAuthenticationToken) {
@@ -102,7 +94,7 @@ public class HerodotusTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodi
                         Map<String, Object> additionalParameters = OAuth2ClientAuthenticationToken.getAdditionalParameters();
 
                         // customize the token according to your need for this kind of authentication
-                        if (!CollectionUtils.isEmpty(additionalParameters)) {
+                        if (!MapUtils.isEmpty(additionalParameters)) {
 
                         }
 

@@ -209,7 +209,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
             if (!key.equals(OAuth2ParameterNames.SCOPE) &&
                     !key.equals(JwtClaimNames.IAT) &&
                     !key.equals(JwtClaimNames.EXP) &&
-                    !key.equals(JwtClaimNames.AUD) &&
                     !key.equals(JwtClaimNames.NBF)) {
                 tokenAdditionalParameters.put(key, value);
             }

@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.oauth2.autoconfigure;
 
-import cn.herodotus.engine.oauth2.core.properties.EndpointProperties;
+import cn.herodotus.engine.web.core.properties.EndpointProperties;
 import cn.herodotus.engine.oauth2.core.properties.OAuth2Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

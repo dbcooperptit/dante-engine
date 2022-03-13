@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.data.core.service;
 
-import cn.herodotus.engine.assistant.core.definition.entity.Entity;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 
 import java.io.Serializable;
 import java.util.List;

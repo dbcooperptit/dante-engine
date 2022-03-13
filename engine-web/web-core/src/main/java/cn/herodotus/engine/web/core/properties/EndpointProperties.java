@@ -23,16 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.properties;
+package cn.herodotus.engine.web.core.properties;
 
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.enums.Protocol;
 import cn.herodotus.engine.assistant.core.exception.properties.PropertyValueIsNotSetException;
 import cn.herodotus.engine.assistant.core.exception.properties.UrlFormatIncorrectException;
 import cn.herodotus.engine.assistant.core.utils.ConvertUtils;
-import cn.herodotus.engine.oauth2.core.constants.OAuth2Constants;
+import cn.herodotus.engine.web.core.constants.WebConstants;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -43,18 +43,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author : gengwei.zheng
  * @date : 2022/3/6 12:00
  */
-@ConfigurationProperties(prefix = OAuth2Constants.PROPERTY_PREFIX_ENDPOINT)
+@ConfigurationProperties(prefix = WebConstants.PROPERTY_PREFIX_ENDPOINT)
 public class EndpointProperties {
 
     private static final Logger log = LoggerFactory.getLogger(EndpointProperties.class);
-
-    private static final String PATH_AUTHORIZATION_ENDPOINT = "/oauth2/authorize";
-    private static final String PATH_TOKEN_ENDPOINT = "/oauth2/token";
-    private static final String PATH_JWK_SET_ENDPOINT = "/oauth2/jwks";
-    private static final String PATH_TOKEN_REVOCATION_ENDPOINT = "/oauth2/revoke";
-    private static final String PATH_TOKEN_INTROSPECTION_ENDPOINT = "/oauth2/introspect";
-    private static final String PATH_OIDC_CLIENT_REGISTRATION_ENDPOINT = "/connect/register";
-    private static final String PATH_OIDC_USER_INFO_ENDPOINT = "/userinfo";
 
     /**
      * 认证中心服务名称
@@ -163,7 +155,6 @@ public class EndpointProperties {
         this.uaaServiceUri = uaaServiceUri;
     }
 
-    @NotNull
     private String getDefaultEndpoint(String endpoint, String pathAuthorizationEndpoint) {
         if (StringUtils.isNotBlank(endpoint)) {
             return endpoint;
@@ -194,9 +185,8 @@ public class EndpointProperties {
     }
 
     public String getAuthorizationUri() {
-        return getDefaultEndpoint(authorizationUri, PATH_AUTHORIZATION_ENDPOINT);
+        return getDefaultEndpoint(authorizationUri, BaseConstants.DEFAULT_AUTHORIZATION_ENDPOINT);
     }
-
 
 
     public void setAuthorizationUri(String authorizationUri) {
@@ -204,7 +194,7 @@ public class EndpointProperties {
     }
 
     public String getAccessTokenUri() {
-        return getDefaultEndpoint(accessTokenUri, PATH_TOKEN_ENDPOINT);
+        return getDefaultEndpoint(accessTokenUri, BaseConstants.DEFAULT_TOKEN_ENDPOINT);
     }
 
     public void setAccessTokenUri(String accessTokenUri) {
@@ -212,7 +202,7 @@ public class EndpointProperties {
     }
 
     public String getJwkSetUri() {
-        return getDefaultEndpoint(jwkSetUri, PATH_JWK_SET_ENDPOINT);
+        return getDefaultEndpoint(jwkSetUri, BaseConstants.DEFAULT_JWK_SET_ENDPOINT);
     }
 
     public void setJwkSetUri(String jwkSetUri) {
@@ -220,7 +210,7 @@ public class EndpointProperties {
     }
 
     public String getTokenRevocationUri() {
-        return getDefaultEndpoint(tokenRevocationUri, PATH_TOKEN_REVOCATION_ENDPOINT);
+        return getDefaultEndpoint(tokenRevocationUri, BaseConstants.DEFAULT_TOKEN_REVOCATION_ENDPOINT);
     }
 
     public void setTokenRevocationUri(String tokenRevocationUri) {
@@ -228,7 +218,7 @@ public class EndpointProperties {
     }
 
     public String getTokenIntrospectionUri() {
-        return getDefaultEndpoint(tokenIntrospectionUri, PATH_TOKEN_INTROSPECTION_ENDPOINT);
+        return getDefaultEndpoint(tokenIntrospectionUri, BaseConstants.DEFAULT_TOKEN_INTROSPECTION_ENDPOINT);
     }
 
     public void setTokenIntrospectionUri(String tokenIntrospectionUri) {
@@ -236,7 +226,7 @@ public class EndpointProperties {
     }
 
     public String getOidcClientRegistrationUri() {
-        return getDefaultEndpoint(oidcClientRegistrationUri, PATH_OIDC_CLIENT_REGISTRATION_ENDPOINT);
+        return getDefaultEndpoint(oidcClientRegistrationUri, BaseConstants.DEFAULT_OIDC_CLIENT_REGISTRATION_ENDPOINT);
     }
 
     public void setOidcClientRegistrationUri(String oidcClientRegistrationUri) {
@@ -244,7 +234,7 @@ public class EndpointProperties {
     }
 
     public String getOidcUserInfoUri() {
-        return getDefaultEndpoint(oidcUserInfoUri, PATH_OIDC_USER_INFO_ENDPOINT);
+        return getDefaultEndpoint(oidcUserInfoUri, BaseConstants.DEFAULT_OIDC_USER_INFO_ENDPOINT);
     }
 
     public void setOidcUserInfoUri(String oidcUserInfoUri) {

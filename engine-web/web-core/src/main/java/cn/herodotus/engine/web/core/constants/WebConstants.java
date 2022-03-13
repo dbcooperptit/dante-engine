@@ -35,6 +35,7 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface WebConstants extends BaseConstants {
 
+    String PROPERTY_PREFIX_ENDPOINT = PROPERTY_PREFIX_HERODOTUS + ".endpoint";
     String PROPERTY_REST_TEMPLATE = PROPERTY_PREFIX_REST + ".rest-template";
     String PROPERTY_REST_SCAN = PROPERTY_PREFIX_REST + ".scan";
 

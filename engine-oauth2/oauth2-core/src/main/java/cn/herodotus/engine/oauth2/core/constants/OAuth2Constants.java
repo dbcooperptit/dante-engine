@@ -35,7 +35,6 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface OAuth2Constants extends BaseConstants {
 
-    String PROPERTY_PREFIX_ENDPOINT = PROPERTY_PREFIX_HERODOTUS + ".endpoint";
     String PROPERTY_PREFIX_OAUTH2 = PROPERTY_PREFIX_HERODOTUS + ".oauth2";
 
     String REGION_OAUTH2_AUTHORIZATION = AREA_PREFIX + "oauth2:authorization";

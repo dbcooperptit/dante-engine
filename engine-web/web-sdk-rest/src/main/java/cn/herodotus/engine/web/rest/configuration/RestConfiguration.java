@@ -27,6 +27,7 @@ package cn.herodotus.engine.web.rest.configuration;
 
 import cn.herodotus.engine.assistant.core.annotation.ConditionalOnSwaggerEnabled;
 import cn.herodotus.engine.web.core.definition.OpenApiServerResolver;
+import cn.herodotus.engine.web.core.properties.EndpointProperties;
 import cn.herodotus.engine.web.core.properties.PlatformProperties;
 import cn.herodotus.engine.web.core.support.ContextHolder;
 import cn.herodotus.engine.web.rest.processor.DefaultOpenApiServerResolver;
@@ -48,7 +49,7 @@ import javax.annotation.PostConstruct;
  * @date : 2021/6/13 13:40
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(PlatformProperties.class)
+@EnableConfigurationProperties({PlatformProperties.class, EndpointProperties.class})
 @Import({
         JacksonConfiguration.class,
         RestTemplateConfiguration.class
@@ -64,8 +65,8 @@ public class RestConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ContextHolder contextHolder(PlatformProperties platformProperties) {
-        ContextHolder contextHolder = new ContextHolder(platformProperties);
+    public ContextHolder contextHolder(PlatformProperties platformProperties, EndpointProperties endpointProperties) {
+        ContextHolder contextHolder = new ContextHolder(platformProperties, endpointProperties);
         log.trace("[Herodotus] |- Bean [Context Holder] Auto Configure.");
         return contextHolder;
     }

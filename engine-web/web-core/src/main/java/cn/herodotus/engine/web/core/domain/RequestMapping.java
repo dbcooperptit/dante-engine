@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.web.core.domain;
 
-import cn.herodotus.engine.assistant.core.definition.entity.AbstractEntity;
+import cn.herodotus.engine.assistant.core.definition.domain.AbstractEntity;
 import cn.herodotus.engine.assistant.core.enums.AuthorityType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;

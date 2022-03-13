@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.data.jpa;
 
-import cn.herodotus.engine.assistant.core.definition.entity.AbstractEntity;
+import cn.herodotus.engine.assistant.core.definition.domain.AbstractEntity;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.collections4.CollectionUtils;
