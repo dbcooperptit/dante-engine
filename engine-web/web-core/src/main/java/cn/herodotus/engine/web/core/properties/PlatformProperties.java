@@ -37,7 +37,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author : gengwei.zheng
  * @date : 2019/11/17 15:22
  */
-@ConfigurationProperties(prefix = WebConstants.PROPERTY_HERODOTUS_PLATFORM)
+@ConfigurationProperties(prefix = WebConstants.PROPERTY_PREFIX_PLATFORM)
 public class PlatformProperties {
 
     /**

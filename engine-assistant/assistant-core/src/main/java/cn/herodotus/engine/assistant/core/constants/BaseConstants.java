@@ -51,10 +51,9 @@ public interface BaseConstants {
 
     /* ---------- Herodotus 自定义配置属性 ---------- */
 
+    String PROPERTY_PREFIX_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
     String PROPERTY_PREFIX_REST = PROPERTY_PREFIX_HERODOTUS + ".rest";
     String PROPERTY_PREFIX_SWAGGER = PROPERTY_PREFIX_HERODOTUS + ".swagger";
-
-    String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
 
     String ITEM_SWAGGER_ENABLED = PROPERTY_PREFIX_SWAGGER + PROPERTY_ENABLED;
 
