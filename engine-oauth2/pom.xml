@@ -17,10 +17,8 @@
     <modules>
         <module>oauth2-core</module>
         <module>oauth2-sdk-data-jpa</module>
-        <module>oauth2-sdk-granter</module>
-        <module>oauth2-sdk-manager</module>
-        <module>oauth2-spring-boot-starter</module>
+        <module>oauth2-sdk-authorization-server</module>
+        <module>oauth2-sdk-resource-server</module>
     </modules>
-
 
 </project>
