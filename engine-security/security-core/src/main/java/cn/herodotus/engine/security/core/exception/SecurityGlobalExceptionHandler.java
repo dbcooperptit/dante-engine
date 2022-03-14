@@ -25,6 +25,8 @@
 
 package cn.herodotus.engine.security.core.exception;
 
+import cn.herodotus.engine.assistant.core.definition.exception.AbstractHerodotusException;
+import cn.herodotus.engine.assistant.core.definition.exception.HerodotusException;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.assistant.core.enums.ResultErrorCodes;
 import cn.herodotus.engine.assistant.core.exception.GlobalExceptionHandler;
