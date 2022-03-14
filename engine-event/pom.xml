@@ -41,10 +41,6 @@
 
     <modules>
         <module>event-core</module>
-        <module>event-core-local</module>
-        <module>event-core-remote</module>
-        <module>event-sdk-pay</module>
-        <module>event-sdk-security</module>
         <module>event-security-spring-boot-starter</module>
         <module>event-pay-spring-boot-starter</module>
     </modules>

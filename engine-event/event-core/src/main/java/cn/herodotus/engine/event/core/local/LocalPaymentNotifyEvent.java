@@ -23,26 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.event.core.local.event;
+package cn.herodotus.engine.event.core.local;
 
-import cn.herodotus.engine.event.core.local.definition.HerodotusApplicationEvent;
+import cn.herodotus.engine.event.core.definition.LocalApplicationEvent;
 
 import java.time.Clock;
 import java.util.Map;
 
 /**
- * <p>Description: 单体模式下本地返回事件 </p>
+ * <p>Description: 单体模式下本地通知事件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/10 22:09
+ * @date : 2022/1/10 21:05
  */
-public class LocalPaymentReturnEvent extends HerodotusApplicationEvent<Map<String, String>> {
+public class LocalPaymentNotifyEvent extends LocalApplicationEvent<Map<String, String>> {
 
-    public LocalPaymentReturnEvent(Map<String, String> data) {
+    public LocalPaymentNotifyEvent(Map<String, String> data) {
         super(data);
     }
 
-    public LocalPaymentReturnEvent(Map<String, String> data, Clock clock) {
+    public LocalPaymentNotifyEvent(Map<String, String> data, Clock clock) {
         super(data, clock);
     }
 }

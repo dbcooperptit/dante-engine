@@ -23,22 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.event.core.remote.processor;
+package cn.herodotus.engine.event.core.local;
 
-import org.springframework.cloud.bus.event.Destination;
-import org.springframework.cloud.bus.event.PathDestinationFactory;
+import cn.herodotus.engine.event.core.definition.LocalApplicationEvent;
+
+import java.time.Clock;
+import java.util.Map;
 
 /**
- * <p>Description: Spring Cloud Bus Destination辅助类 </p>
+ * <p>Description: 单体模式下本地返回事件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/8/8 15:18
+ * @date : 2022/1/10 22:09
  */
-public class DestinationResolver {
+public class LocalPaymentReturnEvent extends LocalApplicationEvent<Map<String, String>> {
 
-    private static final PathDestinationFactory PATH_DESTINATION_FACTORY = new PathDestinationFactory();
+    public LocalPaymentReturnEvent(Map<String, String> data) {
+        super(data);
+    }
 
-    public static Destination create(String serviceName) {
-        return PATH_DESTINATION_FACTORY.getDestination(serviceName + ":**");
+    public LocalPaymentReturnEvent(Map<String, String> data, Clock clock) {
+        super(data, clock);
     }
 }

@@ -23,31 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.event.pay.configuration;
+package cn.herodotus.engine.event.core.local;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
-import org.springframework.context.annotation.Configuration;
+import cn.herodotus.engine.event.core.definition.LocalApplicationEvent;
+import cn.herodotus.engine.web.core.domain.RequestMapping;
 
-import javax.annotation.PostConstruct;
+import java.time.Clock;
+import java.util.List;
 
 /**
- * <p>Description: 支付事件配置 </p>
+ * <p>Description: 本地RequestMapping收集事件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/20 19:04
+ * @date : 2021/8/8 21:55
  */
-@Configuration(proxyBeanMethods = false)
-@RemoteApplicationEventScan({
-        "cn.herodotus.engine.event.pay.remote"
-})
-public class EventPayConfiguration {
+public class LocalRequestMappingGatherEvent extends LocalApplicationEvent<List<RequestMapping>> {
 
-    private static final Logger log = LoggerFactory.getLogger(EventPayConfiguration.class);
+    public LocalRequestMappingGatherEvent(List<RequestMapping> data) {
+        super(data);
+    }
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Event Pay] Auto Configure.");
+    public LocalRequestMappingGatherEvent(List<RequestMapping> data, Clock clock) {
+        super(data, clock);
     }
 }

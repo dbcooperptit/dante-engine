@@ -25,11 +25,10 @@
 
 package cn.herodotus.engine.event.security.autoconfigure;
 
-import cn.herodotus.engine.event.security.configuration.EventSecurityConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import javax.annotation.PostConstruct;
 
@@ -40,8 +39,8 @@ import javax.annotation.PostConstruct;
  * @date : 2022/1/23 12:13
  */
 @Configuration(proxyBeanMethods = false)
-@Import({
-        EventSecurityConfiguration.class
+@RemoteApplicationEventScan({
+        "cn.herodotus.engine.event.security.remote"
 })
 public class AutoConfiguration {
 

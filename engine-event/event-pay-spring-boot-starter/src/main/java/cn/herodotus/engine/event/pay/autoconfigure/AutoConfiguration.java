@@ -27,6 +27,7 @@ package cn.herodotus.engine.event.pay.autoconfigure;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -38,6 +39,9 @@ import javax.annotation.PostConstruct;
  * @date : 2022/1/20 19:07
  */
 @Configuration(proxyBeanMethods = false)
+@RemoteApplicationEventScan({
+        "cn.herodotus.engine.event.pay.remote"
+})
 public class AutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);

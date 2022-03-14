@@ -23,31 +23,13 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.event.security.configuration;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
-import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
+package cn.herodotus.engine.event.core.constants;
 
 /**
- * <p>Description: Security Event 配置 </p>
+ * <p>Description: Event 模块常量 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/23 12:09
+ * @date : 2022/3/14 16:24
  */
-@Configuration(proxyBeanMethods = false)
-@RemoteApplicationEventScan({
-        "cn.herodotus.engine.event.security.remote"
-})
-public class EventSecurityConfiguration {
-
-    private static final Logger log = LoggerFactory.getLogger(EventSecurityConfiguration.class);
-
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Event Security] Auto Configure.");
-    }
+public interface EventConstants {
 }

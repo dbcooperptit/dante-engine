@@ -90,7 +90,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         // 2、只针对有EnableResourceServer注解的微服务进行扫描。如果变为单体架构目前不会用到EnableResourceServer所以增加的了一个Architecture判断
         if (!requestMappingScanManager.isPerformScan(applicationContext)) {
             // 只扫描资源服务器
-            log.debug("[Herodotus] |- Can not found annotation 'EnableWebSecurity' in Service [{}], Skip!", serviceId);
+            log.warn("[Herodotus] |- Can not found scan annotation in Service [{}], Skip!", serviceId);
             return;
         }
 
@@ -118,10 +118,10 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         }
 
         if (CollectionUtils.isNotEmpty(resources)) {
-            log.debug("[Herodotus] |- [2] Request mapping scan found [{}] resources, go to next stage!", resources.size());
+            log.debug("[Herodotus] |- [2] Request mapping scan found [{}] resources in service [{}], go to next stage!", serviceId, resources.size());
             requestMappingScanManager.postProcess(resources, applicationContext, serviceId);
         } else {
-            log.debug("[Herodotus] |- [2] Request mapping scan can not find any resources!");
+            log.debug("[Herodotus] |- [2] Request mapping scan can not find any resources in service [{}]!", serviceId);
         }
 
         log.info("[Herodotus] |- Request Mapping Scan for Service: [{}] FINISHED!", serviceId);
