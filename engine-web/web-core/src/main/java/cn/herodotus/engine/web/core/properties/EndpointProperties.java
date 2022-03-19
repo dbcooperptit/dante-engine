@@ -26,9 +26,7 @@
 package cn.herodotus.engine.web.core.properties;
 
 import cn.herodotus.engine.assistant.core.constants.BaseConstants;
-import cn.herodotus.engine.assistant.core.enums.Protocol;
 import cn.herodotus.engine.assistant.core.exception.properties.PropertyValueIsNotSetException;
-import cn.herodotus.engine.assistant.core.exception.properties.UrlFormatIncorrectException;
 import cn.herodotus.engine.assistant.core.utils.ConvertUtils;
 import cn.herodotus.engine.web.core.constants.WebConstants;
 import com.google.common.base.MoreObjects;
@@ -121,16 +119,6 @@ public class EndpointProperties {
     }
 
     public String getGatewayServiceUri() {
-        if (StringUtils.isBlank(gatewayServiceUri)) {
-            log.error("[Herodotus] |- Property [Gateway Endpoint] is not set or property format is incorrect!");
-            throw new PropertyValueIsNotSetException();
-        }
-
-        if (!StringUtils.startsWith(gatewayServiceUri, Protocol.HTTP.getPrefix())) {
-            log.error("[Herodotus] |- Property [Gateway Endpoint] missing protocol content!");
-            throw new UrlFormatIncorrectException();
-        }
-
         return gatewayServiceUri;
     }
 
