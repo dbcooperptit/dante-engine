@@ -68,8 +68,12 @@ public class OpenApiConfiguration {
      */
     private static final String SCHEMA_OAUTH_NAME = "oauth2";
 
+    private final OpenApiServerResolver openApiServerResolver;
+
     @Autowired
-    private OpenApiServerResolver openApiServerResolver;
+    public OpenApiConfiguration(OpenApiServerResolver openApiServerResolver) {
+        this.openApiServerResolver = openApiServerResolver;
+    }
 
     @PostConstruct
     public void postConstruct() {

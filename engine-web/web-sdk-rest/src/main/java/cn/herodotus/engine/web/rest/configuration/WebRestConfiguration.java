@@ -26,14 +26,15 @@
 package cn.herodotus.engine.web.rest.configuration;
 
 import cn.herodotus.engine.assistant.core.annotation.ConditionalOnSwaggerEnabled;
+import cn.herodotus.engine.web.core.context.HerodotusApplicationContext;
 import cn.herodotus.engine.web.core.definition.OpenApiServerResolver;
 import cn.herodotus.engine.web.core.properties.EndpointProperties;
 import cn.herodotus.engine.web.core.properties.PlatformProperties;
-import cn.herodotus.engine.web.core.support.ContextHolder;
 import cn.herodotus.engine.web.rest.processor.DefaultOpenApiServerResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,9 +54,9 @@ import javax.annotation.PostConstruct;
         JacksonConfiguration.class,
         RestTemplateConfiguration.class
 })
-public class RestConfiguration {
+public class WebRestConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(RestConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(WebRestConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
@@ -64,16 +65,16 @@ public class RestConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ContextHolder contextHolder(PlatformProperties platformProperties, EndpointProperties endpointProperties) {
-        ContextHolder contextHolder = new ContextHolder(platformProperties, endpointProperties);
+    public HerodotusApplicationContext herodotusApplicationContext(PlatformProperties platformProperties, EndpointProperties endpointProperties, ServerProperties serverProperties) {
+        HerodotusApplicationContext contextHolder = new HerodotusApplicationContext(platformProperties, endpointProperties, serverProperties);
         log.trace("[Herodotus] |- Bean [Context Holder] Auto Configure.");
         return contextHolder;
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public OpenApiServerResolver openApiServerResolver(ContextHolder contextHolder) {
-        DefaultOpenApiServerResolver defaultOpenApiServerResolver = new DefaultOpenApiServerResolver(contextHolder);
+    public OpenApiServerResolver openApiServerResolver(HerodotusApplicationContext herodotusApplicationContext) {
+        DefaultOpenApiServerResolver defaultOpenApiServerResolver = new DefaultOpenApiServerResolver(herodotusApplicationContext);
         log.trace("[Herodotus] |- Bean [Open Api Server Resolver] Auto Configure.");
         return defaultOpenApiServerResolver;
     }

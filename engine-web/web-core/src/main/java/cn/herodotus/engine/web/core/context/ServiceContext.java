@@ -23,14 +23,12 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.core.support;
+package cn.herodotus.engine.web.core.context;
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import cn.herodotus.engine.assistant.core.utils.ConvertUtils;
-import cn.herodotus.engine.assistant.core.utils.EnvUtils;
 import cn.herodotus.engine.web.core.enums.Architecture;
 import cn.herodotus.engine.web.core.enums.DataAccessStrategy;
-import cn.herodotus.engine.web.core.definition.WebPropertyFinder;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
@@ -61,7 +59,7 @@ public class ServiceContext {
     /**
      * 服务IP地址
      */
-    private String ip = EnvUtils.getHostAddress();
+    private String ip;
     /**
      * 服务地址，格式：ip:port
      */
@@ -133,10 +131,6 @@ public class ServiceContext {
 
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-        if (ObjectUtils.isNotEmpty(this.applicationContext)) {
-            this.setApplicationName(WebPropertyFinder.getApplicationName(this.applicationContext.getEnvironment()));
-            this.setPort(WebPropertyFinder.getServerPort(this.applicationContext.getEnvironment()));
-        }
     }
 
     public String getPort() {

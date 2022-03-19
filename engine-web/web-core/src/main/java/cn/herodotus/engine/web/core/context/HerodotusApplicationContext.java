@@ -23,12 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.core.support;
+package cn.herodotus.engine.web.core.context;
 
 import cn.herodotus.engine.web.core.properties.EndpointProperties;
 import cn.herodotus.engine.web.core.properties.PlatformProperties;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
@@ -38,15 +41,17 @@ import org.springframework.context.ApplicationContextAware;
  * @author : gengwei.zheng
  * @date : 2022/1/14 16:42
  */
-public class ContextHolder implements ApplicationContextAware, InitializingBean {
+public class HerodotusApplicationContext implements ApplicationContextAware, InitializingBean {
 
     private final PlatformProperties platformProperties;
     private final EndpointProperties endpointProperties;
+    private final ServerProperties serverProperties;
     private final ServiceContext serviceContext;
 
-    public ContextHolder(PlatformProperties platformProperties, EndpointProperties endpointProperties) {
+    public HerodotusApplicationContext(PlatformProperties platformProperties, EndpointProperties endpointProperties, ServerProperties serverProperties) {
         this.platformProperties = platformProperties;
         this.endpointProperties = endpointProperties;
+        this.serverProperties = serverProperties;
         this.serviceContext = ServiceContext.getInstance();
     }
 
@@ -55,11 +60,32 @@ public class ContextHolder implements ApplicationContextAware, InitializingBean 
         this.serviceContext.setArchitecture(this.platformProperties.getArchitecture());
         this.serviceContext.setDataAccessStrategy(this.platformProperties.getDataAccessStrategy());
         this.serviceContext.setGatewayAddress(this.endpointProperties.getGatewayServiceUri());
+        this.serviceContext.setPort(String.valueOf(this.getPort()));
+        this.serviceContext.setIp(getHostAddress());
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.serviceContext.setApplicationContext(applicationContext);
+        this.serviceContext.setApplicationName(applicationContext.getApplicationName());
+    }
+
+    private String getHostAddress() {
+        String address = serverProperties.getAddress().getHostAddress();
+        if (StringUtils.isNotBlank(address)) {
+            return address;
+        } else {
+            return "localhost";
+        }
+    }
+
+    private Integer getPort() {
+        Integer port = serverProperties.getPort();
+        if (ObjectUtils.isNotEmpty(port)) {
+            return port;
+        } else {
+            return 8080;
+        }
     }
 
     public PlatformProperties getPlatformProperties() {
