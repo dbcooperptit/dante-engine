@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.oauth2.server.authorization.dto;
 
-import cn.herodotus.engine.assistant.core.definition.dto.BaseDto;
+import cn.herodotus.engine.assistant.core.definition.domain.AbstractDto;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -38,7 +38,7 @@ import javax.validation.constraints.NotBlank;
  * @date : 2021/10/1 15:19
  */
 @Schema(title = "加密创建请求")
-public class SessionCreate extends BaseDto {
+public class SessionCreate extends AbstractDto {
 
     @NotBlank(message = "客户端ID不能为空")
     @Schema(title = "客户端ID")

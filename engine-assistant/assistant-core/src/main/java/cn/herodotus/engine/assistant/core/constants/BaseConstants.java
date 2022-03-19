@@ -86,7 +86,7 @@ public interface BaseConstants {
     String PASSWORD = "password";
     String CLIENT_CREDENTIALS = "client_credentials";
     String REFRESH_TOKEN = "refresh_token";
-    String SOCIAL_AUTHENTICATION = "social_credentials";
+    String SOCIAL_CREDENTIALS = "social_credentials";
 
     String DEFAULT_AUTHORIZATION_ENDPOINT = "/oauth2/authorize";
     String DEFAULT_TOKEN_ENDPOINT = "/oauth2/token";

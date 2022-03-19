@@ -23,59 +23,63 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.security.core.definition.domain;
+package cn.herodotus.engine.rest.core.definition.dto;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import org.springframework.security.core.GrantedAuthority;
+import cn.herodotus.engine.data.core.enums.DataItemStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 自定义 GrantedAuthority </p>
+ * <p>Description: 框架基础实体通用基础类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/3/5 0:12
+ * @date : 2022/3/18 15:47
  */
-public class HerodotusGrantedAuthority implements GrantedAuthority {
+public class BaseSysDto extends BaseDto{
 
-    public HerodotusGrantedAuthority() {
+    @Schema(title = "数据状态")
+    private DataItemStatus status = DataItemStatus.ENABLE;
+
+    @Schema(title = "是否为保留数据", description = "True 为不能删，False为可以删除")
+    private Boolean reserved = Boolean.FALSE;
+
+    @Schema(title = "版本号")
+    private Integer reversion = 0;
+
+    /**
+     * 角色描述,UI界面显示使用
+     */
+    @Schema(title = "备注")
+    private String description;
+
+    public DataItemStatus getStatus() {
+        return status;
     }
 
-    public HerodotusGrantedAuthority(String authority) {
-        this.authority = authority;
+    public void setStatus(DataItemStatus status) {
+        this.status = status;
     }
 
-    private String authority;
-
-    @Override
-    public String getAuthority() {
-        return this.authority;
+    public Boolean getReserved() {
+        return reserved;
     }
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
+    public void setReserved(Boolean reserved) {
+        this.reserved = reserved;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        HerodotusGrantedAuthority that = (HerodotusGrantedAuthority) o;
-        return Objects.equal(authority, that.authority);
+    public Integer getReversion() {
+        return reversion;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(authority);
+    public void setReversion(Integer reversion) {
+        this.reversion = reversion;
     }
 
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("authority", authority)
-                .toString();
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

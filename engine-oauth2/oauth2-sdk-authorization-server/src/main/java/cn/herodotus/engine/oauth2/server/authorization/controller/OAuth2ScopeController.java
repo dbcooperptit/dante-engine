@@ -23,59 +23,42 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.security.core.definition.domain;
+package cn.herodotus.engine.oauth2.server.authorization.controller;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import org.springframework.security.core.GrantedAuthority;
+import cn.herodotus.engine.data.core.service.WriteableService;
+import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Scope;
+import cn.herodotus.engine.oauth2.server.authorization.service.OAuth2ScopeService;
+import cn.herodotus.engine.rest.core.controller.BaseWriteableRestController;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>Description: 自定义 GrantedAuthority </p>
+ * <p> Description : OauthScopesController </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/3/5 0:12
+ * @date : 2020/3/25 17:10
  */
-public class HerodotusGrantedAuthority implements GrantedAuthority {
+@RestController
+@RequestMapping("/authorize/scope")
+@Tags({
+        @Tag(name = "OAuth2 认证服务接口"),
+        @Tag(name = "OAuth2 权限范围管理接口")
+})
+public class OAuth2ScopeController extends BaseWriteableRestController<OAuth2Scope, String> {
 
-    public HerodotusGrantedAuthority() {
-    }
+    private final OAuth2ScopeService oAuth2ScopeService;
 
-    public HerodotusGrantedAuthority(String authority) {
-        this.authority = authority;
-    }
-
-    private String authority;
-
-    @Override
-    public String getAuthority() {
-        return this.authority;
-    }
-
-    public void setAuthority(String authority) {
-        this.authority = authority;
+    @Autowired
+    public OAuth2ScopeController(OAuth2ScopeService oAuth2ScopeService) {
+        this.oAuth2ScopeService = oAuth2ScopeService;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        HerodotusGrantedAuthority that = (HerodotusGrantedAuthority) o;
-        return Objects.equal(authority, that.authority);
+    public WriteableService<OAuth2Scope, String> getWriteableService() {
+        return this.oAuth2ScopeService;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(authority);
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("authority", authority)
-                .toString();
-    }
 }

@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.jackson;
+package cn.herodotus.engine.security.core.jackson2;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -44,7 +44,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @author : gengwei.zheng
  * @date : 2022/2/17 21:57
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY)
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 @JsonDeserialize(using = HerodotusUserDeserializer.class)
 @JsonAutoDetect(
         fieldVisibility = JsonAutoDetect.Visibility.ANY,

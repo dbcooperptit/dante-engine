@@ -25,39 +25,48 @@
 
 package cn.herodotus.engine.oauth2.server.authorization.controller;
 
-import cn.herodotus.engine.data.core.service.WriteableService;
-import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorization;
-import cn.herodotus.engine.oauth2.data.jpa.service.HerodotusAuthorizationService;
-import cn.herodotus.engine.rest.core.controller.BaseWriteableRestController;
+import cn.herodotus.engine.assistant.core.domain.Result;
+import cn.herodotus.engine.oauth2.server.authorization.service.OAuth2ConstantService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
- * <p>Description: OAuth2 认证管理接口 </p>
+ * <p>Description: OAuth2 常量 Controller </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/3/1 18:52
+ * @date : 2022/3/17 15:00
  */
 @RestController
-@RequestMapping("/authorize/authorization")
+@RequestMapping("/authorize/constant")
 @Tags({
         @Tag(name = "OAuth2 认证服务接口"),
-        @Tag(name = "OAuth2 认证管理接口")
+        @Tag(name = "常量接口")
 })
-public class OAuth2AuthorizationController extends BaseWriteableRestController<HerodotusAuthorization, String> {
+public class OAuth2ConstantController {
 
-    private final HerodotusAuthorizationService herodotusAuthorizationService;
+    private final OAuth2ConstantService constantService;
 
     @Autowired
-    public OAuth2AuthorizationController(HerodotusAuthorizationService herodotusAuthorizationService) {
-        this.herodotusAuthorizationService = herodotusAuthorizationService;
+    public OAuth2ConstantController(OAuth2ConstantService constantService) {
+        this.constantService = constantService;
     }
 
-    @Override
-    public WriteableService<HerodotusAuthorization, String> getWriteableService() {
-        return this.herodotusAuthorizationService;
+    @Operation(summary = "获取服务常量", description = "获取服务涉及的常量以及信息")
+    @GetMapping(value = "/enums")
+    public Result<Map<String, Object>> findAllEnums() {
+        Map<String, Object> allEnums = constantService.getAllEnums();
+        if (MapUtils.isNotEmpty(allEnums)) {
+            return Result.success("获取服务常量成功", allEnums);
+        } else {
+            return Result.failure("获取服务常量失败");
+        }
     }
 }

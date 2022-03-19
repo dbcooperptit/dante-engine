@@ -29,7 +29,7 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.definition.domain.AbstractEntity;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
-import cn.herodotus.engine.rest.core.dto.Pager;
+import cn.herodotus.engine.rest.core.definition.dto.Pager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

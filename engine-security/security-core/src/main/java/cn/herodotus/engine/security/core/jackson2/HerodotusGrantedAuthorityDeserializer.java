@@ -23,16 +23,35 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.definition.dto;
+package cn.herodotus.engine.security.core.jackson2;
 
-import cn.herodotus.engine.assistant.core.definition.domain.AbstractEntity;
+import cn.herodotus.engine.security.core.definition.domain.HerodotusGrantedAuthority;
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.MissingNode;
+
+import java.io.IOException;
 
 /**
- * <p>Description: DTO基类定义 </p>
+ * <p>Description: HerodotusGrantedAuthority 反序列化 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/4/30 22:30
+ * @date : 2022/3/17 20:28
  */
-public abstract class BaseDto extends AbstractEntity {
+public class HerodotusGrantedAuthorityDeserializer extends JsonDeserializer<HerodotusGrantedAuthority> {
+    @Override
+    public HerodotusGrantedAuthority deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JacksonException {
+        ObjectMapper mapper = (ObjectMapper) jp.getCodec();
+        JsonNode jsonNode = mapper.readTree(jp);
+        String authority = readJsonNode(jsonNode, "authority").asText();
+        return new HerodotusGrantedAuthority(authority);
+    }
 
+    private JsonNode readJsonNode(JsonNode jsonNode, String field) {
+        return jsonNode.has(field) ? jsonNode.get(field) : MissingNode.getInstance();
+    }
 }

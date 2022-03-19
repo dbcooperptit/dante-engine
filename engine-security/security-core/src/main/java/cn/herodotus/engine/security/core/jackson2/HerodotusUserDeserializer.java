@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.jackson;
+package cn.herodotus.engine.security.core.jackson2;
 
 import cn.herodotus.engine.security.core.definition.domain.HerodotusGrantedAuthority;
 import cn.herodotus.engine.security.core.definition.domain.HerodotusUser;

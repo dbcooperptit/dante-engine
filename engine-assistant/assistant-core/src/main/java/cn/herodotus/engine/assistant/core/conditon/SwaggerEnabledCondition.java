@@ -23,22 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.data.core.service;
+package cn.herodotus.engine.assistant.core.conditon;
 
-import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-
-import java.io.Serializable;
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.support.PropertyResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * <p>Description: 基于自研Hibernate多层二级缓存的基础服务 </p>
+ * <p>Description: Swagger 开启条件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/7/14 14:32
+ * @date : 2022/3/17 14:34
  */
-public abstract class BaseLayeredService< E extends Entity, ID extends Serializable> implements WriteableService<E, ID> {
+public class SwaggerEnabledCondition implements Condition {
 
-    protected String like(String property) {
-        return SymbolConstants.PERCENT + property + SymbolConstants.PERCENT;
+    private static final Logger log = LoggerFactory.getLogger(SwaggerEnabledCondition.class);
+
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata metadata) {
+        boolean result = PropertyResolver.getBoolean(conditionContext, BaseConstants.ITEM_SWAGGER_ENABLED);
+        log.debug("[Herodotus] |- Condition [Swagger Enabled] value is [{}]", result);
+        return result;
     }
 }

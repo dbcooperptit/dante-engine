@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.rest.core.dto;
+package cn.herodotus.engine.rest.core.definition.dto;
 
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;

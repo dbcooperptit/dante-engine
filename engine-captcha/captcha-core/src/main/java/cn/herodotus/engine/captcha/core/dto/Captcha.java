@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.captcha.core.dto;
 
-import cn.herodotus.engine.assistant.core.definition.dto.BaseDto;
+import cn.herodotus.engine.assistant.core.definition.domain.AbstractDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author : gengwei.zheng
  * @date : 2021/12/13 17:06
  */
-public abstract class Captcha extends BaseDto {
+public abstract class Captcha extends AbstractDto {
 
     @Schema(title = "验证码身份")
     private String identity;

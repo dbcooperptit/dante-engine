@@ -32,7 +32,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
@@ -48,7 +47,7 @@ import javax.persistence.*;
         @Index(name = "oauth2_scope_code_idx", columnList = "scope_code")})
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = OAuth2Constants.REGION_OAUTH2_SCOPE)
-public class OAuth2Scope extends BaseSysEntity implements GrantedAuthority {
+public class OAuth2Scope extends BaseSysEntity {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -84,11 +83,6 @@ public class OAuth2Scope extends BaseSysEntity implements GrantedAuthority {
 
     public void setScopeName(String scopeName) {
         this.scopeName = scopeName;
-    }
-
-    @Override
-    public String getAuthority() {
-        return this.getScopeCode();
     }
 
     @Override

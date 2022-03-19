@@ -27,19 +27,24 @@ package cn.herodotus.engine.oauth2.server.authorization.controller;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.data.core.service.WriteableService;
+import cn.herodotus.engine.oauth2.server.authorization.dto.OAuth2ApplicationDto;
 import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Application;
 import cn.herodotus.engine.oauth2.server.authorization.service.OAuth2ApplicationService;
-import cn.herodotus.engine.rest.core.controller.BaseWriteableRestController;
+import cn.herodotus.engine.rest.core.controller.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>Description: OAuth2应用管理接口 </p>
@@ -50,10 +55,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/authorize/application")
 @Tags({
-        @Tag(name = "OAuth2 认证服务器接口"),
+        @Tag(name = "OAuth2 认证服务接口"),
         @Tag(name = "OAuth2 应用管理接口")
 })
-public class OAuth2ApplicationController extends BaseWriteableRestController<OAuth2Application, String> {
+public class OAuth2ApplicationController extends BaseController<OAuth2Application, String> {
 
     private final OAuth2ApplicationService applicationService;
 
@@ -65,6 +70,47 @@ public class OAuth2ApplicationController extends BaseWriteableRestController<OAu
     @Override
     public WriteableService<OAuth2Application, String> getWriteableService() {
         return this.applicationService;
+    }
+
+    @Operation(summary = "获取OAuth2Application分页数据", description = "通过pageNumber和pageSize获取分页数据")
+    @Parameters({
+            @Parameter(name = "pageNumber", required = true, description = "当前页数"),
+            @Parameter(name = "pageSize", required = true, description = "每页显示数据条目")
+    })
+    @GetMapping
+    @Override
+    public Result<Map<String, Object>> findByPage(
+            @RequestParam("pageNumber") Integer pageNumber,
+            @RequestParam("pageSize") Integer pageSize) {
+
+        Page<OAuth2Application> pages = applicationService.findByPage(pageNumber, pageSize);
+        if (ObjectUtils.isNotEmpty(pages) && CollectionUtils.isNotEmpty(pages.getContent())) {
+            List<OAuth2ApplicationDto> auth2Applications = pages.getContent().stream().map(OAuth2ApplicationService::toDto).collect(Collectors.toList());
+            return result(getPageInfoMap(auth2Applications, pages.getTotalPages(), pages.getTotalElements()));
+        }
+
+        return Result.failure("查询数据失败！");
+    }
+
+    @Operation(summary = "保存或更新OAuth2应用", description = "接收JSON数据，转换为OauthClientDetails实体，进行更新")
+    @Parameters({
+            @Parameter(name = "oauthClientDetails", required = true, description = "可转换为OauthClientDetails实体的json数据")
+    })
+    @PostMapping
+    public Result<OAuth2Application> saveOrUpdate(@RequestBody OAuth2ApplicationDto domain) {
+        OAuth2Application oAuth2Application = applicationService.saveOrUpdate(OAuth2ApplicationService.toEntity(domain));
+        return result(oAuth2Application);
+    }
+
+    @Operation(summary = "删除OAuth2应用", description = "根据应用ID删除OAuth2应用，以及相关联的关系数据")
+    @Parameters({
+            @Parameter(name = "applicationId", required = true, description = "applicationId")
+    })
+    @DeleteMapping
+    @Override
+    public Result<String> delete(@RequestBody String applicationId) {
+        applicationService.deleteById(applicationId);
+        return Result.success("删除成功");
     }
 
     @Operation(summary = "给应用分配Scope", description = "给应用分配Scope")

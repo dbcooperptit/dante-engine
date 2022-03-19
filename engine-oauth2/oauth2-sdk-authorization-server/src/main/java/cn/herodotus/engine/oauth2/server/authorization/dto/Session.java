@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.oauth2.server.authorization.dto;
 
-import cn.herodotus.engine.assistant.core.definition.dto.BaseDto;
+import cn.herodotus.engine.assistant.core.definition.domain.AbstractDto;
 import com.google.common.base.MoreObjects;
 
 /**
@@ -34,7 +34,7 @@ import com.google.common.base.MoreObjects;
  * @author : gengwei.zheng
  * @date : 2021/10/2 11:42
  */
-public class Session extends BaseDto {
+public class Session extends AbstractDto {
 
     /**
      * 前端未登录时，唯一身份标识。如果由前端生成，则直接返回；如果由后端生成，则返回后端生成值

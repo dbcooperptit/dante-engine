@@ -23,31 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.springframework.security.core;
+package cn.herodotus.engine.security.core.jackson2;
 
 import cn.herodotus.engine.security.core.definition.domain.HerodotusGrantedAuthority;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import java.io.Serializable;
+import cn.herodotus.engine.security.core.definition.domain.HerodotusUser;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.springframework.security.jackson2.SecurityJackson2Modules;
 
 /**
- * <p>Description: 重新定义GrantedAuthority支持序列化 </p>
+ * <p>Description: 自定义 User Details Module </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/3/5 0:11
+ * @date : 2022/2/17 23:39
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@clazz")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = HerodotusGrantedAuthority.class, name = "HerodotusGrantedAuthority")
-})
-public interface GrantedAuthority extends Serializable {
+public class HerodotusJackson2Module extends SimpleModule {
 
-    /**
-     * f the GrantedAuthority can be represented as a String and that String is sufficient in precision to be relied upon for an access control decision by an AccessDecisionManager (or delegate), this method should return such a String.
-     * If the GrantedAuthority cannot be expressed with sufficient precision as a String, null should be returned. Returning null will require an AccessDecisionManager (or delegate) to specifically support the GrantedAuthority implementation, so returning null should be avoided unless actually required.
-     *
-     * @return a representation of the granted authority (or null if the granted authority cannot be expressed as a String with sufficient precision).
-     */
-    String getAuthority();
+    public HerodotusJackson2Module() {
+        super(HerodotusJackson2Module.class.getName(), new Version(1, 0, 0, null, null, null));
+    }
+
+    @Override
+    public void setupModule(SetupContext context) {
+        SecurityJackson2Modules.enableDefaultTyping(context.getOwner());
+        context.setMixInAnnotations(HerodotusUser.class, HerodotusUserMixin.class);
+        context.setMixInAnnotations(HerodotusGrantedAuthority.class, HerodotusGrantedAuthorityMixin.class);
+    }
 }

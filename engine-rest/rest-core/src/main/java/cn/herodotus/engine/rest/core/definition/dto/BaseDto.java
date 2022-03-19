@@ -23,22 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.data.core.service;
+package cn.herodotus.engine.rest.core.definition.dto;
 
-import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-
-import java.io.Serializable;
+import cn.herodotus.engine.assistant.core.definition.domain.AbstractDto;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 基于自研Hibernate多层二级缓存的基础服务 </p>
+ * <p>Description: DTO基类定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/7/14 14:32
+ * @date : 2021/4/30 22:30
  */
-public abstract class BaseLayeredService< E extends Entity, ID extends Serializable> implements WriteableService<E, ID> {
+public abstract class BaseDto extends AbstractDto {
 
-    protected String like(String property) {
-        return SymbolConstants.PERCENT + property + SymbolConstants.PERCENT;
+    @Schema(title = "排序值")
+    private Integer ranking = 0;
+
+    public Integer getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
     }
 }

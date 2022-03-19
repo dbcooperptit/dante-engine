@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.oauth2.server.authorization.dto;
 
+import cn.herodotus.engine.assistant.core.definition.domain.AbstractDto;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -37,7 +38,7 @@ import javax.validation.constraints.NotBlank;
  * @date : 2021/10/2 16:29
  */
 @Schema(title = "机要传递实体")
-public class SessionExchange {
+public class SessionExchange extends AbstractDto {
 
     @NotBlank(message = "confidential参数不能为空")
     @Schema(title = "用后端RSA PublicKey加密的前端RSA PublicKey")

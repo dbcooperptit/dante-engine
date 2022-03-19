@@ -34,6 +34,7 @@ import cn.herodotus.engine.assistant.core.exception.PlatformException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -68,12 +69,12 @@ public class SecurityGlobalExceptionHandler {
     static {
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCESS_DENIED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCESS_DENIED));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INSUFFICIENT_SCOPE, GlobalExceptionHandler.getForbiddenResult(ResultErrorCodes.INSUFFICIENT_SCOPE));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_CLIENT, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.INVALID_CLIENT));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_CLIENT, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_CLIENT));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_GRANT, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_GRANT));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REDIRECT_URI, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_REDIRECT_URI));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REQUEST, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_REQUEST));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_SCOPE, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_SCOPE));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_TOKEN, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.INVALID_TOKEN));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_TOKEN, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_TOKEN));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.SERVER_ERROR, GlobalExceptionHandler.getInternalServerErrorResult(ResultErrorCodes.SERVER_ERROR));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.TEMPORARILY_UNAVAILABLE, GlobalExceptionHandler.getServiceUnavailableResult(ResultErrorCodes.TEMPORARILY_UNAVAILABLE));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.UNAUTHORIZED_CLIENT));
@@ -154,6 +155,7 @@ public class SecurityGlobalExceptionHandler {
      */
     public static Result<String> resolveSecurityException(Exception exception, String path) {
 
+        Exception reason = new Exception();
         if (exception instanceof OAuth2AuthenticationException) {
             OAuth2AuthenticationException oAuth2AuthenticationException = (OAuth2AuthenticationException) exception;
             OAuth2Error oAuth2Error = oAuth2AuthenticationException.getError();
@@ -164,8 +166,18 @@ public class SecurityGlobalExceptionHandler {
                 result.detail(exception.getMessage());
                 return result;
             }
+        } else if (exception instanceof InsufficientAuthenticationException) {
+            Throwable throwable = exception.getCause();
+            if (ObjectUtils.isNotEmpty(throwable)) {
+                reason = new Exception(throwable);
+            } else {
+                reason = exception;
+            }
+            log.debug("[Herodotus] |- InsufficientAuthenticationException cause content is [{}]", reason.getClass().getSimpleName());
+        } else {
+            reason = exception;
         }
 
-        return resolveException(exception, path);
+        return resolveException(reason, path);
     }
 }

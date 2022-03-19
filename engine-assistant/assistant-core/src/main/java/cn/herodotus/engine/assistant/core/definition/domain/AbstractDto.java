@@ -23,22 +23,13 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.security.core.exception;
-
+package cn.herodotus.engine.assistant.core.definition.domain;
 
 /**
- * <p>Description: 认证参数错误 </p>
+ * <p>Description: AbstractDto </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/4/30 13:21
+ * @date : 2022/3/18 15:40
  */
-public class IllegalAuthenticationArgumentException extends PlatformAuthenticationException {
-
-    public IllegalAuthenticationArgumentException(String msg, Throwable cause) {
-        super(msg, cause);
-    }
-
-    public IllegalAuthenticationArgumentException(String msg) {
-        super(msg);
-    }
+public abstract class AbstractDto implements Entity {
 }

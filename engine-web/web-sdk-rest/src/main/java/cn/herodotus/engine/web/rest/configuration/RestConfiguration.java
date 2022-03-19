@@ -33,7 +33,6 @@ import cn.herodotus.engine.web.core.support.ContextHolder;
 import cn.herodotus.engine.web.rest.processor.DefaultOpenApiServerResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -84,7 +83,6 @@ public class RestConfiguration {
      */
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnSwaggerEnabled
-    @ConditionalOnBean(OpenApiServerResolver.class)
     @Import(OpenApiConfiguration.class)
     static class OpenApiInit {
 

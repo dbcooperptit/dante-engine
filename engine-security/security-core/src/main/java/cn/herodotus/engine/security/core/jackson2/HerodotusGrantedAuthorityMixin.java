@@ -23,28 +23,25 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.jackson;
+package cn.herodotus.engine.security.core.jackson2;
 
-import cn.herodotus.engine.security.core.definition.domain.HerodotusUser;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.springframework.security.jackson2.SecurityJackson2Modules;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * <p>Description: 自定义 User Details Module </p>
+ * <p>Description: HerodotusGrantedAuthority Jackson2 Mixin </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/17 23:39
+ * @date : 2022/3/17 20:28
  */
-public class HerodotusUserModule extends SimpleModule {
-
-    public HerodotusUserModule() {
-        super(HerodotusUserModule.class.getName(), new Version(1, 0, 0, null, null, null));
-    }
-
-    @Override
-    public void setupModule(SetupContext context) {
-        SecurityJackson2Modules.enableDefaultTyping(context.getOwner());
-        context.setMixInAnnotations(HerodotusUser.class, HerodotusUserMixin.class);
-    }
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
+@JsonDeserialize(using = HerodotusGrantedAuthorityDeserializer.class)
+@JsonAutoDetect(
+        fieldVisibility = JsonAutoDetect.Visibility.ANY,
+        getterVisibility = JsonAutoDetect.Visibility.NONE,
+        isGetterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class HerodotusGrantedAuthorityMixin {
 }

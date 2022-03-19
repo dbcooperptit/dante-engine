@@ -29,7 +29,17 @@ import java.util.List;
 @Component
 public class HerodotusSecurityConfigureHandler {
 
-    private static final List<String> DEFAULT_IGNORED_STATIC_RESOURCES = Lists.newArrayList("/error/**", "/favicon.ico", "/static/**");
+    private static final List<String> DEFAULT_IGNORED_STATIC_RESOURCES = Lists.newArrayList(
+            "/error/**",
+            "/static/**",
+            "/webjars/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/openapi.json",
+            "/favicon.ico");
     private static final List<String> DEFAULT_PERMIT_ALL_RESOURCES = Lists.newArrayList("/open/**");
 
     private List<String> staticResources;
