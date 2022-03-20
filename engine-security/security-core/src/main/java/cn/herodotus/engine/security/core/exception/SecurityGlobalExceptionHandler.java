@@ -74,7 +74,7 @@ public class SecurityGlobalExceptionHandler {
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REDIRECT_URI, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_REDIRECT_URI));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REQUEST, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_REQUEST));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_SCOPE, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_SCOPE));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_TOKEN, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_TOKEN));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_TOKEN, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.INVALID_TOKEN));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.SERVER_ERROR, GlobalExceptionHandler.getInternalServerErrorResult(ResultErrorCodes.SERVER_ERROR));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.TEMPORARILY_UNAVAILABLE, GlobalExceptionHandler.getServiceUnavailableResult(ResultErrorCodes.TEMPORARILY_UNAVAILABLE));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.UNAUTHORIZED_CLIENT));

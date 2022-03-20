@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.web.core.context;
 
+import cn.herodotus.engine.assistant.core.utils.EnvUtils;
 import cn.herodotus.engine.web.core.properties.EndpointProperties;
 import cn.herodotus.engine.web.core.properties.PlatformProperties;
 import org.apache.commons.lang3.ObjectUtils;
@@ -71,7 +72,11 @@ public class HerodotusApplicationContext implements ApplicationContextAware, Ini
     }
 
     private String getHostAddress() {
-        String address = serverProperties.getAddress().getHostAddress();
+        String address = EnvUtils.getHostAddress();
+        if (ObjectUtils.isNotEmpty(serverProperties.getAddress())) {
+            address = serverProperties.getAddress().getHostAddress();
+        }
+
         if (StringUtils.isNotBlank(address)) {
             return address;
         } else {

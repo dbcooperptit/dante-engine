@@ -160,7 +160,8 @@ public enum ResultErrorCodes {
     /**
      * 503.* Service Unavailable	由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
      */
-    TEMPORARILY_UNAVAILABLE(50301, "由于服务器临时超载或维护，授权服务器当前无法处理该请求"),
+    SERVICE_UNAVAILABLE(50301, "Service Unavailable"),
+    TEMPORARILY_UNAVAILABLE(50302, "由于服务器临时超载或维护，授权服务器当前无法处理该请求"),
 
     /**
      * 6*.* 为数据操作相关错误

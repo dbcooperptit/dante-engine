@@ -106,6 +106,7 @@ public class GlobalExceptionHandler {
     static {
         // 401.** 对应错误
         EXCEPTION_DICTIONARY.put("AccessDeniedException", getUnauthorizedResult(ResultErrorCodes.ACCESS_DENIED));
+        EXCEPTION_DICTIONARY.put("InsufficientAuthenticationException", getUnauthorizedResult(ResultErrorCodes.ACCESS_DENIED));
         // 405.** 对应错误
         EXCEPTION_DICTIONARY.put("HttpRequestMethodNotSupportedException", getResult(ResultErrorCodes.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, HttpStatus.SC_METHOD_NOT_ALLOWED));
         // 415.** 对应错误
