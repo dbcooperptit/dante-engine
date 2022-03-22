@@ -73,7 +73,7 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
 
     /**
      * Construct the <code>User</code> with the details required by
-     * {@link org.springframework.security.authentication.dao.DaoAuthenticationProvider}.
+     * <code>org.springframework.security.authentication.dao.DaoAuthenticationProvider</code>
      *
      * @param username              the username presented to the
      *                              <code>DaoAuthenticationProvider</code>

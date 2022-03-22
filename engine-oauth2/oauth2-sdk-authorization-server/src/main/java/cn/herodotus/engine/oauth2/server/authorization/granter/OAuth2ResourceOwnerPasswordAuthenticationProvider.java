@@ -92,9 +92,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
     }
 
     /**
-     * Sets the {@link OAuth2TokenCustomizer} that customizes the
-     * {@link JwtEncodingContext.Builder#headers(Consumer) headers} and/or
-     * {@link JwtEncodingContext.Builder#claims(Consumer) claims} for the generated {@link Jwt}.
+     * Sets the <code>OAuth2TokenCustomizer</code> {@link OAuth2TokenCustomizer} that customizes the
+     * <code>JwtEncodingContext.Builder#headers(Consumer)</code> and/or
+     * <code>JwtEncodingContext.Builder#claims(Consumer)</code> for the generated {@link Jwt}.
      *
      * @param jwtCustomizer the {@link OAuth2TokenCustomizer} that customizes the headers and/or claims for the generated {@code Jwt}
      */

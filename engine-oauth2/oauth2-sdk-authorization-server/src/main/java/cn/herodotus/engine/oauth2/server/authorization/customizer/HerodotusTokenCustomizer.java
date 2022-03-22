@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 /**
  * <p>Description: 自定义 TokenCustomizer </p>
  * <p>
- * 用于自定义的 Herodotus User Details 解析。如果使用 Security 默认的 {@link org.springframework.security.core.userdetails.User} 则不需要使用该类
+ * 用于自定义的 Herodotus User Details 解析。如果使用 Security 默认的 <code>org.springframework.security.core.userdetails.User</code> 则不需要使用该类
  *
  * @author : gengwei.zheng
  * @date : 2022/2/23 22:17
