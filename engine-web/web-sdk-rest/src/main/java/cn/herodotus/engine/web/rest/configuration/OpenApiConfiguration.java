@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.web.rest.configuration;
 
-import cn.herodotus.engine.assistant.core.constants.SecurityConstants;
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.web.core.definition.OpenApiServerResolver;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.*;
@@ -52,10 +52,11 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @SecuritySchemes({
-        @SecurityScheme(name = SecurityConstants.OPEN_API_SECURITY_SCHEME_BEARER_NAME, type = SecuritySchemeType.OAUTH2, bearerFormat = "JWT", scheme = "bearer",
+        @SecurityScheme(name = BaseConstants.OPEN_API_SECURITY_SCHEME_BEARER_NAME, type = SecuritySchemeType.OAUTH2, bearerFormat = "JWT", scheme = "bearer",
                 flows = @OAuthFlows(
-                        password = @OAuthFlow(authorizationUrl = "${herodotus.platform.endpoint.user-authorization-uri}", tokenUrl = "${herodotus.platform.endpoint.access-token-uri}", refreshUrl = "${herodotus.platform.endpoint.access-token-uri}", scopes = @OAuthScope(name = "all")),
-                        authorizationCode = @OAuthFlow(authorizationUrl = "${herodotus.platform.endpoint.user-authorization-uri}", tokenUrl = "${herodotus.platform.endpoint.access-token-uri}", refreshUrl = "${herodotus.platform.endpoint.access-token-uri}", scopes = @OAuthScope(name = "all"))
+                        password = @OAuthFlow(authorizationUrl = "${herodotus.endpoint.authorization-uri}", tokenUrl = "${herodotus.endpoint.access-token-uri}", refreshUrl = "${herodotus.endpoint.access-token-uri}", scopes = @OAuthScope(name = "all")),
+                        clientCredentials = @OAuthFlow(authorizationUrl = "${herodotus.endpoint.authorization-uri}", tokenUrl = "${herodotus.endpoint.access-token-uri}", refreshUrl = "${herodotus.endpoint.access-token-uri}", scopes = @OAuthScope(name = "all"))
+//                        authorizationCode = @OAuthFlow(authorizationUrl = "${herodotus.platform.endpoint.user-authorization-uri}", tokenUrl = "${herodotus.platform.endpoint.access-token-uri}", refreshUrl = "${herodotus.platform.endpoint.access-token-uri}", scopes = @OAuthScope(name = "all"))
                 )),
 })
 public class OpenApiConfiguration {
@@ -67,8 +68,12 @@ public class OpenApiConfiguration {
      */
     private static final String SCHEMA_OAUTH_NAME = "oauth2";
 
+    private final OpenApiServerResolver openApiServerResolver;
+
     @Autowired
-    private OpenApiServerResolver openApiServerResolver;
+    public OpenApiConfiguration(OpenApiServerResolver openApiServerResolver) {
+        this.openApiServerResolver = openApiServerResolver;
+    }
 
     @PostConstruct
     public void postConstruct() {

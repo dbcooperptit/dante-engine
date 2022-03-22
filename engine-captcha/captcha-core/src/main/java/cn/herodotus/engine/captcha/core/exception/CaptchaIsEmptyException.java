@@ -25,13 +25,17 @@
 
 package cn.herodotus.engine.captcha.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
+
 /**
  * <p>Description: 验证码为空 </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/12/24 18:11
  */
-public class CaptchaIsEmptyException extends CaptchaException{
+public class CaptchaIsEmptyException extends PlatformException {
 
     public CaptchaIsEmptyException() {
         super();
@@ -49,7 +53,12 @@ public class CaptchaIsEmptyException extends CaptchaException{
         super(cause);
     }
 
-    public CaptchaIsEmptyException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected CaptchaIsEmptyException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40611, "验证码不能为空", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

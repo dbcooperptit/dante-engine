@@ -25,8 +25,10 @@
 
 package cn.herodotus.engine.assistant.core.annotation;
 
+import cn.herodotus.engine.assistant.core.conditon.SwaggerEnabledCondition;
 import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Conditional;
 
 import java.lang.annotation.*;
 
@@ -39,6 +41,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
-@ConditionalOnProperty(value = BaseConstants.ITEM_SWAGGER_ENABLED, havingValue = "true", matchIfMissing = true)
+@Conditional(SwaggerEnabledCondition.class)
 public @interface ConditionalOnSwaggerEnabled {
 }

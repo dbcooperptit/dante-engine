@@ -25,6 +25,9 @@
 
 package cn.herodotus.engine.security.core.exception;
 
+import cn.herodotus.engine.assistant.core.definition.exception.HerodotusException;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.domain.Result;
 import org.springframework.security.core.AuthenticationException;
 
 /**
@@ -33,7 +36,7 @@ import org.springframework.security.core.AuthenticationException;
  * @author : gengwei.zheng
  * @date : 2021/10/16 14:41
  */
-public class PlatformAuthenticationException extends AuthenticationException {
+public class PlatformAuthenticationException extends AuthenticationException implements HerodotusException {
 
     public PlatformAuthenticationException(String msg, Throwable cause) {
         super(msg, cause);
@@ -41,5 +44,21 @@ public class PlatformAuthenticationException extends AuthenticationException {
 
     public PlatformAuthenticationException(String msg) {
         super(msg);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return Feedback.ERROR;
+    }
+
+    @Override
+    public Result<String> getResult() {
+        Result<String> result = Result.failure();
+        result.code(getFeedback().getCode());
+        result.message(getFeedback().getMessage());
+        result.status(getFeedback().getStatus());
+        result.stackTrace(super.getStackTrace());
+        result.detail(super.getMessage());
+        return result;
     }
 }

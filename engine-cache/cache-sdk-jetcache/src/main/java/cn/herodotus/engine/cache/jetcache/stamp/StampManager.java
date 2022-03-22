@@ -25,10 +25,9 @@
 
 package cn.herodotus.engine.cache.jetcache.stamp;
 
+import cn.herodotus.engine.cache.core.exception.*;
 import cn.herodotus.engine.cache.core.exception.StampDeleteFailedException;
 import cn.herodotus.engine.cache.core.exception.StampHasExpiredException;
-import cn.herodotus.engine.cache.core.exception.StampMismatchException;
-import cn.herodotus.engine.cache.core.exception.StampParameterIllegalException;
 import com.alicp.jetcache.AutoReleaseLock;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.InitializingBean;

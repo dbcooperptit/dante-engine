@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.pay.alipay.domain;
 
-import cn.herodotus.engine.assistant.core.domain.dto.BaseDto;
+import cn.herodotus.engine.assistant.core.definition.domain.AbstractDto;
 import cn.hutool.core.lang.RegexPool;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,7 +41,7 @@ import javax.validation.constraints.Size;
  * @date : 2022/1/9 13:51
  */
 @Schema(name = "电脑网站支付DTO", title = "用于支付宝电脑网站支付请求传递参数")
-public class PagePayDetails extends BaseDto {
+public class PagePayDetails extends AbstractDto {
 
     @Schema(name = "标识信息", title = "支付宝配置的标识信息")
     @NotBlank

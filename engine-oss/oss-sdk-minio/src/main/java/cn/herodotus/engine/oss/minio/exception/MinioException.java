@@ -28,7 +28,7 @@ package cn.herodotus.engine.oss.minio.exception;
 import cn.herodotus.engine.oss.core.exception.OssException;
 
 /**
- * <p>Description: Minio 对象存储 Exception </p>
+ * <p>Description: Minio 对象存储 HerodotusException </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/11/8 11:41

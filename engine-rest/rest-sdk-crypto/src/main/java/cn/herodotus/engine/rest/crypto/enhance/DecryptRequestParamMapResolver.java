@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.rest.crypto.enhance;
 
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
-import cn.herodotus.engine.assistant.core.constants.SecurityConstants;
 import cn.herodotus.engine.rest.core.annotation.Crypto;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -103,7 +103,7 @@ public class DecryptRequestParamMapResolver implements HandlerMethodArgumentReso
      * @return 是否 Post /oauth/token 请求
      */
     private boolean isOauthTokenRequest(String uri, String method) {
-        return StringUtils.equals(uri, SecurityConstants.ENDPOINT_OAUTH_TOKEN) && StringUtils.equalsIgnoreCase(method, HttpMethod.POST.name());
+        return StringUtils.equals(uri, BaseConstants.DEFAULT_TOKEN_ENDPOINT) && StringUtils.equalsIgnoreCase(method, HttpMethod.POST.name());
     }
 
     /**

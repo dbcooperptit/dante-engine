@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.web.rest.processor;
 
+import cn.herodotus.engine.web.core.context.HerodotusApplicationContext;
 import cn.herodotus.engine.web.core.definition.OpenApiServerResolver;
-import cn.herodotus.engine.web.core.support.ContextHolder;
 import com.google.common.collect.ImmutableList;
 import io.swagger.v3.oas.models.servers.Server;
 
@@ -40,16 +40,16 @@ import java.util.List;
  */
 public class DefaultOpenApiServerResolver implements OpenApiServerResolver {
 
-    private final ContextHolder contextHolder;
+    private final HerodotusApplicationContext herodotusApplicationContext;
 
-    public DefaultOpenApiServerResolver(ContextHolder contextHolder) {
-        this.contextHolder = contextHolder;
+    public DefaultOpenApiServerResolver(HerodotusApplicationContext herodotusApplicationContext) {
+        this.herodotusApplicationContext = herodotusApplicationContext;
     }
 
     @Override
     public List<Server> getServers() {
         Server server = new Server();
-        server.setUrl(contextHolder.getServiceContext().getAddress());
+        server.setUrl(herodotusApplicationContext.getServiceContext().getAddress());
         return ImmutableList.of(server);
     }
 }

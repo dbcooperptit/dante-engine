@@ -39,7 +39,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2022/2/5 17:48
  */
-@ConfigurationProperties(prefix = FacilityConstants.PROPERTY_MANAGEMENT_LOG_CENTER)
+@ConfigurationProperties(prefix = FacilityConstants.PROPERTY_PREFIX_LOG_CENTER)
 public class LogProperties {
 
     /**

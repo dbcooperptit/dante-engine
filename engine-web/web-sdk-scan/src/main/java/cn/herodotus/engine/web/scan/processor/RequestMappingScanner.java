@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.web.scan.processor;
 
-import cn.herodotus.engine.assistant.core.constants.SecurityConstants;
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import cn.herodotus.engine.web.core.definition.RequestMappingScanManager;
 import cn.herodotus.engine.web.core.definition.WebPropertyFinder;
@@ -90,7 +90,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         // 2、只针对有EnableResourceServer注解的微服务进行扫描。如果变为单体架构目前不会用到EnableResourceServer所以增加的了一个Architecture判断
         if (!requestMappingScanManager.isPerformScan(applicationContext)) {
             // 只扫描资源服务器
-            log.debug("[Herodotus] |- Can not found annotation 'EnableResourceServer' in Service [{}], Skip!", serviceId);
+            log.warn("[Herodotus] |- Can not found scan annotation in Service [{}], Skip!", serviceId);
             return;
         }
 
@@ -118,7 +118,10 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         }
 
         if (CollectionUtils.isNotEmpty(resources)) {
+            log.debug("[Herodotus] |- [2] Request mapping scan found [{}] resources in service [{}], go to next stage!", serviceId, resources.size());
             requestMappingScanManager.postProcess(resources, applicationContext, serviceId);
+        } else {
+            log.debug("[Herodotus] |- [2] Request mapping scan can not find any resources in service [{}]!", serviceId);
         }
 
         log.info("[Herodotus] |- Request Mapping Scan for Service: [{}] FINISHED!", serviceId);
@@ -230,7 +233,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         // 5.2.9、组装对象
         RequestMapping requestMapping = new RequestMapping();
         requestMapping.setMetadataId(id);
-        requestMapping.setMetadataCode(SecurityConstants.AUTHORITY_PREFIX + code);
+        requestMapping.setMetadataCode(BaseConstants.AUTHORITY_PREFIX + code);
         // 微服务需要明确ServiceId，同时也知道ParentId，Hammer有办法，但是太繁琐，还是生成数据后，配置一把好点。
 //        if (isDistributedArchitecture()) {
 //            requestMapping.setServiceId(identifyingCode);

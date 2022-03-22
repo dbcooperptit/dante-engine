@@ -27,39 +27,27 @@ package cn.herodotus.engine.facility.sentinel.configuration;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.facility.sentinel.enhance.HerodotusFeignSentinel;
-import com.alibaba.cloud.sentinel.SentinelProperties;
 import com.alibaba.cloud.sentinel.feign.SentinelFeignAutoConfiguration;
 import com.alibaba.csp.sentinel.adapter.spring.webflux.callback.BlockRequestHandler;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.SentinelWebInterceptor;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.DefaultBlockExceptionHandler;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.RequestOriginParser;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.UrlCleaner;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.config.SentinelWebMvcConfig;
 import com.alibaba.fastjson.JSONObject;
 import feign.Feign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 /**
  * <p>Description: 基础设施 Sentinel 配置 </p>
@@ -115,60 +103,6 @@ public class FacilitySentinelConfiguration {
                     ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS)
                             .contentType(MediaType.APPLICATION_JSON)
                             .body(BodyInserters.fromValue(Result.failure(t.getMessage())));
-        }
-    }
-
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-    @ConditionalOnProperty(name = "spring.cloud.sentinel.enabled", matchIfMissing = true)
-    @EnableConfigurationProperties(SentinelProperties.class)
-    @Import({FeignConfiguration.class})
-    public static class SentinelWebConfiguration {
-
-        @Autowired
-        private SentinelProperties properties;
-
-        @Autowired
-        private Optional<UrlCleaner> urlCleanerOptional;
-
-        @Autowired
-        private Optional<BlockExceptionHandler> blockExceptionHandlerOptional;
-
-        @Autowired
-        private Optional<RequestOriginParser> requestOriginParserOptional;
-
-        @Bean
-        @ConditionalOnProperty(name = "spring.cloud.sentinel.filter.enabled",
-                matchIfMissing = true)
-        public SentinelWebInterceptor sentinelWebInterceptor(
-                SentinelWebMvcConfig sentinelWebMvcConfig) {
-            return new SentinelWebInterceptor(sentinelWebMvcConfig);
-        }
-
-        @Bean
-        @ConditionalOnProperty(name = "spring.cloud.sentinel.filter.enabled",
-                matchIfMissing = true)
-        public SentinelWebMvcConfig sentinelWebMvcConfig() {
-            SentinelWebMvcConfig sentinelWebMvcConfig = new SentinelWebMvcConfig();
-            sentinelWebMvcConfig.setHttpMethodSpecify(properties.getHttpMethodSpecify());
-            sentinelWebMvcConfig.setWebContextUnify(properties.getWebContextUnify());
-
-            if (blockExceptionHandlerOptional.isPresent()) {
-                blockExceptionHandlerOptional
-                        .ifPresent(sentinelWebMvcConfig::setBlockExceptionHandler);
-            } else {
-                if (StringUtils.hasText(properties.getBlockPage())) {
-                    sentinelWebMvcConfig.setBlockExceptionHandler(((request, response,
-                                                                    e) -> response.sendRedirect(properties.getBlockPage())));
-                } else {
-                    sentinelWebMvcConfig
-                            .setBlockExceptionHandler(new DefaultBlockExceptionHandler());
-                }
-            }
-
-            urlCleanerOptional.ifPresent(sentinelWebMvcConfig::setUrlCleaner);
-            requestOriginParserOptional.ifPresent(sentinelWebMvcConfig::setOriginParser);
-            return sentinelWebMvcConfig;
         }
     }
 }

@@ -28,10 +28,8 @@ package cn.herodotus.engine.security.extend.response;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.security.core.exception.SecurityGlobalExceptionHandler;
 import cn.herodotus.engine.web.core.utils.WebUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -39,18 +37,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 自定义未认证处理
+ * <p>Description: 自定义未认证处理 </p>
  *
- * @author gengwei.zheng
+ * @author : gengwei.zheng
+ * @date : 2022/3/8 8:55
  */
-public class HerodotusAuthenticationEntryPoint extends OAuth2AuthenticationEntryPoint {
-
-    private static final Logger log = LoggerFactory.getLogger(HerodotusAuthenticationEntryPoint.class);
+public class HerodotusAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException exception) throws IOException, ServletException {
-        Result<String> result = SecurityGlobalExceptionHandler.resolveOauthException(exception, request.getRequestURI());
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        Result<String> result = SecurityGlobalExceptionHandler.resolveSecurityException(authException, request.getRequestURI());
         response.setStatus(result.getStatus());
         WebUtils.renderJson(response, result);
     }

@@ -35,7 +35,7 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface RestConstants extends BaseConstants {
 
-    String PROPERTY_REST_SECURE = PROPERTY_PLATFORM_REST + ".secure";
+    String PROPERTY_REST_SECURE = PROPERTY_PREFIX_REST + ".secure";
 
     String CACHE_NAME_TOKEN_IDEMPOTENT = CACHE_TOKEN_BASE_PREFIX + "idempotent:";
     String CACHE_NAME_TOKEN_ACCESS_LIMITED = CACHE_TOKEN_BASE_PREFIX + "access_limited:";

@@ -34,10 +34,9 @@ package cn.herodotus.engine.assistant.core.constants;
 public interface BaseConstants {
 
     String NONE = "none";
-
     String DEFAULT_TREE_ROOT_ID = "0";
 
-    /* ---------- 通用配置属性常量 ---------- */
+    /* ---------- 配置属性通用常量 ---------- */
 
     String PROPERTY_ENABLED = ".enabled";
 
@@ -47,33 +46,22 @@ public interface BaseConstants {
     String PROPERTY_SPRING_CLOUD = PROPERTY_PREFIX_SPRING + ".cloud";
     String PROPERTY_SPRING_REDIS = PROPERTY_PREFIX_SPRING + ".redis";
 
-    /* ---------- Herodotus 基础配置属性（第一层） ---------- */
+    String ANNOTATION_PREFIX = "${";
+    String ANNOTATION_SUFFIX = "}";
 
-    String PROPERTY_HERODOTUS_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
-    String PROPERTY_HERODOTUS_MANAGEMENT = PROPERTY_PREFIX_HERODOTUS + ".management";
+    /* ---------- Herodotus 自定义配置属性 ---------- */
 
-    /* ---------- Herodotus 配置属性（第二层） ---------- */
+    String PROPERTY_PREFIX_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
+    String PROPERTY_PREFIX_REST = PROPERTY_PREFIX_HERODOTUS + ".rest";
+    String PROPERTY_PREFIX_SWAGGER = PROPERTY_PREFIX_HERODOTUS + ".swagger";
 
-    /**
-     * platform
-     */
-    String PROPERTY_PLATFORM_REST = PROPERTY_HERODOTUS_PLATFORM + ".rest";
-    String PROPERTY_PLATFORM_SECURITY = PROPERTY_HERODOTUS_PLATFORM + ".security";
-    String PROPERTY_PLATFORM_SWAGGER = PROPERTY_HERODOTUS_PLATFORM + ".swagger";
+    String ITEM_SWAGGER_ENABLED = PROPERTY_PREFIX_SWAGGER + PROPERTY_ENABLED;
 
-    /* ---------- Herodotus 详细配置属性路径 ---------- */
 
-    String ITEM_SWAGGER_ENABLED = PROPERTY_PLATFORM_SWAGGER + PROPERTY_ENABLED;
-
-    /* ---------- Spring 详细配置属性路径 ---------- */
+    /* ---------- Spring 家族配置属性 ---------- */
 
     String ITEM_SPRING_APPLICATION_NAME = "spring.application.name";
     String ITEM_SERVER_PORT = "server.port";
-
-    /* ---------- 注解属性通用值 ---------- */
-
-    String ANNOTATION_PREFIX = "${";
-    String ANNOTATION_SUFFIX = "}";
 
     String ANNOTATION_APPLICATION_NAME = ANNOTATION_PREFIX + ITEM_SPRING_APPLICATION_NAME + ANNOTATION_SUFFIX;
 
@@ -85,7 +73,40 @@ public interface BaseConstants {
     String CACHE_SIMPLE_BASE_PREFIX = CACHE_PREFIX + "simple:";
     String CACHE_TOKEN_BASE_PREFIX = CACHE_PREFIX + "token:";
 
-    /* ---------- 通用数据缓存常量 ---------- */
-
     String AREA_PREFIX = "data:upms:";
+
+
+    /* ---------- Oauth2 和 Security 通用缓存常量 ---------- */
+
+    /**
+     * Oauth2 模式类型
+     */
+    String AUTHORIZATION_CODE = "authorization_code";
+    String IMPLICIT = "implicit";
+    String PASSWORD = "password";
+    String CLIENT_CREDENTIALS = "client_credentials";
+    String REFRESH_TOKEN = "refresh_token";
+    String SOCIAL_CREDENTIALS = "social_credentials";
+
+    String DEFAULT_AUTHORIZATION_ENDPOINT = "/oauth2/authorize";
+    String DEFAULT_TOKEN_ENDPOINT = "/oauth2/token";
+    String DEFAULT_JWK_SET_ENDPOINT = "/oauth2/jwks";
+    String DEFAULT_TOKEN_REVOCATION_ENDPOINT = "/oauth2/revoke";
+    String DEFAULT_TOKEN_INTROSPECTION_ENDPOINT = "/oauth2/introspect";
+    String DEFAULT_OIDC_CLIENT_REGISTRATION_ENDPOINT = "/connect/register";
+    String DEFAULT_OIDC_USER_INFO_ENDPOINT = "/userinfo";
+
+    String OPEN_API_SECURITY_SCHEME_BEARER_NAME = "HERODOTUS_AUTH";
+
+    String BEARER_TYPE = "Bearer";
+    String BEARER_TOKEN = BEARER_TYPE + SymbolConstants.SPACE;
+    String BASIC_TYPE = "Basic";
+    String BASIC_TOKEN = BASIC_TYPE + SymbolConstants.SPACE;
+    String ROLE_PREFIX = "ROLE_";
+    String AUTHORITY_PREFIX = "OP_";
+
+    String OPEN_ID = "openid";
+    String LICENSE = "license";
+
+    String AUTHORITIES = "authorities";
 }

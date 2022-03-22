@@ -35,4 +35,7 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface SecurityConstants extends BaseConstants {
 
+    String PROPERTY_PREFIX_ENDPOINT = PROPERTY_PREFIX_HERODOTUS + ".endpoint";
+
+    String PROPERTY_PREFIX_SECURITY = PROPERTY_PREFIX_HERODOTUS + ".security";
 }

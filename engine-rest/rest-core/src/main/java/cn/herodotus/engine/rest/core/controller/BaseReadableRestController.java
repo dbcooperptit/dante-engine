@@ -25,11 +25,11 @@
 
 package cn.herodotus.engine.rest.core.controller;
 
-import cn.herodotus.engine.assistant.core.constants.SecurityConstants;
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.definition.domain.AbstractEntity;
 import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.engine.assistant.core.domain.entity.AbstractEntity;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
-import cn.herodotus.engine.rest.core.dto.Pager;
+import cn.herodotus.engine.rest.core.definition.dto.Pager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -50,7 +50,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2021/7/5 17:21
  */
-@SecurityRequirement(name = SecurityConstants.OPEN_API_SECURITY_SCHEME_BEARER_NAME)
+@SecurityRequirement(name = BaseConstants.OPEN_API_SECURITY_SCHEME_BEARER_NAME)
 public abstract class BaseReadableRestController<E extends AbstractEntity, ID extends Serializable> implements ReadableController<E, ID> {
 
     @AccessLimited

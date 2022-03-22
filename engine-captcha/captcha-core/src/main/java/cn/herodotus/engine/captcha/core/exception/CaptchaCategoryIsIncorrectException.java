@@ -25,13 +25,17 @@
 
 package cn.herodotus.engine.captcha.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
+
 /**
  * <p>Description: 验证码分类错误 </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/12/15 17:51
  */
-public class CaptchaCategoryIsIncorrectException extends CaptchaException{
+public class CaptchaCategoryIsIncorrectException extends PlatformException {
 
     public CaptchaCategoryIsIncorrectException() {
         super();
@@ -49,7 +53,12 @@ public class CaptchaCategoryIsIncorrectException extends CaptchaException{
         super(cause);
     }
 
-    public CaptchaCategoryIsIncorrectException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected CaptchaCategoryIsIncorrectException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40608, "验证码分类错误", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

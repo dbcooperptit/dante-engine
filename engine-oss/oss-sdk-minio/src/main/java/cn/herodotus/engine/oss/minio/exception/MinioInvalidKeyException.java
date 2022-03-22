@@ -26,7 +26,7 @@
 package cn.herodotus.engine.oss.minio.exception;
 
 /**
- * <p>Description: MinioInvalidKeyException </p>
+ * <p>Description: MinioInvalidKeyHerodotusException </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/11/8 14:32

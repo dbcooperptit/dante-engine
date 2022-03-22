@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.rest.core.controller;
 
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.engine.assistant.core.domain.entity.AbstractEntity;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -51,10 +51,10 @@ public interface Controller {
      * 数据实体转换为统一响应实体
      *
      * @param domain 数据实体
-     * @param <E>    {@link AbstractEntity} 子类型
+     * @param <E>    {@link Entity} 子类型
      * @return {@link Result} Entity
      */
-    default <E extends AbstractEntity> Result<E> result(E domain) {
+    default <E extends Entity> Result<E> result(E domain) {
         if (ObjectUtils.isNotEmpty(domain)) {
             return Result.content(domain);
         } else {
@@ -66,10 +66,10 @@ public interface Controller {
      * 数据列表转换为统一响应实体
      *
      * @param domains 数据实体 List
-     * @param <E>     {@link AbstractEntity} 子类型
+     * @param <E>     {@link Entity} 子类型
      * @return {@link Result} List
      */
-    default <E extends AbstractEntity> Result<List<E>> result(List<E> domains) {
+    default <E extends Entity> Result<List<E>> result(List<E> domains) {
         if (ObjectUtils.isNotEmpty(domains)) {
             if (CollectionUtils.isNotEmpty(domains)) {
                 return Result.success("查询数据成功！", domains);
@@ -85,10 +85,10 @@ public interface Controller {
      * 数据分页对象转换为统一响应实体
      *
      * @param pages 分页查询结果 {@link Page}
-     * @param <E>   {@link AbstractEntity} 子类型
+     * @param <E>   {@link Entity} 子类型
      * @return {@link Result} Map
      */
-    default <E extends AbstractEntity> Result<Map<String, Object>> result(Page<E> pages) {
+    default <E extends Entity> Result<Map<String, Object>> result(Page<E> pages) {
         if (ObjectUtils.isNotEmpty(pages)) {
             if (CollectionUtils.isNotEmpty(pages.getContent())) {
                 return Result.success("查询数据成功！", getPageInfoMap(pages));
@@ -151,10 +151,10 @@ public interface Controller {
      * Page 对象转换为 Map
      *
      * @param pages 分页查询结果 {@link Page}
-     * @param <E>   {@link AbstractEntity} 子类型
+     * @param <E>   {@link Entity} 子类型
      * @return Map
      */
-    default <E extends AbstractEntity> Map<String, Object> getPageInfoMap(Page<E> pages) {
+    default <E extends Entity> Map<String, Object> getPageInfoMap(Page<E> pages) {
         return getPageInfoMap(pages.getContent(), pages.getTotalPages(), pages.getTotalElements());
     }
 
@@ -164,10 +164,10 @@ public interface Controller {
      * @param content       数据实体 List
      * @param totalPages    分页总页数
      * @param totalElements 总的数据条目
-     * @param <E>           {@link AbstractEntity} 子类型
+     * @param <E>           {@link Entity} 子类型
      * @return Map
      */
-    default <E extends AbstractEntity> Map<String, Object> getPageInfoMap(List<E> content, int totalPages, long totalElements) {
+    default <E extends Entity> Map<String, Object> getPageInfoMap(List<E> content, int totalPages, long totalElements) {
         Map<String, Object> result = new HashMap<>(8);
         result.put("content", content);
         result.put("totalPages", totalPages);

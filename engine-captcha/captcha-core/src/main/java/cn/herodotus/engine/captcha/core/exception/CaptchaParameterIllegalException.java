@@ -25,13 +25,17 @@
 
 package cn.herodotus.engine.captcha.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
+
 /**
  * <p>Description: 验证码校验参数错误 </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/12/15 17:54
  */
-public class CaptchaParameterIllegalException extends CaptchaException{
+public class CaptchaParameterIllegalException extends PlatformException {
 
     public CaptchaParameterIllegalException() {
         super();
@@ -49,7 +53,12 @@ public class CaptchaParameterIllegalException extends CaptchaException{
         super(cause);
     }
 
-    public CaptchaParameterIllegalException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected CaptchaParameterIllegalException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40613, "验证码参数格式错误", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

@@ -28,7 +28,7 @@ package cn.herodotus.engine.websocket.core.exception;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
 
 /**
- * <p>Description: WebSocket Exception  </p>
+ * <p>Description: WebSocket HerodotusException  </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/1/19 17:38

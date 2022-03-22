@@ -25,15 +25,19 @@
 
 package cn.herodotus.engine.assistant.core.exception;
 
+import cn.herodotus.engine.assistant.core.definition.exception.AbstractHerodotusException;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+
 /**
  * <p>Description: 平台基础Exception </p>
  *
  * @author : gengwei.zheng
  * @date : 2019/12/18 15:31
  */
-public class PlatformException extends RuntimeException {
+public class PlatformException extends AbstractHerodotusException {
 
     public PlatformException() {
+        super();
     }
 
     public PlatformException(String message) {
@@ -48,7 +52,12 @@ public class PlatformException extends RuntimeException {
         super(cause);
     }
 
-    public PlatformException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected PlatformException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return Feedback.ERROR;
     }
 }

@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.security.log.listener;
 
-import cn.herodotus.engine.security.core.definition.domain.HerodotusUserDetails;
+import cn.herodotus.engine.security.core.definition.domain.HerodotusUser;
 import cn.herodotus.engine.security.log.domain.Signin;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.useragent.UserAgent;
@@ -62,10 +62,10 @@ public abstract class AbstractAuthenticationListener {
         return null;
     }
 
-    protected HerodotusUserDetails  getUserDetails(Authentication authentication) {
+    protected HerodotusUser getUserDetails(Authentication authentication) {
         Object principal = authentication.getPrincipal();
-        if (principal instanceof HerodotusUserDetails) {
-            return  (HerodotusUserDetails) principal;
+        if (principal instanceof HerodotusUser) {
+            return  (HerodotusUser) principal;
         }
         return null;
     }
@@ -99,10 +99,10 @@ public abstract class AbstractAuthenticationListener {
             }
         }
 
-        HerodotusUserDetails herodotusUserDetails = getUserDetails(authentication);
-        if (ObjectUtils.isNotEmpty(herodotusUserDetails)) {
-            signin.setUserId(herodotusUserDetails.getUserId());
-            signin.setUserName(herodotusUserDetails.getUsername());
+        HerodotusUser herodotusUser = getUserDetails(authentication);
+        if (ObjectUtils.isNotEmpty(herodotusUser)) {
+            signin.setUserId(herodotusUser.getUserId());
+            signin.setUserName(herodotusUser.getUsername());
         }
 
         return signin;

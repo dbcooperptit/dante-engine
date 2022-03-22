@@ -26,17 +26,16 @@
 package cn.herodotus.engine.pay.alipay.definition;
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
-import cn.herodotus.engine.event.core.local.event.LocalPaymentNotifyEvent;
-import cn.herodotus.engine.event.core.local.event.LocalPaymentReturnEvent;
-import cn.herodotus.engine.event.core.remote.processor.DestinationResolver;
-import cn.herodotus.engine.event.pay.event.RemotePaymentNotifyEvent;
-import cn.herodotus.engine.event.pay.event.RemotePaymentReturnEvent;
+import cn.herodotus.engine.event.core.local.LocalPaymentNotifyEvent;
+import cn.herodotus.engine.event.core.local.LocalPaymentReturnEvent;
+import cn.herodotus.engine.event.pay.remote.RemotePaymentNotifyEvent;
+import cn.herodotus.engine.event.pay.remote.RemotePaymentReturnEvent;
 import cn.herodotus.engine.pay.alipay.properties.AlipayProperties;
 import cn.herodotus.engine.pay.core.constants.PayConstants;
 import cn.herodotus.engine.pay.core.exception.PaymentProfileIdIncorrectException;
 import cn.herodotus.engine.pay.core.exception.PaymentProfileNotFoundException;
 import cn.herodotus.engine.pay.core.exception.PaymentSignatureCheckErrorException;
-import cn.herodotus.engine.web.core.support.ServiceContext;
+import cn.herodotus.engine.web.core.context.ServiceContext;
 import com.alibaba.fastjson.JSON;
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.CacheType;
@@ -48,6 +47,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.bus.event.PathDestinationFactory;
 import org.springframework.context.ApplicationContext;
 
 import java.nio.charset.StandardCharsets;
@@ -219,7 +219,7 @@ public class AlipayPaymentTemplate {
             applicationContext.publishEvent(new LocalPaymentNotifyEvent(params));
         } else {
             if (StringUtils.isNotBlank(getAlipayProperties().getDestination())) {
-                applicationContext.publishEvent(new RemotePaymentNotifyEvent(JSON.toJSONString(params), serviceId, DestinationResolver.create(getAlipayProperties().getDestination())));
+                applicationContext.publishEvent(new RemotePaymentNotifyEvent(JSON.toJSONString(params), serviceId, new PathDestinationFactory().getDestination(getAlipayProperties().getDestination())));
             }
         }
     }
@@ -234,7 +234,7 @@ public class AlipayPaymentTemplate {
             applicationContext.publishEvent(new LocalPaymentReturnEvent(params));
         } else {
             if (StringUtils.isNotBlank(getAlipayProperties().getDestination())) {
-                applicationContext.publishEvent(new RemotePaymentReturnEvent(JSON.toJSONString(params), serviceId, DestinationResolver.create(getAlipayProperties().getDestination())));
+                applicationContext.publishEvent(new RemotePaymentReturnEvent(JSON.toJSONString(params), serviceId, new PathDestinationFactory().getDestination(getAlipayProperties().getDestination())));
             }
         }
     }

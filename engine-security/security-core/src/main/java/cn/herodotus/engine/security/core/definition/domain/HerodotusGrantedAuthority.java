@@ -25,18 +25,16 @@
 
 package cn.herodotus.engine.security.core.definition.domain;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * <p>Description: 自定义 GrantedAuthority</p>
+ * <p>Description: 自定义 GrantedAuthority </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/9/3 22:13
+ * @date : 2022/3/5 0:12
  */
-@JsonTypeName(value = "HerodotusGrantedAuthority")
 public class HerodotusGrantedAuthority implements GrantedAuthority {
 
     public HerodotusGrantedAuthority() {

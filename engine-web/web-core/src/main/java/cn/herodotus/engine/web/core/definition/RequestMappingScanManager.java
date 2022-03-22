@@ -102,6 +102,7 @@ public interface RequestMappingScanManager {
      * @param originService          当前服务的service name。目前取的是：spring.application.name, applicationContext.getApplicationName取到的是空串
      */
     default void postProcess(List<RequestMapping> requestMappings, ApplicationContext applicationContext, String originService) {
+
         postLocalStorage(requestMappings);
 
         if (!isDistributedArchitecture() || StringUtils.equals(originService, getDestinationServiceName())) {

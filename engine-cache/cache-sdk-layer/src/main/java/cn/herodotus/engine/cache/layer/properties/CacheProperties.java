@@ -39,7 +39,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2021/7/13 10:16
  */
-@ConfigurationProperties(prefix = CacheConstants.PROPERTY_PLATFORM_CACHE)
+@ConfigurationProperties(prefix = CacheConstants.PROPERTY_PREFIX_CACHE)
 public class CacheProperties extends Expire {
 
     /**

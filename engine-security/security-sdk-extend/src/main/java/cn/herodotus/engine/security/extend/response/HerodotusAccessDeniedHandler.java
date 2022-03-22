@@ -37,14 +37,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 自定义访问拒绝
- * @author gengwei.zheng
+ * <p>Description: 访问拒绝处理器 </p>
+ *
+ * @author : gengwei.zheng
+ * @date : 2022/3/8 8:52
  */
 public class HerodotusAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception) throws IOException, ServletException {
-        Result<String> result = SecurityGlobalExceptionHandler.resolveException(exception, request.getRequestURI());
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+        Result<String> result = SecurityGlobalExceptionHandler.resolveException(accessDeniedException, request.getRequestURI());
         response.setStatus(result.getStatus());
         WebUtils.renderJson(response, result);
     }

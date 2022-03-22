@@ -26,7 +26,7 @@
 package cn.herodotus.engine.pay.core.exception;
 
 /**
- * <p>Description: 创建客户端 Exception </p>
+ * <p>Description: 创建客户端 HerodotusException </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/1/4 16:52

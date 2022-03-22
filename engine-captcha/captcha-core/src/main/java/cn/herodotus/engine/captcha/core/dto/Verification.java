@@ -26,6 +26,8 @@
 package cn.herodotus.engine.captcha.core.dto;
 
 import cn.herodotus.engine.captcha.core.definition.domain.Coordinate;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 import java.util.List;
 
@@ -50,6 +52,9 @@ public class Verification extends Captcha {
      */
     private String characters;
 
+    public Verification() {
+    }
+
     public Coordinate getCoordinate() {
         return coordinate;
     }
@@ -72,5 +77,29 @@ public class Verification extends Captcha {
 
     public void setCharacters(String characters) {
         this.characters = characters;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Verification that = (Verification) o;
+        return Objects.equal(characters, that.characters);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(characters);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("characters", characters)
+                .toString();
     }
 }

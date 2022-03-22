@@ -35,9 +35,9 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface TemporalConstants extends BaseConstants {
 
-    String PROPERTY_HERODOTUS_TEMPORAL = PROPERTY_PREFIX_HERODOTUS + ".temporal";
+    String PROPERTY_PREFIX_TEMPORAL = PROPERTY_PREFIX_HERODOTUS + ".temporal";
 
-    String PROPERTY_TEMPORAL_INFLUXDB = PROPERTY_HERODOTUS_TEMPORAL + ".influxdb";
+    String PROPERTY_TEMPORAL_INFLUXDB = PROPERTY_PREFIX_TEMPORAL + ".influxdb";
 
     String ITEM_INFLUXDB_URL = PROPERTY_TEMPORAL_INFLUXDB + ".url";
     String ITEM_INFLUXDB_DATABASE = PROPERTY_TEMPORAL_INFLUXDB + ".database";

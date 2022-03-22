@@ -26,7 +26,7 @@
 package cn.herodotus.engine.oss.minio.exception;
 
 /**
- * <p>Description: MinioInternalException </p>
+ * <p>Description: MinioInternalHerodotusException </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/11/8 14:32

@@ -35,5 +35,5 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface WebSocketConstants extends BaseConstants {
 
-    String PROPERTY_HERODOTUS_WEBSOCKET = PROPERTY_PREFIX_HERODOTUS + ".websocket";
+    String PROPERTY_PREFIX_WEBSOCKET = PROPERTY_PREFIX_HERODOTUS + ".websocket";
 }

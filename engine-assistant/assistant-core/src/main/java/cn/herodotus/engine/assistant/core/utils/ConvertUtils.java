@@ -27,7 +27,7 @@ package cn.herodotus.engine.assistant.core.utils;
 
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
-import cn.herodotus.engine.assistant.core.enums.ProtocolType;
+import cn.herodotus.engine.assistant.core.enums.Protocol;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -39,25 +39,35 @@ import org.apache.commons.lang3.StringUtils;
 public class ConvertUtils {
 
     /**
+     * 检测地址相关字符串是否以"/"结尾，如果没有就帮助增加一个 ""/""
+     *
+     * @param url http 请求地址字符串
+     * @return 结构合理的请求地址字符串
+     */
+    public static String wellFormed(String url) {
+        if (StringUtils.endsWith(url, SymbolConstants.FORWARD_SLASH)) {
+            return url;
+        } else {
+            return url + SymbolConstants.FORWARD_SLASH;
+        }
+    }
+
+    /**
      * 将IP地址加端口号，转换为http地址。
      *
      * @param address             ip地址加端口号，格式：ip:port
-     * @param protocolType        http协议类型 {@link ProtocolType}
+     * @param protocol            http协议类型 {@link Protocol}
      * @param endWithForwardSlash 是否在结尾添加“/”
      * @return http格式地址
      */
-    public static String addressToUri(String address, ProtocolType protocolType, boolean endWithForwardSlash) {
+    public static String addressToUri(String address, Protocol protocol, boolean endWithForwardSlash) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(protocolType.getFormat());
-        stringBuilder.append(address);
+        stringBuilder.append(protocol.getFormat());
 
         if (endWithForwardSlash) {
-            if (StringUtils.endsWith(address, SymbolConstants.FORWARD_SLASH)) {
-                stringBuilder.append(address);
-            } else {
-                stringBuilder.append(address);
-                stringBuilder.append(SymbolConstants.FORWARD_SLASH);
-            }
+            stringBuilder.append(wellFormed(address));
+        } else {
+            stringBuilder.append(address);
         }
 
         return stringBuilder.toString();
@@ -71,7 +81,7 @@ public class ConvertUtils {
      * @return http格式地址
      */
     public static String addressToUri(String address, boolean endWithForwardSlash) {
-        return addressToUri(address, ProtocolType.HTTP, endWithForwardSlash);
+        return addressToUri(address, Protocol.HTTP, endWithForwardSlash);
     }
 
     /**

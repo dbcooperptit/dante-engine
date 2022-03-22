@@ -35,7 +35,7 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface FacilityConstants extends BaseConstants {
 
-    String PROPERTY_MANAGEMENT_LOG_CENTER = PROPERTY_HERODOTUS_MANAGEMENT + ".log-center";
+    String PROPERTY_PREFIX_LOG_CENTER = PROPERTY_PREFIX_HERODOTUS + ".log-center";
 
-    String ITEM_LOG_CENTER_ENABLED = PROPERTY_MANAGEMENT_LOG_CENTER + ".server-addr";
+    String ITEM_LOG_CENTER_ENABLED = PROPERTY_PREFIX_LOG_CENTER + ".server-addr";
 }

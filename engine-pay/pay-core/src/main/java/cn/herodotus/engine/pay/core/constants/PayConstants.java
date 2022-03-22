@@ -35,10 +35,10 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface PayConstants extends BaseConstants {
 
-    String PROPERTY_HERODOTUS_PAY = PROPERTY_PREFIX_HERODOTUS + ".pay";
+    String PROPERTY_PREFIX_PAY = PROPERTY_PREFIX_HERODOTUS + ".pay";
 
-    String PROPERTY_PAY_ALIPAY = PROPERTY_HERODOTUS_PAY + ".alipay";
-    String PROPERTY_PAY_WXPAY = PROPERTY_HERODOTUS_PAY + ".wxpay";
+    String PROPERTY_PAY_ALIPAY = PROPERTY_PREFIX_PAY + ".alipay";
+    String PROPERTY_PAY_WXPAY = PROPERTY_PREFIX_PAY + ".wxpay";
 
     String CACHE_NAME_TOKEN_PAY = CACHE_TOKEN_BASE_PREFIX + "pay:";
 

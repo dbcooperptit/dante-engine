@@ -25,7 +25,12 @@
 
 package cn.herodotus.engine.security.core.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.hutool.core.util.HashUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.RandomUtil;
+import org.apache.http.HttpStatus;
 
 /**
  * <p>Description: UsernameAlreadyExistsException </p>
@@ -33,12 +38,18 @@ import org.springframework.security.core.AuthenticationException;
  * @author : gengwei.zheng
  * @date : 2021/5/17 19:04
  */
-public class UsernameAlreadyExistsException extends AuthenticationException {
+public class UsernameAlreadyExistsException extends PlatformAuthenticationException {
+
     public UsernameAlreadyExistsException(String msg, Throwable cause) {
         super(msg, cause);
     }
 
     public UsernameAlreadyExistsException(String msg) {
         super(msg);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40614, "静态AES加密算法KEY非法", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }
