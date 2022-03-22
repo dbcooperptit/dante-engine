@@ -19,6 +19,7 @@
         <module>oauth2-sdk-data-jpa</module>
         <module>oauth2-sdk-authorization-server</module>
         <module>oauth2-sdk-resource-server</module>
+        <module>oauth2-sdk-authorization-ui</module>
     </modules>
 
 </project>

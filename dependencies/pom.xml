@@ -92,6 +92,7 @@
     <!-- ${project.xxx} 当前pom文件的任意节点的内容 如project.artifactId -->
 
     <properties>
+        <herodotus-engine.version>${project.version}</herodotus-engine.version>
         <!--Spring 家族-->
         <spring-boot-admin.version>2.6.2</spring-boot-admin.version>
         <spring-boot-dependencies.version>2.6.4</spring-boot-dependencies.version>
@@ -207,147 +208,147 @@
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>assistant-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>assistant-sdk-secure</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>assistant-sdk-json</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>assistant-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- cache -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>cache-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>cache-sdk-layer</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>cache-sdk-jetcache</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>cache-sdk-redisson</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>cache-layer-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>cache-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- captcha -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>captcha-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>captcha-sdk-behavior</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>captcha-sdk-graphic</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>captcha-sdk-hutool</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>captcha-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- data -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>data-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>data-sdk-jpa</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>data-sdk-p6spy</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>data-sdk-mybatis-plus</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>data-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- event -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>event-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>event-pay-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>event-security-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- facility -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>facility-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>facility-sdk-log</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>facility-sdk-sentinel</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>facility-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- message -->
@@ -359,168 +360,173 @@
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>message-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- oauth2 -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oauth2-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oauth2-sdk-data-jpa</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>oauth2-sdk-authorization-ui</artifactId>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oauth2-sdk-authorization-server</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oauth2-sdk-resource-server</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- oss -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oss-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oss-sdk-minio</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oss-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- pay -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>pay-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>pay-sdk-alipay</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>pay-sdk-wxpay</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>pay-sdk-all</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>pay-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- rest -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>rest-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>rest-sdk-crypto</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>rest-sdk-secure</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>rest-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- security -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>security-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>security-sdk-extend</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>security-sdk-log</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- temporal -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>temporal-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>temporal-sdk-influxdb</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>temporal-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- web -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>web-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>web-sdk-rest</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>web-sdk-scan</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>web-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- websocket -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>websocket-core</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>websocket-sdk-accelerator</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>websocket-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${herodotus-engine.version}</version>
             </dependency>
 
             <!-- Maven 相关依赖 -->

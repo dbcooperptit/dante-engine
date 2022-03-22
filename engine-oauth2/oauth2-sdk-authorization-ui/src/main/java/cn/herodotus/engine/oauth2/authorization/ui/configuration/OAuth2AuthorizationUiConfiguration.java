@@ -23,25 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.constants;
+package cn.herodotus.engine.oauth2.authorization.ui.configuration;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.oauth2.authorization.ui.properties.OAuth2UiProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
- * <p>Description: OAuth2 模块通用常量 </p>
+ * <p>Description: 认证界面配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/25 9:44
+ * @date : 2022/3/21 23:11
  */
-public interface OAuth2Constants extends BaseConstants {
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties({OAuth2UiProperties.class})
+@ComponentScan({
+        "cn.herodotus.engine.oauth2.authorization.ui.controller"
+})
+public class OAuth2AuthorizationUiConfiguration {
 
-    String PROPERTY_PREFIX_OAUTH2 = PROPERTY_PREFIX_HERODOTUS + ".oauth2";
-    String PROPERTY_OAUTH2_UI = PROPERTY_PREFIX_OAUTH2 + ".ui";
+    private static final Logger log = LoggerFactory.getLogger(OAuth2AuthorizationUiConfiguration.class);
 
-    String REGION_OAUTH2_AUTHORIZATION = AREA_PREFIX + "oauth2:authorization";
-    String REGION_OAUTH2_AUTHORIZATION_CONSENT = AREA_PREFIX + "oauth2:authorization:consent";
-    String REGION_OAUTH2_REGISTERED_CLIENT = AREA_PREFIX + "oauth2:registered:client";
-    String REGION_OAUTH2_APPLICATION = AREA_PREFIX + "oauth2:application";
-    String REGION_OAUTH2_SCOPE = AREA_PREFIX + "oauth2:scope";
-    String REGION_OAUTH2_APPLICATION_SCOPE = AREA_PREFIX + "oauth2:application:scope";
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Herodotus] |- SDK [Engine OAuth2 Authorization Ui] Auto Configure.");
+    }
 }

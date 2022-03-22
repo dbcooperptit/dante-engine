@@ -26,6 +26,7 @@
 package cn.herodotus.engine.assistant.core.definition.http;
 
 import com.ejlchina.okhttps.HTTP;
+import com.ejlchina.okhttps.MsgConvertor;
 import com.ejlchina.okhttps.fastjson.FastjsonMsgConvertor;
 
 /**
@@ -47,7 +48,11 @@ public abstract class AbstractRest {
     protected HTTP http() {
         return HTTP.builder()
                 .baseUrl(getBaseUrl())
-                .addMsgConvertor(new FastjsonMsgConvertor())
+                .addMsgConvertor(getMsgConvertor())
                 .build();
+    }
+
+    protected MsgConvertor getMsgConvertor() {
+        return new FastjsonMsgConvertor();
     }
 }

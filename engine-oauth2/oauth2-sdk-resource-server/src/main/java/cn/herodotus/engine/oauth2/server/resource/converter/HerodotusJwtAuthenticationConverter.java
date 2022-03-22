@@ -23,25 +23,23 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.constants;
+package cn.herodotus.engine.oauth2.server.resource.converter;
 
 import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 
 /**
- * <p>Description: OAuth2 模块通用常量 </p>
+ * <p>Description: 扩展的 JwtAuthenticationConverter </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/25 9:44
+ * @date : 2022/3/22 11:49
  */
-public interface OAuth2Constants extends BaseConstants {
+public class HerodotusJwtAuthenticationConverter extends JwtAuthenticationConverter {
 
-    String PROPERTY_PREFIX_OAUTH2 = PROPERTY_PREFIX_HERODOTUS + ".oauth2";
-    String PROPERTY_OAUTH2_UI = PROPERTY_PREFIX_OAUTH2 + ".ui";
+    public HerodotusJwtAuthenticationConverter() {
+        HerodotusJwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new HerodotusJwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthoritiesClaimName(BaseConstants.AUTHORITIES);
 
-    String REGION_OAUTH2_AUTHORIZATION = AREA_PREFIX + "oauth2:authorization";
-    String REGION_OAUTH2_AUTHORIZATION_CONSENT = AREA_PREFIX + "oauth2:authorization:consent";
-    String REGION_OAUTH2_REGISTERED_CLIENT = AREA_PREFIX + "oauth2:registered:client";
-    String REGION_OAUTH2_APPLICATION = AREA_PREFIX + "oauth2:application";
-    String REGION_OAUTH2_SCOPE = AREA_PREFIX + "oauth2:scope";
-    String REGION_OAUTH2_APPLICATION_SCOPE = AREA_PREFIX + "oauth2:application:scope";
+        this.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+    }
 }

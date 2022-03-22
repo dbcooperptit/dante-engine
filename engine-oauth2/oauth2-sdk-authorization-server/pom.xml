@@ -65,6 +65,11 @@
             <artifactId>oauth2-sdk-data-jpa</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>oauth2-sdk-authorization-ui</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
