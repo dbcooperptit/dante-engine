@@ -28,19 +28,16 @@ package cn.herodotus.engine.oauth2.server.authorization.dto;
 import cn.herodotus.engine.assistant.json.jackson2.deserializer.ArrayOrStringDeserializer;
 import cn.herodotus.engine.oauth2.core.enums.ApplicationType;
 import cn.herodotus.engine.oauth2.core.enums.Signature;
+import cn.herodotus.engine.oauth2.core.enums.TokenFormat;
 import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Scope;
 import cn.herodotus.engine.rest.core.definition.dto.BaseSysDto;
 import cn.hutool.core.util.IdUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.DurationDeserializer;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.time.Duration;
@@ -106,6 +103,12 @@ public class OAuth2ApplicationDto extends BaseSysDto {
     @Schema(name = "客户端JSON Web密钥集的URL", title = "客户端JSON Web密钥集的URL")
     private String jwkSetUrl;
 
+    @Schema(name = "JWT 签名算法", title = "仅在 clientAuthenticationMethods 为 private_key_jwt 和 client_secret_jwt 方法下使用")
+    private Signature authenticationSigningAlgorithm;
+
+    @Schema(name = "Access Token", title = "OAuth 2.0令牌的标准数据格式")
+    private TokenFormat accessTokenFormat = TokenFormat.SELF_CONTAINED;
+
     @Schema(name = "accessToken 有效时间", title = "默认5分钟，使用 Duration 时间格式")
     @JsonDeserialize(using = DurationDeserializer.class)
     private Duration accessTokenValidity = Duration.ofSeconds(5);
@@ -117,8 +120,8 @@ public class OAuth2ApplicationDto extends BaseSysDto {
     @JsonDeserialize(using = DurationDeserializer.class)
     private Duration refreshTokenValidity = Duration.ofHours(1);
 
-    @Schema(name = "JWS algorithm", title = "JWT 算法用于签名 ID Token， 默认值 RS256")
-    private Signature signature = Signature.RS256;
+    @Schema(name = "IdToken 签名算法", title = "JWT 算法用于签名 ID Token， 默认值 RS256")
+    private Signature idTokenSignatureAlgorithm = Signature.RS256;
 
     @Schema(name = "应用对应Scope", title = "传递应用对应Scope ID")
     private Set<OAuth2Scope> scopes = Collections.emptySet();
@@ -259,12 +262,12 @@ public class OAuth2ApplicationDto extends BaseSysDto {
         this.refreshTokenValidity = refreshTokenValidity;
     }
 
-    public Signature getSignature() {
-        return signature;
+    public Signature getIdTokenSignatureAlgorithm() {
+        return idTokenSignatureAlgorithm;
     }
 
-    public void setSignature(Signature signature) {
-        this.signature = signature;
+    public void setIdTokenSignatureAlgorithm(Signature idTokenSignatureAlgorithm) {
+        this.idTokenSignatureAlgorithm = idTokenSignatureAlgorithm;
     }
 
     public Set<OAuth2Scope> getScopes() {
@@ -281,6 +284,22 @@ public class OAuth2ApplicationDto extends BaseSysDto {
 
     public void setClientSecretExpiresAt(LocalDateTime clientSecretExpiresAt) {
         this.clientSecretExpiresAt = clientSecretExpiresAt;
+    }
+
+    public Signature getAuthenticationSigningAlgorithm() {
+        return authenticationSigningAlgorithm;
+    }
+
+    public void setAuthenticationSigningAlgorithm(Signature authenticationSigningAlgorithm) {
+        this.authenticationSigningAlgorithm = authenticationSigningAlgorithm;
+    }
+
+    public TokenFormat getAccessTokenFormat() {
+        return accessTokenFormat;
+    }
+
+    public void setAccessTokenFormat(TokenFormat accessTokenFormat) {
+        this.accessTokenFormat = accessTokenFormat;
     }
 
     @Override
@@ -301,11 +320,12 @@ public class OAuth2ApplicationDto extends BaseSysDto {
                 .add("requireProofKey", requireProofKey)
                 .add("requireAuthorizationConsent", requireAuthorizationConsent)
                 .add("jwkSetUrl", jwkSetUrl)
+                .add("authenticationSigningAlgorithm", authenticationSigningAlgorithm)
+                .add("accessTokenFormat", accessTokenFormat)
                 .add("accessTokenValidity", accessTokenValidity)
                 .add("reuseRefreshTokens", reuseRefreshTokens)
                 .add("refreshTokenValidity", refreshTokenValidity)
-                .add("signature", signature)
-                .add("scopes", scopes)
+                .add("idTokenSignatureAlgorithm", idTokenSignatureAlgorithm)
                 .toString();
     }
 }

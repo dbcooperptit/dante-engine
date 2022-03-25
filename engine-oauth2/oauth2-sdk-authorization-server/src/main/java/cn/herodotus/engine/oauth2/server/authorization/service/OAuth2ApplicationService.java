@@ -39,6 +39,8 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.core.OAuth2TokenFormat;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
@@ -136,7 +138,7 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
         dto.setAccessTokenValidity(entity.getAccessTokenValidity());
         dto.setReuseRefreshTokens(entity.getReuseRefreshTokens());
         dto.setRefreshTokenValidity(entity.getRefreshTokenValidity());
-        dto.setSignature(entity.getSignature());
+        dto.setIdTokenSignatureAlgorithm(entity.getIdTokenSignatureAlgorithm());
         dto.setScopes(entity.getScopes());
         dto.setReserved(entity.getReserved());
         dto.setDescription(entity.getDescription());
@@ -144,6 +146,9 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
         dto.setRanking(entity.getRanking());
         dto.setStatus(entity.getStatus());
         dto.setClientSecretExpiresAt(entity.getClientSecretExpiresAt());
+        dto.setIdTokenSignatureAlgorithm(entity.getIdTokenSignatureAlgorithm());
+        dto.setAccessTokenFormat(entity.getAccessTokenFormat());
+        dto.setAuthenticationSigningAlgorithm(entity.getAuthenticationSigningAlgorithm());
         return dto;
     }
 
@@ -166,7 +171,7 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
         entity.setAccessTokenValidity(dto.getAccessTokenValidity());
         entity.setReuseRefreshTokens(dto.getReuseRefreshTokens());
         entity.setRefreshTokenValidity(dto.getRefreshTokenValidity());
-        entity.setSignature(dto.getSignature());
+        entity.setIdTokenSignatureAlgorithm(dto.getIdTokenSignatureAlgorithm());
         entity.setClientSecretExpiresAt(dto.getClientSecretExpiresAt());
         entity.setScopes(dto.getScopes());
         entity.setReserved(dto.getReserved());
@@ -174,6 +179,9 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
         entity.setReversion(dto.getReversion());
         entity.setRanking(dto.getRanking());
         entity.setStatus(dto.getStatus());
+        entity.setIdTokenSignatureAlgorithm(dto.getIdTokenSignatureAlgorithm());
+        entity.setAccessTokenFormat(dto.getAccessTokenFormat());
+        entity.setAuthenticationSigningAlgorithm(dto.getAuthenticationSigningAlgorithm());
 
         return entity;
     }
@@ -205,6 +213,8 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
                                 // 比如：客户端需要获取用户的 用户信息、用户照片 但是此处用户可以控制只给客户端授权获取 用户信息。
                                 .requireAuthorizationConsent(application.getRequireAuthorizationConsent())
                                 .requireProofKey(application.getRequireProofKey())
+                                .jwkSetUrl(application.getJwkSetUrl())
+                                .tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.from(application.getAuthenticationSigningAlgorithm().name()))
                                 .build()
                 )
                 .tokenSettings(
@@ -215,7 +225,10 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
                                 .refreshTokenTimeToLive(application.getRefreshTokenValidity())
                                 // 是否可重用刷新令牌
                                 .reuseRefreshTokens(application.getReuseRefreshTokens())
+                                .accessTokenFormat(new OAuth2TokenFormat(application.getAccessTokenFormat().getFormat()))
+                                .idTokenSignatureAlgorithm(SignatureAlgorithm.from(application.getIdTokenSignatureAlgorithm().name()))
                                 .build()
+
                 )
                 .build();
     }

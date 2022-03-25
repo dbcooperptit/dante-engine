@@ -69,34 +69,61 @@ public class EndpointProperties {
      */
     private String upmsServiceUri;
     /**
-     * OAuth2 Authorization Code 模式认证端点，/oauth2/authorize端点地址，可修改为自定义地址
+     * OAuth2 Authorization Code 模式认证端点，/oauth2/authorize uri 地址，可修改为自定义地址
      */
     private String authorizationUri;
     /**
-     * OAuth2 /oauth2/token 申请 Token 端点地址，可修改为自定义地址
+     * OAuth2 Authorization Code 模式认证端点，/oauth2/authorize端点地址，可修改为自定义地址
+     */
+    private String authorizationEndpoint = BaseConstants.DEFAULT_AUTHORIZATION_ENDPOINT;
+    /**
+     * OAuth2 /oauth2/token 申请 Token uri 地址，可修改为自定义地址
      */
     private String accessTokenUri;
     /**
-     * OAuth2 /oauth2/jwks 端点地址，可修改为自定义地址
+     * OAuth2 /oauth2/token 申请 Token 端点地址，可修改为自定义地址
+     */
+    private String accessTokenEndpoint = BaseConstants.DEFAULT_TOKEN_ENDPOINT;
+    /**
+     * OAuth2 /oauth2/jwks uri 地址，可修改为自定义地址
      */
     private String jwkSetUri;
     /**
-     * OAuth2 /oauth2/revoke 撤销 Token 端点地址，可修改为自定义地址
+     * OAuth2 /oauth2/jwks 端点地址，可修改为自定义地址
+     */
+    private String jwkSetEndpoint = BaseConstants.DEFAULT_JWK_SET_ENDPOINT;
+    /**
+     * OAuth2 /oauth2/revoke 撤销 Token uri 地址，可修改为自定义地址
      */
     private String tokenRevocationUri;
     /**
-     * OAuth2 /oauth2/introspect 查看 Token 端点地址，可修改为自定义地址
+     * OAuth2 /oauth2/revoke 撤销 Token 端点地址，可修改为自定义地址
+     */
+    private String tokenRevocationEndpoint = BaseConstants.DEFAULT_TOKEN_REVOCATION_ENDPOINT;
+    /**
+     * OAuth2 /oauth2/introspect 查看 Token uri地址，可修改为自定义地址
      */
     private String tokenIntrospectionUri;
     /**
-     * OAuth2 OIDC /connect/register 端点地址，可修改为自定义地址
+     * OAuth2 /oauth2/introspect 查看 Token 端点地址，可修改为自定义地址
+     */
+    private String tokenIntrospectionEndpoint = BaseConstants.DEFAULT_TOKEN_INTROSPECTION_ENDPOINT;
+    /**
+     * OAuth2 OIDC /connect/register uri 地址，可修改为自定义地址
      */
     private String oidcClientRegistrationUri;
     /**
-     * OAuth2 OIDC /userinfo 端点地址，可修改为自定义地址
+     * OAuth2 OIDC /connect/register 端点地址，可修改为自定义地址
+     */
+    private String oidcClientRegistrationEndpoint = BaseConstants.DEFAULT_OIDC_CLIENT_REGISTRATION_ENDPOINT;
+    /**
+     * OAuth2 OIDC /userinfo uri 地址，可修改为自定义地址
      */
     private String oidcUserInfoUri;
-
+    /**
+     * OAuth2 OIDC /userinfo 端点地址，可修改为自定义地址
+     */
+    private String oidcUserInfoEndpoint = BaseConstants.DEFAULT_OIDC_USER_INFO_ENDPOINT;
     /**
      * Spring Authorization Server Issuer Url
      */
@@ -173,7 +200,7 @@ public class EndpointProperties {
     }
 
     public String getAuthorizationUri() {
-        return getDefaultEndpoint(authorizationUri, BaseConstants.DEFAULT_AUTHORIZATION_ENDPOINT);
+        return getDefaultEndpoint(authorizationUri, getAuthorizationEndpoint());
     }
 
 
@@ -182,7 +209,7 @@ public class EndpointProperties {
     }
 
     public String getAccessTokenUri() {
-        return getDefaultEndpoint(accessTokenUri, BaseConstants.DEFAULT_TOKEN_ENDPOINT);
+        return getDefaultEndpoint(accessTokenUri, getAccessTokenEndpoint());
     }
 
     public void setAccessTokenUri(String accessTokenUri) {
@@ -190,7 +217,7 @@ public class EndpointProperties {
     }
 
     public String getJwkSetUri() {
-        return getDefaultEndpoint(jwkSetUri, BaseConstants.DEFAULT_JWK_SET_ENDPOINT);
+        return getDefaultEndpoint(jwkSetUri, getJwkSetEndpoint());
     }
 
     public void setJwkSetUri(String jwkSetUri) {
@@ -198,7 +225,7 @@ public class EndpointProperties {
     }
 
     public String getTokenRevocationUri() {
-        return getDefaultEndpoint(tokenRevocationUri, BaseConstants.DEFAULT_TOKEN_REVOCATION_ENDPOINT);
+        return getDefaultEndpoint(tokenRevocationUri, getTokenRevocationEndpoint());
     }
 
     public void setTokenRevocationUri(String tokenRevocationUri) {
@@ -206,7 +233,7 @@ public class EndpointProperties {
     }
 
     public String getTokenIntrospectionUri() {
-        return getDefaultEndpoint(tokenIntrospectionUri, BaseConstants.DEFAULT_TOKEN_INTROSPECTION_ENDPOINT);
+        return getDefaultEndpoint(tokenIntrospectionUri, getTokenIntrospectionEndpoint());
     }
 
     public void setTokenIntrospectionUri(String tokenIntrospectionUri) {
@@ -214,7 +241,7 @@ public class EndpointProperties {
     }
 
     public String getOidcClientRegistrationUri() {
-        return getDefaultEndpoint(oidcClientRegistrationUri, BaseConstants.DEFAULT_OIDC_CLIENT_REGISTRATION_ENDPOINT);
+        return getDefaultEndpoint(oidcClientRegistrationUri, getOidcClientRegistrationEndpoint());
     }
 
     public void setOidcClientRegistrationUri(String oidcClientRegistrationUri) {
@@ -222,7 +249,7 @@ public class EndpointProperties {
     }
 
     public String getOidcUserInfoUri() {
-        return getDefaultEndpoint(oidcUserInfoUri, BaseConstants.DEFAULT_OIDC_USER_INFO_ENDPOINT);
+        return getDefaultEndpoint(oidcUserInfoUri, getOidcUserInfoEndpoint());
     }
 
     public void setOidcUserInfoUri(String oidcUserInfoUri) {
@@ -230,11 +257,67 @@ public class EndpointProperties {
     }
 
     public String getIssuerUri() {
-        return getDefaultEndpoint(issuerUri, "");
+        return this.issuerUri;
     }
 
     public void setIssuerUri(String issuerUri) {
         this.issuerUri = issuerUri;
+    }
+
+    public String getAuthorizationEndpoint() {
+        return authorizationEndpoint;
+    }
+
+    public void setAuthorizationEndpoint(String authorizationEndpoint) {
+        this.authorizationEndpoint = authorizationEndpoint;
+    }
+
+    public String getAccessTokenEndpoint() {
+        return accessTokenEndpoint;
+    }
+
+    public void setAccessTokenEndpoint(String accessTokenEndpoint) {
+        this.accessTokenEndpoint = accessTokenEndpoint;
+    }
+
+    public String getJwkSetEndpoint() {
+        return jwkSetEndpoint;
+    }
+
+    public void setJwkSetEndpoint(String jwkSetEndpoint) {
+        this.jwkSetEndpoint = jwkSetEndpoint;
+    }
+
+    public String getTokenRevocationEndpoint() {
+        return tokenRevocationEndpoint;
+    }
+
+    public void setTokenRevocationEndpoint(String tokenRevocationEndpoint) {
+        this.tokenRevocationEndpoint = tokenRevocationEndpoint;
+    }
+
+    public String getTokenIntrospectionEndpoint() {
+        return tokenIntrospectionEndpoint;
+    }
+
+    public void setTokenIntrospectionEndpoint(String tokenIntrospectionEndpoint) {
+        this.tokenIntrospectionEndpoint = tokenIntrospectionEndpoint;
+    }
+
+    public String getOidcClientRegistrationEndpoint() {
+        return oidcClientRegistrationEndpoint;
+    }
+
+    public void setOidcClientRegistrationEndpoint(String oidcClientRegistrationEndpoint) {
+        this.oidcClientRegistrationEndpoint = oidcClientRegistrationEndpoint;
+    }
+
+    public String getOidcUserInfoEndpoint() {
+        return oidcUserInfoEndpoint;
+    }
+
+    public void setOidcUserInfoEndpoint(String oidcUserInfoEndpoint) {
+        this.oidcUserInfoEndpoint = oidcUserInfoEndpoint;
     }
 
     @Override
@@ -246,12 +329,19 @@ public class EndpointProperties {
                 .add("uaaServiceUri", uaaServiceUri)
                 .add("upmsServiceUri", upmsServiceUri)
                 .add("authorizationUri", authorizationUri)
+                .add("authorizationEndpoint", authorizationEndpoint)
                 .add("accessTokenUri", accessTokenUri)
+                .add("accessTokenEndpoint", accessTokenEndpoint)
                 .add("jwkSetUri", jwkSetUri)
+                .add("jwkSetEndpoint", jwkSetEndpoint)
                 .add("tokenRevocationUri", tokenRevocationUri)
+                .add("tokenRevocationEndpoint", tokenRevocationEndpoint)
                 .add("tokenIntrospectionUri", tokenIntrospectionUri)
+                .add("tokenIntrospectionEndpoint", tokenIntrospectionEndpoint)
                 .add("oidcClientRegistrationUri", oidcClientRegistrationUri)
+                .add("oidcClientRegistrationEndpoint", oidcClientRegistrationEndpoint)
                 .add("oidcUserInfoUri", oidcUserInfoUri)
+                .add("oidcUserInfoEndpoint", oidcUserInfoEndpoint)
                 .add("issuerUri", issuerUri)
                 .toString();
     }

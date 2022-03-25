@@ -26,6 +26,7 @@
 package cn.herodotus.engine.oauth2.server.authorization.granter;
 
 import cn.herodotus.engine.oauth2.server.authorization.utils.OAuth2EndpointUtils;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -53,6 +54,7 @@ import java.util.stream.Collectors;
  */
 public final class OAuth2ResourceOwnerPasswordAuthenticationConverter implements AuthenticationConverter {
 
+    @Nullable
     @Override
     public Authentication convert(HttpServletRequest request) {
         // grant_type (REQUIRED)
@@ -76,7 +78,7 @@ public final class OAuth2ResourceOwnerPasswordAuthenticationConverter implements
         Set<String> requestedScopes = null;
         if (StringUtils.hasText(scope)) {
             requestedScopes = new HashSet<>(
-                    Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
+                    Arrays.asList(StringUtils.delimitedListToStringArray(scope, ",")));
         }
 
         // username (REQUIRED)

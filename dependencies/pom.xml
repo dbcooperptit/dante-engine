@@ -98,7 +98,7 @@
         <spring-boot-dependencies.version>2.6.4</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>2021.0.1</spring-cloud-dependencies.version>
         <spring-cloud-alibaba-dependencies.version>2021.0.1.0</spring-cloud-alibaba-dependencies.version>
-        <spring-security-oauth2-authorization-server.version>0.2.2</spring-security-oauth2-authorization-server.version>
+        <spring-security-oauth2-authorization-server.version>0.2.3</spring-security-oauth2-authorization-server.version>
 
         <!--Maven Plugin 相关组件-->
         <archetype-packaging.verison>3.2.1</archetype-packaging.verison>

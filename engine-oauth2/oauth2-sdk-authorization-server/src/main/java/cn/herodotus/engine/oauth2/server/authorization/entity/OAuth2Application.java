@@ -29,6 +29,7 @@ import cn.herodotus.engine.data.core.entity.BaseSysEntity;
 import cn.herodotus.engine.oauth2.core.constants.OAuth2Constants;
 import cn.herodotus.engine.oauth2.core.enums.ApplicationType;
 import cn.herodotus.engine.oauth2.core.enums.Signature;
+import cn.herodotus.engine.oauth2.core.enums.TokenFormat;
 import cn.hutool.core.util.IdUtil;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -121,6 +122,14 @@ public class OAuth2Application extends BaseSysEntity {
     @Column(name = "jwk_set_url", length = 1000)
     private String jwkSetUrl;
 
+    @Schema(name = "JWT 签名算法", title = "仅在 clientAuthenticationMethods 为 private_key_jwt 和 client_secret_jwt 方法下使用")
+    @Column(name = "signing_algorithm")
+    private Signature authenticationSigningAlgorithm;
+
+    @Schema(name = "Access Token", title = "OAuth 2.0令牌的标准数据格式")
+    @Column(name = "access_token_format")
+    private TokenFormat accessTokenFormat = TokenFormat.SELF_CONTAINED;
+
     @Schema(name = "accessToken 有效时间", title = "默认5分钟，使用 Duration 时间格式")
     @Column(name = "access_token_validity")
     private Duration accessTokenValidity = Duration.ofSeconds(5);
@@ -133,9 +142,9 @@ public class OAuth2Application extends BaseSysEntity {
     @Column(name = "refresh_token_validity")
     private Duration refreshTokenValidity = Duration.ofHours(1);
 
-    @Schema(name = "JWS algorithm", title = "JWT 算法用于签名 ID Token， 默认值 RS256")
+    @Schema(name = "IdToken 签名算法", title = "JWT 算法用于签名 ID Token， 默认值 RS256")
     @Column(name = "signature_algorithm")
-    private Signature signature = Signature.RS256;
+    private Signature idTokenSignatureAlgorithm = Signature.RS256;
 
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = OAuth2Constants.REGION_OAUTH2_APPLICATION_SCOPE)
     @ManyToMany(fetch = FetchType.EAGER)
@@ -283,12 +292,12 @@ public class OAuth2Application extends BaseSysEntity {
         this.refreshTokenValidity = refreshTokenValidity;
     }
 
-    public Signature getSignature() {
-        return signature;
+    public Signature getIdTokenSignatureAlgorithm() {
+        return idTokenSignatureAlgorithm;
     }
 
-    public void setSignature(Signature signature) {
-        this.signature = signature;
+    public void setIdTokenSignatureAlgorithm(Signature signature) {
+        this.idTokenSignatureAlgorithm = signature;
     }
 
     public Set<OAuth2Scope> getScopes() {
@@ -305,6 +314,22 @@ public class OAuth2Application extends BaseSysEntity {
 
     public void setClientSecretExpiresAt(LocalDateTime clientSecretExpiresAt) {
         this.clientSecretExpiresAt = clientSecretExpiresAt;
+    }
+
+    public Signature getAuthenticationSigningAlgorithm() {
+        return authenticationSigningAlgorithm;
+    }
+
+    public void setAuthenticationSigningAlgorithm(Signature authenticationSigningAlgorithm) {
+        this.authenticationSigningAlgorithm = authenticationSigningAlgorithm;
+    }
+
+    public TokenFormat getAccessTokenFormat() {
+        return accessTokenFormat;
+    }
+
+    public void setAccessTokenFormat(TokenFormat accessTokenFormat) {
+        this.accessTokenFormat = accessTokenFormat;
     }
 
     @Override
@@ -325,11 +350,12 @@ public class OAuth2Application extends BaseSysEntity {
                 .add("requireProofKey", requireProofKey)
                 .add("requireAuthorizationConsent", requireAuthorizationConsent)
                 .add("jwkSetUrl", jwkSetUrl)
+                .add("authenticationSigningAlgorithm", authenticationSigningAlgorithm)
+                .add("accessTokenFormat", accessTokenFormat)
                 .add("accessTokenValidity", accessTokenValidity)
                 .add("reuseRefreshTokens", reuseRefreshTokens)
                 .add("refreshTokenValidity", refreshTokenValidity)
-                .add("signature", signature)
-                .add("scopes", scopes)
+                .add("idTokenSignatureAlgorithm", idTokenSignatureAlgorithm)
                 .toString();
     }
 }
