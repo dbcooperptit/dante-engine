@@ -46,11 +46,11 @@ public enum CaptchaCharacter {
     NUM_AND_UPPER_CHAR(RandomProvider.NUM_MIN_INDEX, RandomProvider.UPPER_MAX_INDEX,"数字和大写字母");
 
     /**
-     * 字符索引开始位置
+     * 字符枚举值开始位置
      */
     private final int start;
     /**
-     * 字符索引结束位置
+     * 字符枚举值结束位置
      */
     private final int end;
     /**

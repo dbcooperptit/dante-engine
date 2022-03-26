@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.OAuth2TokenFormat;
+import org.springframework.security.oauth2.jose.jws.JwsAlgorithm;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -207,29 +208,42 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
                                 grantTypes.add(OAuth2AuthorizationUtils.resolveAuthorizationGrantType(grantType))))
                 .redirectUris((uris) -> uris.addAll(redirectUris))
                 .scopes((scopes) -> clientScopes.forEach(clientScope -> scopes.add(clientScope.getScopeCode())))
-                .clientSettings(
-                        ClientSettings.builder()
-                                // 是否需要用户确认一下客户端需要获取用户的哪些权限
-                                // 比如：客户端需要获取用户的 用户信息、用户照片 但是此处用户可以控制只给客户端授权获取 用户信息。
-                                .requireAuthorizationConsent(application.getRequireAuthorizationConsent())
-                                .requireProofKey(application.getRequireProofKey())
-                                .jwkSetUrl(application.getJwkSetUrl())
-                                .tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.from(application.getAuthenticationSigningAlgorithm().name()))
-                                .build()
-                )
-                .tokenSettings(
-                        TokenSettings.builder()
-                                // accessToken 的有效期
-                                .accessTokenTimeToLive(application.getAccessTokenValidity())
-                                // refreshToken 的有效期
-                                .refreshTokenTimeToLive(application.getRefreshTokenValidity())
-                                // 是否可重用刷新令牌
-                                .reuseRefreshTokens(application.getReuseRefreshTokens())
-                                .accessTokenFormat(new OAuth2TokenFormat(application.getAccessTokenFormat().getFormat()))
-                                .idTokenSignatureAlgorithm(SignatureAlgorithm.from(application.getIdTokenSignatureAlgorithm().name()))
-                                .build()
-
-                )
+                .clientSettings(createClientSettings(application))
+                .tokenSettings(createTokenSettings(application))
                 .build();
+    }
+
+    private ClientSettings createClientSettings(OAuth2Application application) {
+        ClientSettings.Builder clientSettingsBuilder = ClientSettings.builder();
+        clientSettingsBuilder.requireAuthorizationConsent(application.getRequireAuthorizationConsent());
+        clientSettingsBuilder.requireProofKey(application.getRequireProofKey());
+        if (StringUtils.hasText(application.getJwkSetUrl())) {
+            clientSettingsBuilder.jwkSetUrl(application.getJwkSetUrl());
+        }
+        if (ObjectUtils.isNotEmpty(application.getAuthenticationSigningAlgorithm())) {
+            JwsAlgorithm jwsAlgorithm = SignatureAlgorithm.from(application.getAuthenticationSigningAlgorithm().name());
+            if (ObjectUtils.isNotEmpty(jwsAlgorithm)) {
+                clientSettingsBuilder.tokenEndpointAuthenticationSigningAlgorithm(jwsAlgorithm);
+            }
+        }
+        return clientSettingsBuilder.build();
+    }
+
+    private TokenSettings createTokenSettings(OAuth2Application application) {
+        TokenSettings.Builder tokenSettingsBuilder = TokenSettings.builder();
+        // accessToken 的有效期
+        tokenSettingsBuilder.accessTokenTimeToLive(application.getAccessTokenValidity());
+        // refreshToken 的有效期
+        tokenSettingsBuilder.refreshTokenTimeToLive(application.getRefreshTokenValidity());
+        // 是否可重用刷新令牌
+        tokenSettingsBuilder.reuseRefreshTokens(application.getReuseRefreshTokens());
+        tokenSettingsBuilder.accessTokenFormat(new OAuth2TokenFormat(application.getAccessTokenFormat().getFormat()));
+        if (ObjectUtils.isNotEmpty(application.getIdTokenSignatureAlgorithm())) {
+            SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.from(application.getIdTokenSignatureAlgorithm().name());
+            if (ObjectUtils.isNotEmpty(signatureAlgorithm)) {
+                tokenSettingsBuilder.idTokenSignatureAlgorithm(signatureAlgorithm);
+            }
+        }
+        return tokenSettingsBuilder.build();
     }
 }

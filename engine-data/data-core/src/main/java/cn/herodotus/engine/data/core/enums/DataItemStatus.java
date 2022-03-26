@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.data.core.enums;
 
+import cn.herodotus.engine.assistant.core.definition.enums.BaseUiEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.collect.ImmutableMap;
@@ -40,7 +41,7 @@ import java.util.Map;
  */
 @Schema(title = "数据状态")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum DataItemStatus {
+public enum DataItemStatus implements BaseUiEnum<Integer> {
 
     /**
      * 数据条目已启用
@@ -59,29 +60,29 @@ public enum DataItemStatus {
      */
     EXPIRED(3, "过期");
 
-    @Schema(title = "索引")
-    private final Integer index;
+    @Schema(title = "枚举值")
+    private final Integer value;
     @Schema(title = "文字")
-    private final String text;
+    private final String description;
 
     private static final Map<Integer, DataItemStatus> INDEX_MAP = new HashMap<>();
-    private static final List<Map<String, Object>> TO_JSON_STRUCT = new ArrayList<>();
+    private static final List<Map<String, Object>> JSON_STRUCTURE = new ArrayList<>();
 
     static {
         for (DataItemStatus dataItemStatus : DataItemStatus.values()) {
-            INDEX_MAP.put(dataItemStatus.getIndex(), dataItemStatus);
-            TO_JSON_STRUCT.add(dataItemStatus.getIndex(),
+            INDEX_MAP.put(dataItemStatus.getValue(), dataItemStatus);
+            JSON_STRUCTURE.add(dataItemStatus.getValue(),
                     ImmutableMap.<String, Object>builder()
-                            .put("value", dataItemStatus.getIndex())
+                            .put("value", dataItemStatus.getValue())
                             .put("key", dataItemStatus.name())
-                            .put("text", dataItemStatus.getText())
+                            .put("text", dataItemStatus.getDescription())
                             .build());
         }
     }
 
-    DataItemStatus(Integer index, String text) {
-        this.index = index;
-        this.text = text;
+    DataItemStatus(Integer value, String description) {
+        this.value = value;
+        this.description = description;
     }
 
     /**
@@ -90,22 +91,24 @@ public enum DataItemStatus {
      * <p>
      * 不使用@JsonValue @JsonDeserializer类里面要做相应的处理
      *
-     * @return Enum索引
+     * @return Enum枚举值
      */
     @JsonValue
-    public Integer getIndex() {
-        return index;
+    @Override
+    public Integer getValue() {
+        return value;
     }
 
-    public String getText() {
-        return this.text;
+    @Override
+    public String getDescription() {
+        return this.description;
     }
 
-    public static DataItemStatus getStatus(Integer status) {
-        return INDEX_MAP.get(status);
+    public static DataItemStatus get(Integer index) {
+        return INDEX_MAP.get(index);
     }
 
-    public static List<Map<String, Object>> getToJsonStruct() {
-        return TO_JSON_STRUCT;
+    public static List<Map<String, Object>> getPreprocessedJsonStructure() {
+        return JSON_STRUCTURE;
     }
 }

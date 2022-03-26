@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.oauth2.core.enums;
 
+import cn.herodotus.engine.assistant.core.definition.enums.BaseUiEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.collect.ImmutableMap;
@@ -43,44 +44,45 @@ import java.util.Map;
  */
 @Schema(name = "签名算法")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Signature {
+public enum Signature implements BaseUiEnum<Integer> {
 
     /**
      * enum
      */
-    RS256(0,"RS256"),
-    RS384(1,"RS384"),
+    RS256(0, "RS256"),
+    RS384(1, "RS384"),
     RS512(2,"RS512"),
-    ES256(3,"ES256"),
-    ES384(4,"ES384"),
-    ES512(5,"ES512"),
-    PS256(6,"PS256"),
-    PS384(7,"PS384"),
-    PS512(8,"PS512");
+    ES256(3, "ES256"),
+    ES384(4, "ES384"),
+    ES512(5, "ES512"),
+    PS256(6, "PS256"),
+    PS384(7, "PS384"),
+    PS512(8, "PS512");
 
-    @Schema(name = "索引")
-    private final Integer index;
+    @Schema(title = "枚举值")
+    private final Integer value;
     @Schema(name = "文字")
-    private final String algorithm;
+    private final String description;
 
-    private static final Map<Integer, Signature> indexMap = new HashMap<>();
-    private static final List<Map<String, Object>> toJsonStruct = new ArrayList<>();
+    private static final Map<Integer, Signature> INDEX_MAP = new HashMap<>();
+    private static final List<Map<String, Object>> JSON_STRUCTURE = new ArrayList<>();
 
     static {
         for (Signature signature : Signature.values()) {
-            indexMap.put(signature.ordinal(), signature);
-            toJsonStruct.add(signature.ordinal(),
+            INDEX_MAP.put(signature.getValue(), signature);
+            JSON_STRUCTURE.add(signature.getValue(),
                     ImmutableMap.<String, Object>builder()
-                            .put("value", signature.ordinal())
+                            .put("value", signature.getValue())
                             .put("key", signature.name())
-                            .put("text", signature.getAlgorithm())
+                            .put("text", signature.getDescription())
+                            .put("index", signature.getValue())
                             .build());
         }
     }
 
-    Signature(Integer index, String algorithm) {
-        this.index = index;
-        this.algorithm = algorithm;
+    Signature(Integer value, String description) {
+        this.value = value;
+        this.description = description;
     }
 
     /**
@@ -89,22 +91,24 @@ public enum Signature {
      * <p>
      * 不使用@JsonValue @JsonDeserializer类里面要做相应的处理
      *
-     * @return Enum索引
+     * @return Enum枚举值
      */
     @JsonValue
-    public Integer getIndex() {
-        return index;
+    @Override
+    public Integer getValue() {
+        return value;
     }
 
-    public String getAlgorithm() {
-        return algorithm;
+    @Override
+    public String getDescription() {
+        return description;
     }
 
-    public static Signature getSignatureAlgorithm(Integer type) {
-        return indexMap.get(type);
+    public static Signature get(Integer index) {
+        return INDEX_MAP.get(index);
     }
 
-    public static List<Map<String, Object>> getToJsonStruct() {
-        return toJsonStruct;
+    public static List<Map<String, Object>> getPreprocessedJsonStructure() {
+        return JSON_STRUCTURE;
     }
 }

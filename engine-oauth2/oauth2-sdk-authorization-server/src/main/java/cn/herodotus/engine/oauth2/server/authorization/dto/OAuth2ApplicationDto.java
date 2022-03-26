@@ -38,8 +38,6 @@ import com.fasterxml.jackson.datatype.jsr310.deser.DurationDeserializer;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -70,7 +68,7 @@ public class OAuth2ApplicationDto extends BaseSysDto {
     @Schema(name = "主页信息", title = "应用相关的主页信息方便查询")
     private String homepage;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Schema(name = "应用类型", title = "用于区分不同类型的应用")
     private ApplicationType applicationType = ApplicationType.WEB;
 
     @Schema(name = "客户端Id", title = "默认为系统自动生成")
