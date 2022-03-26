@@ -185,7 +185,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
     @Override
     public boolean supports(Class<?> authentication) {
         boolean supports = OAuth2ResourceOwnerPasswordAuthenticationToken.class.isAssignableFrom(authentication);
-        log.debug("[Herodotus] |- Resource Owner Password Authentication is supports!");
+        log.trace("[Herodotus] |- Resource Owner Password Authentication is supports! [{}]", supports);
         return supports;
     }
 

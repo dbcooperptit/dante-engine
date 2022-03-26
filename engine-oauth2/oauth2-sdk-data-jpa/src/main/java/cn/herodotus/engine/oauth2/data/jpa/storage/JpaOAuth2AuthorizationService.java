@@ -25,10 +25,11 @@
 
 package cn.herodotus.engine.oauth2.data.jpa.storage;
 
-import cn.herodotus.engine.security.core.jackson2.HerodotusJackson2Module;
+import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorization;
 import cn.herodotus.engine.oauth2.data.jpa.service.HerodotusAuthorizationService;
 import cn.herodotus.engine.oauth2.data.jpa.utils.OAuth2AuthorizationUtils;
-import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorization;
+import cn.herodotus.engine.security.core.jackson2.HerodotusJackson2Module;
 import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
@@ -108,14 +109,14 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         Optional<HerodotusAuthorization> result;
         if (tokenType == null) {
             result = this.herodotusAuthorizationService.findByDetection(token);
-        } else if (OAuth2ParameterNames.STATE.equals(tokenType.getValue())) {
-            result = this.herodotusAuthorizationService.findByState(token);
-        } else if (OAuth2ParameterNames.CODE.equals(tokenType.getValue())) {
-            result = this.herodotusAuthorizationService.findByAuthorizationCode(token);
         } else if (OAuth2ParameterNames.ACCESS_TOKEN.equals(tokenType.getValue())) {
             result = this.herodotusAuthorizationService.findByAccessToken(token);
         } else if (OAuth2ParameterNames.REFRESH_TOKEN.equals(tokenType.getValue())) {
             result = this.herodotusAuthorizationService.findByRefreshToken(token);
+        } else if (OAuth2ParameterNames.STATE.equals(tokenType.getValue())) {
+            result = this.herodotusAuthorizationService.findByState(token);
+        } else if (OAuth2ParameterNames.CODE.equals(tokenType.getValue())) {
+            result = this.herodotusAuthorizationService.findByAuthorizationCode(token);
         } else {
             result = Optional.empty();
         }
@@ -153,7 +154,8 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
                     OAuth2AccessToken.TokenType.BEARER,
                     entity.getAccessToken(),
                     DateUtil.toInstant(entity.getAccessTokenIssuedAt()),
-                    DateUtil.toInstant(entity.getAccessTokenExpiresAt()));
+                    DateUtil.toInstant(entity.getAccessTokenExpiresAt()),
+                    StringUtils.commaDelimitedListToSet(entity.getAccessTokenScopes()));
             builder.token(accessToken, metadata -> metadata.putAll(parseMap(entity.getAccessTokenMetadata())));
         }
 
@@ -206,7 +208,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
                 entity::setAccessTokenMetadata
         );
         if (accessToken != null && accessToken.getToken().getScopes() != null) {
-            entity.setAccessTokenScopes(StringUtils.collectionToDelimitedString(accessToken.getToken().getScopes(), ","));
+            entity.setAccessTokenScopes(StringUtils.collectionToDelimitedString(accessToken.getToken().getScopes(), SymbolConstants.COMMA));
         }
 
         OAuth2Authorization.Token<OAuth2RefreshToken> refreshToken =
@@ -252,7 +254,8 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
     private Map<String, Object> parseMap(String data) {
         try {
-            return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {});
+            return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {
+            });
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }

@@ -25,8 +25,6 @@
 
 package cn.herodotus.engine.security.core.exception;
 
-import cn.herodotus.engine.assistant.core.definition.exception.AbstractHerodotusException;
-import cn.herodotus.engine.assistant.core.definition.exception.HerodotusException;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.assistant.core.enums.ResultErrorCodes;
 import cn.herodotus.engine.assistant.core.exception.GlobalExceptionHandler;
@@ -130,6 +128,13 @@ public class SecurityGlobalExceptionHandler {
      */
     @ExceptionHandler({AuthenticationException.class, PlatformAuthenticationException.class})
     public static Result<String> authenticationException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
+        Result<String> result = resolveSecurityException(ex, request.getRequestURI());
+        response.setStatus(result.getStatus());
+        return result;
+    }
+
+    @ExceptionHandler({OAuth2AuthenticationException.class})
+    public static Result<String> oAuth2AuthenticationException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
         Result<String> result = resolveSecurityException(ex, request.getRequestURI());
         response.setStatus(result.getStatus());
         return result;
