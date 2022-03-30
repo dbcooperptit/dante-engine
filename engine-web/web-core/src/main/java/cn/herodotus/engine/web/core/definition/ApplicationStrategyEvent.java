@@ -23,26 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.event.security.remote;
+package cn.herodotus.engine.web.core.definition;
 
-import org.springframework.cloud.bus.event.RemoteApplicationEvent;
+import cn.herodotus.engine.assistant.core.definition.event.StrategyEvent;
+import cn.herodotus.engine.web.core.context.ServiceContext;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: Security Metadata 远程刷新事件 </p>
+ * <p>Description: 应用策略事件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/8/6 11:24
+ * @date : 2022/3/29 7:26
  */
-public class RemoteSecurityMetadataSyncEvent extends RemoteApplicationEvent {
+public interface ApplicationStrategyEvent<T> extends StrategyEvent<T> {
 
-    private final String data;
-
-    public RemoteSecurityMetadataSyncEvent(String data, String originService, String destinationService) {
-        super(data, originService, DEFAULT_DESTINATION_FACTORY.getDestination(destinationService));
-        this.data = data;
+    @Override
+    default boolean isLocal(String destinationService) {
+        return !ServiceContext.getInstance().isDistributedArchitecture() || StringUtils.equals(ServiceContext.getInstance().getApplicationName(), destinationService);
     }
 
-    public String getData() {
-        return data;
+    /**
+     * 发送事件
+     *
+     * @param data               事件携带数据
+     * @param destinationService 接收远程事件目的地
+     */
+    default void postProcess(String destinationService, T data ) {
+        postProcess(ServiceContext.getInstance().getOriginService(), destinationService, data);
     }
 }

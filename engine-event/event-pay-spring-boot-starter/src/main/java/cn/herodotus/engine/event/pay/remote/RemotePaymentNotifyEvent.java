@@ -36,13 +36,10 @@ import org.springframework.cloud.bus.event.RemoteApplicationEvent;
  */
 public class RemotePaymentNotifyEvent extends RemoteApplicationEvent {
 
-    private String data;
+    private final String data;
 
-    public RemotePaymentNotifyEvent() {
-    }
-
-    public RemotePaymentNotifyEvent(String data, String originService, Destination destination) {
-        super(data, originService, destination);
+    public RemotePaymentNotifyEvent(String data, String originService, String destinationService) {
+        super(data, originService, DEFAULT_DESTINATION_FACTORY.getDestination(destinationService));
         this.data = data;
     }
 

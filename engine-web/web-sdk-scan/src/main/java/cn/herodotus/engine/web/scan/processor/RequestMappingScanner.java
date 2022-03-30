@@ -88,7 +88,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         String serviceId = WebPropertyFinder.getApplicationName(applicationContext.getEnvironment());
 
         // 2、只针对有EnableResourceServer注解的微服务进行扫描。如果变为单体架构目前不会用到EnableResourceServer所以增加的了一个Architecture判断
-        if (!requestMappingScanManager.isPerformScan(applicationContext)) {
+        if (!requestMappingScanManager.isPerformScan()) {
             // 只扫描资源服务器
             log.warn("[Herodotus] |- Can not found scan annotation in Service [{}], Skip!", serviceId);
             return;
@@ -119,7 +119,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
 
         if (CollectionUtils.isNotEmpty(resources)) {
             log.debug("[Herodotus] |- [2] Request mapping scan found [{}] resources in service [{}], go to next stage!", serviceId, resources.size());
-            requestMappingScanManager.postProcess(resources, applicationContext, serviceId);
+            requestMappingScanManager.process(resources);
         } else {
             log.debug("[Herodotus] |- [2] Request mapping scan can not find any resources in service [{}]!", serviceId);
         }

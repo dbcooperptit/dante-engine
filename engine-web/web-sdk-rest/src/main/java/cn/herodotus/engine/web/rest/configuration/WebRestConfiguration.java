@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -65,9 +66,9 @@ public class WebRestConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public HerodotusApplicationContext herodotusApplicationContext(PlatformProperties platformProperties, EndpointProperties endpointProperties, ServerProperties serverProperties) {
-        HerodotusApplicationContext contextHolder = new HerodotusApplicationContext(platformProperties, endpointProperties, serverProperties);
-        log.trace("[Herodotus] |- Bean [Context Holder] Auto Configure.");
+    public HerodotusApplicationContext herodotusApplicationContext(ApplicationContext applicationContext, PlatformProperties platformProperties, EndpointProperties endpointProperties, ServerProperties serverProperties) {
+        HerodotusApplicationContext contextHolder = new HerodotusApplicationContext(applicationContext, platformProperties, endpointProperties, serverProperties);
+        log.trace("[Herodotus] |- Bean [Herodotus Context Holder] Auto Configure.");
         return contextHolder;
     }
 

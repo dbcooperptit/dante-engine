@@ -219,7 +219,7 @@ public class AlipayPaymentTemplate {
             applicationContext.publishEvent(new LocalPaymentNotifyEvent(params));
         } else {
             if (StringUtils.isNotBlank(getAlipayProperties().getDestination())) {
-                applicationContext.publishEvent(new RemotePaymentNotifyEvent(JSON.toJSONString(params), serviceId, new PathDestinationFactory().getDestination(getAlipayProperties().getDestination())));
+                applicationContext.publishEvent(new RemotePaymentNotifyEvent(JSON.toJSONString(params), serviceId, getAlipayProperties().getDestination()));
             }
         }
     }
@@ -234,7 +234,7 @@ public class AlipayPaymentTemplate {
             applicationContext.publishEvent(new LocalPaymentReturnEvent(params));
         } else {
             if (StringUtils.isNotBlank(getAlipayProperties().getDestination())) {
-                applicationContext.publishEvent(new RemotePaymentReturnEvent(JSON.toJSONString(params), serviceId, new PathDestinationFactory().getDestination(getAlipayProperties().getDestination())));
+                applicationContext.publishEvent(new RemotePaymentReturnEvent(JSON.toJSONString(params), serviceId, getAlipayProperties().getDestination()));
             }
         }
     }

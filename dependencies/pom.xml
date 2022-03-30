@@ -92,6 +92,13 @@
     <!-- ${project.xxx} 当前pom文件的任意节点的内容 如project.artifactId -->
 
     <properties>
+        <java.version>1.8</java.version>
+        <resource.delimiter>@</resource.delimiter>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <herodotus-engine.version>${project.version}</herodotus-engine.version>
         <!--Spring 家族-->
         <spring-boot-admin.version>2.6.3</spring-boot-admin.version>
@@ -170,9 +177,10 @@
         <!--以下为包依赖的特殊处理-->
         <!--强制升级解决安全漏洞问题-->
         <log4j2.version>2.17.2</log4j2.version>
-        <logback.version>1.2.10</logback.version>
+        <logback.version>1.2.11</logback.version>
         <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
         <bcpkix-jdk15on.version>1.70</bcpkix-jdk15on.version>
+        <spring-integration.version>5.5.9</spring-integration.version>
     </properties>
 
     <dependencyManagement>
