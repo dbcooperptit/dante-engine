@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.oauth2.data.jpa.storage;
 
-import cn.herodotus.engine.security.core.jackson2.HerodotusJackson2Module;
+import cn.herodotus.engine.oauth2.core.jackson2.HerodotusJackson2Module;
 import cn.herodotus.engine.oauth2.data.jpa.service.HerodotusRegisteredClientService;
 import cn.herodotus.engine.oauth2.data.jpa.utils.OAuth2AuthorizationUtils;
 import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusRegisteredClient;

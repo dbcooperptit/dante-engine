@@ -29,7 +29,7 @@ import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorization;
 import cn.herodotus.engine.oauth2.data.jpa.service.HerodotusAuthorizationService;
 import cn.herodotus.engine.oauth2.data.jpa.utils.OAuth2AuthorizationUtils;
-import cn.herodotus.engine.security.core.jackson2.HerodotusJackson2Module;
+import cn.herodotus.engine.oauth2.core.jackson2.HerodotusJackson2Module;
 import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;

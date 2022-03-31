@@ -103,7 +103,6 @@
         <module>engine-data</module>
         <module>engine-web</module>
         <module>engine-rest</module>
-        <module>engine-security</module>
         <module>engine-captcha</module>
         <module>engine-oss</module>
         <module>engine-temporal</module>

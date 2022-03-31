@@ -464,23 +464,6 @@
                 <version>${herodotus-engine.version}</version>
             </dependency>
 
-            <!-- security -->
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>security-core</artifactId>
-                <version>${herodotus-engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>security-sdk-extend</artifactId>
-                <version>${herodotus-engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>security-sdk-log</artifactId>
-                <version>${herodotus-engine.version}</version>
-            </dependency>
-
             <!-- temporal -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>

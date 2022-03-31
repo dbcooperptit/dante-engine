@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.oauth2.server.resource.converter;
 
-import cn.herodotus.engine.security.core.definition.domain.HerodotusGrantedAuthority;
+import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusGrantedAuthority;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.convert.converter.Converter;
