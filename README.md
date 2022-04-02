@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://shields.io/badge/JDK-1.8%2B-green" alt="JDK 1.8+"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.6.5-blue" alt="Spring Boot 2.6.5"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.6.6-blue" alt="Spring Boot 2.6.6"></a>
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2021.0.1-blue" alt="Spring Cloud 2021.0.1"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2021.0.1.0-blue" alt="Spring Cloud Alibaba 2021.0.1.0"></a>
     <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-0.2.3-blue" alt="Spring Authorization Server 0.2.3"></a>
@@ -81,11 +81,8 @@ herodotus-engine
 ├    ├── data-sdk-p6spy -- P6spy 组件相关代码模块
 ├    └── data-spring-boot-starter -- Data 模块统一 Starter
 ├── engine-event -- Spring 事件模块
-├    ├── event-core-local -- Spring 标准事件组件相关代码模块
-├    ├── event-core-remote -- 基于 Spring Cloud Bus 的远程事件组件相关代码模块
+├    ├── event-core -- 事件组件共性代码模块
 ├    ├── event-pay-spring-boot-starter -- 支付事件统一 Starter
-├    ├── event-sdk-pay -- 支付事件组件相关代码模块
-├    ├── event-sdk-security -- 安全事件组件相关代码模块
 ├    └── event-security-spring-boot-starter --安全事件统一 Starter
 ├── engine-facility -- 微服务基础设施模块
 ├    ├── facility-core -- 基础设施共性通用代码
@@ -95,6 +92,13 @@ herodotus-engine
 ├── engine-message -- 消息模块
 ├    ├── message-core -- 消息共性通用代码
 ├    └── message-spring-boot-starter -- Message  模块统一 Starter
+├── engine-oauth2 -- OAuth2 认证模块
+├    ├── oauth2-core -- OAuth2 共性通用代码
+├    ├── oauth2-sdk-authorization -- Spring Authorization Server Granter扩展代码模块
+├    ├── oauth2-sdk-authorization-server -- Spring Authorization Server 管理代码模块
+├    ├── oauth2-sdk-authorization-ui -- 自定义 Spring Authorization Server 界面代码模块
+├    ├── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
+├    └── oauth2-sdk-resource-server -- OAuth2 资源服务器通用代码模块
 ├── engine-oss -- 对象存储模块
 ├    ├── oss-core -- 对象存储共性通用代码
 ├    ├── oss-sdk-minio -- Minio 组件相关代码模块
@@ -110,11 +114,6 @@ herodotus-engine
 ├    ├── rest-sdk-crypto -- 前后端数据加密组件相关代码模块
 ├    ├── rest-sdk-secure -- 接口幂等、防刷、Xss和SQL注入防护组件相关代码模块
 ├    └── rest-spring-boot-starter -- Rest 模块统一 Starter(包括通用CRUD代码)
-├── engine-security -- Security & OAuth2 安全模块
-├    ├── security-core -- 安全模块共性通用代码
-├    ├── security-sdk-authorize -- OAuth2 授权码模式扩展组件相关代码模块
-├    ├── security-sdk-extend -- Security 扩展组件相关代码模块
-├    └──security-sdk-log -- OAuth2 认证后操作信息记录组件相关代码模块
 ├── engine-temporal -- 时序数据存储处理模块
 ├    ├── temporal-core -- 时序数据存储共性通用代码
 ├    ├── temporal-sdk-influxdb -- Influxdb 组件相关代码模块
@@ -141,7 +140,7 @@ herodotus-engine
 3. engine-data
 4. engine-web
 5. engine-rest
-6. engine-security
+6. engine-oauth2
 7. engine-facility
 8. engine-event
 9. engine-message
