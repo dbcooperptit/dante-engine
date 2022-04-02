@@ -28,7 +28,6 @@ package cn.herodotus.engine.oauth2.authorization.customizer;
 import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -90,19 +89,26 @@ public class HerodotusTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodi
                     }
 
                     if (authentication instanceof OAuth2ClientAuthenticationToken) {
-                        OAuth2ClientAuthenticationToken OAuth2ClientAuthenticationToken = (OAuth2ClientAuthenticationToken) authentication;
-                        Map<String, Object> additionalParameters = OAuth2ClientAuthenticationToken.getAdditionalParameters();
+                        OAuth2ClientAuthenticationToken clientAuthenticationToken = (OAuth2ClientAuthenticationToken) authentication;
 
-                        // customize the token according to your need for this kind of authentication
-                        if (!MapUtils.isEmpty(additionalParameters)) {
-
+                        Map<String, Object> attributes = new HashMap<>();
+                        if (CollectionUtils.isNotEmpty(clientAuthenticationToken.getAuthorities())) {
+                            Set<String> authorities = clientAuthenticationToken.getAuthorities().stream()
+                                    .map(GrantedAuthority::getAuthority)
+                                    .collect(Collectors.toSet());
+                            attributes.put(BaseConstants.AUTHORITIES, authorities);
                         }
 
-                    }
+                        Set<String> authorizedScopes = context.getAuthorizedScopes();
+                        if (CollectionUtils.isNotEmpty(authorizedScopes)) {
+                            attributes.put(OAuth2ParameterNames.SCOPE, authorizedScopes);
+                        }
 
+                        JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
+                        jwtClaimSetBuilder.claims(claims -> claims.putAll(attributes));
+                    }
                 }
             }
         }
-
     }
 }
