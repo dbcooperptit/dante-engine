@@ -23,24 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.server.authorization.repository;
+package cn.herodotus.engine.oauth2.core.definition.service;
 
-import cn.herodotus.engine.data.core.repository.BaseRepository;
-import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Application;
+import cn.herodotus.engine.assistant.core.domain.AccessPrincipal;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * <p>Description: OAuth2ApplicationRepository </p>
+ * <p>Description: 自定义UserDetailsService接口，方便以后扩展 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/3/1 18:05
+ * @date : 2021/1/17 12:49
  */
-public interface OAuth2ApplicationRepository extends BaseRepository<OAuth2Application, String> {
+public interface EnhanceUserDetailsService extends UserDetailsService {
 
     /**
-     * 根据 Client ID 查询 OAuth2Application
+     * 通过社交集成的唯一id，获取用户信息
+     * <p>
+     * 如果是短信验证码，openId就是手机号码
      *
-     * @param clientId OAuth2Application 中的 clientId
-     * @return {@link OAuth2Application}
+     * @param accessPrincipal 社交登录提供的相关信息
+     * @param source          社交集成提供商类型
+     * @return {@link UserDetails}
+     * @throws UsernameNotFoundException 用户不存在
      */
-    OAuth2Application findByClientId(String clientId);
+    UserDetails loadUserBySocial(String source, AccessPrincipal accessPrincipal) throws AuthenticationException;
 }

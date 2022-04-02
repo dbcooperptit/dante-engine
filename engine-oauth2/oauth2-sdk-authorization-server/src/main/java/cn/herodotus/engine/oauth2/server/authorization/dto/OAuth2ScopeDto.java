@@ -23,37 +23,51 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.server.authorization.granter;
+package cn.herodotus.engine.oauth2.server.authorization.dto;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.lang.Nullable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationGrantAuthenticationToken;
-import org.springframework.util.Assert;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.Collections;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
- * <p>Description: 自定义密码模式认证Token </p>
+ * <p>Description: OAuth2 Scope Dto </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/22 15:49
+ * @date : 2022/4/1 13:55
  */
-public class OAuth2ResourceOwnerPasswordAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
+@Schema(name = "OAuth2 范围请求 Dto")
+public class OAuth2ScopeDto {
 
-    private final Set<String> scopes;
+    @Schema(name = "范围ID")
+    @NotNull(message = "范围ID不能为空")
+    private String scopeId;
 
-    public OAuth2ResourceOwnerPasswordAuthenticationToken(Authentication clientPrincipal, @Nullable Set<String> scopes, @Nullable Map<String, Object> additionalParameters) {
-        super(AuthorizationGrantType.PASSWORD, clientPrincipal, additionalParameters);
-        Assert.notNull(clientPrincipal, "clientPrincipal cannot be null");
-        this.scopes = Collections.unmodifiableSet(CollectionUtils.isNotEmpty(scopes) ? new HashSet<>(scopes) : Collections.emptySet());
+    @Schema(name = "范围权限列表")
+    private Set<OAuth2AuthorityDto> authorities = new HashSet<>();
+
+    public String getScopeId() {
+        return scopeId;
     }
 
-    public Set<String> getScopes() {
-        return scopes;
+    public void setScopeId(String scopeId) {
+        this.scopeId = scopeId;
+    }
+
+    public Set<OAuth2AuthorityDto> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<OAuth2AuthorityDto> authorities) {
+        this.authorities = authorities;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("scopeId", scopeId)
+                .toString();
     }
 }

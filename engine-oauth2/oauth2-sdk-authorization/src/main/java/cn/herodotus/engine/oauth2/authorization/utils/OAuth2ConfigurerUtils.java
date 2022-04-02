@@ -22,7 +22,7 @@
  * 5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://gitee.com/herodotus/eurynome-cloud
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
-package cn.herodotus.engine.oauth2.server.authorization.utils;
+package cn.herodotus.engine.oauth2.authorization.utils;
 
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;

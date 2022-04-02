@@ -23,24 +23,14 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.server.authorization.repository;
-
-import cn.herodotus.engine.data.core.repository.BaseRepository;
-import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Application;
+package cn.herodotus.engine.oauth2.core.definition.service;
 
 /**
- * <p>Description: OAuth2ApplicationRepository </p>
+ * <p>Description: 自定义客户端详情接口 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/3/1 18:05
+ * @date : 2022/3/31 14:42
  */
-public interface OAuth2ApplicationRepository extends BaseRepository<OAuth2Application, String> {
+public interface EnhanceClientDetailsService extends ClientDetailsService {
 
-    /**
-     * 根据 Client ID 查询 OAuth2Application
-     *
-     * @param clientId OAuth2Application 中的 clientId
-     * @return {@link OAuth2Application}
-     */
-    OAuth2Application findByClientId(String clientId);
 }

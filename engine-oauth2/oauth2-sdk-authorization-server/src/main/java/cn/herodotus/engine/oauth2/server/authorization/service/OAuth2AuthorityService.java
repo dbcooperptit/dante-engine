@@ -28,45 +28,28 @@ package cn.herodotus.engine.oauth2.server.authorization.service;
 import cn.herodotus.engine.data.core.repository.BaseRepository;
 import cn.herodotus.engine.data.core.service.BaseLayeredService;
 import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Authority;
-import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Scope;
-import cn.herodotus.engine.oauth2.server.authorization.repository.OAuth2ScopeRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cn.herodotus.engine.oauth2.server.authorization.repository.OAuth2AuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 /**
- * <p> Description : OauthScopeService </p>
+ * <p>Description: OAuth2AuthorityService </p>
  *
  * @author : gengwei.zheng
- * @date : 2020/3/19 17:00
+ * @date : 2022/4/1 13:53
  */
 @Service
-public class OAuth2ScopeService extends BaseLayeredService<OAuth2Scope, String> {
+public class OAuth2AuthorityService extends BaseLayeredService<OAuth2Authority, String> {
 
-    private static final Logger log = LoggerFactory.getLogger(OAuth2ScopeService.class);
-
-    private final OAuth2ScopeRepository oauthScopesRepository;
+    private final OAuth2AuthorityRepository authorityRepository;
 
     @Autowired
-    public OAuth2ScopeService(OAuth2ScopeRepository oauthScopesRepository) {
-        this.oauthScopesRepository = oauthScopesRepository;
+    public OAuth2AuthorityService(OAuth2AuthorityRepository authorityRepository) {
+        this.authorityRepository = authorityRepository;
     }
 
     @Override
-    public BaseRepository<OAuth2Scope, String> getRepository() {
-        return oauthScopesRepository;
-    }
-
-    public OAuth2Scope authorize(String scopeId, Set<OAuth2Authority> authorities) {
-
-        OAuth2Scope oldScope = findById(scopeId);
-        oldScope.setAuthorities(authorities);
-
-        OAuth2Scope newScope = saveOrUpdate(oldScope);
-        log.debug("[Herodotus] |- OAuth2ScopeService assign.");
-        return newScope;
+    public BaseRepository<OAuth2Authority, String> getRepository() {
+        return authorityRepository;
     }
 }

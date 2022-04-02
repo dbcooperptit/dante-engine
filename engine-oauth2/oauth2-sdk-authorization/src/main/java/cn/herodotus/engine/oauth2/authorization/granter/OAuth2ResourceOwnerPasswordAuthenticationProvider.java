@@ -23,9 +23,10 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.server.authorization.granter;
+package cn.herodotus.engine.oauth2.authorization.granter;
 
-import cn.herodotus.engine.oauth2.server.authorization.utils.OAuth2EndpointUtils;
+import cn.herodotus.engine.oauth2.authorization.utils.OAuth2AuthenticationProviderUtils;
+import cn.herodotus.engine.oauth2.authorization.utils.OAuth2EndpointUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.*;
@@ -85,7 +86,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
                 (OAuth2ResourceOwnerPasswordAuthenticationToken) authentication;
 
         OAuth2ClientAuthenticationToken clientPrincipal =
-                getAuthenticatedClientElseThrowInvalidClient(resourceOwnerPasswordAuthentication);
+                OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient(resourceOwnerPasswordAuthentication);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
         if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.PASSWORD)) {
@@ -187,16 +188,5 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
         boolean supports = OAuth2ResourceOwnerPasswordAuthenticationToken.class.isAssignableFrom(authentication);
         log.trace("[Herodotus] |- Resource Owner Password Authentication is supports! [{}]", supports);
         return supports;
-    }
-
-    private OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(Authentication authentication) {
-        OAuth2ClientAuthenticationToken clientPrincipal = null;
-        if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
-            clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
-        }
-        if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
-            return clientPrincipal;
-        }
-        throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
     }
 }

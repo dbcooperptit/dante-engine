@@ -48,8 +48,12 @@ public class InterfaceSecurityService {
     private static final String PKCS8_BEGIN = "-----BEGIN PUBLIC KEY-----";
     private static final String PKCS8_END = "-----END PUBLIC KEY-----";
 
+    private final InterfaceCryptoProcessor interfaceCryptoProcessor;
+
     @Autowired
-    private InterfaceCryptoProcessor interfaceCryptoProcessor;
+    public InterfaceSecurityService(InterfaceCryptoProcessor interfaceCryptoProcessor) {
+        this.interfaceCryptoProcessor = interfaceCryptoProcessor;
+    }
 
     public SecretKey createSecretKey(String clientId, String clientSecret, String sessionId) {
         // 检测终端是否是有效终端

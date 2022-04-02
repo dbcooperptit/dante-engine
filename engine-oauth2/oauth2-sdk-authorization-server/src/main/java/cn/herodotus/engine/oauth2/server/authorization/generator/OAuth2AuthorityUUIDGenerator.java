@@ -23,24 +23,38 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.server.authorization.repository;
+package cn.herodotus.engine.oauth2.server.authorization.generator;
 
-import cn.herodotus.engine.data.core.repository.BaseRepository;
-import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Application;
+import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Authority;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.UUIDGenerator;
+
+import java.io.Serializable;
 
 /**
- * <p>Description: OAuth2ApplicationRepository </p>
+ * <p>Description: 使得保存实体类时可以在保留主键生成策略的情况下自定义表的主键 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/3/1 18:05
+ * @date : 2022/3/31 21:11
  */
-public interface OAuth2ApplicationRepository extends BaseRepository<OAuth2Application, String> {
+public class OAuth2AuthorityUUIDGenerator extends UUIDGenerator {
 
-    /**
-     * 根据 Client ID 查询 OAuth2Application
-     *
-     * @param clientId OAuth2Application 中的 clientId
-     * @return {@link OAuth2Application}
-     */
-    OAuth2Application findByClientId(String clientId);
+    @Override
+    public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
+        if (ObjectUtils.isEmpty(object)) {
+            throw new HibernateException(new NullPointerException());
+        }
+
+        OAuth2Authority authority = (OAuth2Authority) object;
+
+        if (StringUtils.isEmpty(authority.getAuthorityId())) {
+            return super.generate(session, object);
+        } else {
+            return authority.getAuthorityId();
+        }
+    }
 }
+

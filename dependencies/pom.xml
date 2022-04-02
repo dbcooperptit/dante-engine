@@ -384,6 +384,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
+                <artifactId>oauth2-sdk-authorization</artifactId>
+                <version>${herodotus-engine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oauth2-sdk-authorization-ui</artifactId>
                 <version>${herodotus-engine.version}</version>
             </dependency>

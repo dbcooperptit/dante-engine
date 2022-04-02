@@ -58,8 +58,6 @@ public class SecurityAttribute implements Serializable {
 
     private Set<HerodotusGrantedAuthority> roles;
 
-    private Set<HerodotusGrantedAuthority> scopes;
-
     public String getAttributeId() {
         return attributeId;
     }
@@ -138,14 +136,6 @@ public class SecurityAttribute implements Serializable {
 
     public void setRoles(Set<HerodotusGrantedAuthority> roles) {
         this.roles = roles;
-    }
-
-    public Set<HerodotusGrantedAuthority> getScopes() {
-        return scopes;
-    }
-
-    public void setScopes(Set<HerodotusGrantedAuthority> scopes) {
-        this.scopes = scopes;
     }
 
     @Override

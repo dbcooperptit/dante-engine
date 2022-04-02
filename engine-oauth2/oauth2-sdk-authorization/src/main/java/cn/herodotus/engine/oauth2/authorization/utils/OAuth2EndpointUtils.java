@@ -23,15 +23,17 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.server.authorization.utils;
+package cn.herodotus.engine.oauth2.authorization.utils;
 
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.endpoint.PkceParameterNames;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -97,5 +99,52 @@ public class OAuth2EndpointUtils {
     public static void throwError(String errorCode, String parameterName, String errorUri) {
         OAuth2Error error = new OAuth2Error(errorCode, "OAuth 2.0 Parameter: " + parameterName, errorUri);
         throw new OAuth2AuthenticationException(error);
+    }
+
+    private static boolean checkRequired(MultiValueMap<String, String> parameters, String parameterName, String parameterValue) {
+        return !StringUtils.hasText(parameterValue) || parameters.get(parameterName).size() != 1;
+    }
+
+    private static boolean checkOptional(MultiValueMap<String, String> parameters, String parameterName, String parameterValue) {
+        return StringUtils.hasText(parameterValue) && parameters.get(parameterName).size() != 1;
+    }
+
+    public static String checkParameter(MultiValueMap<String, String> parameters, String parameterName, boolean isRequired, String errorCode, String errorUri) {
+        String value = parameters.getFirst(parameterName);
+        if (isRequired) {
+            if (checkRequired(parameters, parameterName, value)) {
+                OAuth2EndpointUtils.throwError(errorCode, parameterName, errorUri);
+            }
+        } else {
+            if (checkOptional(parameters, parameterName, value)) {
+                OAuth2EndpointUtils.throwError(errorCode, parameterName, errorUri);
+            }
+        }
+
+        return value;
+    }
+
+    public static String checkRequiredParameter(MultiValueMap<String, String> parameters, String parameterName, String errorCode, String errorUri) {
+        return checkParameter(parameters, parameterName, true, errorCode, errorUri);
+    }
+
+    public static String checkRequiredParameter(MultiValueMap<String, String> parameters, String parameterName, String errorCode) {
+        return checkRequiredParameter(parameters, parameterName, errorCode, OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+    }
+
+    public static String checkRequiredParameter(MultiValueMap<String, String> parameters, String parameterName) {
+        return checkRequiredParameter(parameters, parameterName, OAuth2ErrorCodes.INVALID_REQUEST);
+    }
+
+    public static String checkOptionalParameter(MultiValueMap<String, String> parameters, String parameterName, String errorCode, String errorUri) {
+        return checkParameter(parameters, parameterName, false, errorCode, errorUri);
+    }
+
+    public static String checkOptionalParameter(MultiValueMap<String, String> parameters, String parameterName, String errorCode) {
+        return checkOptionalParameter(parameters, parameterName, errorCode, OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+    }
+
+    public static String checkOptionalParameter(MultiValueMap<String, String> parameters, String parameterName) {
+        return checkOptionalParameter(parameters, parameterName, OAuth2ErrorCodes.INVALID_REQUEST);
     }
 }

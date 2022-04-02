@@ -30,7 +30,6 @@ import cn.herodotus.engine.data.core.repository.BaseRepository;
 import cn.herodotus.engine.data.core.service.BaseLayeredService;
 import cn.herodotus.engine.oauth2.data.jpa.repository.HerodotusRegisteredClientRepository;
 import cn.herodotus.engine.oauth2.data.jpa.utils.OAuth2AuthorizationUtils;
-import cn.herodotus.engine.oauth2.server.authorization.dto.OAuth2ApplicationDto;
 import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Application;
 import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Scope;
 import cn.herodotus.engine.oauth2.server.authorization.repository.OAuth2ApplicationRepository;
@@ -102,8 +101,7 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
         log.debug("[Herodotus] |- OAuth2ApplicationService deleteById.");
     }
 
-    @Transactional(rollbackFor = TransactionRollbackException.class)
-    public OAuth2Application assign(String applicationId, String[] scopeIds) {
+    public OAuth2Application authorize(String applicationId, String[] scopeIds) {
 
         Set<OAuth2Scope> scopes = new HashSet<>();
         for (String scopeId : scopeIds) {
@@ -120,71 +118,10 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
         return newApplication;
     }
 
-    public static OAuth2ApplicationDto toDto(OAuth2Application entity) {
-        OAuth2ApplicationDto dto = new OAuth2ApplicationDto();
-        dto.setApplicationId(entity.getApplicationId());
-        dto.setApplicationName(entity.getApplicationName());
-        dto.setAbbreviation(entity.getAbbreviation());
-        dto.setLogo(entity.getLogo());
-        dto.setHomepage(entity.getHomepage());
-        dto.setApplicationType(entity.getApplicationType());
-        dto.setClientId(entity.getClientId());
-        dto.setClientSecret(entity.getClientSecret());
-        dto.setRedirectUris(entity.getRedirectUris());
-        dto.setAuthorizationGrantTypes(StringUtils.commaDelimitedListToSet(entity.getAuthorizationGrantTypes()));
-        dto.setClientAuthenticationMethods(StringUtils.commaDelimitedListToSet(entity.getClientAuthenticationMethods()));
-        dto.setRequireProofKey(entity.getRequireProofKey());
-        dto.setRequireAuthorizationConsent(entity.getRequireAuthorizationConsent());
-        dto.setJwkSetUrl(entity.getJwkSetUrl());
-        dto.setAccessTokenValidity(entity.getAccessTokenValidity());
-        dto.setReuseRefreshTokens(entity.getReuseRefreshTokens());
-        dto.setRefreshTokenValidity(entity.getRefreshTokenValidity());
-        dto.setIdTokenSignatureAlgorithm(entity.getIdTokenSignatureAlgorithm());
-        dto.setScopes(entity.getScopes());
-        dto.setReserved(entity.getReserved());
-        dto.setDescription(entity.getDescription());
-        dto.setReversion(entity.getReversion());
-        dto.setRanking(entity.getRanking());
-        dto.setStatus(entity.getStatus());
-        dto.setClientSecretExpiresAt(entity.getClientSecretExpiresAt());
-        dto.setIdTokenSignatureAlgorithm(entity.getIdTokenSignatureAlgorithm());
-        dto.setAccessTokenFormat(entity.getAccessTokenFormat());
-        dto.setAuthenticationSigningAlgorithm(entity.getAuthenticationSigningAlgorithm());
-        return dto;
-    }
-
-    public static OAuth2Application toEntity(OAuth2ApplicationDto dto) {
-        OAuth2Application entity = new OAuth2Application();
-        entity.setApplicationId(dto.getApplicationId());
-        entity.setApplicationName(dto.getApplicationName());
-        entity.setAbbreviation(dto.getAbbreviation());
-        entity.setLogo(dto.getLogo());
-        entity.setHomepage(dto.getHomepage());
-        entity.setApplicationType(dto.getApplicationType());
-        entity.setClientId(dto.getClientId());
-        entity.setClientSecret(dto.getClientSecret());
-        entity.setRedirectUris(dto.getRedirectUris());
-        entity.setAuthorizationGrantTypes(StringUtils.collectionToCommaDelimitedString(dto.getAuthorizationGrantTypes()));
-        entity.setClientAuthenticationMethods(StringUtils.collectionToCommaDelimitedString(dto.getClientAuthenticationMethods()));
-        entity.setRequireProofKey(dto.getRequireProofKey());
-        entity.setRequireAuthorizationConsent(dto.getRequireAuthorizationConsent());
-        entity.setJwkSetUrl(dto.getJwkSetUrl());
-        entity.setAccessTokenValidity(dto.getAccessTokenValidity());
-        entity.setReuseRefreshTokens(dto.getReuseRefreshTokens());
-        entity.setRefreshTokenValidity(dto.getRefreshTokenValidity());
-        entity.setIdTokenSignatureAlgorithm(dto.getIdTokenSignatureAlgorithm());
-        entity.setClientSecretExpiresAt(dto.getClientSecretExpiresAt());
-        entity.setScopes(dto.getScopes());
-        entity.setReserved(dto.getReserved());
-        entity.setDescription(dto.getDescription());
-        entity.setReversion(dto.getReversion());
-        entity.setRanking(dto.getRanking());
-        entity.setStatus(dto.getStatus());
-        entity.setIdTokenSignatureAlgorithm(dto.getIdTokenSignatureAlgorithm());
-        entity.setAccessTokenFormat(dto.getAccessTokenFormat());
-        entity.setAuthenticationSigningAlgorithm(dto.getAuthenticationSigningAlgorithm());
-
-        return entity;
+    public OAuth2Application findByClientId(String clientId) {
+        OAuth2Application application = applicationRepository.findByClientId(clientId);
+        log.debug("[Herodotus] |- OAuth2ApplicationService findByClientId.");
+        return application;
     }
 
     private RegisteredClient toRegisteredClient(OAuth2Application application) {

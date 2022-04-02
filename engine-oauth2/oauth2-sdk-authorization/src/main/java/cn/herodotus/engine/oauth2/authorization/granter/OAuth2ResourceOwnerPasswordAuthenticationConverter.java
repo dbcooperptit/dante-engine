@@ -23,9 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.server.authorization.granter;
+package cn.herodotus.engine.oauth2.authorization.granter;
 
-import cn.herodotus.engine.oauth2.server.authorization.utils.OAuth2EndpointUtils;
+import cn.herodotus.engine.oauth2.authorization.utils.OAuth2EndpointUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,14 +66,7 @@ public final class OAuth2ResourceOwnerPasswordAuthenticationConverter implements
         MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(request);
 
         // scope (OPTIONAL)
-        String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
-        if (StringUtils.hasText(scope) &&
-                parameters.get(OAuth2ParameterNames.SCOPE).size() != 1) {
-            OAuth2EndpointUtils.throwError(
-                    OAuth2ErrorCodes.INVALID_REQUEST,
-                    OAuth2ParameterNames.SCOPE,
-                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
-        }
+        String scope = OAuth2EndpointUtils.checkOptionalParameter(parameters,OAuth2ParameterNames.SCOPE);
 
         Set<String> requestedScopes = null;
         if (StringUtils.hasText(scope)) {
@@ -82,22 +75,10 @@ public final class OAuth2ResourceOwnerPasswordAuthenticationConverter implements
         }
 
         // username (REQUIRED)
-        String username = parameters.getFirst(OAuth2ParameterNames.USERNAME);
-        if (!StringUtils.hasText(username) || parameters.get(OAuth2ParameterNames.USERNAME).size() != 1) {
-            OAuth2EndpointUtils.throwError(
-                    OAuth2ErrorCodes.INVALID_REQUEST,
-                    OAuth2ParameterNames.USERNAME,
-                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
-        }
+        OAuth2EndpointUtils.checkRequiredParameter(parameters,OAuth2ParameterNames.USERNAME);
 
         // password (REQUIRED)
-        String password = parameters.getFirst(OAuth2ParameterNames.PASSWORD);
-        if (!StringUtils.hasText(password) || parameters.get(OAuth2ParameterNames.PASSWORD).size() != 1) {
-            OAuth2EndpointUtils.throwError(
-                    OAuth2ErrorCodes.INVALID_REQUEST,
-                    OAuth2ParameterNames.PASSWORD,
-                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
-        }
+        OAuth2EndpointUtils.checkRequiredParameter(parameters,OAuth2ParameterNames.PASSWORD);
 
         Authentication clientPrincipal = SecurityContextHolder.getContext().getAuthentication();
         if (clientPrincipal == null) {

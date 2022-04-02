@@ -31,9 +31,13 @@ import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <p> Description : Oauth Scope </p>
@@ -61,6 +65,16 @@ public class OAuth2Scope extends BaseSysEntity {
     @Column(name = "scope_name", length = 128)
     private String scopeName;
 
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = OAuth2Constants.REGION_OAUTH2_AUTHORITY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(name = "oauth2_scope_authority",
+            joinColumns = {@JoinColumn(name = "scope_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_id")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"scope_id", "authority_id"})},
+            indexes = {@Index(name = "oauth2_scope_authority_sid_idx", columnList = "scope_id"), @Index(name = "oauth2_scope_authority_aid_idx", columnList = "authority_id")})
+    private Set<OAuth2Authority> authorities = new HashSet<>();
+
     public String getScopeId() {
         return scopeId;
     }
@@ -83,6 +97,14 @@ public class OAuth2Scope extends BaseSysEntity {
 
     public void setScopeName(String scopeName) {
         this.scopeName = scopeName;
+    }
+
+    public Set<OAuth2Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<OAuth2Authority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override

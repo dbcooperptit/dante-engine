@@ -78,7 +78,7 @@ public class CaptchaController implements Controller {
             @Parameter(name = "category", required = true, in = ParameterIn.PATH, description = "验证码类型")
     })
     @GetMapping
-    public Result<Captcha> create(@NotBlank(message = "身份信息不能为空") String identity, @NotBlank(message = "验证码类型不能为空")String category) {
+    public Result<Captcha> create(@NotBlank(message = "身份信息不能为空") String identity, @NotBlank(message = "验证码类型不能为空") String category) {
         Captcha captcha = captchaRendererFactory.getCaptcha(identity, category);
         if (ObjectUtils.isNotEmpty(captcha)) {
             return Result.success("验证码创建成功", captcha);

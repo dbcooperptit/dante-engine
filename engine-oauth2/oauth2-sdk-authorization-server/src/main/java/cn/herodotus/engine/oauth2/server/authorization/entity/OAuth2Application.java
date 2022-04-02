@@ -52,7 +52,9 @@ import java.util.Set;
  * @date : 2022/3/1 16:45
  */
 @Entity
-@Table(name = "oauth2_application", indexes = {@Index(name = "oauth2_application_id_idx", columnList = "application_id")})
+@Table(name = "oauth2_application", indexes = {
+        @Index(name = "oauth2_application_id_idx", columnList = "application_id"),
+        @Index(name = "oauth2_application_cid_idx", columnList = "client_id")})
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = OAuth2Constants.REGION_OAUTH2_APPLICATION)
 public class OAuth2Application extends BaseSysEntity {

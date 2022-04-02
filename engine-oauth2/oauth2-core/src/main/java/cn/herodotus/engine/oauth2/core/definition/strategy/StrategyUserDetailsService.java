@@ -23,31 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.definition.service;
+package cn.herodotus.engine.oauth2.core.definition.strategy;
 
 import cn.herodotus.engine.assistant.core.domain.AccessPrincipal;
+import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * <p>Description: 自定义UserDetailsService接口，方便以后扩展 </p>
+ * <p>Description: 系统用户服务策略定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/1/17 12:49
+ * @date : 2022/2/17 10:52
  */
-public interface HerodotusUserDetailsService extends UserDetailsService {
+public interface StrategyUserDetailsService {
 
-    /**
-     * 通过社交集成的唯一id，获取用户信息
-     * <p>
-     * 如果是短信验证码，openId就是手机号码
-     *
-     * @param accessPrincipal 社交登录提供的相关信息
-     * @param source          社交集成提供商类型
-     * @return {@link UserDetails}
-     * @throws UsernameNotFoundException 用户不存在
-     */
-    UserDetails loadUserBySocial(String source, AccessPrincipal accessPrincipal) throws AuthenticationException;
+    HerodotusUser findUserDetailsByUsername(String userName) throws AuthenticationException;
+
+    HerodotusUser findUserDetailsBySocial(String source, AccessPrincipal accessPrincipal) throws AuthenticationException;
 }

@@ -41,7 +41,9 @@ import java.time.LocalDateTime;
  * @date : 2022/1/22 17:18
  */
 @Entity
-@Table(name = "oauth2_registered_client", indexes = {@Index(name = "oauth2_registered_client_id_idx", columnList = "id")})
+@Table(name = "oauth2_registered_client", indexes = {
+        @Index(name = "oauth2_registered_client_id_idx", columnList = "id"),
+        @Index(name = "oauth2_registered_client_cid_idx", columnList = "client_id")})
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = OAuth2Constants.REGION_OAUTH2_REGISTERED_CLIENT)
 public class HerodotusRegisteredClient extends AbstractEntity {
