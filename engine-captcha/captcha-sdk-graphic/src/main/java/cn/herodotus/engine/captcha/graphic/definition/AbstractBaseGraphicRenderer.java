@@ -151,7 +151,7 @@ public abstract class AbstractBaseGraphicRenderer extends AbstractGraphicRendere
      *
      * @param length 内容长度
      * @param alpha  透明度
-     * @param index  绘制内容索引
+     * @param index  绘制内容枚举值
      * @return 透明度
      */
     private float getAlpha(int length, int alpha, int index) {
@@ -167,7 +167,7 @@ public abstract class AbstractBaseGraphicRenderer extends AbstractGraphicRendere
      * @param graphics 图形 {@link Graphics2D}
      * @param length   内容长度
      * @param alpha    透明度
-     * @param index    当前内容索引
+     * @param index    当前内容枚举值
      */
     private void drawAlphaForCharacter(Graphics2D graphics, int length, int alpha, int index) {
         drawAlpha(graphics, getAlpha(length, alpha, index));

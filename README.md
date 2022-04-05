@@ -6,13 +6,14 @@
 
 <p align="center">
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://shields.io/badge/JDK-1.8%2B-green" alt="JDK 1.8+"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.6.4-blue" alt="Spring Boot 2.6.4"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.6.6-blue" alt="Spring Boot 2.6.6"></a>
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2021.0.1-blue" alt="Spring Cloud 2021.0.1"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2021.0.1.0-blue" alt="Spring Cloud Alibaba 2021.0.1.0"></a>
+    <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-0.2.3-blue" alt="Spring Authorization Server 0.2.3"></a>
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.0.4-brightgreen" alt="Nacos 2.0.4"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta3-red" alt="Version 2.7.0.Beta3"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta4-red" alt="Version 2.7.0.Beta4"></a>
 </p>
 
 <p align="center">
@@ -22,7 +23,7 @@
 
 ## 背景
 
-> 2021年11月8日 Spring 官方已经强烈建议使用 `Spring HerodotusAuthorization Server` 替换已经过时的 `Spring Security OAuth2.0`。距离 `Spring Security OAuth2.0` 结束生命周期还有小半年的时间，所以准备用 `Spring HerodotusAuthorization Server` 对已有的 `Eurynome Cloud` 微服务架构进行升级。
+> 2021年11月8日 Spring 官方已经强烈建议使用 `Spring Authorization Server` 替换已经过时的 `Spring Security OAuth2.0`。距离 `Spring Security OAuth2.0` 结束生命周期还有小半年的时间，所以准备用 `Spring HerodotusAuthorization Server` 对已有的 `Eurynome Cloud` 微服务架构进行升级。
 
 `Eurynome Cloud` 微服务架构，一直遵循“高内聚、低耦合”的原则，在开发和维护的过程中不断优化已有代码，尽一切可能降低代码的耦合性。但是，毕竟所有的代码都堆积在同一个工程中，代码间的过度依赖和互相耦合还是较为严重。这为 `Spring HerodotusAuthorization Server` 替换 `Spring Security OAuth2.0` 带来了较大的阻力和难度。如果完全推翻现有代码，基于 `Spring HerodotusAuthorization Server` 重新构建系统，投入成本太大而且是一种极大的浪费；在现有工程中直接改造，由于代码间的耦合，改造过程也是困难重重。
 
@@ -55,16 +56,16 @@ herodotus-engine
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
 ├── documents -- 需要放置的文档位置
 ├    └── readme -- README 相关素材放置目录
-├── engine-assistant -- 基础通用代码包
-├    ├── assistant-core -- 全局共性通用代码
-├    ├── assistant-sdk-json -- Jackson 组件
+├── engine-assistant -- 核心通用代码包
+├    ├── assistant-core -- 核心通用代码组件
+├    ├── assistant-sdk-json -- Json 通用代码组件
 ├    ├── assistant-sdk-secure -- Xss 和 SQL 注入等安全组件
 ├    └── assistant-spring-boot-starter -- Assistant  模块统一 Starter
 ├── engine-cache -- 缓存模块
-├    ├── cache-core -- 缓存通用代码
+├    ├── cache-core -- 缓存通用代码组件
 ├    ├── cache-layer-spring-boot-starter -- 自研多级缓存 Starter
 ├    ├── cache-sdk-jetcache -- JetCache 组件相关代码模块
-├    ├── cache-sdk-layer -- 自研多级缓存组件相关代码模块
+├    ├── cache-sdk-layer -- 自研多级缓存组件代码模块
 ├    ├── cache-sdk-redisson -- Redisson 组件相关代码模块
 ├    └── cache-spring-boot-starter -- Cache  模块统一 Starter
 ├── engine-captcha -- 验证码模块
@@ -80,11 +81,8 @@ herodotus-engine
 ├    ├── data-sdk-p6spy -- P6spy 组件相关代码模块
 ├    └── data-spring-boot-starter -- Data 模块统一 Starter
 ├── engine-event -- Spring 事件模块
-├    ├── event-core-local -- Spring 标准事件组件相关代码模块
-├    ├── event-core-remote -- 基于 Spring Cloud Bus 的远程事件组件相关代码模块
+├    ├── event-core -- 事件组件共性代码模块
 ├    ├── event-pay-spring-boot-starter -- 支付事件统一 Starter
-├    ├── event-sdk-pay -- 支付事件组件相关代码模块
-├    ├── event-sdk-security -- 安全事件组件相关代码模块
 ├    └── event-security-spring-boot-starter --安全事件统一 Starter
 ├── engine-facility -- 微服务基础设施模块
 ├    ├── facility-core -- 基础设施共性通用代码
@@ -94,6 +92,13 @@ herodotus-engine
 ├── engine-message -- 消息模块
 ├    ├── message-core -- 消息共性通用代码
 ├    └── message-spring-boot-starter -- Message  模块统一 Starter
+├── engine-oauth2 -- OAuth2 认证模块
+├    ├── oauth2-core -- OAuth2 共性通用代码
+├    ├── oauth2-sdk-authorization -- Spring Authorization Server Granter扩展代码模块
+├    ├── oauth2-sdk-authorization-server -- Spring Authorization Server 管理代码模块
+├    ├── oauth2-sdk-authorization-ui -- 自定义 Spring Authorization Server 界面代码模块
+├    ├── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
+├    └── oauth2-sdk-resource-server -- OAuth2 资源服务器通用代码模块
 ├── engine-oss -- 对象存储模块
 ├    ├── oss-core -- 对象存储共性通用代码
 ├    ├── oss-sdk-minio -- Minio 组件相关代码模块
@@ -109,11 +114,6 @@ herodotus-engine
 ├    ├── rest-sdk-crypto -- 前后端数据加密组件相关代码模块
 ├    ├── rest-sdk-secure -- 接口幂等、防刷、Xss和SQL注入防护组件相关代码模块
 ├    └── rest-spring-boot-starter -- Rest 模块统一 Starter(包括通用CRUD代码)
-├── engine-security -- Security & OAuth2 安全模块
-├    ├── security-core -- 安全模块共性通用代码
-├    ├── security-sdk-authorize -- OAuth2 授权码模式扩展组件相关代码模块
-├    ├── security-sdk-extend -- Security 扩展组件相关代码模块
-├    └──security-sdk-log -- OAuth2 认证后操作信息记录组件相关代码模块
 ├── engine-temporal -- 时序数据存储处理模块
 ├    ├── temporal-core -- 时序数据存储共性通用代码
 ├    ├── temporal-sdk-influxdb -- Influxdb 组件相关代码模块
@@ -140,7 +140,7 @@ herodotus-engine
 3. engine-data
 4. engine-web
 5. engine-rest
-6. engine-security
+6. engine-oauth2
 7. engine-facility
 8. engine-event
 9. engine-message

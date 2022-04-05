@@ -32,16 +32,16 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.4</version>
+        <version>2.6.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>cn.herodotus.engine</groupId>
     <artifactId>dependencies</artifactId>
-    <version>2.7.0.Beta3</version>
+    <version>2.7.0.Beta4</version>
     <packaging>pom</packaging>
 
-    <description>Herodotus Dependencies</description>
+    <description>基于 Spring Authorization Server 的 Eurynome Cloud Dependencies</description>
 
     <licenses>
         <license>
@@ -92,13 +92,20 @@
     <!-- ${project.xxx} 当前pom文件的任意节点的内容 如project.artifactId -->
 
     <properties>
+        <java.version>1.8</java.version>
+        <resource.delimiter>@</resource.delimiter>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <herodotus-engine.version>${project.version}</herodotus-engine.version>
         <!--Spring 家族-->
-        <spring-boot-admin.version>2.6.2</spring-boot-admin.version>
-        <spring-boot-dependencies.version>2.6.4</spring-boot-dependencies.version>
+        <spring-boot-admin.version>2.6.4</spring-boot-admin.version>
+        <spring-boot-dependencies.version>2.6.6</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>2021.0.1</spring-cloud-dependencies.version>
         <spring-cloud-alibaba-dependencies.version>2021.0.1.0</spring-cloud-alibaba-dependencies.version>
-        <spring-security-oauth2-authorization-server.version>0.2.2</spring-security-oauth2-authorization-server.version>
+        <spring-security-oauth2-authorization-server.version>0.2.3</spring-security-oauth2-authorization-server.version>
 
         <!--Maven Plugin 相关组件-->
         <archetype-packaging.verison>3.2.1</archetype-packaging.verison>
@@ -112,16 +119,17 @@
         <maven-invoker.verison>3.1.0</maven-invoker.verison>
 
         <!--开源通用工具包-->
+        <antisamy.version>1.6.6</antisamy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-text.version>1.9</commons-text.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-io.version>2.11.0</commons-io.version>
         <guava.version>31.1-jre</guava.version>
-        <antisamy.version>1.6.5</antisamy.version>
+        <jackson-component.version>2.13.2</jackson-component.version>
 
         <!-- 应用开发辅助工具组件 -->
         <lombok.version>1.18.22</lombok.version>
-        <redisson.version>3.16.8</redisson.version>
+        <redisson.version>3.17.0</redisson.version>
         <p6spy.version>3.9.1</p6spy.version>
         <springdoc.version>1.6.6</springdoc.version>
         <logstash-logback-encoder.version>7.0.1</logstash-logback-encoder.version>
@@ -129,14 +137,14 @@
         <minio.version>8.3.7</minio.version>
 
         <!-- 阿里巴巴开源工具依赖 -->
-        <fastjson.version>1.2.79</fastjson.version>
+        <fastjson.version>1.2.80</fastjson.version>
         <jetcache.version>2.6.2</jetcache.version>
         <nacos.version>2.0.4</nacos.version>
 
         <!-- 国内开源通用组件 -->
         <hutool.version>5.7.22</hutool.version>
-        <okhttps.version>3.4.2</okhttps.version>
-        <weixin-java-sdk.version>4.2.8.B</weixin-java-sdk.version>
+        <okhttps.version>3.4.6</okhttps.version>
+        <weixin-java-sdk.version>4.2.9.B</weixin-java-sdk.version>
         <just-auth.verison>1.16.5</just-auth.verison>
         <knife4j.version>3.0.3</knife4j.version>
 
@@ -153,12 +161,12 @@
         <aliyun-java-sdk-core.version>4.6.0</aliyun-java-sdk-core.version>
         <dysmsapi20170525.version>2.0.9</dysmsapi20170525.version>
         <tencentcloud-sdk-java.version>4.0.11</tencentcloud-sdk-java.version>
-        <bce-java-sdk.version>0.10.200</bce-java-sdk.version>
+        <bce-java-sdk.version>0.10.202</bce-java-sdk.version>
         <com.jdcloud.sdk.version>1.3.3</com.jdcloud.sdk.version>
-        <qiniu-java-sdk.version>7.9.4</qiniu-java-sdk.version>
+        <qiniu-java-sdk.version>7.9.5</qiniu-java-sdk.version>
         <yunpian-java-sdk.version>1.2.7</yunpian-java-sdk.version>
         <!--支付 SDK-->
-        <alipay-sdk-java.version>4.22.57.ALL</alipay-sdk-java.version>
+        <alipay-sdk-java.version>4.22.75.ALL</alipay-sdk-java.version>
         <!--第三方应用集成SDK-->
         <com.baidu.aip.version>4.16.7</com.baidu.aip.version>
         <aliyun-java-sdk-green.version>3.6.5</aliyun-java-sdk-green.version>
@@ -170,9 +178,10 @@
         <!--以下为包依赖的特殊处理-->
         <!--强制升级解决安全漏洞问题-->
         <log4j2.version>2.17.2</log4j2.version>
-        <logback.version>1.2.10</logback.version>
+        <logback.version>1.2.11</logback.version>
         <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
         <bcpkix-jdk15on.version>1.70</bcpkix-jdk15on.version>
+        <spring-integration.version>5.5.9</spring-integration.version>
     </properties>
 
     <dependencyManagement>
@@ -376,6 +385,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
+                <artifactId>oauth2-sdk-authorization</artifactId>
+                <version>${herodotus-engine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oauth2-sdk-authorization-ui</artifactId>
                 <version>${herodotus-engine.version}</version>
             </dependency>
@@ -453,23 +467,6 @@
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>rest-spring-boot-starter</artifactId>
-                <version>${herodotus-engine.version}</version>
-            </dependency>
-
-            <!-- security -->
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>security-core</artifactId>
-                <version>${herodotus-engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>security-sdk-extend</artifactId>
-                <version>${herodotus-engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>security-sdk-log</artifactId>
                 <version>${herodotus-engine.version}</version>
             </dependency>
 
@@ -583,25 +580,25 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
-                <version>${jackson-bom.version}</version>
+                <version>${jackson-component.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson-bom.version}</version>
+                <version>${jackson-component.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jdk8 -->
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jdk8</artifactId>
-                <version>${jackson-bom.version}</version>
+                <version>${jackson-component.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin -->
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-kotlin</artifactId>
-                <version>${jackson-bom.version}</version>
+                <version>${jackson-component.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.owasp.antisamy/antisamy -->
             <dependency>

@@ -27,7 +27,7 @@ package cn.herodotus.engine.oauth2.data.jpa.storage;
 
 import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorizationConsent;
 import cn.herodotus.engine.oauth2.data.jpa.service.HerodotusAuthorizationConsentService;
-import cn.herodotus.engine.security.core.definition.domain.HerodotusGrantedAuthority;
+import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusGrantedAuthority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;

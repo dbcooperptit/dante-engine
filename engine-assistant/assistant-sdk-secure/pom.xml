@@ -30,13 +30,15 @@
     <parent>
         <artifactId>engine-assistant</artifactId>
         <groupId>cn.herodotus.engine</groupId>
-        <version>2.7.0.Beta3</version>
+        <version>2.7.0.Beta4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>assistant-sdk-secure</artifactId>
-    <version>2.7.0.Beta3</version>
+    <version>2.7.0.Beta4</version>
     <packaging>jar</packaging>
+
+    <description>基于 Spring Authorization Server 的 Eurynome Cloud Xss 和 SQL 注入等安全组件</description>
 
     <dependencies>
         <dependency>

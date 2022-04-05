@@ -45,35 +45,35 @@ public class RandomProvider {
     private static final String[] CHARACTERS = {"2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "j", "k", "m", "n", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 
     /**
-     * 数字的最大索引，不包括最大值
+     * 数字的最大枚举值，不包括最大值
      */
     public static final int NUM_MIN_INDEX = 0;
     /**
-     * 数字的最大索引，不包括最大值
+     * 数字的最大枚举值，不包括最大值
      */
     public static final int NUM_MAX_INDEX = 8;
     /**
-     * 字符的最小索引，包括最小值
+     * 字符的最小枚举值，包括最小值
      */
     public static final int CHAR_MIN_INDEX = NUM_MAX_INDEX;
     /**
-     * 字符的最大索引，不包括最大值
+     * 字符的最大枚举值，不包括最大值
      */
     public static final int CHAR_MAX_INDEX = CHARACTERS.length;
     /**
-     * 大写字符最小索引
+     * 大写字符最小枚举值
      */
     public static final int UPPER_MIN_INDEX = CHAR_MIN_INDEX;
     /**
-     * 大写字符最大索引
+     * 大写字符最大枚举值
      */
     public static final int UPPER_MAX_INDEX = UPPER_MIN_INDEX + 23;
     /**
-     * 小写字母最小索引
+     * 小写字母最小枚举值
      */
     public static final int LOWER_MIN_INDEX = UPPER_MAX_INDEX;
     /**
-     * 小写字母最大索引
+     * 小写字母最大枚举值
      */
     public static final int LOWER_MAX_INDEX = CHAR_MAX_INDEX;
     /**

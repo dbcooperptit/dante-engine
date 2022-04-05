@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.web.core.context;
 
+import cn.herodotus.engine.assistant.core.support.PropertyFinder;
 import cn.herodotus.engine.assistant.core.utils.EnvUtils;
 import cn.herodotus.engine.web.core.properties.EndpointProperties;
 import cn.herodotus.engine.web.core.properties.PlatformProperties;
@@ -42,33 +43,31 @@ import org.springframework.context.ApplicationContextAware;
  * @author : gengwei.zheng
  * @date : 2022/1/14 16:42
  */
-public class HerodotusApplicationContext implements ApplicationContextAware, InitializingBean {
+public class HerodotusApplicationContext {
 
     private final PlatformProperties platformProperties;
     private final EndpointProperties endpointProperties;
     private final ServerProperties serverProperties;
     private final ServiceContext serviceContext;
+    private final ApplicationContext applicationContext;
 
-    public HerodotusApplicationContext(PlatformProperties platformProperties, EndpointProperties endpointProperties, ServerProperties serverProperties) {
+    public HerodotusApplicationContext(ApplicationContext applicationContext, PlatformProperties platformProperties, EndpointProperties endpointProperties, ServerProperties serverProperties) {
         this.platformProperties = platformProperties;
         this.endpointProperties = endpointProperties;
         this.serverProperties = serverProperties;
+        this.applicationContext = applicationContext;
         this.serviceContext = ServiceContext.getInstance();
+        initServiceContext();
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    public void initServiceContext()  {
         this.serviceContext.setArchitecture(this.platformProperties.getArchitecture());
         this.serviceContext.setDataAccessStrategy(this.platformProperties.getDataAccessStrategy());
         this.serviceContext.setGatewayAddress(this.endpointProperties.getGatewayServiceUri());
         this.serviceContext.setPort(String.valueOf(this.getPort()));
         this.serviceContext.setIp(getHostAddress());
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.serviceContext.setApplicationContext(applicationContext);
-        this.serviceContext.setApplicationName(applicationContext.getApplicationName());
+        this.serviceContext.setApplicationName(PropertyFinder.getApplicationName(applicationContext.getEnvironment()));
     }
 
     private String getHostAddress() {

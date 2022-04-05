@@ -92,7 +92,7 @@ public enum AccountType {
     OKTA(AuthDefaultSource.OKTA.name(), AccountType.JUST_AUTH_HANDLER, "Okta"),
     PINTEREST(AuthDefaultSource.PINTEREST.name(), AccountType.JUST_AUTH_HANDLER, "Pinterest");
 
-    @Schema(title = "索引")
+    @Schema(title = "枚举值")
     private final String key;
     @Schema(title = "处理器")
     private final String handler;
@@ -141,7 +141,7 @@ public enum AccountType {
      * <p>
      * 不使用@JsonValue @JsonDeserializer类里面要做相应的处理
      *
-     * @return Enum索引
+     * @return Enum枚举值
      */
     @JsonValue
     public String getKey() {

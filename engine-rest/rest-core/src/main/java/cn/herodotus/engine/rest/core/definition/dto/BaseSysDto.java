@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author : gengwei.zheng
  * @date : 2022/3/18 15:47
  */
-public class BaseSysDto extends BaseDto{
+public class BaseSysDto extends BaseDto {
 
     @Schema(title = "数据状态")
     private DataItemStatus status = DataItemStatus.ENABLE;

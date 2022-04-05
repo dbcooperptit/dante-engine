@@ -32,12 +32,14 @@
     <parent>
         <artifactId>engine-event</artifactId>
         <groupId>cn.herodotus.engine</groupId>
-        <version>2.7.0.Beta3</version>
+        <version>2.7.0.Beta4</version>
     </parent>
 
     <artifactId>event-pay-spring-boot-starter</artifactId>
-    <version>2.7.0.Beta3</version>
+    <version>2.7.0.Beta4</version>
     <packaging>jar</packaging>
+
+    <description>基于 Spring Authorization Server 的 Eurynome Cloud 基础核心组件模块</description>
 
     <dependencies>
         <dependency>

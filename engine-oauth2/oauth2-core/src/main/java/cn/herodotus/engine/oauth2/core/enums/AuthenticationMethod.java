@@ -25,8 +25,10 @@
 
 package cn.herodotus.engine.oauth2.core.enums;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.definition.enums.BaseUiEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.ImmutableMap;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
 import java.util.ArrayList;
@@ -40,7 +42,9 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2022/3/17 14:49
  */
-public enum AuthenticationMethod {
+@Schema(title = "OAuth2 Client 认证方式")
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+public enum AuthenticationMethod implements BaseUiEnum<String> {
 
     /**
      * enum
@@ -51,43 +55,47 @@ public enum AuthenticationMethod {
     PRIVATE_KEY_JWT(ClientAuthenticationMethod.PRIVATE_KEY_JWT.getValue(), "基于私钥的JWT验证模式"),
     NONE(ClientAuthenticationMethod.NONE.getValue(), "不设置任何模式");
 
-    private final String method;
+    @Schema(title = "认证方法")
+    private final String value;
+    @Schema(title = "文字")
     private final String description;
 
-    private static final Map<Integer, AuthenticationMethod> indexMap = new HashMap<>();
-    private static final List<Map<String, Object>> toJsonStruct = new ArrayList<>();
+    private static final Map<Integer, AuthenticationMethod> INDEX_MAP = new HashMap<>();
+    private static final List<Map<String, Object>> JSON_STRUCTURE = new ArrayList<>();
 
     static {
-        for (AuthenticationMethod grantType : AuthenticationMethod.values()) {
-            indexMap.put(grantType.ordinal(), grantType);
-            toJsonStruct.add(grantType.ordinal(),
+        for (AuthenticationMethod authenticationMethod : AuthenticationMethod.values()) {
+            INDEX_MAP.put(authenticationMethod.ordinal(), authenticationMethod);
+            JSON_STRUCTURE.add(authenticationMethod.ordinal(),
                     ImmutableMap.<String, Object>builder()
-                            .put("value", grantType.getMethod())
-                            .put("key", grantType.name())
-                            .put("text", grantType.getDescription())
-                            .put("index", grantType.ordinal())
+                            .put("value", authenticationMethod.getValue())
+                            .put("key", authenticationMethod.name())
+                            .put("text", authenticationMethod.getDescription())
+                            .put("index", authenticationMethod.ordinal())
                             .build());
         }
     }
 
-    AuthenticationMethod(String method, String description) {
-        this.method = method;
+    AuthenticationMethod(String value, String description) {
+        this.value = value;
         this.description = description;
     }
 
-    public String getMethod() {
-        return method;
-    }
-
+    @Override
     public String getDescription() {
         return description;
     }
 
-    public static AuthenticationMethod getAuthenticationMethod(Integer grant) {
-        return indexMap.get(grant);
+    @Override
+    public String getValue() {
+        return value;
     }
 
-    public static List<Map<String, Object>> getToJsonStruct() {
-        return toJsonStruct;
+    public static AuthenticationMethod get(Integer index) {
+        return INDEX_MAP.get(index);
+    }
+
+    public static List<Map<String, Object>> getPreprocessedJsonStructure() {
+        return JSON_STRUCTURE;
     }
 }

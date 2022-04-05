@@ -25,10 +25,7 @@
 
 package cn.herodotus.engine.oauth2.server.authorization.service;
 
-import cn.herodotus.engine.oauth2.core.enums.ApplicationType;
-import cn.herodotus.engine.oauth2.core.enums.AuthenticationMethod;
-import cn.herodotus.engine.oauth2.core.enums.GrantType;
-import cn.herodotus.engine.oauth2.core.enums.Signature;
+import cn.herodotus.engine.oauth2.core.enums.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -44,10 +41,11 @@ import java.util.Map;
 @Service
 public class OAuth2ConstantService {
 
-    private static final List<Map<String, Object>> APPLICATION_TYPE_ENUM = ApplicationType.getToJsonStruct();
-    private static final List<Map<String, Object>> GRANT_TYPE_ENUM = GrantType.getToJsonStruct();
-    private static final List<Map<String, Object>> SIGNATURE_ENUM = Signature.getToJsonStruct();
-    private static final List<Map<String, Object>> AUTHENTICATION_METHOD_ENUM = AuthenticationMethod.getToJsonStruct();
+    private static final List<Map<String, Object>> APPLICATION_TYPE_ENUM = ApplicationType.getPreprocessedJsonStructure();
+    private static final List<Map<String, Object>> GRANT_TYPE_ENUM = GrantType.getPreprocessedJsonStructure();
+    private static final List<Map<String, Object>> SIGNATURE_ENUM = Signature.getPreprocessedJsonStructure();
+    private static final List<Map<String, Object>> AUTHENTICATION_METHOD_ENUM = AuthenticationMethod.getPreprocessedJsonStructure();
+    private static final List<Map<String, Object>> TOKEN_FORMAT_ENUM = TokenFormat.getPreprocessedJsonStructure();
 
     public Map<String, Object> getAllEnums() {
         Map<String, Object> map = new HashMap<>(8);
@@ -55,6 +53,7 @@ public class OAuth2ConstantService {
         map.put("grantType", GRANT_TYPE_ENUM);
         map.put("signature", SIGNATURE_ENUM);
         map.put("authenticationMethod", AUTHENTICATION_METHOD_ENUM);
+        map.put("tokenFormat", TOKEN_FORMAT_ENUM);
         return map;
     }
 }

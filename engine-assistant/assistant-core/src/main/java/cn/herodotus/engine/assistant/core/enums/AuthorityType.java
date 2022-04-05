@@ -53,7 +53,7 @@ public enum AuthorityType {
     PAGE(2, "Web Page"),
     MINI_PAGE(3, "小程序页面");
 
-    @Schema(title = "索引")
+    @Schema(title = "枚举值")
     private final Integer index;
     @Schema(title = "文字")
     private final String text;
@@ -84,7 +84,7 @@ public enum AuthorityType {
      * <p>
      * 不使用@JsonValue @JsonDeserializer类里面要做相应的处理
      *
-     * @return Enum索引
+     * @return Enum枚举值
      */
     @JsonValue
     public Integer getIndex() {

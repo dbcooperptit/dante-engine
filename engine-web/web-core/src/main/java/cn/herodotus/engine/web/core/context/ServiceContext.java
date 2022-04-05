@@ -32,6 +32,7 @@ import cn.herodotus.engine.web.core.enums.DataAccessStrategy;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEvent;
 
 /**
  * <p>Description: 服务上下文信息工具类 </p>
@@ -204,5 +205,13 @@ public class ServiceContext {
 
     public void setUpmsServiceName(String upmsServiceName) {
         this.upmsServiceName = upmsServiceName;
+    }
+
+    public String getOriginService() {
+        return getApplicationName() + SymbolConstants.COLON + getPort();
+    }
+
+    public void publishEvent(ApplicationEvent applicationEvent) {
+        getApplicationContext().publishEvent(applicationEvent);
     }
 }

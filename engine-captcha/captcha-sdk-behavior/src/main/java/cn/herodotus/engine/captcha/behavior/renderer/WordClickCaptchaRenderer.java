@@ -200,11 +200,11 @@ public class WordClickCaptchaRenderer extends AbstractBehaviorRenderer<String, L
     }
 
     /**
-     * 根据汉字排序的索引值，计算汉字的坐标点。
+     * 根据汉字排序的枚举值值，计算汉字的坐标点。
      *
      * @param backgroundImageWidth  图片宽度
      * @param backgroundImageHeight 图片高度
-     * @param wordIndex             汉字排序的索引值
+     * @param wordIndex             汉字排序的枚举值值
      * @param wordCount             显示汉字的总数量
      * @return 当前汉字的坐标 {@link  Coordinate}
      */
@@ -240,7 +240,7 @@ public class WordClickCaptchaRenderer extends AbstractBehaviorRenderer<String, L
     /**
      * 获取默认随机数终点
      *
-     * @param wordIndex    汉字的索引值(当前是第几个汉字)
+     * @param wordIndex    汉字的枚举值值(当前是第几个汉字)
      * @param averageWidth 栅格宽度
      * @param halfWordSize 半个汉字的大小
      * @return 最大的随机 x 坐标

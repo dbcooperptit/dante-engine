@@ -26,8 +26,6 @@
 package cn.herodotus.engine.assistant.core.definition.event;
 
 import com.alibaba.fastjson.JSON;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationEvent;
 
 /**
  * <p>Description: 策略 Event 定义 </p>
@@ -41,19 +39,11 @@ import org.springframework.context.ApplicationEvent;
 public interface StrategyEvent<T> {
 
     /**
-     * 获取 Spring 应用上下文
-     *
-     * @return {@link ApplicationContext}
-     */
-    ApplicationContext getApplicationContext();
-
-    /**
      * 创建本地事件
      *
      * @param data 事件携带数据
-     * @return 事件对象 {@link ApplicationEvent}
      */
-    ApplicationEvent createLocalEvent(T data);
+    void postLocalProcess(T data);
 
     /**
      * 创建远程事件
@@ -61,16 +51,16 @@ public interface StrategyEvent<T> {
      * @param data               事件携带数据。JSON 格式的数据。
      * @param originService      发送远程事件原始服务
      * @param destinationService 接收远程事件目的地
-     * @return 事件对象 {@link ApplicationEvent}
      */
-    ApplicationEvent createRemoteEvent(String data, String originService, String destinationService);
+    void postRemoteProcess(String data, String originService, String destinationService);
 
     /**
-     * 发送远程事件还是本地事件条件。
+     * 是否是本地处理事件。
      *
-     * @return true 发送远程事件，false 发送本地事件
+     * @param destinationService 接收远程事件目的地
+     * @return false 远程事件，local 本地事件
      */
-    boolean isRemote();
+    boolean isLocal(String destinationService);
 
     /**
      * 发送事件
@@ -79,11 +69,11 @@ public interface StrategyEvent<T> {
      * @param originService      发送远程事件原始服务
      * @param destinationService 接收远程事件目的地
      */
-    default void postProcess(T data, String originService, String destinationService) {
-        if (!isRemote()) {
-            getApplicationContext().publishEvent(createLocalEvent(data));
+    default void postProcess(String originService, String destinationService, T data) {
+        if (isLocal(destinationService)) {
+            postLocalProcess(data);
         } else {
-            getApplicationContext().publishEvent(createRemoteEvent(JSON.toJSONString(data), originService, destinationService));
+            postRemoteProcess(JSON.toJSONString(data), originService, destinationService);
         }
     }
 }
