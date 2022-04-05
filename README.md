@@ -56,16 +56,16 @@ herodotus-engine
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
 ├── documents -- 需要放置的文档位置
 ├    └── readme -- README 相关素材放置目录
-├── engine-assistant -- 基础通用代码包
-├    ├── assistant-core -- 全局共性通用代码
-├    ├── assistant-sdk-json -- Jackson 组件
+├── engine-assistant -- 核心通用代码包
+├    ├── assistant-core -- 核心通用代码组件
+├    ├── assistant-sdk-json -- Json 通用代码组件
 ├    ├── assistant-sdk-secure -- Xss 和 SQL 注入等安全组件
 ├    └── assistant-spring-boot-starter -- Assistant  模块统一 Starter
 ├── engine-cache -- 缓存模块
-├    ├── cache-core -- 缓存通用代码
+├    ├── cache-core -- 缓存通用代码组件
 ├    ├── cache-layer-spring-boot-starter -- 自研多级缓存 Starter
 ├    ├── cache-sdk-jetcache -- JetCache 组件相关代码模块
-├    ├── cache-sdk-layer -- 自研多级缓存组件相关代码模块
+├    ├── cache-sdk-layer -- 自研多级缓存组件代码模块
 ├    ├── cache-sdk-redisson -- Redisson 组件相关代码模块
 ├    └── cache-spring-boot-starter -- Cache  模块统一 Starter
 ├── engine-captcha -- 验证码模块

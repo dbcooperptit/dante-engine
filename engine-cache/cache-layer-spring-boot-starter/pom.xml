@@ -38,6 +38,8 @@
     <version>2.7.0.Beta4</version>
     <packaging>jar</packaging>
 
+    <description>基于 Spring Authorization Server 的 Eurynome Cloud 自研多级缓存 Starter, 主要用于 JPA 解决各类查询数据缓存</description>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

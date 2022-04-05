@@ -39,6 +39,8 @@
     <version>2.7.0.Beta4</version>
     <packaging>jar</packaging>
 
+    <description>基于 Spring Authorization Server 的 Eurynome Cloud JetCache 组件相关代码模块</description>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

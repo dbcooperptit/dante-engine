@@ -39,6 +39,8 @@
     <version>2.7.0.Beta4</version>
     <packaging>jar</packaging>
 
+    <description>基于 Spring Authorization Server 的 Eurynome Cloud 基础核心组件模块</description>
+
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>

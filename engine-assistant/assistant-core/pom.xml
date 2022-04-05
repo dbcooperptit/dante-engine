@@ -39,6 +39,8 @@
     <version>2.7.0.Beta4</version>
     <packaging>jar</packaging>
 
+    <description>基于 Spring Authorization Server 的 Eurynome Cloud 核心通用代码组件</description>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
