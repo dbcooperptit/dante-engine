@@ -110,9 +110,15 @@ public enum ResultErrorCodes {
      * 401.** 未经授权 Unauthorized	请求要求用户的身份认证
      */
     ACCESS_DENIED(40101, "您没有权限，拒绝访问"),
-    INVALID_CLIENT(40102, "客户端身份验证失败"),
-    INVALID_TOKEN(40103, "提供的访问令牌已过期、吊销、格式错误或无效"),
-    UNAUTHORIZED_CLIENT(40104, "客户端无权使用此方法请求授权码或访问令牌"),
+    ACCOUNT_DISABLED(40102, "该账户已经被禁用"),
+    ACCOUNT_EXPIRED(40103, "该账户已经过期"),
+    ACCOUNT_LOCKED(40104, "该账户已经被锁定"),
+    BAD_CREDENTIALS(40105, "用户名或密码错误"),
+    CREDENTIALS_EXPIRED(40106, "该账户密码凭证已过期"),
+    INVALID_CLIENT(40107, "客户端身份验证失败"),
+    INVALID_TOKEN(40108, "提供的访问令牌已过期、吊销、格式错误或无效"),
+    UNAUTHORIZED_CLIENT(40109, "客户端无权使用此方法请求授权码或访问令牌"),
+    USERNAME_NOT_FOUND(40110,"用户名或密码错误"),
 
     /**
      * 403.** 禁止的请求，与403对应
@@ -160,29 +166,32 @@ public enum ResultErrorCodes {
     /**
      * 503.* Service Unavailable	由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
      */
-    SERVICE_UNAVAILABLE(50301, "Service Unavailable"),
+    SERVICE_UNAVAILABLE(50301, "服务不可用"),
     TEMPORARILY_UNAVAILABLE(50302, "由于服务器临时超载或维护，授权服务器当前无法处理该请求"),
+    PROVIDER_NOT_FOUND(50303, "授权服务器代码逻辑配置错误"),
+    COOKIE_THEFT(50304, "Cookie 信息不安全"),
+    INVALID_COOKIE(50305, "不可用的 Cookie 信息"),
 
     /**
      * 6*.* 为数据操作相关错误
      */
-    BAD_SQL_GRAMMAR_EXCEPTION(60000, "低级SQL语法错误，检查SQL能否正常运行或者字段名称是否正确"),
+    BAD_SQL_GRAMMAR(60000, "低级SQL语法错误，检查SQL能否正常运行或者字段名称是否正确"),
     /**
      * 62.* 数据库操作相关错误
      */
-    DATA_INTEGRITY_VIOLATION_EXCEPTION(62000, "该数据正在被其它数据引用，请先删除引用关系，再进行数据删除操作"),
-    TRANSACTION_ROLLBACK_EXCEPTION(62001, "数据事务处理失败，数据回滚"),
+    DATA_INTEGRITY_VIOLATION(62000, "该数据正在被其它数据引用，请先删除引用关系，再进行数据删除操作"),
+    TRANSACTION_ROLLBACK(62001, "数据事务处理失败，数据回滚"),
     /**
      * 63.* Spring Boot Validation校验相关操作
      */
-    METHOD_ARGUMENT_NOT_VALID_EXCEPTION(63000, "接口参数校验失败，参数使用错误或者未接收到参数"),
+    METHOD_ARGUMENT_NOT_VALID(63000, "接口参数校验失败，参数使用错误或者未接收到参数"),
 
     /**
      * 7*.* 基础设施交互错误
      * 71.* Redis 操作出现错误
      * 72.* Cache 操作出现错误
      */
-    PIPELINE_INVALID_COMMANDS_EXCEPTION(71000, "Redis管道包含一个或多个无效命令");
+    PIPELINE_INVALID_COMMANDS(71000, "Redis管道包含一个或多个无效命令");
 
 
     @Schema(title = "结果代码")

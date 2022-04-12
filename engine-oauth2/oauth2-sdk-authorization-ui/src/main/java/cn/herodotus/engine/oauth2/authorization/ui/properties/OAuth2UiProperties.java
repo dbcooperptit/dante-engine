@@ -27,6 +27,7 @@ package cn.herodotus.engine.oauth2.authorization.ui.properties;
 
 import cn.herodotus.engine.oauth2.core.constants.OAuth2Constants;
 import com.google.common.base.MoreObjects;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
@@ -49,13 +50,25 @@ public class OAuth2UiProperties {
      */
     private String passwordParameter = UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY;
     /**
+     * UI 界面Remember Me name 属性值
+     */
+    private String rememberMeParameter = AbstractRememberMeServices.SPRING_SECURITY_REMEMBER_ME_COOKIE_KEY;
+    /**
      * UI 界面验证码 name 属性值
      */
-    private String rememberMeParameter= AbstractRememberMeServices.SPRING_SECURITY_REMEMBER_ME_COOKIE_KEY;
+    private String captchaParameter = "captcha";
     /**
      * 登录页面地址
      */
     private String loginPageUrl = "/login";
+    /**
+     * 登录逻辑处理地址
+     */
+    private String loginProcessingUrl = loginPageUrl;
+    /**
+     * 失败处理地址
+     */
+    private String failureUrl = loginPageUrl;
     /**
      * 登录失败重定向地址
      */
@@ -65,9 +78,13 @@ public class OAuth2UiProperties {
      */
     private String successForwardUrl;
     /**
-     * 是否显示验证码，默认 false，不显示
+     * 关闭验证码显示，默认 false，显示
      */
-    private Boolean showCaptcha = false;
+    private Boolean closeCaptcha = false;
+    /**
+     * 验证码类别，默认为 Hutool Gif 类型
+     */
+    private String category = "HUTOOL_GIF";
 
     public String getUsernameParameter() {
         return usernameParameter;
@@ -102,7 +119,11 @@ public class OAuth2UiProperties {
     }
 
     public String getFailureForwardUrl() {
-        return failureForwardUrl;
+        if (StringUtils.isNotBlank(failureForwardUrl)) {
+            return failureForwardUrl;
+        } else {
+            return this.getLoginPageUrl() + "?error";
+        }
     }
 
     public void setFailureForwardUrl(String failureForwardUrl) {
@@ -117,12 +138,44 @@ public class OAuth2UiProperties {
         this.successForwardUrl = successForwardUrl;
     }
 
-    public Boolean getShowCaptcha() {
-        return showCaptcha;
+    public Boolean getCloseCaptcha() {
+        return closeCaptcha;
     }
 
-    public void setShowCaptcha(Boolean showCaptcha) {
-        this.showCaptcha = showCaptcha;
+    public void setCloseCaptcha(Boolean closeCaptcha) {
+        this.closeCaptcha = closeCaptcha;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getCaptchaParameter() {
+        return captchaParameter;
+    }
+
+    public void setCaptchaParameter(String captchaParameter) {
+        this.captchaParameter = captchaParameter;
+    }
+
+    public String getLoginProcessingUrl() {
+        return loginProcessingUrl;
+    }
+
+    public void setLoginProcessingUrl(String loginProcessingUrl) {
+        this.loginProcessingUrl = loginProcessingUrl;
+    }
+
+    public String getFailureUrl() {
+        return failureUrl;
+    }
+
+    public void setFailureUrl(String failureUrl) {
+        this.failureUrl = failureUrl;
     }
 
     @Override
@@ -131,10 +184,14 @@ public class OAuth2UiProperties {
                 .add("usernameParameter", usernameParameter)
                 .add("passwordParameter", passwordParameter)
                 .add("rememberMeParameter", rememberMeParameter)
+                .add("captchaParameter", captchaParameter)
                 .add("loginPageUrl", loginPageUrl)
+                .add("loginProcessingUrl", loginProcessingUrl)
+                .add("failureUrl", failureUrl)
                 .add("failureForwardUrl", failureForwardUrl)
                 .add("successForwardUrl", successForwardUrl)
-                .add("showCaptcha", showCaptcha)
+                .add("closeCaptcha", closeCaptcha)
+                .add("category", category)
                 .toString();
     }
 }

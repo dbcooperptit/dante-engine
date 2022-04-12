@@ -106,7 +106,13 @@ public class GlobalExceptionHandler {
     static {
         // 401.** 对应错误
         EXCEPTION_DICTIONARY.put("AccessDeniedException", getUnauthorizedResult(ResultErrorCodes.ACCESS_DENIED));
+        EXCEPTION_DICTIONARY.put("AccountExpiredException", getUnauthorizedResult(ResultErrorCodes.ACCOUNT_EXPIRED));
+        EXCEPTION_DICTIONARY.put("BadCredentialsException", getUnauthorizedResult(ResultErrorCodes.BAD_CREDENTIALS));
+        EXCEPTION_DICTIONARY.put("CredentialsExpiredException", getUnauthorizedResult(ResultErrorCodes.CREDENTIALS_EXPIRED));
+        EXCEPTION_DICTIONARY.put("DisabledException", getUnauthorizedResult(ResultErrorCodes.ACCOUNT_DISABLED));
         EXCEPTION_DICTIONARY.put("InsufficientAuthenticationException", getUnauthorizedResult(ResultErrorCodes.ACCESS_DENIED));
+        EXCEPTION_DICTIONARY.put("LockedException", getUnauthorizedResult(ResultErrorCodes.ACCOUNT_LOCKED));
+        EXCEPTION_DICTIONARY.put("UsernameNotFoundException", getUnauthorizedResult(ResultErrorCodes.USERNAME_NOT_FOUND));
         // 405.** 对应错误
         EXCEPTION_DICTIONARY.put("HttpRequestMethodNotSupportedException", getResult(ResultErrorCodes.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, HttpStatus.SC_METHOD_NOT_ALLOWED));
         // 415.** 对应错误
@@ -118,14 +124,17 @@ public class GlobalExceptionHandler {
         EXCEPTION_DICTIONARY.put("HttpMessageNotReadableException", getInternalServerErrorResult(ResultErrorCodes.HTTP_MESSAGE_NOT_READABLE_EXCEPTION));
         EXCEPTION_DICTIONARY.put("TypeMismatchException", getInternalServerErrorResult(ResultErrorCodes.TYPE_MISMATCH_EXCEPTION));
         EXCEPTION_DICTIONARY.put("MissingServletRequestParameterException", getInternalServerErrorResult(ResultErrorCodes.MISSING_SERVLET_REQUEST_PARAMETER_EXCEPTION));
+        EXCEPTION_DICTIONARY.put("ProviderNotFoundException", getServiceUnavailableResult(ResultErrorCodes.PROVIDER_NOT_FOUND));
+        EXCEPTION_DICTIONARY.put("CookieTheftException", getServiceUnavailableResult(ResultErrorCodes.COOKIE_THEFT));
+        EXCEPTION_DICTIONARY.put("InvalidCookieException", getServiceUnavailableResult(ResultErrorCodes.INVALID_COOKIE));
         // 6*.** 对应错误
-        EXCEPTION_DICTIONARY.put("BadSqlGrammarException", getInternalServerErrorResult(ResultErrorCodes.BAD_SQL_GRAMMAR_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("DataIntegrityViolationException", getInternalServerErrorResult(ResultErrorCodes.DATA_INTEGRITY_VIOLATION_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("TransactionRollbackException", getInternalServerErrorResult(ResultErrorCodes.TRANSACTION_ROLLBACK_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("BindException", getNotAcceptableResult(ResultErrorCodes.METHOD_ARGUMENT_NOT_VALID_EXCEPTION));
-        EXCEPTION_DICTIONARY.put("MethodArgumentNotValidException", getNotAcceptableResult(ResultErrorCodes.METHOD_ARGUMENT_NOT_VALID_EXCEPTION));
+        EXCEPTION_DICTIONARY.put("BadSqlGrammarException", getInternalServerErrorResult(ResultErrorCodes.BAD_SQL_GRAMMAR));
+        EXCEPTION_DICTIONARY.put("DataIntegrityViolationException", getInternalServerErrorResult(ResultErrorCodes.DATA_INTEGRITY_VIOLATION));
+        EXCEPTION_DICTIONARY.put("TransactionRollbackException", getInternalServerErrorResult(ResultErrorCodes.TRANSACTION_ROLLBACK));
+        EXCEPTION_DICTIONARY.put("BindException", getNotAcceptableResult(ResultErrorCodes.METHOD_ARGUMENT_NOT_VALID));
+        EXCEPTION_DICTIONARY.put("MethodArgumentNotValidException", getNotAcceptableResult(ResultErrorCodes.METHOD_ARGUMENT_NOT_VALID));
         // 7*.** 对应错误
-        EXCEPTION_DICTIONARY.put("RedisPipelineException", getResult(ResultErrorCodes.PIPELINE_INVALID_COMMANDS_EXCEPTION, HttpStatus.SC_INTERNAL_SERVER_ERROR));
+        EXCEPTION_DICTIONARY.put("RedisPipelineException", getResult(ResultErrorCodes.PIPELINE_INVALID_COMMANDS, HttpStatus.SC_INTERNAL_SERVER_ERROR));
     }
 
     protected static Result<String> getResult(ResultErrorCodes resultErrorCodes, int httpStatus) {

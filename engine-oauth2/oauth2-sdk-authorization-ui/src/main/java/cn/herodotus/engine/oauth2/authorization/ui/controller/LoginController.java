@@ -26,10 +26,11 @@
 package cn.herodotus.engine.oauth2.authorization.ui.controller;
 
 import cn.herodotus.engine.oauth2.authorization.ui.properties.OAuth2UiProperties;
+import cn.herodotus.engine.oauth2.core.utils.SymmetricUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -48,16 +49,14 @@ import java.util.Map;
  *
  * @author : gengwei.zheng
  * @date : 2022/3/21 19:52
+ * @see org.springframework.security.config.annotation.web.configurers.DefaultLoginPageConfigurer
+ * @see org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter
  */
 @Controller
 public class LoginController {
 
-    private static final String DEFAULT_REMEMBER_ME_NAME = "remember-me";
     private static final String DEFAULT_LOGIN_PAGE_VIEW = "login";
     private static final String DEFAULT_ERROR_PAGE_VIEW = "error";
-
-    public static final String SPRING_SECURITY_FORM_USERNAME_KEY = "username";
-    public static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
 
     private final OAuth2UiProperties uiProperties;
 
@@ -79,15 +78,20 @@ public class LoginController {
         Map<String, String> hiddenInputs = hiddenInputs(request);
 
         // 登录可配置用户名参数
-        modelAndView.addObject("usernameParameter", uiProperties.getUsernameParameter());
+        modelAndView.addObject("vulgar_tycoon", uiProperties.getUsernameParameter());
         // 登录可配置密码参数
-        modelAndView.addObject("passwordParameter", uiProperties.getPasswordParameter());
-        modelAndView.addObject("rememberMeParameter", uiProperties.getRememberMeParameter());
-        modelAndView.addObject("showCaptcha", uiProperties.getShowCaptcha());
+        modelAndView.addObject("beast", uiProperties.getPasswordParameter());
+        modelAndView.addObject("anubis", uiProperties.getRememberMeParameter());
+        modelAndView.addObject("graphic", uiProperties.getCaptchaParameter());
+        modelAndView.addObject("hide_verification_code", uiProperties.getCloseCaptcha());
         // Security 隐藏域
-        modelAndView.addObject("hiddenInputs", hiddenInputs);
-        modelAndView.addObject("loginError", loginError);
-        modelAndView.addObject("logoutSuccess", logoutSuccess);
+        // AES加密key
+        modelAndView.addObject("soup_spoon", SymmetricUtils.getEncryptedSymmetricKey());
+        // 验证码类别
+        modelAndView.addObject("verification_category", uiProperties.getCategory());
+        modelAndView.addObject("hidden_inputs", hiddenInputs);
+        modelAndView.addObject("login_error", loginError);
+        modelAndView.addObject("logout_success", logoutSuccess);
         modelAndView.addObject("message", StringUtils.isNotBlank(errorMessage) ? HtmlUtils.htmlEscape(errorMessage) : null);
 
         return modelAndView;
@@ -112,11 +116,9 @@ public class LoginController {
     private String getErrorMessage(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (ObjectUtils.isNotEmpty(session)) {
-            AuthenticationException ex = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-            if (ObjectUtils.isNotEmpty(ex)) {
-                return ex.getMessage();
-            } else {
-                return "Invalid credentials";
+            String message = (String) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+            if (ObjectUtils.isNotEmpty(message)) {
+                return message;
             }
         }
 
@@ -124,7 +126,7 @@ public class LoginController {
     }
 
     private boolean matches(HttpServletRequest request, String url) {
-        if (!"GET".equals(request.getMethod()) || url == null) {
+        if (!HttpMethod.GET.name().equals(request.getMethod()) || url == null) {
             return false;
         }
         String uri = request.getRequestURI();
