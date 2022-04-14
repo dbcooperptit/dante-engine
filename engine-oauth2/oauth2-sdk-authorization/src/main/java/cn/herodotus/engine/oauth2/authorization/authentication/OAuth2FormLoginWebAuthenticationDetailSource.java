@@ -23,32 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.jackson2;
+package cn.herodotus.engine.oauth2.authorization.authentication;
 
+import cn.herodotus.engine.oauth2.authorization.properties.OAuth2UiProperties;
 import cn.herodotus.engine.oauth2.core.definition.domain.FormLoginWebAuthenticationDetails;
-import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusGrantedAuthority;
-import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.springframework.security.jackson2.SecurityJackson2Modules;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * <p>Description: 自定义 User Details Module </p>
+ * <p>Description: 表单登录 Details 定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/17 23:39
+ * @date : 2022/4/12 10:41
  */
-public class HerodotusJackson2Module extends SimpleModule {
+public class OAuth2FormLoginWebAuthenticationDetailSource implements AuthenticationDetailsSource<HttpServletRequest, FormLoginWebAuthenticationDetails> {
 
-    public HerodotusJackson2Module() {
-        super(HerodotusJackson2Module.class.getName(), new Version(1, 0, 0, null, null, null));
+    private final OAuth2UiProperties uiProperties;
+
+    public OAuth2FormLoginWebAuthenticationDetailSource(OAuth2UiProperties uiProperties) {
+        this.uiProperties = uiProperties;
     }
 
     @Override
-    public void setupModule(SetupContext context) {
-        SecurityJackson2Modules.enableDefaultTyping(context.getOwner());
-        context.setMixInAnnotations(HerodotusUser.class, HerodotusUserMixin.class);
-        context.setMixInAnnotations(HerodotusGrantedAuthority.class, HerodotusGrantedAuthorityMixin.class);
-        context.setMixInAnnotations(FormLoginWebAuthenticationDetails.class, FormLoginWebAuthenticationDetailsMixin.class);
+    public FormLoginWebAuthenticationDetails buildDetails(HttpServletRequest context) {
+        return new FormLoginWebAuthenticationDetails(context, uiProperties.getCloseCaptcha(), uiProperties.getCaptchaParameter(), uiProperties.getCategory());
     }
 }

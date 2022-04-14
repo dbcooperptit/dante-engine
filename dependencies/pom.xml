@@ -175,6 +175,9 @@
         <jiguang-common.version>1.2.0</jiguang-common.version>
         <pushy.version>0.13.10</pushy.version>
 
+        <!--Webjars 支持-->
+        <bootstrap.version>5.1.3</bootstrap.version>
+
         <!--以下为包依赖的特殊处理-->
         <!--强制升级解决安全漏洞问题-->
         <log4j2.version>2.17.2</log4j2.version>
@@ -386,11 +389,6 @@
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oauth2-sdk-authorization</artifactId>
-                <version>${herodotus-engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>oauth2-sdk-authorization-ui</artifactId>
                 <version>${herodotus-engine.version}</version>
             </dependency>
             <dependency>
@@ -671,7 +669,6 @@
             </dependency>
 
 
-
             <!-- 阿里巴巴开源工具依赖 -->
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
@@ -876,6 +873,16 @@
                 <artifactId>pushy</artifactId>
                 <version>${pushy.version}</version>
             </dependency>
+
+
+            <!--Webjars 支持-->
+            <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
+            </dependency>
+
 
             <!-- 依赖包特殊处理 -->
             <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on -->

@@ -23,32 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.jackson2;
+package cn.herodotus.engine.oauth2.authorization.authentication;
 
-import cn.herodotus.engine.oauth2.core.definition.domain.FormLoginWebAuthenticationDetails;
-import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusGrantedAuthority;
-import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.springframework.security.jackson2.SecurityJackson2Modules;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
 
 /**
- * <p>Description: 自定义 User Details Module </p>
+ * <p>Description: OAuth2 (Security) 表单登录 Token </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/17 23:39
+ * @date : 2022/4/12 10:24
+ * @see UsernamePasswordAuthenticationToken
  */
-public class HerodotusJackson2Module extends SimpleModule {
+public class OAuth2FormLoginAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
-    public HerodotusJackson2Module() {
-        super(HerodotusJackson2Module.class.getName(), new Version(1, 0, 0, null, null, null));
+    public OAuth2FormLoginAuthenticationToken(Object principal, Object credentials) {
+        super(principal, credentials);
     }
 
-    @Override
-    public void setupModule(SetupContext context) {
-        SecurityJackson2Modules.enableDefaultTyping(context.getOwner());
-        context.setMixInAnnotations(HerodotusUser.class, HerodotusUserMixin.class);
-        context.setMixInAnnotations(HerodotusGrantedAuthority.class, HerodotusGrantedAuthorityMixin.class);
-        context.setMixInAnnotations(FormLoginWebAuthenticationDetails.class, FormLoginWebAuthenticationDetailsMixin.class);
+    public OAuth2FormLoginAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+        super(principal, credentials, authorities);
     }
 }

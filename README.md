@@ -96,7 +96,6 @@ herodotus-engine
 ├    ├── oauth2-core -- OAuth2 共性通用代码
 ├    ├── oauth2-sdk-authorization -- Spring Authorization Server Granter扩展代码模块
 ├    ├── oauth2-sdk-authorization-server -- Spring Authorization Server 管理代码模块
-├    ├── oauth2-sdk-authorization-ui -- 自定义 Spring Authorization Server 界面代码模块
 ├    ├── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
 ├    └── oauth2-sdk-resource-server -- OAuth2 资源服务器通用代码模块
 ├── engine-oss -- 对象存储模块

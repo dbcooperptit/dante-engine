@@ -23,32 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.jackson2;
+package cn.herodotus.engine.oauth2.authorization.exception;
 
-import cn.herodotus.engine.oauth2.core.definition.domain.FormLoginWebAuthenticationDetails;
-import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusGrantedAuthority;
-import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.springframework.security.jackson2.SecurityJackson2Modules;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: 自定义 User Details Module </p>
+ * <p>Description: Oauth2 使用的验证码不匹配错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/17 23:39
+ * @date : 2021/12/24 12:08
  */
-public class HerodotusJackson2Module extends SimpleModule {
+public class OAuth2CaptchaMismatchException extends OAuth2CaptchaException {
 
-    public HerodotusJackson2Module() {
-        super(HerodotusJackson2Module.class.getName(), new Version(1, 0, 0, null, null, null));
+    public OAuth2CaptchaMismatchException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+
+    public OAuth2CaptchaMismatchException(String msg) {
+        super(msg);
     }
 
     @Override
-    public void setupModule(SetupContext context) {
-        SecurityJackson2Modules.enableDefaultTyping(context.getOwner());
-        context.setMixInAnnotations(HerodotusUser.class, HerodotusUserMixin.class);
-        context.setMixInAnnotations(HerodotusGrantedAuthority.class, HerodotusGrantedAuthorityMixin.class);
-        context.setMixInAnnotations(FormLoginWebAuthenticationDetails.class, FormLoginWebAuthenticationDetailsMixin.class);
+    public Feedback getFeedback() {
+        return new Feedback(40612, "验证码不匹配", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }
