@@ -46,6 +46,8 @@ public class HerodotusSecurityConfigureHandler {
 
     private static final List<String> DEFAULT_IGNORED_STATIC_RESOURCES = Lists.newArrayList(
             "/error/**",
+            "/plugins/**",
+            "/authorization/**",
             "/static/**",
             "/webjars/**",
             "/swagger-ui.html",

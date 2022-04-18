@@ -13,7 +13,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.0.4-brightgreen" alt="Nacos 2.0.4"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta4-red" alt="Version 2.7.0.Beta4"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta5-red" alt="Version 2.7.0.Beta5"></a>
 </p>
 
 <p align="center">
@@ -96,7 +96,6 @@ herodotus-engine
 ├    ├── oauth2-core -- OAuth2 共性通用代码
 ├    ├── oauth2-sdk-authorization -- Spring Authorization Server Granter扩展代码模块
 ├    ├── oauth2-sdk-authorization-server -- Spring Authorization Server 管理代码模块
-├    ├── oauth2-sdk-authorization-ui -- 自定义 Spring Authorization Server 界面代码模块
 ├    ├── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
 ├    └── oauth2-sdk-resource-server -- OAuth2 资源服务器通用代码模块
 ├── engine-oss -- 对象存储模块
