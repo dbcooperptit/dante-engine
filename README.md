@@ -6,14 +6,14 @@
 
 <p align="center">
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://shields.io/badge/JDK-1.8%2B-green" alt="JDK 1.8+"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.6.6-blue" alt="Spring Boot 2.6.6"></a>
-    <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2021.0.1-blue" alt="Spring Cloud 2021.0.1"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.6.7-blue" alt="Spring Boot 2.6.7"></a>
+    <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2021.0.2-blue" alt="Spring Cloud 2021.0.2"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2021.0.1.0-blue" alt="Spring Cloud Alibaba 2021.0.1.0"></a>
     <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-0.2.3-blue" alt="Spring Authorization Server 0.2.3"></a>
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.0.4-brightgreen" alt="Nacos 2.0.4"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.Beta5-red" alt="Version 2.7.0.Beta5"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.RC1-red" alt="Version 2.7.0.RC1"></a>
 </p>
 
 <p align="center">
@@ -45,7 +45,7 @@
 
 1. 虽然模块看似很多，但是每个模块职责单一、代码清晰，更有利于聚焦和定位问题。
 2. 通过对微服务架构的“庖丁解牛”，初学者不再需要在代码的海洋里“遨游”，通过针对性地了解各个模块，以点带面快速掌握微服务架构整体结构。
-3. 模块间的依赖极大的降低，想要替换为 `Spring HerodotusAuthorization Server`，影响到的代码和范围将会很小。该工程也是使用 `Spring HerodotusAuthorization Server` 的前序工作
+3. 模块间的依赖极大的降低，想要替换为 `Spring Authorization Server`，影响到的代码和范围将会很小。该工程也是使用 `Spring Authorization Server` 的前序工作
 4. 每个模块均是最小化依赖第三包，规避依赖包过度依赖，特别是 starter 过多依赖，导致不可预知、难以调试、不好修改等问题。
 5. 降低微服务系统代码量，独立组件可提前编译并上传至Maven仓库，降低工程代码编译耗时，改进 CICD 效率。
 
@@ -59,7 +59,6 @@ herodotus-engine
 ├── engine-assistant -- 核心通用代码包
 ├    ├── assistant-core -- 核心通用代码组件
 ├    ├── assistant-sdk-json -- Json 通用代码组件
-├    ├── assistant-sdk-secure -- Xss 和 SQL 注入等安全组件
 ├    └── assistant-spring-boot-starter -- Assistant  模块统一 Starter
 ├── engine-cache -- 缓存模块
 ├    ├── cache-core -- 缓存通用代码组件
@@ -108,10 +107,12 @@ herodotus-engine
 ├    ├── pay-sdk-all -- 支付方式整合组件相关代码模块
 ├    ├── pay-sdk-wxpay -- 微信支付组件相关代码模块
 ├    └── pay-spring-boot-starter -- Pay 模块统一 Starter
+├── engine-protect -- 防护模块
+├    ├── protect-core -- Web防护共性通用代码
+├    ├── protect-sdk-web -- 前后端数据加密、接口幂等、防刷、Xss和SQL注入防护组件相关代码模块
+├    └── protect-sdk-spring-boot-starter -- Protect 模块统一 Starter
 ├── engine-rest -- 服务Rest接口模块
 ├    ├── rest-core -- 服务Rest接口共性通用代码
-├    ├── rest-sdk-crypto -- 前后端数据加密组件相关代码模块
-├    ├── rest-sdk-secure -- 接口幂等、防刷、Xss和SQL注入防护组件相关代码模块
 ├    └── rest-spring-boot-starter -- Rest 模块统一 Starter(包括通用CRUD代码)
 ├── engine-temporal -- 时序数据存储处理模块
 ├    ├── temporal-core -- 时序数据存储共性通用代码

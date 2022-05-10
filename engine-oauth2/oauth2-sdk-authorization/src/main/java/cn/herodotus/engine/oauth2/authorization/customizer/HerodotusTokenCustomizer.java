@@ -27,7 +27,7 @@ package cn.herodotus.engine.oauth2.authorization.customizer;
 
 import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

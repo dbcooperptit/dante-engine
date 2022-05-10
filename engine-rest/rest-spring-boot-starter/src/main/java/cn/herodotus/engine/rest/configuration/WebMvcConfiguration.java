@@ -25,18 +25,15 @@
 
 package cn.herodotus.engine.rest.configuration;
 
-import cn.herodotus.engine.rest.crypto.configuration.CryptoConfiguration;
-import cn.herodotus.engine.rest.crypto.enhance.DecryptRequestParamMapResolver;
-import cn.herodotus.engine.rest.crypto.enhance.DecryptRequestParamResolver;
-import cn.herodotus.engine.rest.secure.configuration.SecureConfiguration;
-import cn.herodotus.engine.rest.secure.interceptor.AccessLimitedInterceptor;
-import cn.herodotus.engine.rest.secure.interceptor.IdempotentInterceptor;
+import cn.herodotus.engine.protect.web.crypto.enhance.DecryptRequestParamMapResolver;
+import cn.herodotus.engine.protect.web.crypto.enhance.DecryptRequestParamResolver;
+import cn.herodotus.engine.protect.web.secure.interceptor.AccessLimitedInterceptor;
+import cn.herodotus.engine.protect.web.secure.interceptor.IdempotentInterceptor;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.web.method.annotation.RequestParamMapMethodArgumentResolver;
 import org.springframework.web.method.annotation.RequestParamMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -55,10 +52,6 @@ import java.util.List;
  * @date : 2020/3/4 11:00
  */
 @Configuration(proxyBeanMethods = false)
-@Import({
-        CryptoConfiguration.class,
-        SecureConfiguration.class
-})
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     private static final Logger log = LoggerFactory.getLogger(WebMvcConfiguration.class);

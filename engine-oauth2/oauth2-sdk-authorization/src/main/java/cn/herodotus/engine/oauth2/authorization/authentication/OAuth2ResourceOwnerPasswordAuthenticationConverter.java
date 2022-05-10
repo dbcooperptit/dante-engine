@@ -25,7 +25,10 @@
 
 package cn.herodotus.engine.oauth2.authorization.authentication;
 
+import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2EndpointUtils;
+import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,6 +56,12 @@ import java.util.stream.Collectors;
  * @date : 2022/2/22 17:03
  */
 public final class OAuth2ResourceOwnerPasswordAuthenticationConverter implements AuthenticationConverter {
+
+    private final HttpCryptoProcessor httpCryptoProcessor;
+
+    public OAuth2ResourceOwnerPasswordAuthenticationConverter(HttpCryptoProcessor httpCryptoProcessor) {
+        this.httpCryptoProcessor = httpCryptoProcessor;
+    }
 
     @Nullable
     @Override
@@ -88,15 +97,25 @@ public final class OAuth2ResourceOwnerPasswordAuthenticationConverter implements
                     OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
         }
 
+        String sessionId = request.getHeader(HttpHeaders.X_HERODOTUS_SESSION);
 
         Map<String, Object> additionalParameters = parameters
                 .entrySet()
                 .stream()
                 .filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE) &&
                         !e.getKey().equals(OAuth2ParameterNames.SCOPE))
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> parameterDecrypt(e.getValue().get(0), sessionId)));
 
         return new OAuth2ResourceOwnerPasswordAuthenticationToken(clientPrincipal, requestedScopes, additionalParameters);
 
+    }
+
+    private Object parameterDecrypt(Object object, String sessionId) {
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(sessionId)) {
+            if (ObjectUtils.isNotEmpty(object) && object instanceof String) {
+                return  httpCryptoProcessor.decrypt(sessionId, object.toString());
+            }
+        }
+        return object;
     }
 }

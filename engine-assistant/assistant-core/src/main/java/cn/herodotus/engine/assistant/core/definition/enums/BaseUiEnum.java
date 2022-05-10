@@ -31,6 +31,6 @@ package cn.herodotus.engine.assistant.core.definition.enums;
  * @author : gengwei.zheng
  * @date : 2022/3/26 16:52
  */
-public interface BaseUiEnum<T> extends UiEnumValue<T>, UiEnumDescription {
+public interface BaseUiEnum<T> extends EnumValue<T>, EnumDescription {
 
 }

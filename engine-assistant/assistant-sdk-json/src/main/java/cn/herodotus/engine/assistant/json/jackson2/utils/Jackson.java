@@ -26,12 +26,13 @@
 package cn.herodotus.engine.assistant.json.jackson2.utils;
 
 import cn.herodotus.engine.assistant.json.jackson2.deserializer.XssStringJsonDeserializer;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * @author gengwei.zheng
@@ -59,7 +59,11 @@ public class Jackson {
 
     @PostConstruct
     public void init() {
-        OBJECT_MAPPER = this.objectMapper;
+        if (ObjectUtils.isNotEmpty(this.objectMapper)) {
+            OBJECT_MAPPER = this.objectMapper;
+        } else {
+            OBJECT_MAPPER = new ObjectMapper();
+        }
         settings(OBJECT_MAPPER);
     }
 
@@ -100,60 +104,124 @@ public class Jackson {
         return getObjectMapper().registerModules(module);
     }
 
-    public static <T> T toObject(String json, Class<T> clazz) {
+    public static <T> String toJson(T domain) {
         try {
-            return getObjectMapper().readValue(json, clazz);
-        } catch (JsonParseException e) {
-            logger.error("[Herodotus] |- Jackson toObject parse json error! {}", e.getMessage());
-        } catch (JsonMappingException e) {
-            logger.error("[Herodotus] |- Jackson toObject mapping to object error! {}", e.getMessage());
-        } catch (IOException e) {
-            logger.error("[Herodotus] |- Jackson toObject read content error! {}", e.getMessage());
+            return getObjectMapper().writeValueAsString(domain);
+        } catch (JsonProcessingException e) {
+            logger.error("[Herodotus] |- Jackson json processing error, when to json! {}", e.getMessage());
+            return null;
         }
-
-        return null;
     }
 
-    public static <T> String toJson(T entity) {
+    public static <T> T toObject(String content, Class<T> valueType) {
         try {
-            return getObjectMapper().writeValueAsString(entity);
-        } catch (JsonParseException e) {
-            logger.error("[Herodotus] |- Jackson toCollection parse json error! {}", e.getMessage());
-        } catch (JsonMappingException e) {
-            logger.error("[Herodotus] |- Jackson toCollection mapping to object error! {}", e.getMessage());
-        } catch (IOException e) {
-            logger.error("[Herodotus] |- Jackson toCollection read content error! {}", e.getMessage());
+            return getObjectMapper().readValue(content, valueType);
+        } catch (JsonProcessingException e) {
+            logger.error("[Herodotus] |- Jackson json processing error, when to object with value type! {}", e.getMessage());
+            return null;
         }
-
-        return null;
     }
 
-    public static <T> List<T> toList(String json, Class<T> clazz) {
-        JavaType javaType = getObjectMapper().getTypeFactory().constructParametricType(ArrayList.class, clazz);
+    public static <T> T toObject(String content, TypeReference<T> typeReference) {
         try {
-            return getObjectMapper().readValue(json, javaType);
-        } catch (JsonParseException e) {
-            logger.error("[Herodotus] |- Jackson toCollection parse json error! {}", e.getMessage());
-        } catch (JsonMappingException e) {
-            logger.error("[Herodotus] |- Jackson toCollection mapping to object error! {}", e.getMessage());
-        } catch (IOException e) {
-            logger.error("[Herodotus] |- Jackson toCollection read content error! {}", e.getMessage());
+            return getObjectMapper().readValue(content, typeReference);
+        } catch (JsonProcessingException e) {
+            logger.error("[Herodotus] |- Jackson json processing error, when to object with type reference! {}", e.getMessage());
+            return null;
         }
-
-        return null;
     }
 
-    public static <T> T toCollection(String json, TypeReference<T> typeReference) {
+    public static <T> T toObject(String content, JavaType javaType) {
         try {
-            return getObjectMapper().readValue(json, typeReference);
-        } catch (JsonParseException e) {
-            logger.error("[Herodotus] |- Jackson toCollection parse json error! {}", e.getMessage());
-        } catch (JsonMappingException e) {
-            logger.error("[Herodotus] |- Jackson toCollection mapping to object error! {}", e.getMessage());
+            return getObjectMapper().readValue(content, javaType);
+        } catch (JsonProcessingException e) {
+            logger.error("[Herodotus] |- Jackson json processing error, when to object with java type! {}", e.getMessage());
+            return null;
+        }
+    }
+
+    public static <T> List<T> toList(String content, Class<T> clazz) {
+        JavaType javaType = getObjectMapper().getTypeFactory().constructParametricType(List.class, clazz);
+        return toObject(content, javaType);
+    }
+
+    public static <T> List<T> toList(String content) {
+        return toObject(content, new TypeReference<List<T>>() {});
+    }
+
+    public static <K, V> Map<K, V> toMap(String content, Class<K> keyClass, Class<V> valueClass) {
+        JavaType javaType = getObjectMapper().getTypeFactory().constructMapType(Map.class, keyClass, valueClass);
+        return toObject(content, javaType);
+    }
+
+    public static <K, V> Map<K, V> toMap(String content) {
+        return toObject(content, new TypeReference<Map<K, V>>() {});
+    }
+
+    public static <T> Set<T> toSet(String content, Class<T> clazz) {
+        JavaType javaType = getObjectMapper().getTypeFactory().constructCollectionLikeType(Set.class, clazz);
+        return toObject(content, javaType);
+    }
+
+    public static <T> Set<T> toSet(String content) {
+        return toObject(content, new TypeReference<Set<T>>() {});
+    }
+
+    public static <T> T[] toArray(String content, Class<T> clazz) {
+        JavaType javaType = getObjectMapper().getTypeFactory().constructArrayType(clazz);
+        return toObject(content, javaType);
+    }
+
+    public static <T> T[] toArray(String content) {
+        return toObject(content, new TypeReference<T[]>() {});
+    }
+
+    public static JsonNode toNode(String content) {
+        try {
+            return getObjectMapper().readTree(content);
+        } catch (JsonProcessingException e) {
+            logger.error("[Herodotus] |- Jackson json processing error, when to node with string! {}", e.getMessage());
+            return null;
+        }
+    }
+
+    public static JsonNode toNode(JsonParser jsonParser) {
+        try {
+            return getObjectMapper().readTree(jsonParser);
         } catch (IOException e) {
-            logger.error("[Herodotus] |- Jackson toCollection read content error! {}", e.getMessage());
+            logger.error("[Herodotus] |- Jackson io error, when to node with json parser! {}", e.getMessage());
+            return null;
+        }
+    }
+
+    public static JsonParser createParser(String content) {
+        try {
+            return getObjectMapper().createParser(content);
+        } catch (IOException e) {
+            logger.error("[Herodotus] |- Jackson io error, when create parser! {}", e.getMessage());
+            return null;
+        }
+    }
+
+    public static <R> R loop(JsonNode jsonNode, Function<JsonNode, R> function) {
+        if (jsonNode.isObject()) {
+            Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields();
+            while (it.hasNext()) {
+                Map.Entry<String, JsonNode> entry = it.next();
+                loop(entry.getValue(), function);
+            }
         }
 
-        return null;
+        if (jsonNode.isArray()) {
+            for (JsonNode node : jsonNode) {
+                loop(node, function);
+            }
+        }
+
+        if (jsonNode.isValueNode()) {
+            return function.apply(jsonNode);
+        } else {
+            return null;
+        }
     }
 }

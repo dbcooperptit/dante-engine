@@ -25,8 +25,9 @@
 
 package cn.herodotus.engine.oauth2.core.utils;
 
-import cn.herodotus.engine.assistant.core.utils.BeanUtils;
 import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -98,7 +99,7 @@ public class SecurityUtils {
             }
             if (authentication.getPrincipal() instanceof Map) {
                 Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
-                return BeanUtils.mapToBean(principal, HerodotusUser.class);
+                return BeanUtil.mapToBean(principal, HerodotusUser.class, true, new CopyOptions());
             }
         }
 

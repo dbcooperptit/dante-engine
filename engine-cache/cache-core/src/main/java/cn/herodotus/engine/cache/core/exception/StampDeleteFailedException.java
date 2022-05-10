@@ -27,6 +27,7 @@ package cn.herodotus.engine.cache.core.exception;
 
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.cache.core.constants.CacheErrorCode;
 import org.apache.http.HttpStatus;
 
 /**
@@ -59,6 +60,6 @@ public class StampDeleteFailedException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return new Feedback(40604, "从缓存中删除签章失败", HttpStatus.SC_NOT_ACCEPTABLE);
+        return new Feedback(CacheErrorCode.STAMP_DELETE_FAILED, "从缓存中删除签章失败", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

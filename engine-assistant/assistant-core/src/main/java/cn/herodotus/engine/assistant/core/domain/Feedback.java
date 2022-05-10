@@ -26,8 +26,11 @@
 package cn.herodotus.engine.assistant.core.domain;
 
 import cn.herodotus.engine.assistant.core.enums.ResultErrorCodes;
+import cn.herodotus.engine.assistant.core.utils.RegexPool;
+import cn.hutool.core.util.StrUtil;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 
 /**
