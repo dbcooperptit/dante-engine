@@ -30,7 +30,7 @@ import cn.herodotus.engine.oauth2.server.authorization.dto.Session;
 import cn.herodotus.engine.oauth2.server.authorization.dto.SessionCreate;
 import cn.herodotus.engine.oauth2.server.authorization.dto.SessionExchange;
 import cn.herodotus.engine.oauth2.server.authorization.service.InterfaceSecurityService;
-import cn.herodotus.engine.rest.crypto.domain.SecretKey;
+import cn.herodotus.engine.assistant.core.domain.SecretKey;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -78,8 +78,8 @@ public class IdentityController {
         SecretKey secretKey = interfaceSecurityService.createSecretKey(sessionCreate.getClientId(), sessionCreate.getClientSecret(), sessionCreate.getSessionId());
         if (ObjectUtils.isNotEmpty(secretKey)) {
             Session session = new Session();
-            session.setSessionId(secretKey.getSessionId());
-            session.setPublicKey(interfaceSecurityService.appendPkcs8PublicKeyPadding(secretKey.getPublicKeyBase64()));
+            session.setSessionId(secretKey.getIdentity());
+            session.setPublicKey(secretKey.getPublicKey());
 
             return Result.content(session);
         }

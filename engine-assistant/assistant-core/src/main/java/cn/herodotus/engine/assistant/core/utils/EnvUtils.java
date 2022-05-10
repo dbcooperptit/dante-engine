@@ -39,7 +39,7 @@ import java.net.UnknownHostException;
  */
 public class EnvUtils {
 
-    private static final Logger log = LoggerFactory.getLogger(BeanUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(EnvUtils.class);
 
     /**
      * 获取运行主机ip地址

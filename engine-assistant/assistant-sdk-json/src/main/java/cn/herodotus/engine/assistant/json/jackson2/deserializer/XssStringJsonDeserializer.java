@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.assistant.json.jackson2.deserializer;
 
-import cn.herodotus.engine.assistant.secure.utils.XssUtils;
+import cn.herodotus.engine.assistant.core.utils.XssUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;

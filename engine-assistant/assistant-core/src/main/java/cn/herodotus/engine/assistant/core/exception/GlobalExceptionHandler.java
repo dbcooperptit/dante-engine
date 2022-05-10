@@ -114,9 +114,9 @@ public class GlobalExceptionHandler {
         EXCEPTION_DICTIONARY.put("LockedException", getUnauthorizedResult(ResultErrorCodes.ACCOUNT_LOCKED));
         EXCEPTION_DICTIONARY.put("UsernameNotFoundException", getUnauthorizedResult(ResultErrorCodes.USERNAME_NOT_FOUND));
         // 405.** 对应错误
-        EXCEPTION_DICTIONARY.put("HttpRequestMethodNotSupportedException", getResult(ResultErrorCodes.HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION, HttpStatus.SC_METHOD_NOT_ALLOWED));
+        EXCEPTION_DICTIONARY.put("HttpRequestMethodNotSupportedException", getResult(ResultErrorCodes.HTTP_REQUEST_METHOD_NOT_SUPPORTED, HttpStatus.SC_METHOD_NOT_ALLOWED));
         // 415.** 对应错误
-        EXCEPTION_DICTIONARY.put("HttpMediaTypeNotAcceptableException", getUnsupportedMediaTypeResult(ResultErrorCodes.HTTP_MEDIA_TYPE_NOT_ACCEPTABLE_EXCEPTION));
+        EXCEPTION_DICTIONARY.put("HttpMediaTypeNotAcceptableException", getUnsupportedMediaTypeResult(ResultErrorCodes.HTTP_MEDIA_TYPE_NOT_ACCEPTABLE));
         // 5*.** 对应错误
         EXCEPTION_DICTIONARY.put("IllegalArgumentException", getInternalServerErrorResult(ResultErrorCodes.ILLEGAL_ARGUMENT_EXCEPTION));
         EXCEPTION_DICTIONARY.put("NullPointerException", getInternalServerErrorResult(ResultErrorCodes.NULL_POINTER_EXCEPTION));

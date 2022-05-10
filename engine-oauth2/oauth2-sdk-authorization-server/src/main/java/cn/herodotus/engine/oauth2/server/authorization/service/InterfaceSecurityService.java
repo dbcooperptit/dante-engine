@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.oauth2.server.authorization.service;
 
-import cn.herodotus.engine.rest.crypto.domain.SecretKey;
-import cn.herodotus.engine.rest.crypto.enhance.InterfaceCryptoProcessor;
+import cn.herodotus.engine.assistant.core.domain.SecretKey;
+import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +48,16 @@ public class InterfaceSecurityService {
     private static final String PKCS8_BEGIN = "-----BEGIN PUBLIC KEY-----";
     private static final String PKCS8_END = "-----END PUBLIC KEY-----";
 
-    private final InterfaceCryptoProcessor interfaceCryptoProcessor;
+    private final HttpCryptoProcessor httpCryptoProcessor;
 
     @Autowired
-    public InterfaceSecurityService(InterfaceCryptoProcessor interfaceCryptoProcessor) {
-        this.interfaceCryptoProcessor = interfaceCryptoProcessor;
+    public InterfaceSecurityService(HttpCryptoProcessor httpCryptoProcessor) {
+        this.httpCryptoProcessor = httpCryptoProcessor;
     }
 
     public SecretKey createSecretKey(String clientId, String clientSecret, String sessionId) {
         // 检测终端是否是有效终端
-        return interfaceCryptoProcessor.createSecretKey(sessionId, 60);
+        return httpCryptoProcessor.createSecretKey(sessionId, 60);
     }
 
     /**
@@ -68,10 +68,6 @@ public class InterfaceSecurityService {
      * @return 前端RSA PublicKey 加密后的 AES Key
      */
     public String exchange(String sessionId, String confidentialBase64) {
-        return interfaceCryptoProcessor.exchange(sessionId, confidentialBase64);
-    }
-
-    public String appendPkcs8PublicKeyPadding(String key) {
-        return interfaceCryptoProcessor.convertPublicKeyToPkcs8Padding(key);
+        return httpCryptoProcessor.exchange(sessionId, confidentialBase64);
     }
 }
