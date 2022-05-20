@@ -26,17 +26,25 @@
 package cn.herodotus.engine.web.rest.configuration;
 
 import cn.herodotus.engine.web.rest.properties.RestTemplateProperties;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
@@ -55,12 +63,39 @@ public class RestTemplateConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(RestTemplateConfiguration.class);
 
-    @Autowired
-    private RestTemplateProperties restTemplateProperties;
-
     @PostConstruct
     public void postConstruct() {
         log.debug("[Herodotus] |- SDK [Engine Web Rest Template] Auto Configure.");
+    }
+
+    @Bean
+    public HttpClient httpClient(RestTemplateProperties restTemplateProperties) {
+
+        Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
+                .register("http", PlainConnectionSocketFactory.getSocketFactory())
+                .register("https", SSLConnectionSocketFactory.getSocketFactory())
+                .build();
+
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);
+        //设置连接池最大是100个连接
+        connectionManager.setMaxTotal(restTemplateProperties.getMaxTotal());
+        connectionManager.setDefaultMaxPerRoute(restTemplateProperties.getMaxPerRoute());
+        RequestConfig requestConfig = RequestConfig.custom()
+                //连接上服务器的超时时间
+                .setConnectTimeout(restTemplateProperties.getConnectTimeout())
+                .setSocketTimeout(restTemplateProperties.getSocketTimeout())
+                .setConnectionRequestTimeout(restTemplateProperties.getConnectionRequestTimeout())
+                  .setContentCompressionEnabled(restTemplateProperties.getCompressionEnabled())
+                .build();
+
+        return HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).setConnectionManager(connectionManager).build();
+    }
+
+    @Bean
+    public ClientHttpRequestFactory clientHttpRequestFactory(HttpClient httpClient) {
+        HttpComponentsClientHttpRequestFactory httpComponentsClientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        log.trace("[Herodotus] |- Bean [Client Http Request Factory] Auto Configure.");
+        return httpComponentsClientHttpRequestFactory;
     }
 
     /**
@@ -94,20 +129,9 @@ public class RestTemplateConfiguration {
         restTemplate.setErrorHandler(responseErrorHandler);
 
         restTemplate.getMessageConverters().clear();
-        restTemplate.getMessageConverters().add(new FastJsonHttpMessageConverter());
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
         log.trace("[Herodotus] |- Bean [Rest Template] Auto Configure.");
         return restTemplate;
-    }
-
-    @Bean
-    public ClientHttpRequestFactory clientHttpRequestFactory() {
-        OkHttp3ClientHttpRequestFactory factory = new OkHttp3ClientHttpRequestFactory();
-        //读取超时5秒,默认无限限制,单位：毫秒
-        factory.setReadTimeout(restTemplateProperties.getReadTimeout());
-        //连接超时10秒，默认无限制，单位：毫秒
-        factory.setConnectTimeout(restTemplateProperties.getConnectTimeout());
-        log.trace("[Herodotus] |- Bean [Client Http Request Factory] Auto Configure.");
-        return factory;
     }
 }

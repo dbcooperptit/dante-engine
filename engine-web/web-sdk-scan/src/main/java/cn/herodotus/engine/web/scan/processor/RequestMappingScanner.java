@@ -36,10 +36,12 @@ import cn.hutool.crypto.SecureUtil;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.actuate.endpoint.web.servlet.ControllerEndpointHandlerMapping;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -95,26 +97,31 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         }
 
         // 3、获取所有接口映射
-        RequestMappingHandlerMapping requestMappingHandlerMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
+        Map<String, RequestMappingHandlerMapping> mappings = applicationContext.getBeansOfType(RequestMappingHandlerMapping.class);
+
         // 4、 获取url与类和方法的对应信息
         List<RequestMapping> resources = new ArrayList<>();
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
-        for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-            RequestMappingInfo requestMappingInfo = entry.getKey();
-            HandlerMethod handlerMethod = entry.getValue();
+        for (RequestMappingHandlerMapping mapping : mappings.values()) {
+            Map<RequestMappingInfo, HandlerMethod> handlerMethods = mapping.getHandlerMethods();
+            if (MapUtils.isNotEmpty(handlerMethods)) {
+                for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
+                    RequestMappingInfo requestMappingInfo = entry.getKey();
+                    HandlerMethod handlerMethod = entry.getValue();
 
-            // 4.1、如果是被排除的requestMapping，那么就进行不扫描
-            if (isExcludedRequestMapping(handlerMethod)) {
-                continue;
+                    // 4.1、如果是被排除的requestMapping，那么就进行不扫描
+                    if (isExcludedRequestMapping(handlerMethod)) {
+                        continue;
+                    }
+
+                    // 4.2、拼装扫描信息
+                    RequestMapping requestMapping = createRequestMapping(serviceId, requestMappingInfo, handlerMethod);
+                    if (ObjectUtils.isEmpty(requestMapping)) {
+                        continue;
+                    }
+
+                    resources.add(requestMapping);
+                }
             }
-
-            // 4.2、拼装扫描信息
-            RequestMapping requestMapping = createRequestMapping(serviceId, requestMappingInfo, handlerMethod);
-            if (ObjectUtils.isEmpty(requestMapping)) {
-                continue;
-            }
-
-            resources.add(requestMapping);
         }
 
         if (CollectionUtils.isNotEmpty(resources)) {
