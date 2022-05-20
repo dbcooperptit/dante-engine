@@ -26,7 +26,10 @@
 package cn.herodotus.engine.web.rest.properties;
 
 import cn.herodotus.engine.web.core.constants.WebConstants;
+import com.google.common.base.MoreObjects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Description: Rest Template 配置 </p>
@@ -36,28 +39,89 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = WebConstants.PROPERTY_REST_TEMPLATE)
 public class RestTemplateProperties {
-    /**
-     * RestTemplate 读取超时5秒,默认无限限制,单位：毫秒
-     */
-    private int readTimeout = 15000;
-    /**
-     * 连接超时15秒，默认无限制，单位：毫秒
-     */
-    private int connectTimeout = 15000;
 
-    public int getReadTimeout() {
-        return readTimeout;
+    /**
+     * 连接池最大连接数，默认：1000
+     */
+    private Integer maxTotal = 1000;
+    /**
+     * 连接池每条线路最大值，默认：500
+     */
+    private Integer maxPerRoute = 500;
+    /**
+     * 连接上服务器的超时时间，默认值 10000 毫秒；
+     */
+    private Integer connectTimeout = 10000;
+    /**
+     * 从连接池中获取连接的超时时间, 默认值 1000 毫秒
+     */
+    private Integer connectionRequestTimeout = 1000;
+    /**
+     * 返回数据超时时间，默认值 20000 毫秒
+     */
+    private Integer socketTimeout = 20000;
+    /**
+     * 开启内容压缩
+     */
+    private Boolean compressionEnabled = false;
+
+    public Integer getMaxTotal() {
+        return maxTotal;
     }
 
-    public void setReadTimeout(int readTimeout) {
-        this.readTimeout = readTimeout;
+    public void setMaxTotal(Integer maxTotal) {
+        this.maxTotal = maxTotal;
     }
 
-    public int getConnectTimeout() {
+    public Integer getMaxPerRoute() {
+        return maxPerRoute;
+    }
+
+    public void setMaxPerRoute(Integer maxPerRoute) {
+        this.maxPerRoute = maxPerRoute;
+    }
+
+    public Integer getConnectTimeout() {
         return connectTimeout;
     }
 
-    public void setConnectTimeout(int connectTimeout) {
+    public void setConnectTimeout(Integer connectTimeout) {
         this.connectTimeout = connectTimeout;
+    }
+
+    public Integer getConnectionRequestTimeout() {
+        return connectionRequestTimeout;
+    }
+
+    public void setConnectionRequestTimeout(Integer connectionRequestTimeout) {
+        this.connectionRequestTimeout = connectionRequestTimeout;
+    }
+
+    public Integer getSocketTimeout() {
+        return socketTimeout;
+    }
+
+    public void setSocketTimeout(Integer socketTimeout) {
+        this.socketTimeout = socketTimeout;
+    }
+
+    public Boolean getCompressionEnabled() {
+        return compressionEnabled;
+    }
+
+    public void setCompressionEnabled(Boolean compressionEnabled) {
+        this.compressionEnabled = compressionEnabled;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("maxTotal", maxTotal)
+                .add("maxPerRoute", maxPerRoute)
+                .add("connectTimeout", connectTimeout)
+                .add("connectionRequestTimeout", connectionRequestTimeout)
+                .add("socketTimeout", socketTimeout)
+                .add("compressionEnabled", compressionEnabled)
+                .toString();
     }
 }
