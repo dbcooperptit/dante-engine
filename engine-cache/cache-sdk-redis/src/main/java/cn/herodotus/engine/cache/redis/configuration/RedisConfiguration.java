@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
@@ -52,6 +53,7 @@ import javax.annotation.PostConstruct;
  * @date : 2022/5/23 17:00
  */
 @Configuration(proxyBeanMethods = false)
+@Import(RedisSessionConfiguration.class)
 public class RedisConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(RedisConfiguration.class);

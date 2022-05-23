@@ -23,28 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.core.support;
+package cn.herodotus.engine.cache.redis.annotation;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
-import org.springframework.core.env.Environment;
+import cn.herodotus.engine.cache.redis.condition.RedisSessionSharingCondition;
+import org.springframework.context.annotation.Conditional;
+
+import java.lang.annotation.*;
 
 /**
- * <p>Description: 通用属性读取器 </p>
+ * <p>Description: 基于 Redis Session 共享条件注解 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/1 18:10
+ * @date : 2022/5/23 22:34
  */
-public class PropertyFinder {
-
-    public static String getApplicationName(Environment environment) {
-        return PropertyResolver.getProperty(environment, BaseConstants.ITEM_SPRING_APPLICATION_NAME);
-    }
-
-    public static String getServerPort(Environment environment) {
-        return PropertyResolver.getProperty(environment, BaseConstants.ITEM_SERVER_PORT);
-    }
-
-    public static String getSessionStoreType(Environment environment) {
-        return PropertyResolver.getProperty(environment, BaseConstants.ITEM_SPRING_SESSION_STORE_TYPE);
-    }
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Conditional(RedisSessionSharingCondition.class)
+public @interface ConditionalOnRedisSessionSharing {
 }
