@@ -63,8 +63,10 @@ herodotus-engine
 ├── engine-cache -- 缓存模块
 ├    ├── cache-core -- 缓存通用代码组件
 ├    ├── cache-layer-spring-boot-starter -- 自研多级缓存 Starter
+├    ├── cache-sdk-caffeine -- Caffeine 缓存配置相关代码组件模块
 ├    ├── cache-sdk-jetcache -- JetCache 组件相关代码模块
 ├    ├── cache-sdk-layer -- 自研多级缓存组件代码模块
+├    ├── cache-sdk-redis -- Caffeine 缓存配置相关代码组件模块
 ├    ├── cache-sdk-redisson -- Redisson 组件相关代码模块
 ├    └── cache-spring-boot-starter -- Cache  模块统一 Starter
 ├── engine-captcha -- 验证码模块
