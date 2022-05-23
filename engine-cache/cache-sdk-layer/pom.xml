@@ -42,20 +42,17 @@
     <description>基于 Spring Authorization Server 的 Eurynome Cloud 自研多级缓存组件代码模块</description>
 
     <dependencies>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>cache-core</artifactId>
+            <artifactId>cache-sdk-redis</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>cache-sdk-caffeine</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

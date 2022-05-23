@@ -23,11 +23,11 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.layer.enhance.redis;
+package cn.herodotus.engine.cache.redis.enhance;
 
-import cn.herodotus.engine.cache.layer.properties.CacheProperties;
-import cn.herodotus.engine.cache.core.properties.Expire;
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.cache.core.properties.CacheProperties;
+import cn.herodotus.engine.cache.core.properties.Expire;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

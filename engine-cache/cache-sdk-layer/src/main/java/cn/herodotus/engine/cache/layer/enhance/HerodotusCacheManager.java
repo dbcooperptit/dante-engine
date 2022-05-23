@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.layer.enhance.layer;
+package cn.herodotus.engine.cache.layer.enhance;
 
 import cn.herodotus.engine.cache.core.properties.Expire;
 import org.slf4j.Logger;

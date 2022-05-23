@@ -23,11 +23,11 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.layer.enhance.caffeine;
+package cn.herodotus.engine.cache.caffeine.enhance;
 
-import cn.herodotus.engine.cache.layer.properties.CacheProperties;
-import cn.herodotus.engine.cache.core.properties.Expire;
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.cache.core.properties.CacheProperties;
+import cn.herodotus.engine.cache.core.properties.Expire;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.apache.commons.collections4.MapUtils;

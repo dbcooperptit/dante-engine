@@ -23,10 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.layer.properties;
+package cn.herodotus.engine.cache.core.properties;
 
 import cn.herodotus.engine.cache.core.constants.CacheConstants;
-import cn.herodotus.engine.cache.core.properties.Expire;
 import com.google.common.base.MoreObjects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

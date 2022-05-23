@@ -25,8 +25,10 @@
 
 package cn.herodotus.engine.cache.layer.configuration;
 
-import cn.herodotus.engine.cache.layer.properties.CacheProperties;
-import cn.herodotus.engine.cache.layer.enhance.layer.HerodotusCacheManager;
+import cn.herodotus.engine.cache.caffeine.configuration.CaffeineConfiguration;
+import cn.herodotus.engine.cache.core.properties.CacheProperties;
+import cn.herodotus.engine.cache.layer.enhance.HerodotusCacheManager;
+import cn.herodotus.engine.cache.redis.configuration.RedisConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

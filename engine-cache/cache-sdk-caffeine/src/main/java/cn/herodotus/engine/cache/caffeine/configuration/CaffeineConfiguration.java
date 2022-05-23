@@ -23,28 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.layer.configuration;
+package cn.herodotus.engine.cache.caffeine.configuration;
 
-import cn.herodotus.engine.cache.layer.enhance.caffeine.HerodotusCaffeineCacheManager;
-import cn.herodotus.engine.cache.layer.properties.CacheProperties;
+import cn.herodotus.engine.cache.caffeine.enhance.HerodotusCaffeineCacheManager;
+import cn.herodotus.engine.cache.core.properties.CacheProperties;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 /**
- * <p>Description: Caffeine配置 </p>
+ * <p>Description: Caffeine 配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/7/12 17:20
+ * @date : 2022/5/23 17:56
  */
 @Configuration(proxyBeanMethods = false)
 public class CaffeineConfiguration {
@@ -61,7 +59,8 @@ public class CaffeineConfiguration {
 
     @Bean
     public Caffeine<Object, Object> caffeine() {
-        Caffeine<Object, Object> caffeine = Caffeine.newBuilder()
+        Caffeine<Object, Object> caffeine = Caffeine
+                .newBuilder()
                 .expireAfterWrite(cacheProperties.getDuration(), cacheProperties.getUnit());
 
         log.trace("[Herodotus] |- Bean [Caffeine] Auto Configure.");

@@ -23,22 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.cache.layer.configuration;
+package cn.herodotus.engine.cache.redis.configuration;
 
-import cn.herodotus.engine.cache.layer.enhance.redis.HerodotusRedisCacheManager;
-import cn.herodotus.engine.cache.layer.original.LettuceConnectionConfiguration;
-import cn.herodotus.engine.cache.layer.properties.CacheProperties;
+import cn.herodotus.engine.cache.core.properties.CacheProperties;
+import cn.herodotus.engine.cache.redis.enhance.HerodotusRedisCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
@@ -52,20 +46,23 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import javax.annotation.PostConstruct;
 
 /**
- * Redis缓存配置
+ * <p>Description: Redis 配置 </p>
  *
- * @author gengwei.zheng
+ * @author : gengwei.zheng
+ * @date : 2022/5/23 17:00
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureBefore(RedisAutoConfiguration.class)
-@EnableConfigurationProperties(RedisProperties.class)
-@Import({LettuceConnectionConfiguration.class})
 public class RedisConfiguration {
 
-    private final Logger log = LoggerFactory.getLogger(RedisConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(RedisConfiguration.class);
 
     @Autowired
     private CacheProperties cacheProperties;
+
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Herodotus] |- SDK [Engine Cache Redis] Auto Configure.");
+    }
 
     private RedisSerializer<String> keySerializer() {
         return new StringRedisSerializer();
@@ -73,11 +70,6 @@ public class RedisConfiguration {
 
     private RedisSerializer<Object> valueSerializer() {
         return new Jackson2JsonRedisSerializer<>(Object.class);
-    }
-
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Cache Redis] Auto Configure.");
     }
 
     /**
@@ -115,7 +107,6 @@ public class RedisConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(RedisCacheManager.class)
     public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
 

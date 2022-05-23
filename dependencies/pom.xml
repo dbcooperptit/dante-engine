@@ -244,6 +244,16 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
+                <artifactId>cache-sdk-redis</artifactId>
+                <version>${herodotus-engine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>cache-sdk-caffeine</artifactId>
+                <version>${herodotus-engine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
                 <artifactId>cache-sdk-redisson</artifactId>
                 <version>${herodotus-engine.version}</version>
             </dependency>
