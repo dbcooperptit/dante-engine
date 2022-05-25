@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.oauth2.server.authorization.dto;
 
-import cn.herodotus.engine.assistant.json.jackson2.deserializer.ArrayOrStringDeserializer;
+import cn.herodotus.engine.assistant.core.json.jackson2.deserializer.ArrayOrStringDeserializer;
 import cn.herodotus.engine.oauth2.core.enums.ApplicationType;
 import cn.herodotus.engine.oauth2.core.enums.Signature;
 import cn.herodotus.engine.oauth2.core.enums.TokenFormat;

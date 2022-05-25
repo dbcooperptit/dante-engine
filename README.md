@@ -13,7 +13,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.1.0-brightgreen" alt="Nacos 2.1.0"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.0-red" alt="Version 2.7.0.0"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.10-red" alt="Version 2.7.0.10"></a>
 </p>
 
 <p align="center">
@@ -58,13 +58,14 @@ herodotus-engine
 ├    └── readme -- README 相关素材放置目录
 ├── engine-assistant -- 核心通用代码包
 ├    ├── assistant-core -- 核心通用代码组件
-├    ├── assistant-sdk-json -- Json 通用代码组件
 ├    └── assistant-spring-boot-starter -- Assistant  模块统一 Starter
 ├── engine-cache -- 缓存模块
 ├    ├── cache-core -- 缓存通用代码组件
 ├    ├── cache-layer-spring-boot-starter -- 自研多级缓存 Starter
+├    ├── cache-sdk-caffeine -- Caffeine 缓存配置相关代码组件模块
 ├    ├── cache-sdk-jetcache -- JetCache 组件相关代码模块
 ├    ├── cache-sdk-layer -- 自研多级缓存组件代码模块
+├    ├── cache-sdk-redis -- Caffeine 缓存配置相关代码组件模块
 ├    ├── cache-sdk-redisson -- Redisson 组件相关代码模块
 ├    └── cache-spring-boot-starter -- Cache  模块统一 Starter
 ├── engine-captcha -- 验证码模块

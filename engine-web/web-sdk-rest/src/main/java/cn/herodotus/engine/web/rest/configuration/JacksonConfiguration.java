@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.web.rest.configuration;
 
-import cn.herodotus.engine.assistant.json.jackson2.utils.Jackson;
+import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +60,7 @@ public class JacksonConfiguration {
     @Primary
     public ObjectMapper jacksonObjectMapper() {
         log.trace("[Herodotus] |- Bean [Jackson Object Mapper] Auto Configure.");
-        return Jackson.getObjectMapper();
+        return JacksonUtils.getObjectMapper();
     }
 
     /**

@@ -26,15 +26,17 @@
 package cn.herodotus.engine.assistant.core.utils;
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.core.json.gson.GsonUtils;
 import cn.hutool.core.net.URLDecoder;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -103,17 +105,43 @@ public class SqlInjectionUtils {
      */
     public static boolean checkForPost(String value) {
 
-        Object jsonObj = JSON.parse(value);
-        if (jsonObj instanceof JSONObject) {
-            JSONObject json = (JSONObject) jsonObj;
-            return json.entrySet().stream().parallel().anyMatch(entry -> checking(entry.getValue()));
-        }
+        List<JsonElement> result = new ArrayList<>();
 
-        if (jsonObj instanceof JSONArray) {
-            JSONArray json = (JSONArray) jsonObj;
-            return json.stream().parallel().anyMatch(SqlInjectionUtils::checking);
-        }
+        JsonElement jsonElement = GsonUtils.toJsonElement(value);
+        iterator(jsonElement, result);
 
-        return false;
+        return CollectionUtils.isNotEmpty(result);
     }
+
+    private static void iterator(JsonElement jsonElement, List<JsonElement> result) {
+        if (jsonElement.isJsonNull()) {
+            return;
+        }
+
+        if (jsonElement.isJsonPrimitive()) {
+            boolean hasInjection = checking(jsonElement.toString());
+            if (hasInjection) {
+                result.add(jsonElement);
+            }
+            return;
+        }
+
+        if (jsonElement.isJsonArray()) {
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
+            if (ObjectUtils.isNotEmpty(jsonArray)) {
+                for (JsonElement je : jsonArray) {
+                    iterator(je, result);
+                }
+            }
+            return;
+        }
+
+        if (jsonElement.isJsonObject()) {
+            Set<Map.Entry<String, JsonElement>> es = jsonElement.getAsJsonObject().entrySet();
+            for (Map.Entry<String, JsonElement> en : es) {
+                iterator(en.getValue(), result);
+            }
+        }
+    }
+
 }

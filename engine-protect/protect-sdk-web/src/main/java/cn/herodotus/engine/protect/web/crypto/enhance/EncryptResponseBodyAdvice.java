@@ -26,7 +26,7 @@
 package cn.herodotus.engine.protect.web.crypto.enhance;
 
 import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
-import cn.herodotus.engine.assistant.json.jackson2.utils.Jackson;
+import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
 import cn.herodotus.engine.protect.core.annotation.Crypto;
 import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -87,7 +87,7 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         String className = methodParameter.getDeclaringClass().getName();
 
         try {
-            String bodyString = Jackson.getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(body);
+            String bodyString = JacksonUtils.getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(body);
             String result = httpCryptoProcessor.encrypt(sessionKey, bodyString);
             if (StringUtils.isNotBlank(result)) {
                 log.debug("[Herodotus] |- Encrypt response body for rest method [{}] in [{}] finished.", methodName, className);

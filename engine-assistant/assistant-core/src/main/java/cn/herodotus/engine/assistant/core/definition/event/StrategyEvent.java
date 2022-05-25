@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.assistant.core.definition.event;
 
-import com.alibaba.fastjson.JSON;
+import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
 
 /**
  * <p>Description: 策略 Event 定义 </p>
@@ -73,7 +73,7 @@ public interface StrategyEvent<T> {
         if (isLocal(destinationService)) {
             postLocalProcess(data);
         } else {
-            postRemoteProcess(JSON.toJSONString(data), originService, destinationService);
+            postRemoteProcess(JacksonUtils.toJson(data), originService, destinationService);
         }
     }
 }

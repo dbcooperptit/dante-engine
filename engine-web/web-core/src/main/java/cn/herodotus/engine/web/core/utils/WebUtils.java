@@ -26,8 +26,8 @@
 package cn.herodotus.engine.web.core.utils;
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson.JSON;
 import com.google.common.net.HttpHeaders;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -145,7 +145,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
      * @param object   需要转换的对象
      */
     public static void renderJson(HttpServletResponse response, Object object) {
-        renderJson(response, JSON.toJSONString(object), MediaType.APPLICATION_JSON.toString());
+        renderJson(response, JacksonUtils.toJson(object), MediaType.APPLICATION_JSON.toString());
     }
 
     /**

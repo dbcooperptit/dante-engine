@@ -41,6 +41,7 @@ public interface BaseConstants {
     String PROPERTY_ENABLED = ".enabled";
 
     String PROPERTY_PREFIX_SPRING = "spring";
+    String PROPERTY_PREFIX_SERVER = "server";
     String PROPERTY_PREFIX_HERODOTUS = "herodotus";
 
     String PROPERTY_SPRING_CLOUD = PROPERTY_PREFIX_SPRING + ".cloud";
@@ -61,8 +62,9 @@ public interface BaseConstants {
 
     /* ---------- Spring 家族配置属性 ---------- */
 
-    String ITEM_SPRING_APPLICATION_NAME = "spring.application.name";
-    String ITEM_SERVER_PORT = "server.port";
+    String ITEM_SPRING_APPLICATION_NAME = PROPERTY_PREFIX_SPRING + ".application.name";
+    String ITEM_SPRING_SESSION_STORE_TYPE = PROPERTY_PREFIX_SPRING + ".session.store-type";
+    String ITEM_SERVER_PORT = PROPERTY_PREFIX_SERVER + ".port";
 
     String ANNOTATION_APPLICATION_NAME = ANNOTATION_PREFIX + ITEM_SPRING_APPLICATION_NAME + ANNOTATION_SUFFIX;
 

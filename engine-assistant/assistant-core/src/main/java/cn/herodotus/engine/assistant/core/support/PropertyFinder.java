@@ -43,4 +43,8 @@ public class PropertyFinder {
     public static String getServerPort(Environment environment) {
         return PropertyResolver.getProperty(environment, BaseConstants.ITEM_SERVER_PORT);
     }
+
+    public static String getSessionStoreType(Environment environment) {
+        return PropertyResolver.getProperty(environment, BaseConstants.ITEM_SPRING_SESSION_STORE_TYPE);
+    }
 }

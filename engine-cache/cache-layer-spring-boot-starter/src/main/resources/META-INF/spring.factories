@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.herodotus.engine.cache.layer.autoconfigure.AutoConfiguration,\
-  cn.herodotus.engine.cache.layer.configuration.CaffeineConfiguration,\
-  cn.herodotus.engine.cache.layer.configuration.RedisConfiguration,\
-  cn.herodotus.engine.cache.layer.configuration.LayerConfiguration

@@ -46,8 +46,8 @@ import javax.persistence.*;
 public class OAuth2Authority extends BaseSysEntity {
 
     @Id
-    @GeneratedValue(generator = "authority-uuid")
-    @GenericGenerator(name = "authority-uuid", strategy = "cn.herodotus.engine.oauth2.server.authorization.generator.OAuth2AuthorityUUIDGenerator")
+    @GeneratedValue(generator = "oauth2-authority-uuid")
+    @GenericGenerator(name = "oauth2-authority-uuid", strategy = "cn.herodotus.engine.oauth2.server.authorization.generator.OAuth2AuthorityUUIDGenerator")
     @Column(name = "authority_id", length = 64)
     private String authorityId;
 

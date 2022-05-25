@@ -25,12 +25,9 @@
 
 package cn.herodotus.engine.cache.autoconfigure;
 
-import cn.herodotus.engine.cache.jetcache.configuration.JetCacheConfiguration;
-import cn.herodotus.engine.cache.redisson.configuration.RedissonConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import javax.annotation.PostConstruct;
 
@@ -41,10 +38,6 @@ import javax.annotation.PostConstruct;
  * @date : 2022/1/13 22:29
  */
 @Configuration(proxyBeanMethods = false)
-@Import({
-        RedissonConfiguration.class,
-        JetCacheConfiguration.class,
-})
 public class AutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
