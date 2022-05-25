@@ -25,9 +25,15 @@
 
 package cn.herodotus.engine.cache.jetcache.configuration;
 
+import cn.herodotus.engine.cache.jetcache.enhance.JetCacheBuilder;
 import com.alicp.jetcache.anno.config.EnableCreateCacheAnnotation;
+import com.alicp.jetcache.anno.support.SpringConfigProvider;
+import com.alicp.jetcache.autoconfigure.JetCacheAutoConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -41,6 +47,7 @@ import javax.annotation.PostConstruct;
  * @date : 2021/12/4 10:44
  */
 @Configuration(proxyBeanMethods = false)
+@AutoConfigureAfter(JetCacheAutoConfiguration.class)
 @EnableCreateCacheAnnotation
 public class JetCacheConfiguration {
 
@@ -51,11 +58,11 @@ public class JetCacheConfiguration {
         log.debug("[Herodotus] |- SDK [Engine Cache JetCache] Auto Configure.");
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public JetCacheBuilder jetCacheBuilder(SpringConfigProvider springConfigProvider) {
-//        JetCacheBuilder jetCacheBuilder = new JetCacheBuilder(springConfigProvider);
-//        log.trace("[Herodotus] |- Bean [Jet Cache Builder] Auto Configure.");
-//        return jetCacheBuilder;
-//    }
+    @Bean
+    @ConditionalOnClass(SpringConfigProvider.class)
+    public JetCacheBuilder jetCacheBuilder(SpringConfigProvider springConfigProvider) {
+        JetCacheBuilder jetCacheBuilder = new JetCacheBuilder(springConfigProvider);
+        log.trace("[Herodotus] |- Bean [Jet Cache Builder] Auto Configure.");
+        return jetCacheBuilder;
+    }
 }
