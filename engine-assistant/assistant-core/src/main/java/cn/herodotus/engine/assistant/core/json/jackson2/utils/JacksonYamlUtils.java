@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.json.jackson2.utils;
+package cn.herodotus.engine.assistant.core.json.jackson2.utils;
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -40,9 +40,9 @@ import org.slf4j.LoggerFactory;
  * @author : gengwei.zheng
  * @date : 2020/5/3 8:50
  */
-public class Yaml {
+public class JacksonYamlUtils {
 
-    private static final Logger log = LoggerFactory.getLogger(Yaml.class);
+    private static final Logger log = LoggerFactory.getLogger(JacksonYamlUtils.class);
 
     private static final ObjectMapper objectMapper;
 

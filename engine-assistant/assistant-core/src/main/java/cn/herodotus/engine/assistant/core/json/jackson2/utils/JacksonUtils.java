@@ -23,15 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.json.jackson2.utils;
+package cn.herodotus.engine.assistant.core.json.jackson2.utils;
 
-import cn.herodotus.engine.assistant.json.jackson2.deserializer.XssStringJsonDeserializer;
+import cn.herodotus.engine.assistant.core.json.jackson2.deserializer.XssStringJsonDeserializer;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,9 +49,9 @@ import java.util.function.Function;
  * @author gengwei.zheng
  */
 @Component
-public class Jackson {
+public class JacksonUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(Jackson.class);
+    private static final Logger logger = LoggerFactory.getLogger(JacksonUtils.class);
 
     private static ObjectMapper OBJECT_MAPPER;
 
@@ -113,6 +114,10 @@ public class Jackson {
         }
     }
 
+    public static TypeFactory getTypeFactory() {
+        return getObjectMapper().getTypeFactory();
+    }
+
     public static <T> T toObject(String content, Class<T> valueType) {
         try {
             return getObjectMapper().readValue(content, valueType);
@@ -145,30 +150,18 @@ public class Jackson {
         return toObject(content, javaType);
     }
 
-    public static <T> List<T> toList(String content) {
-        return toObject(content, new TypeReference<List<T>>() {});
-    }
-
     public static <K, V> Map<K, V> toMap(String content, Class<K> keyClass, Class<V> valueClass) {
         JavaType javaType = getObjectMapper().getTypeFactory().constructMapType(Map.class, keyClass, valueClass);
         return toObject(content, javaType);
     }
 
-    public static <K, V> Map<K, V> toMap(String content) {
-        return toObject(content, new TypeReference<Map<K, V>>() {});
-    }
-
     public static <T> Set<T> toSet(String content, Class<T> clazz) {
-        JavaType javaType = getObjectMapper().getTypeFactory().constructCollectionLikeType(Set.class, clazz);
+        JavaType javaType = getTypeFactory().constructCollectionLikeType(Set.class, clazz);
         return toObject(content, javaType);
     }
 
-    public static <T> Set<T> toSet(String content) {
-        return toObject(content, new TypeReference<Set<T>>() {});
-    }
-
     public static <T> T[] toArray(String content, Class<T> clazz) {
-        JavaType javaType = getObjectMapper().getTypeFactory().constructArrayType(clazz);
+        JavaType javaType = getTypeFactory().constructArrayType(clazz);
         return toObject(content, javaType);
     }
 

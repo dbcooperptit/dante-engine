@@ -23,41 +23,51 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.assistant.json.jackson2.deserializer;
+package cn.herodotus.engine.assistant.core.json.jackson2.deserializer;
 
-import cn.herodotus.engine.assistant.core.utils.XssUtils;
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
- * <p>Description: Xss Json 处理 </p>
+ * <p>Description: 数组转字符串序列化 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/8/30 23:58
+ * @date : 2022/3/18 12:16
  */
-public class XssStringJsonDeserializer extends JsonDeserializer<String> {
+public class ArrayOrStringDeserializer extends StdDeserializer<Set<String>> {
 
-    private static final Logger log = LoggerFactory.getLogger(XssStringJsonDeserializer.class);
+    public ArrayOrStringDeserializer() {
+        super(Set.class);
+    }
 
-    @Override
-    public Class<String> handledType() {
-        return String.class;
+    public JavaType getValueType() {
+        return TypeFactory.defaultInstance().constructType(String.class);
     }
 
     @Override
-    public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-        String value = jsonParser.getValueAsString();
-        if (StringUtils.isNotBlank(value)) {
-            return XssUtils.cleaning(value);
+    public Set<String> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JacksonException {
+        JsonToken token = jp.getCurrentToken();
+        if (token.isScalarValue()) {
+            String list = jp.getText();
+            list = list.replaceAll("\\s+", ",");
+            return new LinkedHashSet(Arrays.asList(StringUtils.commaDelimitedListToStringArray(list)));
+        } else {
+            return jp.readValueAs(new TypeReference<Set<String>>() {
+            });
         }
-
-        return value;
     }
+
+
 }

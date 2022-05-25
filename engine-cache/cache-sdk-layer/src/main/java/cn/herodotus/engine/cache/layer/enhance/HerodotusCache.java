@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.cache.layer.enhance;
 
+import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
 import cn.hutool.crypto.SecureUtil;
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -82,13 +82,13 @@ public class HerodotusCache extends AbstractValueAdaptingCache {
 
         Object caffeineValue = caffeineCache.get(secure);
         if (ObjectUtils.isNotEmpty(caffeineValue)) {
-            log.trace("[Herodotus] |- CACHE - Found the cache in caffeine cache, value is : [{}]", JSON.toJSONString(caffeineValue));
+            log.trace("[Herodotus] |- CACHE - Found the cache in caffeine cache, value is : [{}]", JacksonUtils.toJson(caffeineValue));
             return caffeineValue;
         }
 
         Object redisValue = redisCache.get(secure);
         if (ObjectUtils.isNotEmpty(redisValue)) {
-            log.trace("[Herodotus] |- CACHE - Found the cache in redis cache, value is : [{}]", JSON.toJSONString(redisValue));
+            log.trace("[Herodotus] |- CACHE - Found the cache in redis cache, value is : [{}]", JacksonUtils.toJson(redisValue));
             return redisValue;
         }
 

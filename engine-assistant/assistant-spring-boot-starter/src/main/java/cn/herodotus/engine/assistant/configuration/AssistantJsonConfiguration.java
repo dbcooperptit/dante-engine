@@ -23,38 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.data.jpa;
+package cn.herodotus.engine.assistant.configuration;
 
-import cn.herodotus.engine.assistant.core.definition.domain.AbstractEntity;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-import javax.persistence.AttributeConverter;
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.PostConstruct;
 
 /**
- * <p> Description : Jpa JSON字符串字段与List自动转换 </p>
+ * <p>Description: Json 模块 配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2020/3/31 11:11
+ * @date : 2022/3/4 22:34
  */
-public abstract class BaseJpaListJsonConverter<T extends AbstractEntity> implements AttributeConverter<List<T>, String> {
+@Configuration(proxyBeanMethods = false)
+@AutoConfigureAfter(JacksonAutoConfiguration.class)
+@ComponentScan({
+        "cn.herodotus.engine.assistant.core.json.jackson2.utils"
+})
+public class AssistantJsonConfiguration {
 
-    @Override
-    public String convertToDatabaseColumn(List<T> ts) {
-        return JSON.toJSONString(ts);
-    }
+    private static final Logger log = LoggerFactory.getLogger(AssistantJsonConfiguration.class);
 
-    @Override
-    public List<T> convertToEntityAttribute(String s) {
-        List<T> result = JSON.parseObject(s, new TypeReference<List<T>>() {
-        });
-        if (CollectionUtils.isEmpty(result)) {
-            return new ArrayList<>();
-        } else {
-            return result;
-        }
+    @PostConstruct
+    public void postConstruct() {
+        log.info("[Herodotus] |- SDK [Engine Assistant JSON] Auto Configure.");
     }
 }

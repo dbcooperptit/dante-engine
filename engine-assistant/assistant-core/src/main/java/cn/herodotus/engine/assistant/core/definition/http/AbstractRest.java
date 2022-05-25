@@ -27,7 +27,7 @@ package cn.herodotus.engine.assistant.core.definition.http;
 
 import com.ejlchina.okhttps.HTTP;
 import com.ejlchina.okhttps.MsgConvertor;
-import com.ejlchina.okhttps.fastjson.FastjsonMsgConvertor;
+import com.ejlchina.okhttps.jackson.JacksonMsgConvertor;
 
 /**
  * <p>File: AbstractRestApiService </p>
@@ -53,6 +53,6 @@ public abstract class AbstractRest {
     }
 
     protected MsgConvertor getMsgConvertor() {
-        return new FastjsonMsgConvertor();
+        return new JacksonMsgConvertor();
     }
 }
