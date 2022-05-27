@@ -34,8 +34,11 @@ import org.springframework.core.ResolvableType;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwsEncoder;
-import org.springframework.security.oauth2.server.authorization.*;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
@@ -140,7 +143,7 @@ public final class OAuth2ConfigurerUtils {
             if (jwtEncoder == null) {
                 JWKSource<SecurityContext> jwkSource = getJwkSource(builder);
                 if (jwkSource != null) {
-                    jwtEncoder = new NimbusJwsEncoder(jwkSource);
+                    jwtEncoder = new NimbusJwtEncoder(jwkSource);
                 }
             }
             if (jwtEncoder != null) {
