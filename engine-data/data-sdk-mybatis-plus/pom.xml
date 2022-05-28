@@ -32,11 +32,11 @@
     <parent>
         <artifactId>engine-data</artifactId>
         <groupId>cn.herodotus.engine</groupId>
-        <version>2.7.0.10</version>
+        <version>2.7.0.20</version>
     </parent>
 
     <artifactId>data-sdk-mybatis-plus</artifactId>
-    <version>2.7.0.10</version>
+    <version>2.7.0.20</version>
     <packaging>jar</packaging>
 
     <description>基于 Spring Authorization Server 的 Eurynome Cloud 基础核心组件模块</description>

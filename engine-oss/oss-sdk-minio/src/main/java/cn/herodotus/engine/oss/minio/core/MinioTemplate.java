@@ -275,7 +275,7 @@ public class MinioTemplate {
 
     private int calculate(Duration expires) {
         long data = expires.toMillis() / 1000;
-        return new Long(data).intValue();
+        return (int) data;
     }
 
     public String getObjectURL(String bucketName, String objectName, Duration expires) {

@@ -80,7 +80,7 @@ public final class OAuth2ResourceOwnerPasswordAuthenticationConverter implements
         Set<String> requestedScopes = null;
         if (StringUtils.hasText(scope)) {
             requestedScopes = new HashSet<>(
-                    Arrays.asList(StringUtils.delimitedListToStringArray(scope, ",")));
+                    Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
         }
 
         // username (REQUIRED)
