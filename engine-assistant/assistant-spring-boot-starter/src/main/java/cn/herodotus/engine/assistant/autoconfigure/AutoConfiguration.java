@@ -41,7 +41,8 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @Import({
-        SpringUtil.class
+        SpringUtil.class,
+        JacksonConfiguration.class
 })
 public class AutoConfiguration {
 

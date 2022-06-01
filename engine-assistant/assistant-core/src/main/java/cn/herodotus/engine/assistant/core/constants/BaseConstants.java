@@ -41,6 +41,7 @@ public interface BaseConstants {
     String PROPERTY_ENABLED = ".enabled";
 
     String PROPERTY_PREFIX_SPRING = "spring";
+    String PROPERTY_PREFIX_FEIGN = "feign";
     String PROPERTY_PREFIX_SERVER = "server";
     String PROPERTY_PREFIX_HERODOTUS = "herodotus";
 

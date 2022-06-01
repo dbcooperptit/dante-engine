@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.herodotus.engine.web.autoconfigure.AutoConfiguration,\
-  cn.herodotus.engine.web.rest.configuration.WebRestConfiguration,\
-  cn.herodotus.engine.web.scan.configuration.ScanConfiguration

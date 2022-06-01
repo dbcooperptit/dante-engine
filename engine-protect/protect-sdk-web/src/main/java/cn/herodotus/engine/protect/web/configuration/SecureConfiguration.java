@@ -98,8 +98,6 @@ public class SecureConfiguration {
         return accessLimitedInterceptor;
     }
 
-
-
     @Bean
     @ConditionalOnMissingBean
     public XssHttpServletFilter xssHttpServletFilter() {

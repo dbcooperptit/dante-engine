@@ -25,14 +25,13 @@
 
 package cn.herodotus.engine.assistant.core.json.jackson2.utils;
 
-import cn.herodotus.engine.assistant.core.json.jackson2.deserializer.XssStringJsonDeserializer;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
@@ -42,8 +41,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -66,36 +67,6 @@ public class JacksonUtils {
         } else {
             OBJECT_MAPPER = new ObjectMapper();
         }
-        settings(OBJECT_MAPPER);
-    }
-
-    private void settings(ObjectMapper objectMapper) {
-        // 设置为中国上海时区
-        objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-        // 空值不序列化
-//        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        // 序列化时，日期的统一格式
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-        // 排序key
-        objectMapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-        // 忽略空bean转json错误
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        // 忽略在json字符串中存在，在java类中不存在字段，防止错误。
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        // 单引号处理
-        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
-        /**
-         * 序列换成json时,将所有的long变成string
-         * js中long过长精度丢失
-         */
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-        simpleModule.addDeserializer(String.class, new XssStringJsonDeserializer());
-
-        objectMapper.registerModule(simpleModule);
     }
 
     public static ObjectMapper getObjectMapper() {

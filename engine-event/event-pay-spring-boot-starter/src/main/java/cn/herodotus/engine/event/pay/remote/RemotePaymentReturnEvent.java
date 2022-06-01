@@ -35,7 +35,11 @@ import org.springframework.cloud.bus.event.RemoteApplicationEvent;
  */
 public class RemotePaymentReturnEvent extends RemoteApplicationEvent {
 
-    private final String data;
+    private String data;
+
+    public RemotePaymentReturnEvent() {
+        super();
+    }
 
     public RemotePaymentReturnEvent(String data, String originService, String destinationService) {
         super(data, originService, DEFAULT_DESTINATION_FACTORY.getDestination(destinationService));
