@@ -13,7 +13,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.1.0-brightgreen" alt="Nacos 2.1.0"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.20-red" alt="Version 2.7.0.20"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.30-red" alt="Version 2.7.0.30"></a>
 </p>
 
 <p align="center">
@@ -108,8 +108,8 @@ herodotus-engine
 ├    ├── pay-sdk-all -- 支付方式整合组件相关代码模块
 ├    ├── pay-sdk-wxpay -- 微信支付组件相关代码模块
 ├    └── pay-spring-boot-starter -- Pay 模块统一 Starter
-├── engine-protect -- 防护模块
-├    ├── protect-core -- Web防护共性通用代码
+├── engine-protect -- Rest API 防护组件
+├    ├── protect-core -- Rest API 防护共性代码模块组件
 ├    ├── protect-sdk-web -- 前后端数据加密、接口幂等、防刷、Xss和SQL注入防护组件相关代码模块
 ├    └── protect-sdk-spring-boot-starter -- Protect 模块统一 Starter
 ├── engine-rest -- 服务Rest接口模块
@@ -120,8 +120,8 @@ herodotus-engine
 ├    ├── temporal-sdk-influxdb -- Influxdb 组件相关代码模块
 ├    └── temporal-spring-boot-starter -- Temporal 模块统一 Starter
 ├── engine-web -- Web处理模块
-├    ├── web-core -- Web共性通用代码
-├    ├── web-sdk-rest -- Web 通用配置组件相关代码模块
+├    ├── web-core -- Web 应用共性通用代码模块组件
+├    ├── web-sdk-rest -- Web 应用基础支撑模块组件
 ├    ├── web-sdk-scan -- 接口权限扫描组件相关代码模块
 ├    └── web-spring-boot-starter -- Web 模块统一 Starter
 ├── engine-websocket -- Websocket模块
@@ -140,11 +140,12 @@ herodotus-engine
 2. engine-cache
 3. engine-data
 4. engine-web
-5. engine-rest
-6. engine-oauth2
-7. engine-facility
-8. engine-event
-9. engine-message
+5. engine-protect
+6. engine-rest
+7. engine-oauth2
+8. engine-facility
+9. engine-event
+10. engine-message
 
 ### 二、独立性阅读
 

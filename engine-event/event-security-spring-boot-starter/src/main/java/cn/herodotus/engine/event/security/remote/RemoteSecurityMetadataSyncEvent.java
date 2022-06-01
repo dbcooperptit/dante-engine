@@ -35,7 +35,11 @@ import org.springframework.cloud.bus.event.RemoteApplicationEvent;
  */
 public class RemoteSecurityMetadataSyncEvent extends RemoteApplicationEvent {
 
-    private final String data;
+    private String data;
+
+    public RemoteSecurityMetadataSyncEvent() {
+        super();
+    }
 
     public RemoteSecurityMetadataSyncEvent(String data, String originService, String destinationService) {
         super(data, originService, DEFAULT_DESTINATION_FACTORY.getDestination(destinationService));

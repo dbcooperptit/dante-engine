@@ -40,4 +40,5 @@ public interface HttpHeaders {
     String HTTP_X_FORWARDED_FOR = "HTTP_X_FORWARDED_FOR";
     String X_REAL_IP = "X-Real-IP";
     String X_HERODOTUS_SESSION = "X-Herodotus-Session";
+    String X_HERODOTUS_FROM_IN = "X-Herodotus-From-In";
 }
