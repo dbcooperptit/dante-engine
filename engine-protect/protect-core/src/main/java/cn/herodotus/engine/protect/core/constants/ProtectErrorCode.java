@@ -23,41 +23,19 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.protect.core.exception;
+package cn.herodotus.engine.protect.core.constants;
 
-import cn.herodotus.engine.assistant.core.domain.Feedback;
-import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.assistant.core.constants.ErrorCode;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Cache 相关错误代码 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/5/1 21:32
+ * @date : 2022/5/2 13:25
  */
-public class CryptoSupplierIsIncorrectException extends PlatformException {
+public interface ProtectErrorCode extends ErrorCode {
 
-    public CryptoSupplierIsIncorrectException() {
-        super();
-    }
-
-    public CryptoSupplierIsIncorrectException(String message) {
-        super(message);
-    }
-
-    public CryptoSupplierIsIncorrectException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public CryptoSupplierIsIncorrectException(Throwable cause) {
-        super(cause);
-    }
-
-    protected CryptoSupplierIsIncorrectException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    @Override
-    public Feedback getFeedback() {
-        return super.getFeedback();
-    }
+    int SESSION_INVALID = PROTECT_MODULE_406_BEGIN + 1;
+    int REPEAT_SUBMISSION = SESSION_INVALID + 1;
+    int FREQUENT_REQUESTS = REPEAT_SUBMISSION + 1;
 }

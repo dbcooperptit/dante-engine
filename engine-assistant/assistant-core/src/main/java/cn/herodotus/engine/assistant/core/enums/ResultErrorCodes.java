@@ -142,7 +142,7 @@ public enum ResultErrorCodes {
     /**
      * 412.* 未经授权 Precondition Failed 客户端请求信息的先决条件错误
      */
-    INVALID_GRANT(ErrorCode.INVALID_GRANT, "提供的授权授予信息无效"),
+    INVALID_GRANT(ErrorCode.INVALID_GRANT, "用户名或密码错误"),
     INVALID_REDIRECT_URI(ErrorCode.INVALID_REDIRECT_URI, "URI重定向的值无效"),
     INVALID_REQUEST(ErrorCode.INVALID_REQUEST, "无效的请求，参数使用错误或无效."),
     INVALID_SCOPE(ErrorCode.INVALID_SCOPE, "授权范围错误"),

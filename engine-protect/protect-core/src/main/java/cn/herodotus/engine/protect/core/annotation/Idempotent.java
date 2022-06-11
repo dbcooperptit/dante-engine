@@ -46,5 +46,5 @@ public @interface Idempotent {
      *
      * @return {@link Long}
      */
-    String expire() default "";
+    String expire() default "PT10S";
 }

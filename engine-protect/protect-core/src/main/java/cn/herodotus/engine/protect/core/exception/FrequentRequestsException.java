@@ -25,6 +25,10 @@
 
 package cn.herodotus.engine.protect.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.protect.core.constants.ProtectErrorCode;
+import org.apache.http.HttpStatus;
+
 /**
  * <p>Description: 操作频繁Exception </p>
  *
@@ -50,5 +54,10 @@ public class FrequentRequestsException extends IllegalOperationException {
 
     public FrequentRequestsException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(ProtectErrorCode.FREQUENT_REQUESTS, "请求频繁，请稍后再试", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }
