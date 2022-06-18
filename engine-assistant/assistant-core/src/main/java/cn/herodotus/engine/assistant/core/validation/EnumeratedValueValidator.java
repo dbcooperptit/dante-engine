@@ -23,49 +23,45 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.protect.web.secure.stamp;
+package cn.herodotus.engine.assistant.core.validation;
 
-import cn.herodotus.engine.cache.jetcache.stamp.AbstractStampManager;
-import cn.herodotus.engine.protect.core.constants.ProtectConstants;
-import cn.herodotus.engine.protect.core.properties.SecureProperties;
-import cn.hutool.core.util.IdUtil;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
+import cn.herodotus.engine.assistant.core.annotation.EnumeratedValue;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
- * <p>Description: 幂等Stamp管理 </p>
+ * <p>Description: 枚举值校验逻辑 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/8/22 16:05
+ * @date : 2022/6/13 15:58
  */
-public class IdempotentStampManager extends AbstractStampManager<String, String> {
+public class EnumeratedValueValidator implements ConstraintValidator<EnumeratedValue, Object> {
 
-    private SecureProperties secureProperties;
-
-    public IdempotentStampManager(SecureProperties secureProperties) {
-        this.secureProperties = secureProperties;
-    }
-
-    public SecureProperties getSecureProperties() {
-        return secureProperties;
-    }
-
-    @CreateCache(name = ProtectConstants.CACHE_NAME_TOKEN_IDEMPOTENT, cacheType = CacheType.BOTH)
-    protected Cache<String, String> cache;
+    private String[] names;
+    private int[] ordinals;
 
     @Override
-    protected Cache<String, String> getCache() {
-        return this.cache;
+    public void initialize(EnumeratedValue constraintAnnotation) {
+        names = constraintAnnotation.names();
+        ordinals = constraintAnnotation.ordinals();
     }
 
     @Override
-    public String nextStamp(String key) {
-        return IdUtil.fastSimpleUUID();
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        super.setExpire(secureProperties.getIdempotent().getExpire());
+    public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
+        if (value instanceof String) {
+            for (String name : names) {
+                if (name.equals(value)) {
+                    return true;
+                }
+            }
+        } else if (value instanceof Integer) {
+            for (int ordinal : ordinals) {
+                if (ordinal == (Integer) value) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

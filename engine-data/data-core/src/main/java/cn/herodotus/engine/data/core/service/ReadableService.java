@@ -154,6 +154,31 @@ public interface ReadableService<E extends Entity, ID extends Serializable> {
     /**
      * 查询分页数据
      *
+     * @param pageNumber 当前页码, 起始页码 0
+     * @param pageSize   每页显示的数据条数
+     * @param sort 排序
+     * @return 分页数据
+     */
+    default Page<E> findByPage(int pageNumber, int pageSize, Sort sort) {
+        return findByPage(PageRequest.of(pageNumber, pageSize, sort));
+    }
+
+    /**
+     * 查询分页数据
+     *
+     * @param pageNumber 当前页码, 起始页码 0
+     * @param pageSize   每页显示的数据条数
+     * @param direction  {@link org.springframework.data.domain.Sort.Direction}
+     * @param properties 排序的属性名称
+     * @return 分页数据
+     */
+    default Page<E> findByPage(int pageNumber, int pageSize, Sort.Direction direction, String... properties) {
+        return findByPage(PageRequest.of(pageNumber, pageSize, direction, properties));
+    }
+
+    /**
+     * 查询分页数据
+     *
      * @param specification {@link Specification}
      * @param pageable      {@link Pageable}
      * @return 分页数据
@@ -184,18 +209,5 @@ public interface ReadableService<E extends Entity, ID extends Serializable> {
      */
     default Page<E> findByPage(int pageNumber, int pageSize, Sort.Direction direction) {
         return findByPage(PageRequest.of(pageNumber, pageSize, direction));
-    }
-
-    /**
-     * 查询分页数据
-     *
-     * @param pageNumber 当前页码, 起始页码 0
-     * @param pageSize   每页显示的数据条数
-     * @param direction  {@link org.springframework.data.domain.Sort.Direction}
-     * @param properties 排序的属性名称
-     * @return 分页数据
-     */
-    default Page<E> findByPage(int pageNumber, int pageSize, Sort.Direction direction, String... properties) {
-        return findByPage(PageRequest.of(pageNumber, pageSize, direction, properties));
     }
 }

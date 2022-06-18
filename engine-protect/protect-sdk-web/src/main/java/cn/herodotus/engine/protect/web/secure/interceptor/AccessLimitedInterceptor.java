@@ -73,26 +73,35 @@ public class AccessLimitedInterceptor implements HandlerInterceptor {
         AccessLimited accessLimited = method.getAnnotation(AccessLimited.class);
         if (ObjectUtils.isNotEmpty(accessLimited)) {
 
+            int maxTimes = accessLimitedStampManager.getSecureProperties().getAccessLimited().getMaxTimes();
+            Duration expireDuration = Duration.ZERO;
+
             int annotationMaxTimes = accessLimited.maxTimes();
+            if(annotationMaxTimes != 0) {
+                maxTimes = annotationMaxTimes;
+            }
+
             String annotationDuration = accessLimited.duration();
-            Duration configuredDuration = Duration.ZERO;
             if (StringUtils.isNotBlank(annotationDuration)) {
                 try {
-                    configuredDuration = Duration.parse(annotationDuration);
+                    expireDuration = Duration.parse(annotationDuration);
                 } catch (DateTimeParseException e) {
                     log.warn("[Herodotus] |- AccessLimited duration value is incorrect, on api [{}].", request.getRequestURI());
                 }
             }
 
-            String key = SecureUtil.md5(handlerMethod.toString());
+            String flag = handlerMethod.toString();
+            log.debug("[Herodotus] |- AccessLimitedInterceptor process for request [{}].", flag);
+
+            String key = SecureUtil.md5(flag);
             String expireKey = key + "_expire";
             Long times = accessLimitedStampManager.get(key);
 
             if (ObjectUtils.isEmpty(times) || times == 0L) {
-                if (!configuredDuration.isZero()) {
+                if (!expireDuration.isZero()) {
                     // 如果注解上配置了Duration且没有配置错可以正常解析，那么使用注解上的配置值
-                    accessLimitedStampManager.create(key, configuredDuration);
-                    accessLimitedStampManager.put(expireKey, System.currentTimeMillis(), configuredDuration);
+                    accessLimitedStampManager.create(key, expireDuration);
+                    accessLimitedStampManager.put(expireKey, System.currentTimeMillis(), expireDuration);
                 } else {
                     // 如果注解上没有配置Duration或者配置错无法正常解析，那么使用StampProperties的配置值
                     accessLimitedStampManager.create(key);
@@ -102,8 +111,8 @@ public class AccessLimitedInterceptor implements HandlerInterceptor {
             } else {
                 log.debug("[Herodotus] |- AccessLimitedInterceptor request [{}] times.", times);
 
-                if (times <= annotationMaxTimes) {
-                    Duration newDuration = calculateRemainingTime(configuredDuration, expireKey);
+                if (times <= maxTimes) {
+                    Duration newDuration = calculateRemainingTime(expireDuration, expireKey);
                     // 不管是注解上配置Duration值还是StampProperties中配置的Duration值，是不会变的
                     // 所以第一次存入expireKey对应的System.currentTimeMillis()时间后，这个值也不应该变化。
                     // 因此，这里只更新访问次数的标记值

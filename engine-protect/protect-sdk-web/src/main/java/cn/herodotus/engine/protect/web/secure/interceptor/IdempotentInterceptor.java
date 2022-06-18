@@ -107,7 +107,7 @@ public class IdempotentInterceptor implements HandlerInterceptor {
                         try {
                             configuredDuration = Duration.parse(annotationExpire);
                         } catch (DateTimeParseException e) {
-                            log.warn("[Herodotus] |- AccessLimited duration value is incorrect, on api [{}].", request.getRequestURI());
+                            log.warn("[Herodotus] |- Idempotent duration value is incorrect, on api [{}].", request.getRequestURI());
                         }
                     }
 

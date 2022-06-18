@@ -44,8 +44,12 @@ public class AccessLimitedStampManager extends AbstractStampManager<String, Long
 
     private SecureProperties secureProperties;
 
-    public void setStampProperties(SecureProperties secureProperties) {
+    public AccessLimitedStampManager(SecureProperties secureProperties) {
         this.secureProperties = secureProperties;
+    }
+
+    public SecureProperties getSecureProperties() {
+        return secureProperties;
     }
 
     @CreateCache(name = ProtectConstants.CACHE_NAME_TOKEN_ACCESS_LIMITED, cacheType = CacheType.BOTH)
