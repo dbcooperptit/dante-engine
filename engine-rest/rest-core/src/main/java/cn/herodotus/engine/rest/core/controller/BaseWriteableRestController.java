@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.rest.core.controller;
 
-import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.assistant.core.definition.domain.AbstractEntity;
+import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.data.core.service.ReadableService;
 import cn.herodotus.engine.protect.core.annotation.Idempotent;
 import io.swagger.v3.oas.annotations.Operation;

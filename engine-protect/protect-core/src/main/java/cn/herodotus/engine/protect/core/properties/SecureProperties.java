@@ -63,9 +63,9 @@ public class SecureProperties {
     public static class Idempotent implements Serializable {
 
         /**
-         * 幂等签章缓存默认过期时间，以防Token删除失败后，缓存数据始终存在影响使用，默认：30秒
+         * 幂等签章缓存默认过期时间，以防Token删除失败后，缓存数据始终存在影响使用，默认：5秒
          */
-        private Duration expire = Duration.ofSeconds(30);
+        private Duration expire = Duration.ofSeconds(5);
 
         public Duration getExpire() {
             return expire;

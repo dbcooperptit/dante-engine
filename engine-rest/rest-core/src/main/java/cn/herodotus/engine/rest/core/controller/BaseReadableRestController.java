@@ -38,6 +38,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -61,6 +63,11 @@ public abstract class BaseReadableRestController<E extends AbstractEntity, ID ex
     })
     @GetMapping
     public Result<Map<String, Object>> findByPage(@Validated Pager pager) {
-        return ReadableController.super.findByPage(pager.getPageNumber(), pager.getPageSize());
+        if (ArrayUtils.isNotEmpty(pager.getProperties())) {
+            Sort.Direction direction = Sort.Direction.valueOf(pager.getDirection());
+            return ReadableController.super.findByPage(pager.getPageNumber(), pager.getPageSize(), direction, pager.getProperties());
+        } else {
+            return ReadableController.super.findByPage(pager.getPageNumber(), pager.getPageSize());
+        }
     }
 }

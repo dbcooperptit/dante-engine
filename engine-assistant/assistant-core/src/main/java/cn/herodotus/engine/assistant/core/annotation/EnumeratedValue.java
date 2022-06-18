@@ -23,36 +23,46 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.protect.core.annotation;
+package cn.herodotus.engine.assistant.core.annotation;
 
+import cn.herodotus.engine.assistant.core.validation.EnumeratedValueValidator;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.*;
-import java.time.Duration;
+
 
 /**
- * <p>Description: 接口防刷注解 </p>
+ * <p>Description: 枚举值校验注解 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/8/25 21:45
+ * @date : 2022/6/13 15:58
  */
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Repeatable(EnumeratedValue.List.class)
 @Documented
-public @interface AccessLimited {
+@Constraint(validatedBy = {EnumeratedValueValidator.class})
+public @interface EnumeratedValue {
 
-    /**
-     * 单位时间内同一个接口可以访问的次数
-     *
-     * @return int
-     */
-    int maxTimes() default 0;
+    // 默认错误消息
+    String message() default "必须为指定值";
 
-    /**
-     * 持续时间，即在多长时间内，限制访问多少次。具体单位根据TimeUnit的设置而定。
-     * <p>
-     * 使用Duration格式{@link Duration}
-     * <p>
-     * 默认为：0，即不设置该属性。那么就使用StampProperies中的配置进行设置。
-     * 如果设置了该值，就以该值进行设置。
-     */
-    String duration() default "";
+    String[] names() default {};
+
+    int[] ordinals() default {};
+
+    // 分组
+    Class<?>[] groups() default {};
+
+    // 负载
+    Class<? extends Payload>[] payload() default {};
+
+    // 指定多个时使用
+    @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @interface List {
+        EnumeratedValue[] value();
+    }
 }

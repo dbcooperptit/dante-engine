@@ -32,6 +32,7 @@ import cn.herodotus.engine.oauth2.server.authorization.dto.OAuth2ScopeDto;
 import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Authority;
 import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Scope;
 import cn.herodotus.engine.oauth2.server.authorization.service.OAuth2ScopeService;
+import cn.herodotus.engine.protect.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.controller.BaseWriteableRestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -43,12 +44,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -95,6 +94,14 @@ public class OAuth2ScopeController extends BaseWriteableRestController<OAuth2Sco
 
         OAuth2Scope result = scopeService.authorize(scope.getScopeId(), authorities);
         return result(result);
+    }
+
+    @AccessLimited
+    @Operation(summary = "获取全部范围", description = "获取全部范围")
+    @GetMapping("/list")
+    public Result<List<OAuth2Scope>> findAll() {
+        List<OAuth2Scope> oAuth2Scopes = scopeService.findAll();
+        return result(oAuth2Scopes);
     }
 
     private OAuth2Authority toEntity(OAuth2AuthorityDto dto) {
