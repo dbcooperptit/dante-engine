@@ -154,7 +154,7 @@ public final class OAuth2ConfigurerUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <B extends HttpSecurityBuilder<B>> JWKSource<SecurityContext> getJwkSource(B builder) {
+    static <B extends HttpSecurityBuilder<B>> JWKSource<SecurityContext> getJwkSource(B builder) {
         JWKSource<SecurityContext> jwkSource = builder.getSharedObject(JWKSource.class);
         if (jwkSource == null) {
             ResolvableType type = ResolvableType.forClassWithGenerics(JWKSource.class, SecurityContext.class);
@@ -176,7 +176,7 @@ public final class OAuth2ConfigurerUtils {
         return getOptionalBean(builder, type);
     }
 
-    public static <B extends HttpSecurityBuilder<B>> ProviderSettings getProviderSettings(B builder) {
+    static <B extends HttpSecurityBuilder<B>> ProviderSettings getProviderSettings(B builder) {
         ProviderSettings providerSettings = builder.getSharedObject(ProviderSettings.class);
         if (providerSettings == null) {
             providerSettings = getBean(builder, ProviderSettings.class);
@@ -185,12 +185,12 @@ public final class OAuth2ConfigurerUtils {
         return providerSettings;
     }
 
-    public static <B extends HttpSecurityBuilder<B>, T> T getBean(B builder, Class<T> type) {
+    static <B extends HttpSecurityBuilder<B>, T> T getBean(B builder, Class<T> type) {
         return builder.getSharedObject(ApplicationContext.class).getBean(type);
     }
 
     @SuppressWarnings("unchecked")
-    public static <B extends HttpSecurityBuilder<B>, T> T getBean(B builder, ResolvableType type) {
+    static <B extends HttpSecurityBuilder<B>, T> T getBean(B builder, ResolvableType type) {
         ApplicationContext context = builder.getSharedObject(ApplicationContext.class);
         String[] names = context.getBeanNamesForType(type);
         if (names.length == 1) {
@@ -202,7 +202,7 @@ public final class OAuth2ConfigurerUtils {
         throw new NoSuchBeanDefinitionException(type);
     }
 
-    public static <B extends HttpSecurityBuilder<B>, T> T getOptionalBean(B builder, Class<T> type) {
+    static <B extends HttpSecurityBuilder<B>, T> T getOptionalBean(B builder, Class<T> type) {
         Map<String, T> beansMap = BeanFactoryUtils.beansOfTypeIncludingAncestors(
                 builder.getSharedObject(ApplicationContext.class), type);
         if (beansMap.size() > 1) {
@@ -214,7 +214,7 @@ public final class OAuth2ConfigurerUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <B extends HttpSecurityBuilder<B>, T> T getOptionalBean(B builder, ResolvableType type) {
+    static <B extends HttpSecurityBuilder<B>, T> T getOptionalBean(B builder, ResolvableType type) {
         ApplicationContext context = builder.getSharedObject(ApplicationContext.class);
         String[] names = context.getBeanNamesForType(type);
         if (names.length > 1) {
@@ -222,5 +222,6 @@ public final class OAuth2ConfigurerUtils {
         }
         return names.length == 1 ? (T) context.getBean(names[0]) : null;
     }
+
 
 }

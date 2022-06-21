@@ -47,11 +47,14 @@ public class OAuth2ConstantService {
     private static final List<Map<String, Object>> AUTHENTICATION_METHOD_ENUM = AuthenticationMethod.getPreprocessedJsonStructure();
     private static final List<Map<String, Object>> TOKEN_FORMAT_ENUM = TokenFormat.getPreprocessedJsonStructure();
 
+    private static final List<Map<String, Object>> PERMISSION_EXPRESSION_ENUM = PermissionExpression.getPreprocessedJsonStructure();
+
     public Map<String, Object> getAllEnums() {
         Map<String, Object> map = new HashMap<>(8);
         map.put("applicationType", APPLICATION_TYPE_ENUM);
         map.put("grantType", GRANT_TYPE_ENUM);
         map.put("signature", SIGNATURE_ENUM);
+        map.put("permissionExpression", PERMISSION_EXPRESSION_ENUM);
         map.put("authenticationMethod", AUTHENTICATION_METHOD_ENUM);
         map.put("tokenFormat", TOKEN_FORMAT_ENUM);
         return map;
