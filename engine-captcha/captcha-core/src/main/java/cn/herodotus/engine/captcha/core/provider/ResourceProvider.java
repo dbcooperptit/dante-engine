@@ -32,7 +32,9 @@ import cn.herodotus.engine.captcha.core.properties.CaptchaProperties;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.img.FontUtil;
 import cn.hutool.core.img.ImgUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.system.SystemUtil;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -46,11 +48,14 @@ import org.springframework.util.FileCopyUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * <p>Description: 验证码静态资源加载器 </p>
@@ -83,6 +88,9 @@ public class ResourceProvider implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+
+        String systemName = SystemUtil.getOsInfo().getName();
+        log.debug("[Herodotus] |- Before captcha resource loading, check system. Current system is [{}]", systemName);
 
         log.debug("[Herodotus] |- Captcha resource loading is BEGIN！");
 
@@ -179,6 +187,21 @@ public class ResourceProvider implements InitializingBean {
         }
     }
 
+    private Map<String, Font> getFontsUnderLinux() {
+        String directory = "/usr/share/fonts";
+        boolean includeRequired = FileUtil.exist("/usr/share/fonts", "WenQuanZhengHei.ttf");
+        if (includeRequired) {
+            File[] fonts = FileUtil.ls(directory);
+            if (ArrayUtils.isNotEmpty(fonts)) {
+                Map<String, Font> result = Arrays.stream(fonts).collect(Collectors.toMap(File::getName, FontUtil::createFont));
+                log.debug("[Herodotus] |- Load [{}] fonts under linux or docker.", result.size());
+                return result;
+            }
+        }
+
+        return new HashMap<>();
+    }
+
     private Font getDefaultFont(String fontName, int fontSize, FontStyle fontStyle) {
         if (StringUtils.isNotBlank(fontName)) {
             return new Font(fontName, fontStyle.getMapping(), fontSize);
@@ -190,8 +213,7 @@ public class ResourceProvider implements InitializingBean {
     public Font getFont(String fontName, int fontSize, FontStyle fontStyle) {
         if (MapUtils.isEmpty(fonts) || ObjectUtils.isEmpty(fonts.get(fontName))) {
             return getDefaultFont(fontName, fontSize, fontStyle);
-        } else
-        {
+        } else {
             return fonts.get(fontName).deriveFont(fontStyle.getMapping(), Integer.valueOf(fontSize).floatValue());
         }
     }

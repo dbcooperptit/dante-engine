@@ -36,4 +36,12 @@ import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Scope;
  */
 public interface OAuth2ScopeRepository extends BaseRepository<OAuth2Scope, String> {
 
+    /**
+     * 根据范围代码查询应用范围
+     *
+     * @param scopeCode 范围代码
+     * @return 应用范围 {@link OAuth2Scope}
+     */
+    OAuth2Scope findByScopeCode(String scopeCode);
+
 }

@@ -104,6 +104,20 @@ public class OAuth2ScopeController extends BaseWriteableRestController<OAuth2Sco
         return result(oAuth2Scopes);
     }
 
+    @AccessLimited
+    @Operation(summary = "根据范围代码查询应用范围", description = "根据范围代码查询应用范围",
+            responses = {
+                    @ApiResponse(description = "查询到的应用范围", content = @Content(mediaType = "application/json", schema = @Schema(implementation = OAuth2Scope.class))),
+                    @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
+                    @ApiResponse(responseCode = "500", description = "查询失败")
+            }
+    )
+    @GetMapping("/{scopeCode}")
+    public Result<OAuth2Scope> findByUserName(@PathVariable("scopeCode") String scopeCode) {
+        OAuth2Scope scope = scopeService.findByScopeCode(scopeCode);
+        return result(scope);
+    }
+
     private OAuth2Authority toEntity(OAuth2AuthorityDto dto) {
         OAuth2Authority entity = new OAuth2Authority();
         entity.setAuthorityId(dto.getAuthorityId());

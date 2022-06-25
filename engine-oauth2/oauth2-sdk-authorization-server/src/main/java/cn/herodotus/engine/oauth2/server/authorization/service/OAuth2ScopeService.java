@@ -69,4 +69,10 @@ public class OAuth2ScopeService extends BaseLayeredService<OAuth2Scope, String> 
         log.debug("[Herodotus] |- OAuth2ScopeService assign.");
         return newScope;
     }
+
+    public OAuth2Scope findByScopeCode(String scopeCode) {
+        OAuth2Scope scope = oauthScopesRepository.findByScopeCode(scopeCode);
+        log.debug("[Herodotus] |- OAuth2ScopeService findByScopeCode.");
+        return scope;
+    }
 }
