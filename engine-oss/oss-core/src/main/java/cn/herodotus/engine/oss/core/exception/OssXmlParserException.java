@@ -23,33 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.minio.exception;
+package cn.herodotus.engine.oss.core.exception;
+
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.oss.core.constants.OssErrorCode;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: MinioInsufficientDataHerodotusException </p>
+ * <p>Description: OssXmlParserException </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/11/8 14:32
+ * @date : 2021/11/8 14:36
  */
-public class MinioInsufficientDataException extends MinioException {
+public class OssXmlParserException extends PlatformException {
 
-    public MinioInsufficientDataException() {
+    public OssXmlParserException() {
         super();
     }
 
-    public MinioInsufficientDataException(String message) {
+    public OssXmlParserException(String message) {
         super(message);
     }
 
-    public MinioInsufficientDataException(String message, Throwable cause) {
+    public OssXmlParserException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinioInsufficientDataException(Throwable cause) {
+    public OssXmlParserException(Throwable cause) {
         super(cause);
     }
 
-    public MinioInsufficientDataException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssXmlParserException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(OssErrorCode.OSS_XML_PARSER, "对象存储 XML 解析出现错误", HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 }

@@ -26,16 +26,14 @@
 package cn.herodotus.engine.oss.minio.configuration;
 
 import cn.herodotus.engine.oss.minio.annotation.ConditionalOnMinioEnabled;
-import cn.herodotus.engine.oss.minio.core.MinioClientPool;
-import cn.herodotus.engine.oss.minio.core.MinioManager;
-import cn.herodotus.engine.oss.minio.core.MinioTemplate;
+import cn.herodotus.engine.oss.minio.core.MinioClientObjectPool;
 import cn.herodotus.engine.oss.minio.properties.MinioProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -60,27 +58,21 @@ public class MinioConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public MinioClientPool minioClientPool(MinioProperties minioProperties) {
-        MinioClientPool minioClientPool = new MinioClientPool(minioProperties);
+    public MinioClientObjectPool minioClientPool(MinioProperties minioProperties) {
+        MinioClientObjectPool minioClientObjectPool = new MinioClientObjectPool(minioProperties);
         log.trace("[Herodotus] |- Bean [Minio Client Pool] Auto Configure.");
-        return minioClientPool;
+        return minioClientObjectPool;
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnBean(MinioClientPool.class)
-    public MinioTemplate minioTemplate(MinioClientPool minioClientPool) {
-        MinioTemplate minioTemplate = new MinioTemplate(minioClientPool);
-        log.trace("[Herodotus] |- Bean [Minio Template] Auto Configure.");
-        return minioTemplate;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnBean(MinioTemplate.class)
-    public MinioManager minioManager(MinioTemplate minioTemplate, MinioProperties minioProperties) {
-        MinioManager minioManager = new MinioManager(minioTemplate, minioProperties);
-        log.trace("[Herodotus] |- Bean [Minio Manager] Auto Configure.");
-        return minioManager;
+    @Configuration(proxyBeanMethods = false)
+    @ComponentScan(basePackages = {
+            "cn.herodotus.engine.oss.minio.service",
+            "cn.herodotus.engine.oss.minio.controller",
+    })
+    static class MinioLogicConfiguration {
+        @PostConstruct
+        public void init() {
+            log.debug("[Herodotus] |- SDK [Engine Oss Minio Logic] Auto Configure.");
+        }
     }
 }

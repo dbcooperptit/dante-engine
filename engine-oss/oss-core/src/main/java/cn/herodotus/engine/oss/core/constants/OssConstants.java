@@ -41,6 +41,6 @@ public interface OssConstants extends BaseConstants {
 
 
     String ITEM_MINIO_ENDPOINT = PROPERTY_OSS_MINIO + ".endpoint";
-    String ITEM_MINIO_ACCESSKEY = PROPERTY_OSS_MINIO + ".accessKey";
-    String ITEM_MINIO_SECRETKEY = PROPERTY_OSS_MINIO + ".secretKey";
+    String ITEM_MINIO_ACCESSKEY = PROPERTY_OSS_MINIO + ".access-key";
+    String ITEM_MINIO_SECRETKEY = PROPERTY_OSS_MINIO + ".secret-key";
 }

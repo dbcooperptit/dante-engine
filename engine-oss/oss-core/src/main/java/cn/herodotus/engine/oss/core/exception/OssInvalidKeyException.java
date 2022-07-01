@@ -23,33 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.minio.exception;
+package cn.herodotus.engine.oss.core.exception;
+
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.oss.core.constants.OssErrorCode;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: MinioIOHerodotusException </p>
+ * <p>Description: OssInvalidKeyException </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/11/8 14:35
+ * @date : 2021/11/8 14:32
  */
-public class MinioIOException extends MinioException {
+public class OssInvalidKeyException extends PlatformException {
 
-    public MinioIOException() {
+    public OssInvalidKeyException() {
         super();
     }
 
-    public MinioIOException(String message) {
+    public OssInvalidKeyException(String message) {
         super(message);
     }
 
-    public MinioIOException(String message, Throwable cause) {
+    public OssInvalidKeyException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinioIOException(Throwable cause) {
+    public OssInvalidKeyException(Throwable cause) {
         super(cause);
     }
 
-    public MinioIOException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssInvalidKeyException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(OssErrorCode.OSS_INVALID_KEY, "对象存储使用无效的秘钥", HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 }

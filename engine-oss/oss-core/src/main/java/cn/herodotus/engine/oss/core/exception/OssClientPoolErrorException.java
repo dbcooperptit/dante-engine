@@ -23,33 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.minio.exception;
+package cn.herodotus.engine.oss.core.exception;
+
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.oss.core.constants.OssErrorCode;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: MinioInternalHerodotusException </p>
+ * <p>Description: 获取从连接池中获取Minio客户端错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/11/8 14:32
+ * @date : 2021/11/8 11:45
  */
-public class MinioInternalException extends MinioException {
+public class OssClientPoolErrorException extends PlatformException {
 
-    public MinioInternalException() {
+    public OssClientPoolErrorException() {
         super();
     }
 
-    public MinioInternalException(String message) {
+    public OssClientPoolErrorException(String message) {
         super(message);
     }
 
-    public MinioInternalException(String message, Throwable cause) {
+    public OssClientPoolErrorException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinioInternalException(Throwable cause) {
+    public OssClientPoolErrorException(Throwable cause) {
         super(cause);
     }
 
-    public MinioInternalException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssClientPoolErrorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(OssErrorCode.OSS_CLIENT_POOL_ERROR, "无法从Oss对象池中获取对象", HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 }

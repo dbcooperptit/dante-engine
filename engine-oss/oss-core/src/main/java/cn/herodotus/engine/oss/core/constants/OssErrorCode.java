@@ -23,33 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.minio.exception;
+package cn.herodotus.engine.oss.core.constants;
+
+import cn.herodotus.engine.assistant.core.constants.ErrorCode;
 
 /**
- * <p>Description: Minio 响应错误 </p>
+ * <p>Description: 对象存储错误代码 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/11/8 14:30
+ * @date : 2022/6/30 13:15
  */
-public class MinioErrorResponseException extends MinioException {
+public interface OssErrorCode extends ErrorCode {
 
-    public MinioErrorResponseException() {
-        super();
-    }
-
-    public MinioErrorResponseException(String message) {
-        super(message);
-    }
-
-    public MinioErrorResponseException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public MinioErrorResponseException(Throwable cause) {
-        super(cause);
-    }
-
-    public MinioErrorResponseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+    int OSS_CLIENT_POOL_ERROR = OSS_MODULE_500_BEGIN + 1;
+    int OSS_ERROR_RESPONSE = OSS_CLIENT_POOL_ERROR + 1;
+    int OSS_INSUFFICIENT_DATA = OSS_ERROR_RESPONSE + 1;
+    int OSS_INTERNAL = OSS_INSUFFICIENT_DATA + 1;
+    int OSS_INVALID_KEY = OSS_INTERNAL + 1;
+    int OSS_INVALID_RESPONSE = OSS_INVALID_KEY + 1;
+    int OSS_IO = OSS_INVALID_RESPONSE + 1;
+    int OSS_NO_SUCH_ALGORITHM = OSS_IO + 1;
+    int OSS_SERVER = OSS_NO_SUCH_ALGORITHM + 1;
+    int OSS_XML_PARSER = OSS_SERVER + 1;
 }
