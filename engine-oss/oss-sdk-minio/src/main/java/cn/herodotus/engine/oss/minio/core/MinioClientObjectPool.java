@@ -40,20 +40,23 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
  * @author : gengwei.zheng
  * @date : 2021/11/8 10:54
  */
-public class MinioClientPool {
+public class MinioClientObjectPool {
 
     private final GenericObjectPool<MinioClient> minioClientPool;
 
-    public MinioClientPool(MinioProperties minioProperties) {
+    public MinioClientObjectPool(MinioProperties minioProperties) {
 
-        MinioClientPoolFactory factory = new MinioClientPoolFactory(minioProperties);
+        MinioClientPooledObjectFactory factory = new MinioClientPooledObjectFactory(minioProperties);
 
         GenericObjectPoolConfig<MinioClient> config = new GenericObjectPoolConfig<>();
         config.setMaxTotal(minioProperties.getPool().getMaxTotal());
         config.setMaxIdle(minioProperties.getPool().getMaxIdle());
         config.setMinIdle(minioProperties.getPool().getMinIdle());
-        config.setMaxWaitMillis(minioProperties.getPool().getMaxWait().toMillis());
-        config.setBlockWhenExhausted(minioProperties.getPool().isBlockWhenExhausted());
+        config.setMaxWait(minioProperties.getPool().getMaxWait());
+        config.setMinEvictableIdleTime(minioProperties.getPool().getMinEvictableIdleTime());
+        config.setSoftMinEvictableIdleTime(minioProperties.getPool().getSoftMinEvictableIdleTime());
+        config.setLifo(minioProperties.getPool().getLifo());
+        config.setBlockWhenExhausted(minioProperties.getPool().getBlockWhenExhausted());
         minioClientPool = new GenericObjectPool<>(factory, config);
     }
 
@@ -61,22 +64,23 @@ public class MinioClientPool {
         return minioClientPool;
     }
 
-    public static class MinioClientPoolFactory extends BasePooledObjectFactory<MinioClient> {
+    /**
+     * 基于 Apache common pool2，实现 Minio Client 对象创建的池化
+     */
+    public static class MinioClientPooledObjectFactory extends BasePooledObjectFactory<MinioClient> {
 
         private final MinioProperties minioProperties;
 
-        public MinioClientPoolFactory(MinioProperties minioProperties) {
+        public MinioClientPooledObjectFactory(MinioProperties minioProperties) {
             this.minioProperties = minioProperties;
         }
 
         @Override
         public MinioClient create() throws Exception {
-            return MinioClient.builder().endpoint(minioProperties.getEndpoint()).credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey()).build();
-        }
-
-        @Override
-        public PooledObject<MinioClient> makeObject() throws Exception {
-            return super.makeObject();
+            return MinioClient.builder()
+                    .endpoint(minioProperties.getEndpoint())
+                    .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                    .build();
         }
 
         @Override

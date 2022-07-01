@@ -23,33 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.minio.exception;
+package cn.herodotus.engine.oss.core.exception;
+
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.oss.core.constants.OssErrorCode;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: MinioInvalidResponseHerodotusException </p>
+ * <p>Description: OssInvalidResponseException </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/11/8 14:35
  */
-public class MinioInvalidResponseException extends MinioException {
+public class OssInvalidResponseException extends PlatformException {
 
-    public MinioInvalidResponseException() {
+    public OssInvalidResponseException() {
         super();
     }
 
-    public MinioInvalidResponseException(String message) {
+    public OssInvalidResponseException(String message) {
         super(message);
     }
 
-    public MinioInvalidResponseException(String message, Throwable cause) {
+    public OssInvalidResponseException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinioInvalidResponseException(Throwable cause) {
+    public OssInvalidResponseException(Throwable cause) {
         super(cause);
     }
 
-    public MinioInvalidResponseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssInvalidResponseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(OssErrorCode.OSS_INVALID_RESPONSE, "对象存储返回无效的响应", HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 }

@@ -23,33 +23,42 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.minio.exception;
+package cn.herodotus.engine.oss.core.exception;
+
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.oss.core.constants.OssErrorCode;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: MinioNoSuchAlgorithmHerodotusException </p>
+ * <p>Description: OssServerException </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/11/8 14:36
  */
-public class MinioNoSuchAlgorithmException extends MinioException {
-
-    public MinioNoSuchAlgorithmException() {
+public class OssServerException extends PlatformException {
+    public OssServerException() {
         super();
     }
 
-    public MinioNoSuchAlgorithmException(String message) {
+    public OssServerException(String message) {
         super(message);
     }
 
-    public MinioNoSuchAlgorithmException(String message, Throwable cause) {
+    public OssServerException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinioNoSuchAlgorithmException(Throwable cause) {
+    public OssServerException(Throwable cause) {
         super(cause);
     }
 
-    public MinioNoSuchAlgorithmException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssServerException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(OssErrorCode.OSS_SERVER, "对象存储服务器出现错误", HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 }

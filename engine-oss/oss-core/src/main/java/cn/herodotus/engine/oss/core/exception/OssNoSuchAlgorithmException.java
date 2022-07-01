@@ -23,33 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.minio.exception;
+package cn.herodotus.engine.oss.core.exception;
+
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.oss.core.constants.OssErrorCode;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: MinioXmlParserHerodotusException </p>
+ * <p>Description: OssNoSuchAlgorithmException </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/11/8 14:36
  */
-public class MinioXmlParserException extends MinioException {
+public class OssNoSuchAlgorithmException extends PlatformException {
 
-    public MinioXmlParserException() {
+    public OssNoSuchAlgorithmException() {
         super();
     }
 
-    public MinioXmlParserException(String message) {
+    public OssNoSuchAlgorithmException(String message) {
         super(message);
     }
 
-    public MinioXmlParserException(String message, Throwable cause) {
+    public OssNoSuchAlgorithmException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinioXmlParserException(Throwable cause) {
+    public OssNoSuchAlgorithmException(Throwable cause) {
         super(cause);
     }
 
-    public MinioXmlParserException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssNoSuchAlgorithmException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(OssErrorCode.OSS_NO_SUCH_ALGORITHM, "使用对象存储不支持算法错误", HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 }

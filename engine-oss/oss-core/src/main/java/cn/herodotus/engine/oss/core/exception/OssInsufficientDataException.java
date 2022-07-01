@@ -23,35 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.minio.exception;
+package cn.herodotus.engine.oss.core.exception;
 
-import cn.herodotus.engine.oss.core.exception.OssException;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.oss.core.constants.OssErrorCode;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: Minio 对象存储 HerodotusException </p>
+ * <p>Description: OssInsufficientDataException </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/11/8 11:41
+ * @date : 2021/11/8 14:32
  */
-public class MinioException extends OssException {
+public class OssInsufficientDataException extends PlatformException {
 
-    public MinioException() {
+    public OssInsufficientDataException() {
         super();
     }
 
-    public MinioException(String message) {
+    public OssInsufficientDataException(String message) {
         super(message);
     }
 
-    public MinioException(String message, Throwable cause) {
+    public OssInsufficientDataException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinioException(Throwable cause) {
+    public OssInsufficientDataException(Throwable cause) {
         super(cause);
     }
 
-    public MinioException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssInsufficientDataException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(OssErrorCode.OSS_INSUFFICIENT_DATA, "对象存储服务器返回数据不足", HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 }

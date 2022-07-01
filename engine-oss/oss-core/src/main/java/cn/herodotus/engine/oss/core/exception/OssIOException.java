@@ -25,33 +25,41 @@
 
 package cn.herodotus.engine.oss.core.exception;
 
+import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.oss.core.constants.OssErrorCode;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: 对象存储基础Exception </p>
+ * <p>Description: OssIOException </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 16:33
+ * @date : 2021/11/8 14:35
  */
-public class OssException extends PlatformException {
+public class OssIOException extends PlatformException {
 
-    public OssException() {
+    public OssIOException() {
         super();
     }
 
-    public OssException(String message) {
+    public OssIOException(String message) {
         super(message);
     }
 
-    public OssException(String message, Throwable cause) {
+    public OssIOException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public OssException(Throwable cause) {
+    public OssIOException(Throwable cause) {
         super(cause);
     }
 
-    public OssException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssIOException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(OssErrorCode.OSS_IO, "对象存储出现IO错误", HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 }

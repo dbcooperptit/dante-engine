@@ -117,48 +117,72 @@ public class MinioProperties {
     public static class Pool {
 
         /**
-         * 最大总数
+         * 池中的最大对象数
          */
-        private int maxTotal = GenericObjectPoolConfig.DEFAULT_MAX_TOTAL;
+        private Integer maxTotal = GenericObjectPoolConfig.DEFAULT_MAX_TOTAL;
 
         /**
-         * 最大空闲数
+         * 最多的空闲对象数
          */
-        private int maxIdle = GenericObjectPoolConfig.DEFAULT_MAX_IDLE;
+        private Integer maxIdle = GenericObjectPoolConfig.DEFAULT_MAX_IDLE;
 
         /**
-         * 最小空闲数
+         * 最多的空闲对象数
          */
-        private int minIdle = GenericObjectPoolConfig.DEFAULT_MIN_IDLE;
+        private Integer minIdle = GenericObjectPoolConfig.DEFAULT_MIN_IDLE;
 
         /**
-         * 最大等待时间，支持 Duration 表达式
+         * 对象池存放池化对象方式,true放在空闲队列最前面,false放在空闲队列最后
          */
-        private Duration maxWait = Duration.ofMillis(BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS);
-        private boolean blockWhenExhausted;
+        private Boolean lifo = true;
 
-        public int getMaxTotal() {
+        /**
+         * 当连接池资源耗尽时,调用者最大阻塞的时间,超时时抛出异常
+         */
+        private Duration maxWait = BaseObjectPoolConfig.DEFAULT_MAX_WAIT;
+
+        /**
+         * 对象池满了，是否阻塞获取（false则借不到直接抛异常）, 默认 true
+         */
+        private Boolean blockWhenExhausted = BaseObjectPoolConfig.DEFAULT_BLOCK_WHEN_EXHAUSTED;
+
+        /**
+         * 空闲的最小时间,达到此值后空闲连接可能会被移除, 默认30分钟
+         */
+        private Duration minEvictableIdleTime = BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_DURATION;
+
+        private Duration softMinEvictableIdleTime = BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_DURATION;
+
+        public Integer getMaxTotal() {
             return maxTotal;
         }
 
-        public void setMaxTotal(int maxTotal) {
+        public void setMaxTotal(Integer maxTotal) {
             this.maxTotal = maxTotal;
         }
 
-        public int getMaxIdle() {
+        public Integer getMaxIdle() {
             return maxIdle;
         }
 
-        public void setMaxIdle(int maxIdle) {
+        public void setMaxIdle(Integer maxIdle) {
             this.maxIdle = maxIdle;
         }
 
-        public int getMinIdle() {
+        public Integer getMinIdle() {
             return minIdle;
         }
 
-        public void setMinIdle(int minIdle) {
+        public void setMinIdle(Integer minIdle) {
             this.minIdle = minIdle;
+        }
+
+        public Boolean getLifo() {
+            return lifo;
+        }
+
+        public void setLifo(Boolean lifo) {
+            this.lifo = lifo;
         }
 
         public Duration getMaxWait() {
@@ -169,12 +193,28 @@ public class MinioProperties {
             this.maxWait = maxWait;
         }
 
-        public boolean isBlockWhenExhausted() {
+        public Boolean getBlockWhenExhausted() {
             return blockWhenExhausted;
         }
 
-        public void setBlockWhenExhausted(boolean blockWhenExhausted) {
+        public void setBlockWhenExhausted(Boolean blockWhenExhausted) {
             this.blockWhenExhausted = blockWhenExhausted;
+        }
+
+        public Duration getMinEvictableIdleTime() {
+            return minEvictableIdleTime;
+        }
+
+        public void setMinEvictableIdleTime(Duration minEvictableIdleTime) {
+            this.minEvictableIdleTime = minEvictableIdleTime;
+        }
+
+        public Duration getSoftMinEvictableIdleTime() {
+            return softMinEvictableIdleTime;
+        }
+
+        public void setSoftMinEvictableIdleTime(Duration softMinEvictableIdleTime) {
+            this.softMinEvictableIdleTime = softMinEvictableIdleTime;
         }
 
         @Override
@@ -183,8 +223,11 @@ public class MinioProperties {
                     .add("maxTotal", maxTotal)
                     .add("maxIdle", maxIdle)
                     .add("minIdle", minIdle)
-                    .add("maxWaitMillis", maxWait)
+                    .add("lifo", lifo)
+                    .add("maxWait", maxWait)
                     .add("blockWhenExhausted", blockWhenExhausted)
+                    .add("minEvictableIdleTime", minEvictableIdleTime)
+                    .add("softMinEvictableIdleTime", softMinEvictableIdleTime)
                     .toString();
         }
     }
