@@ -26,15 +26,13 @@
 package cn.herodotus.engine.oss.minio.service;
 
 import cn.herodotus.engine.oss.core.exception.*;
-import cn.herodotus.engine.oss.minio.core.MinioClientObjectPool;
-import cn.herodotus.engine.oss.minio.core.MinioTemplate;
+import cn.herodotus.engine.oss.minio.definition.service.BaseMinioService;
 import io.minio.DisableObjectLegalHoldArgs;
 import io.minio.EnableObjectLegalHoldArgs;
 import io.minio.MinioClient;
 import io.minio.errors.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -48,13 +46,8 @@ import java.security.NoSuchAlgorithmException;
  * @date : 2022/6/30 21:15
  */
 @Service
-public class ObjectLegalHoldService extends MinioTemplate {
+public class ObjectLegalHoldService extends BaseMinioService {
     private static final Logger log = LoggerFactory.getLogger(BucketVersioningService.class);
-
-    @Autowired
-    public ObjectLegalHoldService(MinioClientObjectPool minioClientObjectPool) {
-        super(minioClientObjectPool);
-    }
 
     /**
      * 启用对对象的合法保留

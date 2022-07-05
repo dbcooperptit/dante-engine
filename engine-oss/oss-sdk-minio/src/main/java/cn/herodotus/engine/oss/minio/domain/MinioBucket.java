@@ -23,28 +23,44 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.core.constants;
+package cn.herodotus.engine.oss.minio.domain;
 
-import cn.herodotus.engine.assistant.core.constants.ErrorCode;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.google.common.base.MoreObjects;
 
 /**
- * <p>Description: 对象存储错误代码 </p>
+ * <p>Description: Minio Bucket 可序列化实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/6/30 13:15
+ * @date : 2022/7/1 22:59
  */
-public interface OssErrorCode extends ErrorCode {
+public class MinioBucket implements Entity {
 
-    int OSS_CLIENT_POOL_ERROR = OSS_MODULE_500_BEGIN + 1;
-    int OSS_ERROR_RESPONSE = OSS_CLIENT_POOL_ERROR + 1;
-    int OSS_INSUFFICIENT_DATA = OSS_ERROR_RESPONSE + 1;
-    int OSS_INTERNAL = OSS_INSUFFICIENT_DATA + 1;
-    int OSS_INVALID_KEY = OSS_INTERNAL + 1;
-    int OSS_INVALID_RESPONSE = OSS_INVALID_KEY + 1;
-    int OSS_IO = OSS_INVALID_RESPONSE + 1;
-    int OSS_NO_SUCH_ALGORITHM = OSS_IO + 1;
-    int OSS_SERVER = OSS_NO_SUCH_ALGORITHM + 1;
-    int OSS_XML_PARSER = OSS_SERVER + 1;
-    int OSS_EXECUTION = OSS_XML_PARSER + 1;
-    int OSS_INTERRUPTED = OSS_EXECUTION + 1;
+    private String name;
+
+    private String creationDate;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("creationDate", creationDate)
+                .toString();
+    }
 }

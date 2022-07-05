@@ -23,28 +23,38 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.core.constants;
+package cn.herodotus.engine.oss.minio.core;
 
-import cn.herodotus.engine.assistant.core.constants.ErrorCode;
+import cn.herodotus.engine.oss.minio.properties.MinioProperties;
+import io.minio.MinioClient;
+import org.apache.commons.pool2.BasePooledObjectFactory;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 /**
- * <p>Description: 对象存储错误代码 </p>
+ * <p>Description: Minio 基础 Client 池化工厂 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/6/30 13:15
+ * @date : 2022/7/3 20:21
  */
-public interface OssErrorCode extends ErrorCode {
+public class MinioClientPooledObjectFactory extends BasePooledObjectFactory<MinioClient> {
 
-    int OSS_CLIENT_POOL_ERROR = OSS_MODULE_500_BEGIN + 1;
-    int OSS_ERROR_RESPONSE = OSS_CLIENT_POOL_ERROR + 1;
-    int OSS_INSUFFICIENT_DATA = OSS_ERROR_RESPONSE + 1;
-    int OSS_INTERNAL = OSS_INSUFFICIENT_DATA + 1;
-    int OSS_INVALID_KEY = OSS_INTERNAL + 1;
-    int OSS_INVALID_RESPONSE = OSS_INVALID_KEY + 1;
-    int OSS_IO = OSS_INVALID_RESPONSE + 1;
-    int OSS_NO_SUCH_ALGORITHM = OSS_IO + 1;
-    int OSS_SERVER = OSS_NO_SUCH_ALGORITHM + 1;
-    int OSS_XML_PARSER = OSS_SERVER + 1;
-    int OSS_EXECUTION = OSS_XML_PARSER + 1;
-    int OSS_INTERRUPTED = OSS_EXECUTION + 1;
+    private final MinioProperties minioProperties;
+
+    public MinioClientPooledObjectFactory(MinioProperties minioProperties) {
+        this.minioProperties = minioProperties;
+    }
+
+    @Override
+    public MinioClient create() throws Exception {
+        return MinioClient.builder()
+                .endpoint(minioProperties.getEndpoint())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
+    }
+
+    @Override
+    public PooledObject<MinioClient> wrap(MinioClient minioClient) {
+        return new DefaultPooledObject<>(minioClient);
+    }
 }

@@ -23,28 +23,49 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.core.constants;
+package cn.herodotus.engine.oss.minio.definition.dto.api;
 
-import cn.herodotus.engine.assistant.core.constants.ErrorCode;
+import cn.herodotus.engine.oss.minio.definition.MinioArgumentBuilder;
+import io.minio.BaseArgs;
+import org.apache.commons.collections4.MapUtils;
+
+import java.util.Map;
 
 /**
- * <p>Description: 对象存储错误代码 </p>
+ * <p>Description: Minio 基础 Dto </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/6/30 13:15
+ * @date : 2022/7/1 23:39
  */
-public interface OssErrorCode extends ErrorCode {
+public abstract class BaseArgsDto<B extends BaseArgs.Builder<B, A>, A extends BaseArgs> implements MinioArgumentBuilder<B, A> {
 
-    int OSS_CLIENT_POOL_ERROR = OSS_MODULE_500_BEGIN + 1;
-    int OSS_ERROR_RESPONSE = OSS_CLIENT_POOL_ERROR + 1;
-    int OSS_INSUFFICIENT_DATA = OSS_ERROR_RESPONSE + 1;
-    int OSS_INTERNAL = OSS_INSUFFICIENT_DATA + 1;
-    int OSS_INVALID_KEY = OSS_INTERNAL + 1;
-    int OSS_INVALID_RESPONSE = OSS_INVALID_KEY + 1;
-    int OSS_IO = OSS_INVALID_RESPONSE + 1;
-    int OSS_NO_SUCH_ALGORITHM = OSS_IO + 1;
-    int OSS_SERVER = OSS_NO_SUCH_ALGORITHM + 1;
-    int OSS_XML_PARSER = OSS_SERVER + 1;
-    int OSS_EXECUTION = OSS_XML_PARSER + 1;
-    int OSS_INTERRUPTED = OSS_EXECUTION + 1;
+    private Map<String, String> extraHeaders;
+
+    private Map<String, String> extraQueryParams;
+
+    public Map<String, String> getExtraHeaders() {
+        return extraHeaders;
+    }
+
+    public void setExtraHeaders(Map<String, String> extraHeaders) {
+        this.extraHeaders = extraHeaders;
+    }
+
+    public Map<String, String> getExtraQueryParams() {
+        return extraQueryParams;
+    }
+
+    public void setExtraQueryParams(Map<String, String> extraQueryParams) {
+        this.extraQueryParams = extraQueryParams;
+    }
+
+    protected void prepare(B builder) {
+        if (MapUtils.isNotEmpty(getExtraHeaders())) {
+            builder.extraHeaders(getExtraHeaders());
+        }
+
+        if (MapUtils.isNotEmpty(getExtraQueryParams())) {
+            builder.extraHeaders(getExtraQueryParams());
+        }
+    }
 }

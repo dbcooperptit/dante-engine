@@ -26,32 +26,31 @@
 package cn.herodotus.engine.oss.minio.service;
 
 import cn.herodotus.engine.oss.core.exception.*;
-import cn.herodotus.engine.oss.minio.core.MinioClientObjectPool;
-import cn.herodotus.engine.oss.minio.core.MinioTemplate;
-import io.minio.*;
+import cn.herodotus.engine.oss.minio.definition.service.BaseMinioService;
+import io.minio.DeleteBucketReplicationArgs;
+import io.minio.GetBucketReplicationArgs;
+import io.minio.MinioClient;
+import io.minio.SetBucketReplicationArgs;
 import io.minio.errors.*;
 import io.minio.messages.ReplicationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Minio Bucket Replication </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/6/30 15:55
  */
-public class BucketReplicationService extends MinioTemplate {
+@Service
+public class BucketReplicationService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketPolicyService.class);
-
-    public BucketReplicationService(MinioClientObjectPool minioClientObjectPool) {
-        super(minioClientObjectPool);
-    }
-
 
     /**
      * 设置 Bucket 策略

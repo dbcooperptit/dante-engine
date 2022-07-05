@@ -23,28 +23,39 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oss.core.constants;
+package cn.herodotus.engine.oss.minio.dto.api.base;
 
-import cn.herodotus.engine.assistant.core.constants.ErrorCode;
+import cn.herodotus.engine.assistant.core.annotation.EnumeratedValue;
+import cn.herodotus.engine.rest.core.definition.dto.BaseDto;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 对象存储错误代码 </p>
+ * <p>Description: 对象保留设置请求参实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/6/30 13:15
+ * @date : 2022/7/2 22:22
  */
-public interface OssErrorCode extends ErrorCode {
+public class RetentionDto extends BaseDto {
+    @EnumeratedValue(names = {"GOVERNANCE", "COMPLIANCE"}, message = "存储模式的值只能是大写 GOVERNANCE 或者 COMPLIANCE")
+    @Schema(name = "对象保留模式", title = "存储模式的值只能是大写 GOVERNANCE 或者 COMPLIANCE")
+    private String mode;
 
-    int OSS_CLIENT_POOL_ERROR = OSS_MODULE_500_BEGIN + 1;
-    int OSS_ERROR_RESPONSE = OSS_CLIENT_POOL_ERROR + 1;
-    int OSS_INSUFFICIENT_DATA = OSS_ERROR_RESPONSE + 1;
-    int OSS_INTERNAL = OSS_INSUFFICIENT_DATA + 1;
-    int OSS_INVALID_KEY = OSS_INTERNAL + 1;
-    int OSS_INVALID_RESPONSE = OSS_INVALID_KEY + 1;
-    int OSS_IO = OSS_INVALID_RESPONSE + 1;
-    int OSS_NO_SUCH_ALGORITHM = OSS_IO + 1;
-    int OSS_SERVER = OSS_NO_SUCH_ALGORITHM + 1;
-    int OSS_XML_PARSER = OSS_SERVER + 1;
-    int OSS_EXECUTION = OSS_XML_PARSER + 1;
-    int OSS_INTERRUPTED = OSS_EXECUTION + 1;
+    @Schema(name = "保留到日期", title = "对象保留到的日期")
+    private String retainUntilDate;
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getRetainUntilDate() {
+        return retainUntilDate;
+    }
+
+    public void setRetainUntilDate(String retainUntilDate) {
+        this.retainUntilDate = retainUntilDate;
+    }
 }

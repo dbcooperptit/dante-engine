@@ -26,23 +26,19 @@
 package cn.herodotus.engine.oss.minio.service;
 
 import cn.herodotus.engine.oss.core.exception.*;
-import cn.herodotus.engine.oss.minio.core.MinioClientObjectPool;
-import cn.herodotus.engine.oss.minio.core.MinioTemplate;
+import cn.herodotus.engine.oss.minio.definition.service.BaseMinioService;
 import io.minio.GetObjectRetentionArgs;
 import io.minio.MinioClient;
 import io.minio.SetObjectRetentionArgs;
-import io.minio.SetObjectTagsArgs;
 import io.minio.errors.*;
 import io.minio.messages.Retention;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
 /**
  * <p>Description: Minio 对象保留配置 </p>
@@ -51,14 +47,9 @@ import java.util.Map;
  * @date : 2022/6/30 21:08
  */
 @Service
-public class ObjectRetentionService extends MinioTemplate {
+public class ObjectRetentionService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectRetentionService.class);
-
-    @Autowired
-    public ObjectRetentionService(MinioClientObjectPool minioClientObjectPool) {
-        super(minioClientObjectPool);
-    }
 
     /**
      * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。

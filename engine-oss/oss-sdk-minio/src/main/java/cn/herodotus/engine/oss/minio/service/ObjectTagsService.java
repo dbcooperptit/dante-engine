@@ -26,8 +26,7 @@
 package cn.herodotus.engine.oss.minio.service;
 
 import cn.herodotus.engine.oss.core.exception.*;
-import cn.herodotus.engine.oss.minio.core.MinioClientObjectPool;
-import cn.herodotus.engine.oss.minio.core.MinioTemplate;
+import cn.herodotus.engine.oss.minio.definition.service.BaseMinioService;
 import io.minio.DeleteObjectTagsArgs;
 import io.minio.GetObjectTagsArgs;
 import io.minio.MinioClient;
@@ -36,7 +35,6 @@ import io.minio.errors.*;
 import io.minio.messages.Tags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -51,14 +49,9 @@ import java.util.Map;
  * @date : 2022/6/30 21:10
  */
 @Service
-public class ObjectTagsService extends MinioTemplate {
+public class ObjectTagsService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectTagsService.class);
-
-    @Autowired
-    public ObjectTagsService(MinioClientObjectPool minioClientObjectPool) {
-        super(minioClientObjectPool);
-    }
 
     /**
      * 为对象设置标签
