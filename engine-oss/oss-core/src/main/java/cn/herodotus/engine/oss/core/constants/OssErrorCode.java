@@ -45,4 +45,6 @@ public interface OssErrorCode extends ErrorCode {
     int OSS_NO_SUCH_ALGORITHM = OSS_IO + 1;
     int OSS_SERVER = OSS_NO_SUCH_ALGORITHM + 1;
     int OSS_XML_PARSER = OSS_SERVER + 1;
+    int OSS_EXECUTION = OSS_XML_PARSER + 1;
+    int OSS_INTERRUPTED = OSS_EXECUTION + 1;
 }

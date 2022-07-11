@@ -26,8 +26,7 @@
 package cn.herodotus.engine.oss.minio.service;
 
 import cn.herodotus.engine.oss.core.exception.*;
-import cn.herodotus.engine.oss.minio.core.MinioClientObjectPool;
-import cn.herodotus.engine.oss.minio.core.MinioTemplate;
+import cn.herodotus.engine.oss.minio.definition.service.BaseMinioService;
 import io.minio.DeleteBucketTagsArgs;
 import io.minio.GetBucketTagsArgs;
 import io.minio.MinioClient;
@@ -36,7 +35,6 @@ import io.minio.errors.*;
 import io.minio.messages.Tags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -52,14 +50,9 @@ import java.util.Map;
  * @date : 2022/6/30 15:58
  */
 @Service
-public class BucketTagsService extends MinioTemplate {
+public class BucketTagsService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketPolicyService.class);
-
-    @Autowired
-    public BucketTagsService(MinioClientObjectPool minioClientObjectPool) {
-        super(minioClientObjectPool);
-    }
 
     /**
      * 设置 Bucket 标签

@@ -26,19 +26,16 @@
 package cn.herodotus.engine.oss.minio.service;
 
 import cn.herodotus.engine.oss.core.exception.*;
-import cn.herodotus.engine.oss.minio.core.MinioClientObjectPool;
-import cn.herodotus.engine.oss.minio.core.MinioTemplate;
+import cn.herodotus.engine.oss.minio.definition.service.BaseMinioService;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -51,46 +48,12 @@ import java.util.Map;
  * @date : 2022/6/30 20:06
  */
 @Service
-public class ObjectService extends MinioTemplate {
+public class ObjectService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectService.class);
 
-    @Autowired
-    public ObjectService(MinioClientObjectPool minioClientObjectPool) {
-        super(minioClientObjectPool);
-    }
-
     /**
-     * 调用PutObject接口上传文件
-     *
-     * @param bucketName  bucketName
-     * @param objectName  objectName
-     * @param inputStream inputStream
-     * @param objectSize  objectSize
-     * @param partSize    partSize
-     * @return {@link ObjectWriteResponse}
-     */
-    public ObjectWriteResponse putObject(String bucketName, String objectName, InputStream inputStream, long objectSize, long partSize) {
-        return putObject(PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(inputStream, objectSize, partSize).build());
-    }
-
-    /**
-     * 调用PutObject接口上传文件
-     *
-     * @param bucketName  bucketName
-     * @param objectName  objectName
-     * @param region      region
-     * @param inputStream inputStream
-     * @param objectSize  objectSize
-     * @param partSize    partSize
-     * @return {@link ObjectWriteResponse}
-     */
-    public ObjectWriteResponse putObject(String bucketName, String objectName, String region, InputStream inputStream, long objectSize, long partSize) {
-        return putObject(PutObjectArgs.builder().bucket(bucketName).object(objectName).region(region).stream(inputStream, objectSize, partSize).build());
-    }
-
-    /**
-     * 调用PutObject接口上传文件
+     * 上传文件
      * <p>
      * · 添加的Object大小不能超过5 GB。
      * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。

@@ -41,7 +41,15 @@ import java.time.LocalDateTime;
  * @date : 2022/1/22 18:08
  */
 @Entity
-@Table(name = "oauth2_authorization", indexes = {@Index(name = "oauth2_authorization_id_idx", columnList = "id")})
+@Table(name = "oauth2_authorization", indexes = {
+        @Index(name = "oauth2_authorization_id_idx", columnList = "id"),
+        @Index(name = "oauth2_authorization_rci_idx", columnList = "registered_client_id"),
+        @Index(name = "oauth2_authorization_pn_idx", columnList = "principal_name"),
+        @Index(name = "oauth2_authorization_atia_idx", columnList = "access_token_issued_at"),
+        @Index(name = "oauth2_authorization_atea_idx", columnList = "access_token_expires_at"),
+        @Index(name = "oauth2_authorization_rtia_idx", columnList = "refresh_token_issued_at"),
+        @Index(name = "oauth2_authorization_rtea_idx", columnList = "refresh_token_expires_at")}
+)
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = OAuth2Constants.REGION_OAUTH2_AUTHORIZATION)
 public class HerodotusAuthorization extends AbstractEntity {

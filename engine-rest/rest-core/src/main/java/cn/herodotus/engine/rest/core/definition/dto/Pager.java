@@ -25,7 +25,6 @@
 
 package cn.herodotus.engine.rest.core.definition.dto;
 
-import cn.herodotus.engine.assistant.core.annotation.EnumeratedValue;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -40,7 +39,7 @@ import javax.validation.constraints.NotNull;
  * @date : 2021/8/18 12:24
  */
 @Schema(title = "分页参数BO对象")
-public class Pager {
+public class Pager extends Sorter{
 
     @NotNull(message = "页码不能为空")
     @Min(value = 0, message = "页码不能为负")
@@ -52,13 +51,6 @@ public class Pager {
     @Max(value = 1000, message = "每页条数不能超过1000")
     @Schema(name = "每页数据条数", type = "integer", minimum = "0", maximum = "1000", defaultValue = "10")
     private Integer pageSize = 10;
-
-    @EnumeratedValue(names = {"AES", "DESC"}, message = "排序方式的值只能是大写 AES 或者 DESC")
-    @Schema(name = "排序方向", title = "排序方向的值只能是大写 AES 或者 DESC, 默认值：DESC", defaultValue = "DESC")
-    private String direction = "DESC";
-
-    @Schema(name = "属性值", title = "指定排序的字段名称")
-    private String[] properties;
 
     public Integer getPageNumber() {
         return pageNumber;
@@ -74,22 +66,6 @@ public class Pager {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
-    public String[] getProperties() {
-        return properties;
-    }
-
-    public void setProperties(String[] properties) {
-        this.properties = properties;
     }
 
     @Override

@@ -30,12 +30,12 @@
     <parent>
         <artifactId>engine-cache</artifactId>
         <groupId>cn.herodotus.engine</groupId>
-        <version>2.7.1.1</version>
+        <version>2.7.1.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cache-layer-spring-boot-starter</artifactId>
-    <version>2.7.1.1</version>
+    <version>2.7.1.2</version>
     <packaging>jar</packaging>
 
     <description>基于 Spring Authorization Server 的 Eurynome Cloud 自研多级缓存 Starter, 主要用于 JPA 解决各类查询数据缓存</description>

@@ -26,13 +26,14 @@
 package cn.herodotus.engine.oss.minio.core;
 
 
+import cn.herodotus.engine.oss.core.exception.OssClientPoolErrorException;
 import cn.herodotus.engine.oss.minio.properties.MinioProperties;
 import io.minio.MinioClient;
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>Description: Minio 客户端连接池 </p>
@@ -41,6 +42,8 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
  * @date : 2021/11/8 10:54
  */
 public class MinioClientObjectPool {
+
+    private static final Logger log = LoggerFactory.getLogger(MinioClientObjectPool.class);
 
     private final GenericObjectPool<MinioClient> minioClientPool;
 
@@ -60,32 +63,20 @@ public class MinioClientObjectPool {
         minioClientPool = new GenericObjectPool<>(factory, config);
     }
 
-    public GenericObjectPool<MinioClient> getMinioClientPool() {
-        return minioClientPool;
+    public MinioClient getMinioClient() throws OssClientPoolErrorException {
+        try {
+            MinioClient minioClient = minioClientPool.borrowObject();
+            log.debug("[Herodotus] |- Fetch minio client from object pool.");
+            return minioClient;
+        } catch (Exception e) {
+            log.error("[Herodotus] |- Can not fetch minio client from pool.");
+            throw new OssClientPoolErrorException("Can not fetch minio client from pool.");
+        }
     }
 
-    /**
-     * 基于 Apache common pool2，实现 Minio Client 对象创建的池化
-     */
-    public static class MinioClientPooledObjectFactory extends BasePooledObjectFactory<MinioClient> {
-
-        private final MinioProperties minioProperties;
-
-        public MinioClientPooledObjectFactory(MinioProperties minioProperties) {
-            this.minioProperties = minioProperties;
-        }
-
-        @Override
-        public MinioClient create() throws Exception {
-            return MinioClient.builder()
-                    .endpoint(minioProperties.getEndpoint())
-                    .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                    .build();
-        }
-
-        @Override
-        public PooledObject<MinioClient> wrap(MinioClient minioClient) {
-            return new DefaultPooledObject<>(minioClient);
+    public void close(MinioClient minioClient) {
+        if (ObjectUtils.isNotEmpty(minioClient)) {
+            minioClientPool.returnObject(minioClient);
         }
     }
 }

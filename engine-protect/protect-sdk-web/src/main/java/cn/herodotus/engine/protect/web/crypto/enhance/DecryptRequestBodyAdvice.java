@@ -25,10 +25,15 @@
 
 package cn.herodotus.engine.protect.web.crypto.enhance;
 
+import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
 import cn.herodotus.engine.protect.core.annotation.Crypto;
 import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -44,6 +49,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * <p>Description: RequestBody 解密 Advice</p>
@@ -92,11 +99,45 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
         String content = IoUtil.read(httpInputMessage.getBody()).toString();
 
         if (StringUtils.isNotBlank(content)) {
-            String decrypt = httpCryptoProcessor.decrypt(sessionKey, content);
+            String data = httpCryptoProcessor.decrypt(sessionKey, content);
+            if (StringUtils.equals(data, content)) {
+                data = decrypt(sessionKey, content);
+            }
             log.debug("[Herodotus] |- Decrypt request body for rest method [{}] in [{}] finished.", methodName, className);
-            return new DecryptHttpInputMessage(httpInputMessage, StrUtil.utf8Bytes(decrypt));
+            return new DecryptHttpInputMessage(httpInputMessage, StrUtil.utf8Bytes(data));
         } else {
             return httpInputMessage;
+        }
+    }
+
+    private String decrypt(String sessionKey, String content) {
+        JsonNode jsonNode = JacksonUtils.toNode(content);
+        if (ObjectUtils.isNotEmpty(jsonNode)) {
+            decrypt(sessionKey, jsonNode);
+            return JacksonUtils.toJson(jsonNode);
+        }
+
+        return content;
+    }
+
+    private void decrypt(String sessionKey, JsonNode jsonNode) {
+        if (jsonNode.isObject()) {
+            Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields();
+            while (it.hasNext()) {
+                Map.Entry<String, JsonNode> entry = it.next();
+                if (entry.getValue() instanceof TextNode && entry.getValue().isValueNode()) {
+                    TextNode t = (TextNode) entry.getValue();
+                    String value = httpCryptoProcessor.decrypt(sessionKey, t.asText());
+                    entry.setValue(new TextNode(value));
+                }
+                decrypt(sessionKey, entry.getValue());
+            }
+        }
+
+        if (jsonNode.isArray()) {
+            for (JsonNode node : jsonNode) {
+                decrypt(sessionKey, node);
+            }
         }
     }
 

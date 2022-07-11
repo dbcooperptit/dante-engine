@@ -112,6 +112,7 @@ public enum ResultErrorCodes {
      */
     ACCESS_DENIED(ErrorCode.ACCESS_DENIED, "您没有权限，拒绝访问"),
     ACCOUNT_DISABLED(ErrorCode.ACCOUNT_DISABLED, "该账户已经被禁用"),
+    ACCOUNT_ENDPOINT_LIMITED(ErrorCode.ACCOUNT_ENDPOINT_LIMITED, "您已经使用其它终端登录,请先退出其它终端"),
     ACCOUNT_EXPIRED(ErrorCode.ACCOUNT_EXPIRED, "该账户已经过期"),
     ACCOUNT_LOCKED(ErrorCode.ACCOUNT_LOCKED, "该账户已经被锁定"),
     BAD_CREDENTIALS(ErrorCode.BAD_CREDENTIALS, "用户名或密码错误"),

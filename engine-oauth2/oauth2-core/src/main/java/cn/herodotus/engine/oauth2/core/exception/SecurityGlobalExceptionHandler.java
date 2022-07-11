@@ -29,14 +29,15 @@ import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.assistant.core.enums.ResultErrorCodes;
 import cn.herodotus.engine.assistant.core.exception.GlobalExceptionHandler;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.oauth2.core.constants.OAuth2ErrorCodes;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -79,6 +80,13 @@ public class SecurityGlobalExceptionHandler {
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNSUPPORTED_GRANT_TYPE, GlobalExceptionHandler.getNotAcceptableResult(ResultErrorCodes.UNSUPPORTED_GRANT_TYPE));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNSUPPORTED_RESPONSE_TYPE, GlobalExceptionHandler.getNotAcceptableResult(ResultErrorCodes.UNSUPPORTED_RESPONSE_TYPE));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.UNSUPPORTED_TOKEN_TYPE, GlobalExceptionHandler.getNotAcceptableResult(ResultErrorCodes.UNSUPPORTED_TOKEN_TYPE));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCOUNT_EXPIRED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCOUNT_EXPIRED));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.BAD_CREDENTIALS, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.BAD_CREDENTIALS));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.CREDENTIALS_EXPIRED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.CREDENTIALS_EXPIRED));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCOUNT_DISABLED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCOUNT_DISABLED));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCOUNT_LOCKED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCOUNT_LOCKED));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCOUNT_ENDPOINT_LIMITED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCOUNT_ENDPOINT_LIMITED));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.USERNAME_NOT_FOUND, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.USERNAME_NOT_FOUND));
     }
 
     /**

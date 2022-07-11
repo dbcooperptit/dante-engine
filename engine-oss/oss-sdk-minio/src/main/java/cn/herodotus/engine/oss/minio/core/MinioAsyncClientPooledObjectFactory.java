@@ -25,43 +25,36 @@
 
 package cn.herodotus.engine.oss.minio.core;
 
-import cn.herodotus.engine.oss.core.exception.OssClientPoolErrorException;
-import io.minio.MinioClient;
-import org.apache.commons.lang3.ObjectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cn.herodotus.engine.oss.minio.properties.MinioProperties;
+import org.apache.commons.pool2.BasePooledObjectFactory;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 /**
- * <p>Description: Minio 模版 </p>
+ * <p>Description: 扩展的 Minio 异步 Client 池化工厂 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/11/8 11:14
+ * @date : 2022/7/3 20:25
  */
-public abstract class MinioTemplate {
+public class MinioAsyncClientPooledObjectFactory extends BasePooledObjectFactory<MinioAsyncClient> {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioTemplate.class);
+    private final MinioProperties minioProperties;
 
-    private final MinioClientObjectPool minioClientObjectPool;
-
-    public MinioTemplate(MinioClientObjectPool minioClientObjectPool) {
-        this.minioClientObjectPool = minioClientObjectPool;
+    public MinioAsyncClientPooledObjectFactory(MinioProperties minioProperties) {
+        this.minioProperties = minioProperties;
     }
 
-    public MinioClient getMinioClient() throws OssClientPoolErrorException {
-        try {
-            MinioClient minioClient = minioClientObjectPool.getMinioClientPool().borrowObject();
-            log.debug("[Herodotus] |- Fetch minio client from object pool.");
-            return minioClient;
-        } catch (Exception e) {
-            log.error("[Herodotus] |- Can not fetch minio client from pool.");
-            throw new OssClientPoolErrorException("Can not fetch minio client from pool.");
-        }
+    @Override
+    public MinioAsyncClient create() throws Exception {
+        io.minio.MinioAsyncClient minioAsyncClient =  io.minio.MinioAsyncClient.builder()
+                .endpoint(minioProperties.getEndpoint())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
+        return new MinioAsyncClient(minioAsyncClient);
     }
 
-
-    protected void close(MinioClient minioClient) {
-        if (ObjectUtils.isNotEmpty(minioClient)) {
-            this.minioClientObjectPool.getMinioClientPool().returnObject(minioClient);
-        }
+    @Override
+    public PooledObject<MinioAsyncClient> wrap(MinioAsyncClient minioAsyncClient) {
+        return new DefaultPooledObject<>(minioAsyncClient);
     }
 }

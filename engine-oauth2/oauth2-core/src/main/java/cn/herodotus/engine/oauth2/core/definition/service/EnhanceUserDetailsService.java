@@ -26,6 +26,7 @@
 package cn.herodotus.engine.oauth2.core.definition.service;
 
 import cn.herodotus.engine.assistant.core.domain.AccessPrincipal;
+import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -50,4 +51,12 @@ public interface EnhanceUserDetailsService extends UserDetailsService {
      * @throws UsernameNotFoundException 用户不存在
      */
     UserDetails loadUserBySocial(String source, AccessPrincipal accessPrincipal) throws AuthenticationException;
+
+    /**
+     * 系统用户名
+     * @param username 用户账号
+     * @return {@link HerodotusUser}
+     * @throws UsernameNotFoundException 用户不存在
+     */
+    HerodotusUser loadHerodotusUserByUsername(String username) throws UsernameNotFoundException;
 }

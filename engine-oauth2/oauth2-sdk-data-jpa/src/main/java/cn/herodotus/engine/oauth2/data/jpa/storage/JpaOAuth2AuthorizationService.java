@@ -88,7 +88,13 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
     @Override
     public void remove(OAuth2Authorization authorization) {
-        this.herodotusAuthorizationService.deleteById(authorization.getId());
+        if (StringUtils.hasText(authorization.getId())) {
+            this.herodotusAuthorizationService.deleteById(authorization.getId());
+        } else if (StringUtils.hasText(authorization.getRegisteredClientId()) && StringUtils.hasText(authorization.getRegisteredClientId())) {
+            this.herodotusAuthorizationService.deleteByRegisteredClientIdAndPrincipalName(authorization.getRegisteredClientId(), authorization.getPrincipalName());
+        } else {
+            this.herodotusAuthorizationService.clearExpireAccessToken();
+        }
         log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service remove entity.");
     }
 
@@ -101,6 +107,12 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         } else {
             return null;
         }
+    }
+
+    public int findAuthorizationCount(String registeredClientId, String principalName) {
+        int count = this.herodotusAuthorizationService.findAuthorizationCount(registeredClientId, principalName);
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service findAuthorizationCount.");
+        return count;
     }
 
     @Override

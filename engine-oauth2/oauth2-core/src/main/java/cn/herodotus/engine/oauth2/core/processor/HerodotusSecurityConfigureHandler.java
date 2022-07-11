@@ -57,7 +57,7 @@ public class HerodotusSecurityConfigureHandler {
             "/v3/api-docs/**",
             "/openapi.json",
             "/favicon.ico");
-    private static final List<String> DEFAULT_PERMIT_ALL_RESOURCES = Lists.newArrayList("/open/**");
+    private static final List<String> DEFAULT_PERMIT_ALL_RESOURCES = Lists.newArrayList("/open/**", "/oauth2/sign-out");
 
     private List<String> staticResources;
     private List<String> permitAllResources;

@@ -26,6 +26,7 @@
 package cn.herodotus.engine.oss.minio.configuration;
 
 import cn.herodotus.engine.oss.minio.annotation.ConditionalOnMinioEnabled;
+import cn.herodotus.engine.oss.minio.core.MinioAsyncClientObjectPool;
 import cn.herodotus.engine.oss.minio.core.MinioClientObjectPool;
 import cn.herodotus.engine.oss.minio.properties.MinioProperties;
 import org.slf4j.Logger;
@@ -64,9 +65,18 @@ public class MinioConfiguration {
         return minioClientObjectPool;
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public MinioAsyncClientObjectPool minioAsyncClientPool(MinioProperties minioProperties) {
+        MinioAsyncClientObjectPool minioAsyncClientObjectPool = new MinioAsyncClientObjectPool(minioProperties);
+        log.trace("[Herodotus] |- Bean [Minio Async Client Pool] Auto Configure.");
+        return minioAsyncClientObjectPool;
+    }
+
     @Configuration(proxyBeanMethods = false)
     @ComponentScan(basePackages = {
             "cn.herodotus.engine.oss.minio.service",
+            "cn.herodotus.engine.oss.minio.processor",
             "cn.herodotus.engine.oss.minio.controller",
     })
     static class MinioLogicConfiguration {

@@ -26,10 +26,16 @@
 package cn.herodotus.engine.oauth2.server.authorization.service;
 
 import cn.herodotus.engine.assistant.core.domain.SecretKey;
+import cn.herodotus.engine.oauth2.core.utils.SecurityUtils;
 import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -49,15 +55,39 @@ public class InterfaceSecurityService {
     private static final String PKCS8_END = "-----END PUBLIC KEY-----";
 
     private final HttpCryptoProcessor httpCryptoProcessor;
+    private final RegisteredClientRepository registeredClientRepository;
 
     @Autowired
-    public InterfaceSecurityService(HttpCryptoProcessor httpCryptoProcessor) {
+    public InterfaceSecurityService(HttpCryptoProcessor httpCryptoProcessor, RegisteredClientRepository registeredClientRepository) {
         this.httpCryptoProcessor = httpCryptoProcessor;
+        this.registeredClientRepository = registeredClientRepository;
+    }
+
+    /**
+     * 检查终端是否是合法终端
+     *
+     * @param clientId     OAuth2 终端ID
+     * @param clientSecret OAuth2 终端密码
+     */
+    private RegisteredClient validateClient(String clientId, String clientSecret) {
+        RegisteredClient registeredClient = registeredClientRepository.findByClientId(clientId);
+
+        boolean isMatch = false;
+        if (ObjectUtils.isNotEmpty(registeredClient)) {
+            isMatch = SecurityUtils.matches(clientSecret, registeredClient.getClientSecret());
+        }
+
+        if (!isMatch) {
+            throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
+        }
+
+        return registeredClient;
     }
 
     public SecretKey createSecretKey(String clientId, String clientSecret, String sessionId) {
         // 检测终端是否是有效终端
-        return httpCryptoProcessor.createSecretKey(sessionId, 60);
+        RegisteredClient registeredClient = this.validateClient(clientId, clientSecret);
+        return httpCryptoProcessor.createSecretKey(sessionId, registeredClient.getTokenSettings().getAccessTokenTimeToLive());
     }
 
     /**
