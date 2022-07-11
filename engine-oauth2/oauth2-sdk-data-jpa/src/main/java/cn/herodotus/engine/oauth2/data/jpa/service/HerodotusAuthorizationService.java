@@ -29,13 +29,16 @@ import cn.herodotus.engine.data.core.repository.BaseRepository;
 import cn.herodotus.engine.data.core.service.BaseLayeredService;
 import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorization;
 import cn.herodotus.engine.oauth2.data.jpa.repository.HerodotusAuthorizationRepository;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -87,6 +90,33 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
         Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByRefreshToken(refreshToken);
         log.debug("[Herodotus] |- HerodotusAuthorization Service findByRefreshToken.");
         return result;
+    }
+
+    public void clearExpireAccessToken() {
+        this.herodotusAuthorizationRepository.deleteByAccessTokenExpiresAtBefore(LocalDateTime.now());
+        log.debug("[Herodotus] |- HerodotusAuthorization Service clearExpireAccessToken.");
+    }
+
+    public void deleteByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName) {
+        this.herodotusAuthorizationRepository.deleteByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
+        log.debug("[Herodotus] |- HerodotusAuthorization Service deleteByRegisteredClientIdAndPrincipalName.");
+    }
+
+    public List<HerodotusAuthorization> findAllByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName) {
+        List<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findAllByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
+        log.debug("[Herodotus] |- HerodotusAuthorization Service findAllByRegisteredClientIdAndPrincipalName.");
+        return result;
+    }
+
+    @Transactional
+    public int findAuthorizationCount(String registeredClientId, String principalName) {
+        clearExpireAccessToken();
+        List<HerodotusAuthorization> items = findAllByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
+        if (CollectionUtils.isNotEmpty(items)) {
+            return items.size();
+        }
+
+        return 0;
     }
 
     public Optional<HerodotusAuthorization> findByDetection(String token) {

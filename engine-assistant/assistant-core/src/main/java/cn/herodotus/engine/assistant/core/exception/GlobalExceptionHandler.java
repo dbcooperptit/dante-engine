@@ -106,13 +106,7 @@ public class GlobalExceptionHandler {
     static {
         // 401.** 对应错误
         EXCEPTION_DICTIONARY.put("AccessDeniedException", getUnauthorizedResult(ResultErrorCodes.ACCESS_DENIED));
-        EXCEPTION_DICTIONARY.put("AccountExpiredException", getUnauthorizedResult(ResultErrorCodes.ACCOUNT_EXPIRED));
-        EXCEPTION_DICTIONARY.put("BadCredentialsException", getUnauthorizedResult(ResultErrorCodes.BAD_CREDENTIALS));
-        EXCEPTION_DICTIONARY.put("CredentialsExpiredException", getUnauthorizedResult(ResultErrorCodes.CREDENTIALS_EXPIRED));
-        EXCEPTION_DICTIONARY.put("DisabledException", getUnauthorizedResult(ResultErrorCodes.ACCOUNT_DISABLED));
         EXCEPTION_DICTIONARY.put("InsufficientAuthenticationException", getUnauthorizedResult(ResultErrorCodes.ACCESS_DENIED));
-        EXCEPTION_DICTIONARY.put("LockedException", getUnauthorizedResult(ResultErrorCodes.ACCOUNT_LOCKED));
-        EXCEPTION_DICTIONARY.put("UsernameNotFoundException", getUnauthorizedResult(ResultErrorCodes.USERNAME_NOT_FOUND));
         // 405.** 对应错误
         EXCEPTION_DICTIONARY.put("HttpRequestMethodNotSupportedException", getResult(ResultErrorCodes.HTTP_REQUEST_METHOD_NOT_SUPPORTED, HttpStatus.SC_METHOD_NOT_ALLOWED));
         // 415.** 对应错误

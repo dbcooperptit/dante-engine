@@ -40,6 +40,7 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -102,10 +103,16 @@ public class RedisConfiguration {
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
         stringRedisTemplate.setConnectionFactory(redisConnectionFactory);
         stringRedisTemplate.afterPropertiesSet();
-
         log.trace("[Herodotus] |- Bean [String Redis Template] Auto Configure.");
-
         return stringRedisTemplate;
+    }
+
+    @Bean
+    public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        log.trace("[Herodotus] |- Bean [Redis Message Listener Container] Auto Configure.");
+        return container;
     }
 
     @Bean

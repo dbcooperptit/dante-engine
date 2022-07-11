@@ -61,6 +61,9 @@ public class RequestMapping extends AbstractEntity {
 
     private String description;
 
+    public RequestMapping() {
+    }
+
     @JsonProperty("authorityType")
     private AuthorityType authorityType = AuthorityType.API;
 

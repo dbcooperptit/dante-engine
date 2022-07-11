@@ -27,6 +27,7 @@ package cn.herodotus.engine.assistant.autoconfigure;
 
 import cn.herodotus.engine.assistant.core.json.jackson2.deserializer.XssStringJsonDeserializer;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -84,6 +85,7 @@ public class JacksonConfiguration {
         // 单引号处理
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        objectMapper.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
 
         /**
          * 序列换成json时,将所有的long变成string

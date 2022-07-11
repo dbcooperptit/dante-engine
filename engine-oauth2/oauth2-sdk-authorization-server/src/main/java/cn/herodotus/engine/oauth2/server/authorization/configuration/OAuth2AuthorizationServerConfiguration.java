@@ -26,6 +26,7 @@
 package cn.herodotus.engine.oauth2.server.authorization.configuration;
 
 import cn.herodotus.engine.oauth2.authorization.properties.OAuth2UiProperties;
+import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
 import cn.herodotus.engine.oauth2.core.properties.OAuth2Properties;
 import cn.herodotus.engine.oauth2.data.jpa.configuration.OAuth2DataJpaConfiguration;
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ import javax.annotation.PostConstruct;
  * @date : 2022/2/26 12:35
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({OAuth2Properties.class, OAuth2UiProperties.class})
+@EnableConfigurationProperties({OAuth2Properties.class, OAuth2UiProperties.class, OAuth2ComplianceProperties.class})
 @Import({OAuth2DataJpaConfiguration.class})
 @EntityScan(basePackages = {
         "cn.herodotus.engine.oauth2.server.authorization.entity"

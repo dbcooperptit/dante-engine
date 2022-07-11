@@ -42,7 +42,7 @@ import com.alicp.jetcache.anno.CreateCache;
  */
 public class AccessLimitedStampManager extends AbstractStampManager<String, Long> {
 
-    private SecureProperties secureProperties;
+    private final SecureProperties secureProperties;
 
     public AccessLimitedStampManager(SecureProperties secureProperties) {
         this.secureProperties = secureProperties;

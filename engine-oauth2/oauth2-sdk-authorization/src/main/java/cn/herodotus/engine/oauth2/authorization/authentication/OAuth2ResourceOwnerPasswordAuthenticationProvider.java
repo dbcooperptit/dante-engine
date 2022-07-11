@@ -25,13 +25,19 @@
 
 package cn.herodotus.engine.oauth2.authorization.authentication;
 
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2AuthenticationProviderUtils;
-import cn.herodotus.engine.oauth2.authorization.utils.OAuth2EndpointUtils;
+import cn.herodotus.engine.oauth2.core.definition.service.EnhanceUserDetailsService;
+import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -56,7 +62,7 @@ import java.util.Set;
  * @author : gengwei.zheng
  * @date : 2022/2/22 16:02
  */
-public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements AuthenticationProvider {
+public class OAuth2ResourceOwnerPasswordAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
     private static final Logger log = LoggerFactory.getLogger(OAuth2ResourceOwnerPasswordAuthenticationProvider.class);
 
@@ -64,7 +70,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
-    private final AuthenticationManager authenticationManager;
 
     /**
      * Constructs an {@code OAuth2ClientCredentialsAuthenticationProvider} using the provided parameters.
@@ -72,12 +77,44 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
      * @param authorizationService the authorization service
      * @param tokenGenerator – the token generator
      */
-    public OAuth2ResourceOwnerPasswordAuthenticationProvider(OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, AuthenticationManager authenticationManager) {
-        Assert.notNull(authorizationService, "authorizationService cannot be null");
+    public OAuth2ResourceOwnerPasswordAuthenticationProvider(OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, UserDetailsService userDetailsService, OAuth2ComplianceProperties complianceProperties) {
+        super(authorizationService, userDetailsService, complianceProperties);
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
-        this.authenticationManager = authenticationManager;
+    }
+    @Override
+    protected void additionalAuthenticationChecks(UserDetails userDetails, Map<String, Object> additionalParameters) throws AuthenticationException {
+        String presentedPassword = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
+        if (!this.getPasswordEncoder().matches(presentedPassword, userDetails.getPassword())) {
+            log.debug("[Herodotus] |- Failed to authenticate since password does not match stored value");
+            throw new BadCredentialsException("Bad credentials");
+        }
+    }
+
+    @Override
+    protected UserDetails retrieveUser(Map<String, Object> additionalParameters) throws AuthenticationException {
+        String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
+
+        try {
+            EnhanceUserDetailsService enhanceUserDetailsService = getUserDetailsService();
+            UserDetails userDetails = enhanceUserDetailsService.loadUserByUsername(username);
+            if (userDetails == null) {
+                throw new InternalAuthenticationServiceException(
+                        "UserDetailsService returned null, which is an interface contract violation");
+            }
+            return userDetails;
+        }
+        catch (UsernameNotFoundException ex) {
+            log.error("[Herodotus] |- User name can not found ：[{}]", username);
+            throw ex;
+        }
+        catch (InternalAuthenticationServiceException ex) {
+            throw ex;
+        }
+        catch (Exception ex) {
+            throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
+        }
     }
 
     @Override
@@ -93,24 +130,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
         }
 
-        Map<String, Object> additionalParameters = resourceOwnerPasswordAuthentication.getAdditionalParameters();
-        String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
-        String password = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
-
-        Authentication usernamePasswordAuthentication = null;
-        try {
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-            usernamePasswordAuthentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-            log.debug("[Herodotus] |- Resource Owner Password username and password authenticate success ：[{}]", usernamePasswordAuthentication);
-        } catch (AccountStatusException | BadCredentialsException ase) {
-            //covers expired, locked, disabled cases (mentioned in section 5.2, draft 31)
-            OAuth2EndpointUtils.throwError(
-                    OAuth2ErrorCodes.INVALID_GRANT,
-                    ase.getMessage(),
-                    OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
-        } // If the username/password are wrong the spec says we should send 400/invalid grant
-
+        Authentication usernamePasswordAuthentication = getUsernamePasswordAuthentication(resourceOwnerPasswordAuthentication.getAdditionalParameters(), registeredClient.getId());
 
         // Default to configured scopes
         Set<String> authorizedScopes = registeredClient.getScopes();
@@ -180,7 +200,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
         log.debug("[Herodotus] |- Resource Owner Password returning OAuth2AccessTokenAuthenticationToken.");
 
-        return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken);
+        return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters(usernamePasswordAuthentication, BaseConstants.PASSWORD));
     }
 
     @Override
@@ -189,4 +209,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
         log.trace("[Herodotus] |- Resource Owner Password Authentication is supports! [{}]", supports);
         return supports;
     }
+
+
 }

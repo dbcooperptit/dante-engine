@@ -45,17 +45,30 @@ public class HerodotusUserDetailsService implements EnhanceUserDetailsService {
         this.strategyUserDetailsService = strategyUserDetailsService;
     }
 
-    @Override
-    public HerodotusUser loadUserByUsername(String username) throws UsernameNotFoundException {
-        HerodotusUser HerodotusUser = strategyUserDetailsService.findUserDetailsByUsername(username);
-        log.debug("[Herodotus] |- UserDetailsService loaded user : [{}]", username);
-        return HerodotusUser;
-    }
+
+//    @Override
+//    public HerodotusUser loadUserByUsername(String username) throws UsernameNotFoundException {
+//        HerodotusUser HerodotusUser = strategyUserDetailsService.findUserDetailsByUsername(username);
+//        log.debug("[Herodotus] |- UserDetailsService loaded user : [{}]", username);
+//        return HerodotusUser;
+//    }
 
     @Override
     public UserDetails loadUserBySocial(String source, AccessPrincipal accessPrincipal) throws UsernameNotFoundException {
         HerodotusUser HerodotusUser = strategyUserDetailsService.findUserDetailsBySocial(StringUtils.toRootUpperCase(source), accessPrincipal);
         log.debug("[Herodotus] |- UserDetailsService loaded social user : [{}]", HerodotusUser.getUsername());
         return HerodotusUser;
+    }
+
+    @Override
+    public HerodotusUser loadHerodotusUserByUsername(String username) throws UsernameNotFoundException {
+        HerodotusUser HerodotusUser = strategyUserDetailsService.findUserDetailsByUsername(username);
+        log.debug("[Herodotus] |- UserDetailsService loaded user : [{}]", username);
+        return HerodotusUser;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return loadHerodotusUserByUsername(username);
     }
 }

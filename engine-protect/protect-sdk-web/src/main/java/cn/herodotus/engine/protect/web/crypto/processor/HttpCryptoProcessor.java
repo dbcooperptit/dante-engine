@@ -35,6 +35,7 @@ import cn.hutool.core.util.IdUtil;
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.CreateCache;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +72,12 @@ public class HttpCryptoProcessor extends AbstractStampManager<String, SecretKey>
     public String encrypt(String identity, String content) {
         try {
             SecretKey secretKey = getSecretKey(identity);
+            if (ObjectUtils.isNotEmpty(secretKey)) {
+                log.debug("[Herodotus] |- Encrypt content use param identity [{}], cached identity is [{}].", identity, secretKey.getIdentity());
+            } else {
+                log.warn("[Herodotus] |- Encrypt content can not found correct secretKey");
+            }
+
             String result = symmetricCryptoProcessor.encrypt(content, secretKey.getSymmetricKey());
             log.debug("[Herodotus] |- Encrypt content from [{}] to [{}].", content, result);
             return result;
@@ -82,7 +89,13 @@ public class HttpCryptoProcessor extends AbstractStampManager<String, SecretKey>
     public String decrypt(String identity, String content) {
         try {
             SecretKey secretKey = getSecretKey(identity);
+            if (ObjectUtils.isNotEmpty(secretKey)) {
+                log.debug("[Herodotus] |- Decrypt content use param identity [{}], cached identity is [{}].", identity, secretKey.getIdentity());
+            } else {
+                log.warn("[Herodotus] |- Decrypt content can not found correct secretKey");
+            }
             String result = symmetricCryptoProcessor.decrypt(content, secretKey.getSymmetricKey());
+
             log.debug("[Herodotus] |- Decrypt content from [{}] to [{}].", content, result);
             return result;
         } catch (Exception e) {
@@ -98,7 +111,7 @@ public class HttpCryptoProcessor extends AbstractStampManager<String, SecretKey>
      * @param accessTokenValiditySeconds Session过期时间，单位秒
      * @return {@link SecretKey}
      */
-    public SecretKey createSecretKey(String identity, Integer accessTokenValiditySeconds) {
+    public SecretKey createSecretKey(String identity, Duration accessTokenValiditySeconds) {
         // 前端如果设置sessionId，则由后端生成
         if (StringUtils.isBlank(identity)) {
             identity = IdUtil.fastUUID();
@@ -132,11 +145,11 @@ public class HttpCryptoProcessor extends AbstractStampManager<String, SecretKey>
         throw new SessionInvalidException("Session key is expired!");
     }
 
-    private Duration getExpire(Integer accessTokenValiditySeconds) {
-        if (accessTokenValiditySeconds == 0) {
+    private Duration getExpire(Duration accessTokenValiditySeconds) {
+        if (ObjectUtils.isEmpty(accessTokenValiditySeconds) || accessTokenValiditySeconds.isZero()) {
             return Duration.ofHours(2L);
         } else {
-            return Duration.ofSeconds(accessTokenValiditySeconds.longValue());
+            return accessTokenValiditySeconds;
         }
     }
 
