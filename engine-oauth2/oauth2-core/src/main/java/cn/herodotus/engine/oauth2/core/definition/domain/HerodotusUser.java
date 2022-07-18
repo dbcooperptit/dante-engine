@@ -27,12 +27,10 @@ package cn.herodotus.engine.oauth2.core.definition.domain;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
@@ -46,9 +44,7 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
-    private static final Log logger = LogFactory.getLog(User.class);
-
-    private String userId;
+    private final String userId;
 
     private String password;
 
@@ -64,11 +60,20 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
 
     private final boolean enabled;
 
+    private final Set<String> roles;
+
     /**
      * Calls the more complex constructor with all boolean arguments set to {@code true}.
      */
     public HerodotusUser(String userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        this(userId, username, password, true, true, true, true, authorities);
+        this(userId, username, password, authorities, null);
+    }
+
+    /**
+     * Calls the more complex constructor with all boolean arguments set to {@code true}.
+     */
+    public HerodotusUser(String userId, String username, String password, Collection<? extends GrantedAuthority> authorities, Set<String> roles) {
+        this(userId, username, password, true, true, true, true, authorities, roles);
     }
 
     /**
@@ -91,7 +96,7 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
      */
     public HerodotusUser(String userId, String username, String password, boolean enabled, boolean accountNonExpired,
                          boolean credentialsNonExpired, boolean accountNonLocked,
-                         Collection<? extends GrantedAuthority> authorities) {
+                         Collection<? extends GrantedAuthority> authorities, Set<String> roles) {
         Assert.isTrue(username != null && !"".equals(username) && password != null,
                 "Cannot pass null or empty values to constructor");
         this.userId = userId;
@@ -102,6 +107,7 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
         this.credentialsNonExpired = credentialsNonExpired;
         this.accountNonLocked = accountNonLocked;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
+        this.roles = CollectionUtils.isNotEmpty(roles) ? roles : new HashSet<>();
     }
 
     @Override
@@ -146,6 +152,10 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
 
     public String getUserId() {
         return userId;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
     }
 
     private static SortedSet<GrantedAuthority> sortAuthorities(Collection<? extends GrantedAuthority> authorities) {

@@ -23,33 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.rest.processor;
+package cn.herodotus.engine.assistant.core.component.router;
 
-import cn.herodotus.engine.web.core.context.HerodotusApplicationContext;
-import cn.herodotus.engine.web.core.definition.OpenApiServerResolver;
-import com.google.common.collect.ImmutableList;
-import io.swagger.v3.oas.models.servers.Server;
-
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * <p>Description: 默认的OpenApi Serv处理器。 </p>
+ * <p>Description: 子级节点Meta定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/16 22:15
+ * @date : 2022/7/14 16:53
  */
-public class DefaultOpenApiServerResolver implements OpenApiServerResolver {
+public class ParentMeta extends BaseMeta{
 
-    private final HerodotusApplicationContext herodotusApplicationContext;
+    @JsonProperty("isHideAllChild")
+    private Boolean hideAllChild = false;
 
-    public DefaultOpenApiServerResolver(HerodotusApplicationContext herodotusApplicationContext) {
-        this.herodotusApplicationContext = herodotusApplicationContext;
+    public Boolean getHideAllChild() {
+        return hideAllChild;
     }
 
-    @Override
-    public List<Server> getServers() {
-        Server server = new Server();
-        server.setUrl(herodotusApplicationContext.getServiceContext().getUrl());
-        return ImmutableList.of(server);
+    public void setHideAllChild(Boolean hideAllChild) {
+        this.hideAllChild = hideAllChild;
     }
 }

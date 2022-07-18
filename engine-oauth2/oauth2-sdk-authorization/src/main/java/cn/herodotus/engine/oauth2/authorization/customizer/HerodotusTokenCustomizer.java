@@ -37,6 +37,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
@@ -69,44 +70,38 @@ public class HerodotusTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodi
             if (token.isAuthenticated() && OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
                 Authentication authentication = context.getPrincipal();
                 if (ObjectUtils.isNotEmpty(authentication)) {
+
+                    Map<String, Object> attributes = new HashMap<>();
+
+                    if (CollectionUtils.isNotEmpty(authentication.getAuthorities())) {
+                        Set<String> authorities = authentication.getAuthorities().stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toSet());
+                        attributes.put(BaseConstants.AUTHORITIES, authorities);
+                    }
+                    Set<String> authorizedScopes = context.getAuthorizedScopes();
+                    if (CollectionUtils.isNotEmpty(authorizedScopes)) {
+                        attributes.put(OAuth2ParameterNames.SCOPE, authorizedScopes);
+                    }
+
                     if (authentication instanceof UsernamePasswordAuthenticationToken) {
                         HerodotusUser principal = (HerodotusUser) authentication.getPrincipal();
                         String userId = principal.getUserId();
-                        Set<String> authorities = principal.getAuthorities().stream()
-                                .map(GrantedAuthority::getAuthority)
-                                .collect(Collectors.toSet());
-                        Set<String> authorizedScopes = context.getAuthorizedScopes();
-
-                        Map<String, Object> attributes = new HashMap<>();
                         attributes.put(BaseConstants.OPEN_ID, userId);
-                        attributes.put(BaseConstants.AUTHORITIES, authorities);
-                        if (CollectionUtils.isNotEmpty(authorizedScopes)) {
-                            attributes.put(OAuth2ParameterNames.SCOPE, authorizedScopes);
-                        }
-
-                        JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
-                        jwtClaimSetBuilder.claims(claims -> claims.putAll(attributes));
                     }
 
-                    if (authentication instanceof OAuth2ClientAuthenticationToken) {
-                        OAuth2ClientAuthenticationToken clientAuthenticationToken = (OAuth2ClientAuthenticationToken) authentication;
-
-                        Map<String, Object> attributes = new HashMap<>();
-                        if (CollectionUtils.isNotEmpty(clientAuthenticationToken.getAuthorities())) {
-                            Set<String> authorities = clientAuthenticationToken.getAuthorities().stream()
-                                    .map(GrantedAuthority::getAuthority)
-                                    .collect(Collectors.toSet());
-                            attributes.put(BaseConstants.AUTHORITIES, authorities);
+                    if (authentication instanceof OAuth2AccessTokenAuthenticationToken) {
+                        Object details = authentication.getDetails();
+                        if (ObjectUtils.isNotEmpty(details) && details instanceof HerodotusUser) {
+                            HerodotusUser principal = (HerodotusUser) details;
+                            String userId = principal.getUserId();
+                            attributes.put(BaseConstants.OPEN_ID, userId);
                         }
-
-                        Set<String> authorizedScopes = context.getAuthorizedScopes();
-                        if (CollectionUtils.isNotEmpty(authorizedScopes)) {
-                            attributes.put(OAuth2ParameterNames.SCOPE, authorizedScopes);
-                        }
-
-                        JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
-                        jwtClaimSetBuilder.claims(claims -> claims.putAll(attributes));
                     }
+
+                    attributes.put("license", "Herodotus Cloud");
+                    JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
+                    jwtClaimSetBuilder.claims(claims -> claims.putAll(attributes));
                 }
             }
         }

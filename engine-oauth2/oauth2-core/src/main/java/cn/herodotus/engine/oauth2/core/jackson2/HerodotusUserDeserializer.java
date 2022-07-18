@@ -51,6 +51,8 @@ public class HerodotusUserDeserializer extends JsonDeserializer<HerodotusUser> {
 
     private static final TypeReference<Set<HerodotusGrantedAuthority>> HERODOTUS_GRANTED_AUTHORITY_SET = new TypeReference<Set<HerodotusGrantedAuthority>>() {
     };
+    private static final TypeReference<Set<String>> HERODOTUS_ROLE_SET = new TypeReference<Set<String>>() {
+    };
 
     /**
      * This method will create {@link User} object. It will ensure successful object
@@ -68,8 +70,8 @@ public class HerodotusUserDeserializer extends JsonDeserializer<HerodotusUser> {
     public HerodotusUser deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode jsonNode = mapper.readTree(jp);
-        Set<? extends GrantedAuthority> authorities = mapper.convertValue(jsonNode.get("authorities"),
-                HERODOTUS_GRANTED_AUTHORITY_SET);
+        Set<? extends GrantedAuthority> authorities = mapper.convertValue(jsonNode.get("authorities"), HERODOTUS_GRANTED_AUTHORITY_SET);
+        Set<String> roles = mapper.convertValue(jsonNode.get("roles"), HERODOTUS_ROLE_SET);
         JsonNode passwordNode = readJsonNode(jsonNode, "password");
         String userId = readJsonNode(jsonNode, "userId").asText();
         String username = readJsonNode(jsonNode, "username").asText();
@@ -78,8 +80,7 @@ public class HerodotusUserDeserializer extends JsonDeserializer<HerodotusUser> {
         boolean accountNonExpired = readJsonNode(jsonNode, "accountNonExpired").asBoolean();
         boolean credentialsNonExpired = readJsonNode(jsonNode, "credentialsNonExpired").asBoolean();
         boolean accountNonLocked = readJsonNode(jsonNode, "accountNonLocked").asBoolean();
-        HerodotusUser result = new HerodotusUser(userId, username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
-                authorities);
+        HerodotusUser result = new HerodotusUser(userId, username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, roles);
         if (passwordNode.asText(null) == null) {
             result.eraseCredentials();
         }

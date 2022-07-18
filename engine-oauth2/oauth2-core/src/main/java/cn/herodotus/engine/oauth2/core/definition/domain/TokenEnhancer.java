@@ -23,30 +23,13 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.response;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+package cn.herodotus.engine.oauth2.core.definition.domain;
 
 /**
- * <p>Description: 自定义 Security 认证成功处理器 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/2/25 16:53
+ * @date : 2022/7/14 11:35
  */
-public class HerodotusAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-
-    private static final Logger log = LoggerFactory.getLogger(HerodotusAuthenticationSuccessHandler.class);
-
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        log.debug("[Herodotus] |- OAuth2 authentication success for [{}]", request.getRequestURI());
-    }
+public interface TokenEnhancer {
 }

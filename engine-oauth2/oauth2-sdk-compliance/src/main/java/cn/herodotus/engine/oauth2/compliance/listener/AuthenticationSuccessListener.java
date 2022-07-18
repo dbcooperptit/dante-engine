@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.oauth2.compliance.listener;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.oauth2.authorization.domain.UserAuthenticationDetails;
 import cn.herodotus.engine.oauth2.compliance.service.OAuth2ComplianceService;
 import cn.herodotus.engine.oauth2.compliance.stamp.SignInFailureLimitedStampManager;
 import cn.hutool.crypto.SecureUtil;
@@ -41,7 +41,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * <p>Description: 登录成功事件监听 </p>
@@ -52,7 +51,6 @@ import java.util.Map;
 public class AuthenticationSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationSuccessListener.class);
-
 
     private final SignInFailureLimitedStampManager stampManager;
     private final OAuth2ComplianceService complianceService;
@@ -65,28 +63,32 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
 
+        log.debug("[Herodotus] |- Authentication Success Listener!");
+
         Authentication authentication = event.getAuthentication();
 
         if (authentication instanceof OAuth2AccessTokenAuthenticationToken) {
             OAuth2AccessTokenAuthenticationToken authenticationToken = (OAuth2AccessTokenAuthenticationToken) authentication;
-            Map<String, Object> params = authenticationToken.getAdditionalParameters();
-            Object userName = params.get(BaseConstants.USER_NAME);
+            Object details = authentication.getDetails();
+
+            String username = null;
+            if (ObjectUtils.isNotEmpty(details) && details instanceof UserAuthenticationDetails) {
+                UserAuthenticationDetails user = (UserAuthenticationDetails) details;
+                username = user.getUserName();
+            }
+
             String clientId = authenticationToken.getRegisteredClient().getId();
 
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            if (ObjectUtils.isNotEmpty(request)) {
-                String principal = ObjectUtils.isNotEmpty(userName) ? userName.toString() : null;
-                complianceService.save(principal, clientId, "用户登录", request);
-                if (StringUtils.isNotBlank(principal)) {
-                    String key = SecureUtil.md5(principal);
-                    boolean hasKey = stampManager.containKey(key);
-                    if (hasKey) {
-                        stampManager.delete(key);
-                    }
+            if (ObjectUtils.isNotEmpty(request) && StringUtils.isNotBlank(username)) {
+                complianceService.save(username, clientId, "用户登录", request);
+                String key = SecureUtil.md5(username);
+                boolean hasKey = stampManager.containKey(key);
+                if (hasKey) {
+                    stampManager.delete(key);
                 }
-
             } else {
-                log.warn("[Herodotus] |- Can not get request, skip!");
+                log.warn("[Herodotus] |- Can not get request and username, skip!");
             }
         }
     }
