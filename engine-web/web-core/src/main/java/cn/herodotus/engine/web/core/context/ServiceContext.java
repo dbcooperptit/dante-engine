@@ -26,6 +26,7 @@
 package cn.herodotus.engine.web.core.context;
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.core.enums.Protocol;
 import cn.herodotus.engine.assistant.core.utils.ConvertUtils;
 import cn.herodotus.engine.web.core.enums.Architecture;
 import cn.herodotus.engine.web.core.enums.DataAccessStrategy;
@@ -53,6 +54,10 @@ public class ServiceContext {
      */
     private DataAccessStrategy dataAccessStrategy = DataAccessStrategy.REMOTE;
 
+    /**
+     * 协议头类型
+     */
+    private Protocol protocol = Protocol.HTTP;
     /**
      * 服务端口号
      */
@@ -158,6 +163,14 @@ public class ServiceContext {
         this.gatewayAddress = gatewayAddress;
     }
 
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
+    }
+
     public String getAddress() {
         if (isDistributedArchitecture()) {
             this.address = this.getGatewayAddress() + SymbolConstants.FORWARD_SLASH + this.getApplicationName();
@@ -173,7 +186,7 @@ public class ServiceContext {
         if (StringUtils.isBlank(this.url)) {
             String address = this.getAddress();
             if (StringUtils.isNotBlank(address)) {
-                return ConvertUtils.addressToUri(address);
+                return ConvertUtils.addressToUri(address, getProtocol(), false);
             }
         }
         return url;

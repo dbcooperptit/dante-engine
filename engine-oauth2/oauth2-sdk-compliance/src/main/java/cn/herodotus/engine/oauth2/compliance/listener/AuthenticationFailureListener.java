@@ -25,7 +25,6 @@
 
 package cn.herodotus.engine.oauth2.compliance.listener;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.cache.core.exception.MaximumLimitExceededException;
 import cn.herodotus.engine.oauth2.compliance.service.OAuth2AccountStatusService;
 import cn.herodotus.engine.oauth2.compliance.stamp.SignInFailureLimitedStampManager;
@@ -35,9 +34,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationGrantAuthenticationToken;
 
 import java.time.Duration;
@@ -64,28 +65,45 @@ public class AuthenticationFailureListener implements ApplicationListener<Abstra
     @Override
     public void onApplicationEvent(AbstractAuthenticationFailureEvent event) {
 
-        log.debug("[Herodotus] |- Current Event [{}] items", event.getClass().getName());
+        log.debug("[Herodotus] |- User sign in catch failure event : [{}].", event.getClass().getName());
 
         if (event instanceof AuthenticationFailureBadCredentialsEvent) {
             Authentication authentication = event.getAuthentication();
 
+            String username = null;
+
             if (authentication instanceof OAuth2AuthorizationGrantAuthenticationToken) {
+
+                log.debug("[Herodotus] |- Toke object in failure event  is OAuth2AuthorizationGrantAuthenticationToken");
+
                 OAuth2AuthorizationGrantAuthenticationToken token = (OAuth2AuthorizationGrantAuthenticationToken) authentication;
-
                 Map<String, Object> params = token.getAdditionalParameters();
-                String username = getPrincipal(params);
+                username = getPrincipal(params);
+            }
 
-                if (StringUtils.isNotBlank(username)) {
-                    int maxTimes = stampManager.getComplianceProperties().getSignInFailureLimited().getMaxTimes();
-                    Duration expire = stampManager.getComplianceProperties().getSignInFailureLimited().getExpire();
-                    try {
-                        int times = stampManager.counting(username, maxTimes, expire, true, "AuthenticationFailureListener");
+            if (authentication instanceof UsernamePasswordAuthenticationToken) {
 
-                        log.debug("[Herodotus] |- Sign in user input password error [{}] items", times);
-                    }catch (MaximumLimitExceededException e) {
-                        log.warn("[Herodotus] |- User [{}] password error [{}] items, LOCK ACCOUNT!", username, maxTimes);
-                        accountLockService.lock(username);
-                    }
+                log.debug("[Herodotus] |- Toke object in failure event  is UsernamePasswordAuthenticationToken");
+
+                UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+                Object principal =  token.getPrincipal();
+                if (principal instanceof String) {
+                    username = (String) principal;
+                }
+            }
+
+            if (StringUtils.isNotBlank(username)) {
+
+                log.debug("[Herodotus] |- Parse the username in failure event is [{}].", username);
+
+                int maxTimes = stampManager.getComplianceProperties().getSignInFailureLimited().getMaxTimes();
+                Duration expire = stampManager.getComplianceProperties().getSignInFailureLimited().getExpire();
+                try {
+                    int times = stampManager.counting(username, maxTimes, expire, true, "AuthenticationFailureListener");
+                    log.debug("[Herodotus] |- Sign in user input password error [{}] items", times);
+                }catch (MaximumLimitExceededException e) {
+                    log.warn("[Herodotus] |- User [{}] password error [{}] items, LOCK ACCOUNT!", username, maxTimes);
+                    accountLockService.lock(username);
                 }
             }
         }
@@ -93,8 +111,8 @@ public class AuthenticationFailureListener implements ApplicationListener<Abstra
 
     private String getPrincipal(Map<String, Object> params) {
         if (MapUtils.isNotEmpty(params)) {
-            if (params.containsKey(BaseConstants.USER_NAME)) {
-                Object value = params.get(BaseConstants.USER_NAME);
+            if (params.containsKey(OAuth2ParameterNames.USERNAME)) {
+                Object value = params.get(OAuth2ParameterNames.USERNAME);
                 if (ObjectUtils.isNotEmpty(value)) {
                     return (String) value;
                 }

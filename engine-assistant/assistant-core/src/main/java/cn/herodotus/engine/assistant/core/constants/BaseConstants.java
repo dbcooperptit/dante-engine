@@ -56,7 +56,7 @@ public interface BaseConstants {
     String PROPERTY_PREFIX_PLATFORM = PROPERTY_PREFIX_HERODOTUS + ".platform";
     String PROPERTY_PREFIX_SECURITY = PROPERTY_PREFIX_HERODOTUS + ".security";
     String PROPERTY_PREFIX_REST = PROPERTY_PREFIX_HERODOTUS + ".rest";
-    String PROPERTY_PREFIX_SWAGGER = PROPERTY_PREFIX_HERODOTUS + ".swagger";
+    String PROPERTY_PREFIX_SWAGGER = PROPERTY_PREFIX_PLATFORM + ".swagger";
 
     String ITEM_SWAGGER_ENABLED = PROPERTY_PREFIX_SWAGGER + PROPERTY_ENABLED;
 
@@ -109,11 +109,7 @@ public interface BaseConstants {
     String ROLE_PREFIX = "ROLE_";
     String AUTHORITY_PREFIX = "OP_";
 
-    String GRANT_TYPE = "grantType";
-
     String OPEN_ID = "openid";
-    String USER_ID = "userid";
-    String USER_NAME = "username";
     String LICENSE = "license";
 
     String AUTHORITIES = "authorities";

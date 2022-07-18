@@ -62,7 +62,10 @@ public class ConvertUtils {
      */
     public static String addressToUri(String address, Protocol protocol, boolean endWithForwardSlash) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(protocol.getFormat());
+
+        if (!StringUtils.startsWith(address, protocol.getFormat())) {
+            stringBuilder.append(protocol.getFormat());
+        }
 
         if (endWithForwardSlash) {
             stringBuilder.append(wellFormed(address));

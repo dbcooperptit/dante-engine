@@ -23,33 +23,55 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.rest.processor;
+package cn.herodotus.engine.assistant.core.component.router;
 
-import cn.herodotus.engine.web.core.context.HerodotusApplicationContext;
-import cn.herodotus.engine.web.core.definition.OpenApiServerResolver;
-import com.google.common.collect.ImmutableList;
-import io.swagger.v3.oas.models.servers.Server;
-
-import java.util.List;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * <p>Description: 默认的OpenApi Serv处理器。 </p>
+ * <p>Description: Vue Router Meta 属性定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/16 22:15
+ * @date : 2022/7/14 16:51
  */
-public class DefaultOpenApiServerResolver implements OpenApiServerResolver {
+public class BaseMeta implements Entity {
 
-    private final HerodotusApplicationContext herodotusApplicationContext;
+    private String title;
+    private String icon;
+    @JsonProperty("isNotKeepAlive")
+    private Boolean notKeepAlive = false;
+    @JsonProperty("isIgnoreAuth")
+    private Boolean ignoreAuth = false;
 
-    public DefaultOpenApiServerResolver(HerodotusApplicationContext herodotusApplicationContext) {
-        this.herodotusApplicationContext = herodotusApplicationContext;
+    public String getTitle() {
+        return title;
     }
 
-    @Override
-    public List<Server> getServers() {
-        Server server = new Server();
-        server.setUrl(herodotusApplicationContext.getServiceContext().getUrl());
-        return ImmutableList.of(server);
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Boolean getNotKeepAlive() {
+        return notKeepAlive;
+    }
+
+    public void setNotKeepAlive(Boolean notKeepAlive) {
+        this.notKeepAlive = notKeepAlive;
+    }
+
+    public Boolean getIgnoreAuth() {
+        return ignoreAuth;
+    }
+
+    public void setIgnoreAuth(Boolean ignoreAuth) {
+        this.ignoreAuth = ignoreAuth;
     }
 }

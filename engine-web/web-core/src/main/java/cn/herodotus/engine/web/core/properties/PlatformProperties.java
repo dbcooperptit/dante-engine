@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.web.core.properties;
 
+import cn.herodotus.engine.assistant.core.enums.Protocol;
 import cn.herodotus.engine.web.core.constants.WebConstants;
 import cn.herodotus.engine.web.core.enums.Architecture;
 import cn.herodotus.engine.web.core.enums.DataAccessStrategy;
@@ -48,6 +49,11 @@ public class PlatformProperties {
      * 数据访问策略，默认：
      */
     private DataAccessStrategy dataAccessStrategy = DataAccessStrategy.REMOTE;
+
+    /**
+     * 接口地址默认采用的Http协议类型
+     */
+    private Protocol protocol = Protocol.HTTP;
 
     private Swagger swagger = new Swagger();
 
@@ -83,6 +89,14 @@ public class PlatformProperties {
 
     public void setDebezium(Debezium debezium) {
         this.debezium = debezium;
+    }
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
     }
 
     public static class Swagger {

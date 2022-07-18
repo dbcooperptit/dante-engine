@@ -23,33 +23,45 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.rest.processor;
+package cn.herodotus.engine.oauth2.authorization.domain;
 
-import cn.herodotus.engine.web.core.context.HerodotusApplicationContext;
-import cn.herodotus.engine.web.core.definition.OpenApiServerResolver;
-import com.google.common.collect.ImmutableList;
-import io.swagger.v3.oas.models.servers.Server;
-
-import java.util.List;
+import java.util.Set;
 
 /**
- * <p>Description: 默认的OpenApi Serv处理器。 </p>
+ * <p>Description: 用户登录额外信息 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/16 22:15
+ * @date : 2022/7/13 14:31
  */
-public class DefaultOpenApiServerResolver implements OpenApiServerResolver {
+public class UserAuthenticationDetails {
 
-    private final HerodotusApplicationContext herodotusApplicationContext;
+    private String userId;
 
-    public DefaultOpenApiServerResolver(HerodotusApplicationContext herodotusApplicationContext) {
-        this.herodotusApplicationContext = herodotusApplicationContext;
+    private String userName;
+
+    private Set<String> roles;
+
+    public String getUserId() {
+        return userId;
     }
 
-    @Override
-    public List<Server> getServers() {
-        Server server = new Server();
-        server.setUrl(herodotusApplicationContext.getServiceContext().getUrl());
-        return ImmutableList.of(server);
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
 }

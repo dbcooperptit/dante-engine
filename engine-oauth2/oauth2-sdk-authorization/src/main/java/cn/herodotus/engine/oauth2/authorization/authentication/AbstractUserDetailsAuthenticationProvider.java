@@ -25,13 +25,13 @@
 
 package cn.herodotus.engine.oauth2.authorization.authentication;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
-import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
+import cn.herodotus.engine.oauth2.authorization.domain.UserAuthenticationDetails;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2EndpointUtils;
 import cn.herodotus.engine.oauth2.core.constants.OAuth2ErrorCodes;
 import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
 import cn.herodotus.engine.oauth2.core.definition.service.EnhanceUserDetailsService;
 import cn.herodotus.engine.oauth2.core.exception.AccountEndpointLimitedException;
+import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
 import cn.herodotus.engine.oauth2.data.jpa.storage.JpaOAuth2AuthorizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +46,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.util.Assert;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -96,7 +96,7 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements Authe
     protected abstract UserDetails retrieveUser(Map<String, Object> additionalParameters) throws AuthenticationException;
 
     private Authentication authenticateUserDetails(Map<String, Object> additionalParameters, String registeredClientId) throws AuthenticationException {
-        UserDetails user = retrieveUser(additionalParameters);;
+        UserDetails user = retrieveUser(additionalParameters);
 
         if (!user.isAccountNonLocked()) {
             log.debug("[Herodotus] |- Failed to authenticate since user account is locked");
@@ -157,19 +157,18 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements Authe
         return authentication;
     }
 
-    protected Map<String, Object> additionalParameters(Authentication authentication, String grantType) {
-        if (authentication instanceof UsernamePasswordAuthenticationToken) {
-            UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-            if (token.getPrincipal() instanceof HerodotusUser) {
-                HerodotusUser user = (HerodotusUser) token.getPrincipal();
-                Map<String, Object> additionalParameters = new HashMap<>();
-                additionalParameters.put(BaseConstants.USER_NAME, user.getUsername());
-                additionalParameters.put(BaseConstants.USER_ID, user.getUserId());
-                additionalParameters.put(BaseConstants.GRANT_TYPE, grantType);
-                return additionalParameters;
+    protected OAuth2AccessTokenAuthenticationToken getOAuth2AccessTokenAuthenticationToken(Authentication source, OAuth2AccessTokenAuthenticationToken destination) {
+        if (source instanceof UsernamePasswordAuthenticationToken) {
+            if (source.getPrincipal() instanceof HerodotusUser) {
+                HerodotusUser user = (HerodotusUser) source.getPrincipal();
+                UserAuthenticationDetails details = new UserAuthenticationDetails();
+                details.setUserId(user.getUserId());
+                details.setUserName(user.getUsername());
+                details.setRoles(user.getRoles());
+                destination.setDetails(details);
             }
         }
 
-        return null;
+        return destination;
     }
 }
