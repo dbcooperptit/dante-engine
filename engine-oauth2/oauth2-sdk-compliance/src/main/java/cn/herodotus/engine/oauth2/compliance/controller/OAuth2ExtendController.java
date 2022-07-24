@@ -74,7 +74,7 @@ public class OAuth2ExtendController {
         this.accountLockService = accountLockService;
     }
 
-    @Operation(summary = "注销 OAuth2 应用", description = "根据接收到的 AccessToken，删除后端存储的 Token信息，起到注销效果",
+    @Operation(summary = "注销OAuth2应用", description = "根据接收到的AccessToken,删除后端存储的Token信息,起到注销效果",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/x-www-form-urlencoded")),
             responses = {@ApiResponse(description = "是否成功", content = @Content(mediaType = "application/json"))})
     @Parameters({
