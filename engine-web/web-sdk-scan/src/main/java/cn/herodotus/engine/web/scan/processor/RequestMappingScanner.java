@@ -250,7 +250,7 @@ public class RequestMappingScanner implements ApplicationListener<ApplicationRea
         Operation apiOperation = method.getMethodAnnotation(Operation.class);
         if (ObjectUtils.isNotEmpty(apiOperation)) {
             requestMapping.setMetadataName(apiOperation.summary());
-            requestMapping.setDescription(apiOperation.description());
+//            requestMapping.setDescription(apiOperation.description());
         }
         requestMapping.setRequestMethod(requestMethods);
         requestMapping.setUrl(urls);

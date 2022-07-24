@@ -48,8 +48,8 @@ public class HerodotusMybatisCache implements Cache {
 
     public HerodotusMybatisCache(String id) {
         this.id = id;
-        JetCacheBuilder jetCacheBuilder = SpringUtil.getBean("jetcacheBuilder");
-        this.cache = jetCacheBuilder.create(this.id);
+        JetCacheCreateCacheFactory jetCacheCreateCacheFactory = SpringUtil.getBean("jetCacheCreateCacheFactory");
+        this.cache = jetCacheCreateCacheFactory.create(this.id);
     }
 
     @Override
