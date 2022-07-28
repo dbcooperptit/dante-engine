@@ -65,6 +65,9 @@ public class SecretKey implements Serializable {
      */
     private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
+    public SecretKey() {
+    }
+
     public String getIdentity() {
         return identity;
     }

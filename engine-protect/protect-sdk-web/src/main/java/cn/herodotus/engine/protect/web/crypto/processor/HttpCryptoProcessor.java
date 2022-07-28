@@ -26,6 +26,7 @@
 package cn.herodotus.engine.protect.web.crypto.processor;
 
 import cn.herodotus.engine.assistant.core.domain.SecretKey;
+import cn.herodotus.engine.cache.core.exception.StampHasExpiredException;
 import cn.herodotus.engine.cache.jetcache.stamp.AbstractStampManager;
 import cn.herodotus.engine.protect.core.constants.ProtectConstants;
 import cn.herodotus.engine.protect.core.definition.AsymmetricCryptoProcessor;
@@ -69,35 +70,31 @@ public class HttpCryptoProcessor extends AbstractStampManager<String, SecretKey>
         this.symmetricCryptoProcessor = symmetricCryptoProcessor;
     }
 
-    public String encrypt(String identity, String content) {
+    public String encrypt(String identity, String content) throws SessionInvalidException {
         try {
             SecretKey secretKey = getSecretKey(identity);
-            if (ObjectUtils.isNotEmpty(secretKey)) {
-                log.debug("[Herodotus] |- Encrypt content use param identity [{}], cached identity is [{}].", identity, secretKey.getIdentity());
-            } else {
-                log.warn("[Herodotus] |- Encrypt content can not found correct secretKey");
-            }
-
             String result = symmetricCryptoProcessor.encrypt(content, secretKey.getSymmetricKey());
             log.debug("[Herodotus] |- Encrypt content from [{}] to [{}].", content, result);
             return result;
+        } catch (StampHasExpiredException e) {
+            log.warn("[Herodotus] |- Session has expired, need recreate.");
+            throw new SessionInvalidException();
         } catch (Exception e) {
             log.warn("[Herodotus] |- Symmetric can not Encrypt content [{}], Skip!", content);
             return content;
         }
     }
-    public String decrypt(String identity, String content) {
+
+    public String decrypt(String identity, String content) throws SessionInvalidException {
         try {
             SecretKey secretKey = getSecretKey(identity);
-            if (ObjectUtils.isNotEmpty(secretKey)) {
-                log.debug("[Herodotus] |- Decrypt content use param identity [{}], cached identity is [{}].", identity, secretKey.getIdentity());
-            } else {
-                log.warn("[Herodotus] |- Decrypt content can not found correct secretKey");
-            }
-            String result = symmetricCryptoProcessor.decrypt(content, secretKey.getSymmetricKey());
 
+            String result = symmetricCryptoProcessor.decrypt(content, secretKey.getSymmetricKey());
             log.debug("[Herodotus] |- Decrypt content from [{}] to [{}].", content, result);
             return result;
+        } catch (StampHasExpiredException e) {
+            log.warn("[Herodotus] |- Session has expired, need recreate.");
+            throw new SessionInvalidException();
         } catch (Exception e) {
             log.warn("[Herodotus] |- Symmetric can not Decrypt content [{}], Skip!", content);
             return content;
@@ -137,12 +134,16 @@ public class HttpCryptoProcessor extends AbstractStampManager<String, SecretKey>
         return this.containKey(identity);
     }
 
-    private SecretKey getSecretKey(String identity) throws SessionInvalidException {
+    private SecretKey getSecretKey(String identity) throws StampHasExpiredException {
         if (isSessionValid(identity)) {
-            return this.get(identity);
+            SecretKey secretKey = this.get(identity);
+            if (ObjectUtils.isNotEmpty(secretKey)) {
+                log.trace("[Herodotus] |- Decrypt Or Encrypt content use param identity [{}], cached identity is [{}].", identity, secretKey.getIdentity());
+                return secretKey;
+            }
         }
 
-        throw new SessionInvalidException("Session key is expired!");
+        throw new StampHasExpiredException("SecretKey key is expired!");
     }
 
     private Duration getExpire(Duration accessTokenValiditySeconds) {

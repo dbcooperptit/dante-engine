@@ -42,7 +42,10 @@ public class HerodotusDomainDataStorageAccess implements DomainDataStorageAccess
 
     private static final Logger log = LoggerFactory.getLogger(HerodotusDomainDataStorageAccess.class);
 
-    private final Cache cache;
+    private Cache cache;
+
+    public HerodotusDomainDataStorageAccess() {
+    }
 
     public HerodotusDomainDataStorageAccess(Cache cache) {
         this.cache = cache;

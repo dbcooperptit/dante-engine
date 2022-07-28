@@ -27,6 +27,7 @@ package cn.herodotus.engine.protect.web.crypto.enhance;
 
 import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
 import cn.herodotus.engine.protect.core.annotation.Crypto;
+import cn.herodotus.engine.protect.core.exception.SessionInvalidException;
 import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -43,6 +44,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.multipart.MultipartRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,8 +101,15 @@ public class DecryptRequestParamResolver implements HandlerMethodArgumentResolve
         return ObjectUtils.isEmpty(multipartRequest);
     }
 
-    private String[] decrypt(String sessionId, String[] paramValues) {
-        List<String> values = Arrays.stream(paramValues).map(paramValue -> httpCryptoProcessor.decrypt(sessionId, paramValue)).collect(Collectors.toList());
+    private String[] decrypt(String sessionId, String[] paramValues) throws SessionInvalidException {
+        List<String> values = new ArrayList<>();
+        for (String paramValue : paramValues) {
+            String value = httpCryptoProcessor.decrypt(sessionId, paramValue);
+            if (StringUtils.isNotBlank(value)) {
+                values.add(value);
+            }
+        }
+
         String[] result = new String[values.size()];
         return values.toArray(result);
     }
@@ -115,7 +124,7 @@ public class DecryptRequestParamResolver implements HandlerMethodArgumentResolve
             String sessionId = request.getHeader(HttpHeaders.X_HERODOTUS_SESSION);
 
             if (StringUtils.isNotBlank(sessionId)) {
-                    String[] paramValues = request.getParameterValues(methodParameter.getParameterName());
+                String[] paramValues = request.getParameterValues(methodParameter.getParameterName());
                 if (ArrayUtils.isNotEmpty(paramValues)) {
                     String[] values = decrypt(sessionId, paramValues);
                     return (values.length == 1 ? values[0] : values);

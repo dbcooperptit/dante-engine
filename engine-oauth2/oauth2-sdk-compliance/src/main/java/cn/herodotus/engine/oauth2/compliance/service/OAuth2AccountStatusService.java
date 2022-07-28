@@ -89,8 +89,7 @@ public class OAuth2AccountStatusService {
     }
 
     @Async
-    public void enable(String username) {
-        String userId = getUserId(username);
+    public void enable(String userId) {
         if (ObjectUtils.isNotEmpty(userId)) {
             accountStatusChangeService.process(new UserStatus(userId, DataItemStatus.ENABLE.name()));
         }

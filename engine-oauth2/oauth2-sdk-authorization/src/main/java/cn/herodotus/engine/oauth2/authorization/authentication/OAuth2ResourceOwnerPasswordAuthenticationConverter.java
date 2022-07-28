@@ -27,13 +27,14 @@ package cn.herodotus.engine.oauth2.authorization.authentication;
 
 import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2EndpointUtils;
+import cn.herodotus.engine.oauth2.core.constants.OAuth2ErrorCodes;
+import cn.herodotus.engine.protect.core.exception.SessionInvalidException;
 import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.util.MultiValueMap;
@@ -113,7 +114,14 @@ public final class OAuth2ResourceOwnerPasswordAuthenticationConverter implements
     private Object parameterDecrypt(Object object, String sessionId) {
         if (org.apache.commons.lang3.StringUtils.isNotBlank(sessionId)) {
             if (ObjectUtils.isNotEmpty(object) && object instanceof String) {
-                return  httpCryptoProcessor.decrypt(sessionId, object.toString());
+                try {
+                    return  httpCryptoProcessor.decrypt(sessionId, object.toString());
+                } catch (SessionInvalidException e) {
+                    OAuth2EndpointUtils.throwError(
+                            OAuth2ErrorCodes.SESSION_EXPIRED,
+                            e.getMessage(),
+                            OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+                }
             }
         }
         return object;

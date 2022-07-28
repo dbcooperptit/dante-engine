@@ -87,6 +87,7 @@ public class SecurityGlobalExceptionHandler {
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCOUNT_LOCKED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCOUNT_LOCKED));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCOUNT_ENDPOINT_LIMITED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCOUNT_ENDPOINT_LIMITED));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.USERNAME_NOT_FOUND, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.USERNAME_NOT_FOUND));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.SESSION_EXPIRED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.USERNAME_NOT_FOUND));
     }
 
     /**

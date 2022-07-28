@@ -44,7 +44,10 @@ import java.util.List;
  */
 public class HerodotusSecurityConfig implements ConfigAttribute {
 
-    private final String attrib;
+    private String attrib;
+
+    public HerodotusSecurityConfig() {
+    }
 
     public HerodotusSecurityConfig(String config) {
         Assert.hasText(config, "You must provide a configuration attribute");
