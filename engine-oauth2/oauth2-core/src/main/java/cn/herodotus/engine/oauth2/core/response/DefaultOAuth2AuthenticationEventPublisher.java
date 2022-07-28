@@ -27,6 +27,7 @@ package cn.herodotus.engine.oauth2.core.response;
 
 import cn.herodotus.engine.oauth2.core.constants.OAuth2ErrorCodes;
 import cn.herodotus.engine.oauth2.core.exception.AccountEndpointLimitedException;
+import cn.herodotus.engine.oauth2.core.exception.SessionExpiredException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -72,6 +73,8 @@ public class DefaultOAuth2AuthenticationEventPublisher extends DefaultAuthentica
                     return new AccountEndpointLimitedException(exception.getMessage(), exception.getCause());
                 case OAuth2ErrorCodes.USERNAME_NOT_FOUND:
                     return new UsernameNotFoundException(exception.getMessage(), exception.getCause());
+                case OAuth2ErrorCodes.SESSION_EXPIRED:
+                    return new SessionExpiredException(exception.getMessage(), exception.getCause());
                 default:
                     return new BadCredentialsException(exception.getMessage(), exception.getCause());
             }

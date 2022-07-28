@@ -121,6 +121,7 @@ public enum ResultErrorCodes {
     INVALID_TOKEN(ErrorCode.INVALID_TOKEN, "提供的访问令牌已过期、吊销、格式错误或无效"),
     UNAUTHORIZED_CLIENT(ErrorCode.UNAUTHORIZED_CLIENT, "客户端无权使用此方法请求授权码或访问令牌"),
     USERNAME_NOT_FOUND(ErrorCode.USERNAME_NOT_FOUND,"用户名或密码错误"),
+    SESSION_EXPIRED(ErrorCode.SESSION_EXPIRED,"Session 已过期，请刷新页面后再使用"),
 
     /**
      * 403.** 禁止的请求，与403对应

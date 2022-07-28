@@ -28,6 +28,7 @@ package cn.herodotus.engine.protect.web.crypto.enhance;
 import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
 import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
 import cn.herodotus.engine.protect.core.annotation.Crypto;
+import cn.herodotus.engine.protect.core.exception.SessionInvalidException;
 import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang3.ObjectUtils;
@@ -97,6 +98,9 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             }
         } catch (JsonProcessingException e) {
             log.debug("[Herodotus] |- Encrypt response body for rest method [{}] in [{}] catch error, skip encrypt operation.", methodName, className, e);
+            return body;
+        } catch (SessionInvalidException e) {
+            log.error("[Herodotus] |- Session is expired for encrypt response body for rest method [{}] in [{}], skip encrypt operation.", methodName, className, e);
             return body;
         }
     }

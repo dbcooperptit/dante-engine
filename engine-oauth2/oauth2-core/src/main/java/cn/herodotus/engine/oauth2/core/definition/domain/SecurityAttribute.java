@@ -26,6 +26,7 @@
 package cn.herodotus.engine.oauth2.core.definition.domain;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -57,6 +58,9 @@ public class SecurityAttribute implements Serializable {
     private String serviceId;
 
     private Set<HerodotusGrantedAuthority> roles;
+
+    public SecurityAttribute() {
+    }
 
     public String getAttributeId() {
         return attributeId;
@@ -136,6 +140,23 @@ public class SecurityAttribute implements Serializable {
 
     public void setRoles(Set<HerodotusGrantedAuthority> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SecurityAttribute that = (SecurityAttribute) o;
+        return Objects.equal(attributeId, that.attributeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(attributeId);
     }
 
     @Override

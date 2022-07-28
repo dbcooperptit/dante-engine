@@ -27,12 +27,11 @@ package cn.herodotus.engine.protect.web.crypto.enhance;
 
 import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
 import cn.herodotus.engine.protect.core.annotation.Crypto;
+import cn.herodotus.engine.protect.core.exception.SessionInvalidException;
 import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -110,7 +109,7 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
         }
     }
 
-    private String decrypt(String sessionKey, String content) {
+    private String decrypt(String sessionKey, String content) throws SessionInvalidException {
         JsonNode jsonNode = JacksonUtils.toNode(content);
         if (ObjectUtils.isNotEmpty(jsonNode)) {
             decrypt(sessionKey, jsonNode);
@@ -120,7 +119,7 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
         return content;
     }
 
-    private void decrypt(String sessionKey, JsonNode jsonNode) {
+    private void decrypt(String sessionKey, JsonNode jsonNode) throws SessionInvalidException {
         if (jsonNode.isObject()) {
             Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields();
             while (it.hasNext()) {

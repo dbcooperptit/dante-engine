@@ -28,6 +28,7 @@ package cn.herodotus.engine.protect.web.crypto.enhance;
 import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
 import cn.herodotus.engine.protect.core.annotation.Crypto;
+import cn.herodotus.engine.protect.core.exception.SessionInvalidException;
 import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -141,12 +142,17 @@ public class DecryptRequestParamMapResolver implements HandlerMethodArgumentReso
                 if (isRegularMap(methodParameter)) {
                     Map<String, String[]> parameterMap = webRequest.getParameterMap();
                     Map<String, String> result = CollectionUtils.newLinkedHashMap(parameterMap.size());
-                    parameterMap.forEach((key, values) -> {
+
+                    for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+                        String key = entry.getKey();
+                        String[] values = entry.getValue();
+
                         if (values.length > 0) {
                             String value = httpCryptoProcessor.decrypt(sessionId, values[0]);
+                            ;
                             result.put(key, value);
                         }
-                    });
+                    }
 
                     return result;
                 }
