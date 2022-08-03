@@ -38,7 +38,7 @@
 
     <groupId>cn.herodotus.engine</groupId>
     <artifactId>dependencies</artifactId>
-    <version>2.7.2.2</version>
+    <version>2.7.2.3</version>
     <packaging>pom</packaging>
 
     <description>基于 Spring Authorization Server 的 Dante Cloud Dependencies</description>
@@ -109,7 +109,7 @@
 
         <!--Maven Plugin 相关组件-->
         <archetype-packaging.verison>3.2.1</archetype-packaging.verison>
-        <docker-maven-plugin.version>0.40.1</docker-maven-plugin.version>
+        <docker-maven-plugin.version>0.40.2</docker-maven-plugin.version>
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <mapstruct-processor.version>1.5.2.Final</mapstruct-processor.version>
         <maven-archetype-plugin.version>3.2.1</maven-archetype-plugin.version>
@@ -144,7 +144,7 @@
         <nacos.version>2.1.0</nacos.version>
 
         <!-- 国内开源通用组件 -->
-        <hutool.version>5.8.4</hutool.version>
+        <hutool.version>5.8.5</hutool.version>
         <okhttps.version>3.5.3</okhttps.version>
         <weixin-java-sdk.version>4.3.8.B</weixin-java-sdk.version>
         <just-auth.verison>1.16.5</just-auth.verison>
@@ -162,7 +162,7 @@
         <!--SMS SDK-->
         <aliyun-java-sdk-core.version>4.6.0</aliyun-java-sdk-core.version>
         <dysmsapi20170525.version>2.0.16</dysmsapi20170525.version>
-        <tencentcloud-sdk-java.version>3.1.559</tencentcloud-sdk-java.version>
+        <tencentcloud-sdk-java.version>3.1.561</tencentcloud-sdk-java.version>
         <com.jdcloud.sdk.version>1.3.3</com.jdcloud.sdk.version>
         <qiniu-java-sdk.version>7.11.0</qiniu-java-sdk.version>
         <yunpian-java-sdk.version>1.2.7</yunpian-java-sdk.version>
@@ -212,7 +212,39 @@
                 <version>${spring-security-oauth2-authorization-server.version}</version>
             </dependency>
 
-            <!-- Herodotus Engine -->
+            <!-- Dante Engine -->
+            <!-- access -->
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>access-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>access-sdk-justauth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>access-sdk-wxapp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>access-sdk-wxmpp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>access-sdk-all</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>access-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- assistant -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
@@ -390,6 +422,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
+                <artifactId>oauth2-sdk-metadata</artifactId>
+                <version>${dante-engine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
                 <artifactId>oauth2-sdk-resource-server</artifactId>
                 <version>${dante-engine.version}</version>
             </dependency>
@@ -465,6 +502,73 @@
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>rest-spring-boot-starter</artifactId>
                 <version>${dante-engine.version}</version>
+            </dependency>
+
+            <!-- sms -->
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-aliyun</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-chinamobile</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-huawei</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-jd</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-netease</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-qiniu</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-tencent</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-upyun</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-yunpian</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-recluse</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-sdk-all</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>sms-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- temporal -->

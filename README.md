@@ -12,7 +12,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.1.0-brightgreen" alt="Nacos 2.1.0"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.2.2-red" alt="Version 2.7.2.2"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.2.3-red" alt="Version 2.7.2.3"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -62,6 +62,13 @@ herodotus-engine
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
 ├── documents -- 需要放置的文档位置
 ├    └── readme -- README 相关素材放置目录
+├── engine-access -- 外部登录接入模块
+├    ├── access-core -- 外部登录通用代码组件
+├    ├── access-sdk-all -- 外部登录集成组件
+├    ├── access-sdk-justauth -- JustAuth登录组件
+├    ├── access-sdk-wxapp -- 微信小程序登录组件
+├    ├── access-sdk-wxmpp -- 微信公众号登录组件
+├    └── access-spring-boot-starter -- 外部登录  模块统一 Starter
 ├── engine-assistant -- 核心通用代码包
 ├    ├── assistant-core -- 核心通用代码组件
 ├    └── assistant-spring-boot-starter -- Assistant  模块统一 Starter
@@ -102,6 +109,7 @@ herodotus-engine
 ├    ├── oauth2-sdk-authorization-server -- Spring Authorization Server 管理代码模块
 ├    ├── oauth2-sdk-compliance -- Spring Authorization Server 应用安全合规支撑组件模块
 ├    ├── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
+├    ├── oauth2-sdk-metadata -- 鉴权元数据处理代码模块
 ├    └── oauth2-sdk-resource-server -- OAuth2 资源服务器通用代码模块
 ├── engine-oss -- 对象存储模块
 ├    ├── oss-core -- 对象存储共性通用代码
@@ -120,6 +128,19 @@ herodotus-engine
 ├── engine-rest -- 服务Rest接口模块
 ├    ├── rest-core -- 服务Rest接口共性通用代码
 ├    └── rest-spring-boot-starter -- Rest 模块统一 Starter(包括通用CRUD代码)
+├── engine-sms -- 短信接入模块
+├    ├── sms-core -- 短信共性通用代码模块
+├    ├── sms-sdk-aliyun -- 阿里云短信发送组件模块
+├    ├── sms-sdk-all -- 短信整合组件模块
+├    ├── sms-sdk-chinamobile -- 移动短信发送组件模块
+├    ├── sms-sdk-huawei -- 华为短信发送组件模块
+├    ├── sms-sdk-jd -- 京东短信发送组件模块
+├    ├── sms-sdk-netease -- 网易短信发送组件模块
+├    ├── sms-sdk-qiniu -- 七牛短信发送组件模块
+├    ├── sms-sdk-tencent -- 腾讯短信发送组件模块
+├    ├── sms-sdk-upyun -- 又拍短信发送组件模块
+├    ├── sms-sdk-yunpian -- 云片短信发送组件模块
+├    └── sms-spring-boot-starter -- SMS 模块统一 Starter(包括通用CRUD代码)
 ├── engine-temporal -- 时序数据存储处理模块
 ├    ├── temporal-core -- 时序数据存储共性通用代码
 ├    ├── temporal-sdk-influxdb -- Influxdb 组件相关代码模块
