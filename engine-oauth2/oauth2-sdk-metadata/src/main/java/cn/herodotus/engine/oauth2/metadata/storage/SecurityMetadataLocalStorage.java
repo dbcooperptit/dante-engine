@@ -25,11 +25,11 @@
 
 package cn.herodotus.engine.oauth2.metadata.storage;
 
+import cn.herodotus.engine.cache.jetcache.utils.JetCacheUtils;
 import cn.herodotus.engine.oauth2.metadata.constants.SecurityMetadataConstants;
 import cn.herodotus.engine.oauth2.metadata.matcher.HerodotusRequestMatcher;
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -49,6 +50,7 @@ import java.util.Set;
  * @author : gengwei.zheng
  * @date : 2021/7/30 15:05
  */
+@Component
 public class SecurityMetadataLocalStorage {
 
     private static final Logger log = LoggerFactory.getLogger(SecurityMetadataLocalStorage.class);
@@ -57,28 +59,31 @@ public class SecurityMetadataLocalStorage {
      * 全部 ConfigAttributes 缓存。独立一个缓存，方便获取，减少重复读取。
      * 主要由 {@link FilterInvocationSecurityMetadataSource#getAllConfigAttributes()} 使用
      */
-    @CreateCache(name = SecurityMetadataConstants.CACHE_NAME_SECURITY_METADATA_ATTRIBUTES, cacheType = CacheType.LOCAL)
-    private Cache<String, Collection<ConfigAttribute>> allConfigAttributes;
+    private final Cache<String, Collection<ConfigAttribute>> allConfigAttributes;
 
     /**
      * attribute 索引辅助缓存，用于帮助 allConfigAttributes去重
      */
-    @CreateCache(name = SecurityMetadataConstants.CACHE_NAME_SECURITY_METADATA_INDEXES, cacheType = CacheType.LOCAL)
-    private Cache<String, Set<String>> indexes;
+    private final Cache<String, Set<String>> indexes;
 
     /**
      * 模式匹配权限缓存。主要存储 包含 "*"、"?" 和 "{"、"}" 等特殊字符的路径权限。
      * 该种权限，需要通过遍历，利用 AntPathRequestMatcher 机制进行匹配
      */
-    @CreateCache(name = SecurityMetadataConstants.CACHE_NAME_SECURITY_METADATA_COMPATIBLE, cacheType = CacheType.LOCAL)
-    private Cache<String, LinkedHashMap<HerodotusRequestMatcher, Collection<ConfigAttribute>>> compatible;
+    private final Cache<String, LinkedHashMap<HerodotusRequestMatcher, Collection<ConfigAttribute>>> compatible;
 
     /**
      * 直接索引权限缓存，主要存储全路径权限
      * 该种权限，直接通过 Map Key 进行获取
      */
-    @CreateCache(name = SecurityMetadataConstants.CACHE_NAME_SECURITY_METADATA_INDEXABLE, cacheType = CacheType.LOCAL)
-    private Cache<HerodotusRequestMatcher, Collection<ConfigAttribute>> indexable;
+    private final Cache<HerodotusRequestMatcher, Collection<ConfigAttribute>> indexable;
+
+    public SecurityMetadataLocalStorage() {
+        this.allConfigAttributes = JetCacheUtils.create(SecurityMetadataConstants.CACHE_NAME_SECURITY_METADATA_ATTRIBUTES, CacheType.LOCAL);
+        this.indexes = JetCacheUtils.create(SecurityMetadataConstants.CACHE_NAME_SECURITY_METADATA_INDEXES, CacheType.LOCAL);
+        this.compatible = JetCacheUtils.create(SecurityMetadataConstants.CACHE_NAME_SECURITY_METADATA_COMPATIBLE, CacheType.LOCAL);
+        this.indexable = JetCacheUtils.create(SecurityMetadataConstants.CACHE_NAME_SECURITY_METADATA_INDEXABLE, CacheType.LOCAL);
+    }
 
     private static final String KEY_ALL_CONFIG_ATTRIBUTES = "ALL_CONFIG_ATTRIBUTES";
     private static final String KEY_COMPATIBLE = "COMPATIBLE";

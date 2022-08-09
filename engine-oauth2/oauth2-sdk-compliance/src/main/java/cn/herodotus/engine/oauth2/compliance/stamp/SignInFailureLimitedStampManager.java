@@ -27,12 +27,9 @@ package cn.herodotus.engine.oauth2.compliance.stamp;
 
 import cn.herodotus.engine.cache.jetcache.stamp.AbstractCountStampManager;
 import cn.herodotus.engine.oauth2.compliance.dto.SignInErrorStatus;
-import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
 import cn.herodotus.engine.oauth2.core.constants.OAuth2Constants;
+import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
 import cn.hutool.crypto.SecureUtil;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,17 +45,10 @@ public class SignInFailureLimitedStampManager extends AbstractCountStampManager 
 
     private final OAuth2ComplianceProperties complianceProperties;
 
-    @CreateCache(name = OAuth2Constants.CACHE_NAME_TOKEN_SIGN_IN_FAILURE_LIMITED, cacheType = CacheType.BOTH)
-    protected Cache<String, Long> cache;
-
     @Autowired
     public SignInFailureLimitedStampManager(OAuth2ComplianceProperties complianceProperties) {
+        super(OAuth2Constants.CACHE_NAME_TOKEN_SIGN_IN_FAILURE_LIMITED);
         this.complianceProperties = complianceProperties;
-    }
-
-    @Override
-    protected Cache<String, Long> getCache() {
-        return cache;
     }
 
     @Override

@@ -39,9 +39,6 @@ import cn.herodotus.engine.captcha.core.exception.CaptchaMismatchException;
 import cn.herodotus.engine.captcha.core.exception.CaptchaParameterIllegalException;
 import cn.herodotus.engine.captcha.core.provider.RandomProvider;
 import cn.hutool.core.util.IdUtil;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -65,12 +62,8 @@ public class WordClickCaptchaRenderer extends AbstractBehaviorRenderer<String, L
 
     private WordClickCaptcha wordClickCaptcha;
 
-    @CreateCache(name = CaptchaConstants.CACHE_NAME_CAPTCHA_WORD_CLICK, cacheType = CacheType.BOTH)
-    protected Cache<String, List<Coordinate>> cache;
-
-    @Override
-    protected Cache<String, List<Coordinate>> getCache() {
-        return this.cache;
+    public WordClickCaptchaRenderer() {
+        super(CaptchaConstants.CACHE_NAME_CAPTCHA_WORD_CLICK);
     }
 
     private Font getFont() {

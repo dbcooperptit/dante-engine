@@ -29,9 +29,6 @@ import cn.herodotus.engine.cache.jetcache.stamp.AbstractStampManager;
 import cn.herodotus.engine.protect.core.constants.ProtectConstants;
 import cn.herodotus.engine.protect.core.properties.SecureProperties;
 import cn.hutool.core.util.IdUtil;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 
 /**
  * <p>Description: 幂等Stamp管理 </p>
@@ -41,22 +38,15 @@ import com.alicp.jetcache.anno.CreateCache;
  */
 public class IdempotentStampManager extends AbstractStampManager<String, String> {
 
-    private SecureProperties secureProperties;
+    private final SecureProperties secureProperties;
 
     public IdempotentStampManager(SecureProperties secureProperties) {
+        super(ProtectConstants.CACHE_NAME_TOKEN_IDEMPOTENT);
         this.secureProperties = secureProperties;
     }
 
     public SecureProperties getSecureProperties() {
         return secureProperties;
-    }
-
-    @CreateCache(name = ProtectConstants.CACHE_NAME_TOKEN_IDEMPOTENT, cacheType = CacheType.BOTH)
-    protected Cache<String, String> cache;
-
-    @Override
-    protected Cache<String, String> getCache() {
-        return this.cache;
     }
 
     @Override

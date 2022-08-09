@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.oauth2.metadata.configuration;
 
+import cn.herodotus.engine.cache.jetcache.enhance.JetCacheCreateCacheFactory;
 import cn.herodotus.engine.oauth2.metadata.listener.RemoteSecurityMetadataSyncListener;
 import cn.herodotus.engine.oauth2.metadata.processor.ExpressionSecurityMetadataParser;
 import cn.herodotus.engine.oauth2.metadata.processor.SecurityMetadataAnalysisProcessor;

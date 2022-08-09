@@ -28,11 +28,7 @@ package cn.herodotus.engine.sms.all.stamp;
 import cn.herodotus.engine.cache.jetcache.stamp.AbstractStampManager;
 import cn.herodotus.engine.sms.all.properties.SmsProperties;
 import cn.herodotus.engine.sms.core.constants.SmsConstants;
-
 import cn.hutool.core.util.RandomUtil;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 
 /**
  * <p>Description: 手机短信验证码签章 </p>
@@ -48,12 +44,8 @@ public class VerificationCodeStampManager extends AbstractStampManager<String, S
         this.smsProperties = smsProperties;
     }
 
-    @CreateCache(name = SmsConstants.CACHE_NAME_TOKEN_VERIFICATION_CODE, cacheType = CacheType.BOTH)
-    protected Cache<String, String> cache;
-
-    @Override
-    protected Cache<String, String> getCache() {
-        return this.cache;
+    public VerificationCodeStampManager() {
+        super(SmsConstants.CACHE_NAME_TOKEN_VERIFICATION_CODE);
     }
 
     @Override

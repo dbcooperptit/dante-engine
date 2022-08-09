@@ -29,10 +29,9 @@ import cn.herodotus.engine.cache.caffeine.configuration.CaffeineConfiguration;
 import cn.herodotus.engine.cache.core.properties.CacheProperties;
 import cn.herodotus.engine.cache.jetcache.enhance.HerodotusCacheManager;
 import cn.herodotus.engine.cache.jetcache.enhance.JetCacheCreateCacheFactory;
-import cn.herodotus.engine.cache.jetcache.enhance.JetCacheSpringCacheManager;
+import cn.herodotus.engine.cache.jetcache.utils.JetCacheUtils;
 import cn.herodotus.engine.cache.redis.configuration.RedisConfiguration;
-import com.alicp.jetcache.anno.config.EnableCreateCacheAnnotation;
-import com.alicp.jetcache.anno.support.SpringConfigProvider;
+import com.alicp.jetcache.CacheManager;
 import com.alicp.jetcache.autoconfigure.JetCacheAutoConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,8 +56,8 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(CacheProperties.class)
-@EnableCreateCacheAnnotation
 @Import({CaffeineConfiguration.class, RedisConfiguration.class})
+
 @AutoConfigureAfter(JetCacheAutoConfiguration.class)
 public class JetCacheConfiguration {
 
@@ -70,9 +69,10 @@ public class JetCacheConfiguration {
     }
 
     @Bean
-    @ConditionalOnClass(SpringConfigProvider.class)
-    public JetCacheCreateCacheFactory jetCacheCreateCacheFactory(SpringConfigProvider springConfigProvider) {
-        JetCacheCreateCacheFactory factory = new JetCacheCreateCacheFactory(springConfigProvider);
+    @ConditionalOnClass(CacheManager.class)
+    public JetCacheCreateCacheFactory jetCacheCreateCacheFactory(CacheManager cacheManager) {
+        JetCacheCreateCacheFactory factory = new JetCacheCreateCacheFactory(cacheManager);
+        JetCacheUtils.setJetCacheCreateCacheFactory(factory);
         log.trace("[Herodotus] |- Bean [Jet Cache Create Cache Factory] Auto Configure.");
         return factory;
     }

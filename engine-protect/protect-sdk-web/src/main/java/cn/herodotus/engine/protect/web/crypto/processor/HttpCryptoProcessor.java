@@ -33,9 +33,6 @@ import cn.herodotus.engine.protect.core.definition.AsymmetricCryptoProcessor;
 import cn.herodotus.engine.protect.core.definition.SymmetricCryptoProcessor;
 import cn.herodotus.engine.protect.core.exception.SessionInvalidException;
 import cn.hutool.core.util.IdUtil;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -53,19 +50,12 @@ public class HttpCryptoProcessor extends AbstractStampManager<String, SecretKey>
 
     private static final Logger log = LoggerFactory.getLogger(HttpCryptoProcessor.class);
 
-    @CreateCache(name = ProtectConstants.CACHE_NAME_TOKEN_SECURE_KEY, cacheType = CacheType.BOTH)
-    protected Cache<String, SecretKey> cache;
-
-    @Override
-    protected Cache<String, SecretKey> getCache() {
-        return this.cache;
-    }
-
     private final AsymmetricCryptoProcessor asymmetricCryptoProcessor;
 
     private final SymmetricCryptoProcessor symmetricCryptoProcessor;
 
     public HttpCryptoProcessor(AsymmetricCryptoProcessor asymmetricCryptoProcessor, SymmetricCryptoProcessor symmetricCryptoProcessor) {
+        super(ProtectConstants.CACHE_NAME_TOKEN_SECURE_KEY);
         this.asymmetricCryptoProcessor = asymmetricCryptoProcessor;
         this.symmetricCryptoProcessor = symmetricCryptoProcessor;
     }
