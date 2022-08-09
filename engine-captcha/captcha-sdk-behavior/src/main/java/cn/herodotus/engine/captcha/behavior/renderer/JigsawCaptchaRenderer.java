@@ -25,14 +25,14 @@
 
 package cn.herodotus.engine.captcha.behavior.renderer;
 
+import cn.herodotus.engine.captcha.behavior.definition.AbstractBehaviorRenderer;
+import cn.herodotus.engine.captcha.behavior.dto.JigsawCaptcha;
 import cn.herodotus.engine.captcha.core.algorithm.GaussianBlur;
 import cn.herodotus.engine.captcha.core.constants.CaptchaConstants;
-import cn.herodotus.engine.captcha.behavior.definition.AbstractBehaviorRenderer;
 import cn.herodotus.engine.captcha.core.definition.domain.Coordinate;
 import cn.herodotus.engine.captcha.core.definition.domain.Metadata;
 import cn.herodotus.engine.captcha.core.definition.enums.CaptchaCategory;
 import cn.herodotus.engine.captcha.core.dto.Captcha;
-import cn.herodotus.engine.captcha.behavior.dto.JigsawCaptcha;
 import cn.herodotus.engine.captcha.core.dto.Verification;
 import cn.herodotus.engine.captcha.core.exception.CaptchaHasExpiredException;
 import cn.herodotus.engine.captcha.core.exception.CaptchaMismatchException;
@@ -40,9 +40,6 @@ import cn.herodotus.engine.captcha.core.exception.CaptchaParameterIllegalExcepti
 import cn.herodotus.engine.captcha.core.provider.RandomProvider;
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.util.IdUtil;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -51,9 +48,7 @@ import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <p>Description: 拼图滑块验证码处理器 </p>
@@ -71,15 +66,8 @@ public class JigsawCaptchaRenderer extends AbstractBehaviorRenderer<String, Coor
     private static final int BOLD = 5;
     private static final int OFFSET = 100;
 
-    private final Map<String, String> jigsawOriginalImages = new ConcurrentHashMap<>();
-    private final Map<String, String> jigsawTemplateImages = new ConcurrentHashMap<>();
-
-    @CreateCache(name = CaptchaConstants.CACHE_NAME_CAPTCHA_JIGSAW, cacheType = CacheType.BOTH)
-    protected Cache<String, Coordinate> cache;
-
-    @Override
-    protected Cache<String, Coordinate> getCache() {
-        return this.cache;
+    public JigsawCaptchaRenderer() {
+        super(CaptchaConstants.CACHE_NAME_CAPTCHA_JIGSAW);
     }
 
     @Override

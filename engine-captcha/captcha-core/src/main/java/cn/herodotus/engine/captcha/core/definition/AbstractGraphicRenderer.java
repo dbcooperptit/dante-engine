@@ -50,15 +50,11 @@ import java.awt.*;
  */
 public abstract class AbstractGraphicRenderer extends AbstractRenderer<String, String> {
 
-    @CreateCache(name = CaptchaConstants.CACHE_NAME_CAPTCHA_GRAPHIC, cacheType = CacheType.BOTH)
-    protected Cache<String, String> cache;
-
-    @Override
-    protected Cache<String, String> getCache() {
-        return this.cache;
-    }
-
     private GraphicCaptcha graphicCaptcha;
+
+    public AbstractGraphicRenderer() {
+        super(CaptchaConstants.CACHE_NAME_CAPTCHA_GRAPHIC);
+    }
 
     protected Font getFont() {
         return this.getResourceProvider().getGraphicFont();

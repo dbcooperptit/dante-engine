@@ -28,9 +28,6 @@ package cn.herodotus.engine.protect.web.secure.stamp;
 import cn.herodotus.engine.cache.jetcache.stamp.AbstractStampManager;
 import cn.herodotus.engine.protect.core.constants.ProtectConstants;
 import cn.herodotus.engine.protect.core.properties.SecureProperties;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 
 /**
  * <p>Description: 防刷签章管理器 </p>
@@ -45,19 +42,12 @@ public class AccessLimitedStampManager extends AbstractStampManager<String, Long
     private final SecureProperties secureProperties;
 
     public AccessLimitedStampManager(SecureProperties secureProperties) {
+        super(ProtectConstants.CACHE_NAME_TOKEN_ACCESS_LIMITED);
         this.secureProperties = secureProperties;
     }
 
     public SecureProperties getSecureProperties() {
         return secureProperties;
-    }
-
-    @CreateCache(name = ProtectConstants.CACHE_NAME_TOKEN_ACCESS_LIMITED, cacheType = CacheType.BOTH)
-    protected Cache<String, Long> cache;
-
-    @Override
-    protected Cache<String, Long> getCache() {
-        return this.cache;
     }
 
     @Override

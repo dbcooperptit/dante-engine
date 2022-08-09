@@ -42,7 +42,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2022/7/23 17:02
  */
-public class HerodotusCacheManager extends JetCacheSpringCacheManager{
+public class HerodotusCacheManager extends JetCacheSpringCacheManager {
 
     private static final Logger log = LoggerFactory.getLogger(HerodotusCacheManager.class);
 
@@ -68,10 +68,10 @@ public class HerodotusCacheManager extends JetCacheSpringCacheManager{
         Map<String, Expire> expires = cacheProperties.getExpires();
         if (MapUtils.isNotEmpty(expires)) {
             String key = StringUtils.replace(name, SymbolConstants.COLON, cacheProperties.getSeparator());
-            if(expires.containsKey(key)) {
+            if (expires.containsKey(key)) {
                 Expire expire = expires.get(key);
                 log.debug("[Herodotus] |- CACHE - Cache [{}] is setted to use CUSTEM exprie.", name);
-                com.alicp.jetcache.Cache<Object, Object> cache = jetCacheCreateCacheFactory.create(name, expire.getDuration().intValue(), expire.getUnit());
+                com.alicp.jetcache.Cache<Object, Object> cache = jetCacheCreateCacheFactory.create(name, expire.getTtl(), isAllowNullValues(), true);
                 return new JetCacheSpringCache(name, cache, isAllowNullValues(), isDesensitization());
             }
         }

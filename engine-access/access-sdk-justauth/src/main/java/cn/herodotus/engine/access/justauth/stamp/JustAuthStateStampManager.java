@@ -29,9 +29,6 @@ import cn.herodotus.engine.access.core.constants.AccessConstants;
 import cn.herodotus.engine.access.justauth.properties.JustAuthProperties;
 import cn.herodotus.engine.cache.jetcache.stamp.AbstractStampManager;
 import cn.hutool.core.util.IdUtil;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 import me.zhyd.oauth.cache.AuthStateCache;
 
 import java.util.concurrent.TimeUnit;
@@ -44,8 +41,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class JustAuthStateStampManager extends AbstractStampManager<String, String> implements AuthStateCache {
 
-    @CreateCache(name = AccessConstants.CACHE_NAME_TOKEN_JUSTAUTH, cacheType = CacheType.BOTH)
-    protected Cache<String, String> cache;
+    public JustAuthStateStampManager() {
+        super(AccessConstants.CACHE_NAME_TOKEN_JUSTAUTH);
+    }
 
     private JustAuthProperties justAuthProperties;
 
@@ -56,11 +54,6 @@ public class JustAuthStateStampManager extends AbstractStampManager<String, Stri
     @Override
     public void afterPropertiesSet() throws Exception {
         super.setExpire(justAuthProperties.getCache().getTimeout());
-    }
-
-    @Override
-    protected Cache<String, String> getCache() {
-        return this.cache;
     }
 
     @Override

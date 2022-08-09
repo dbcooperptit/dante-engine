@@ -25,11 +25,14 @@
 
 package cn.herodotus.engine.cache.jetcache.stamp;
 
-import cn.herodotus.engine.cache.core.exception.*;
+import cn.herodotus.engine.cache.core.exception.StampDeleteFailedException;
 import cn.herodotus.engine.cache.core.exception.StampHasExpiredException;
+import cn.herodotus.engine.cache.core.exception.StampMismatchException;
 import cn.herodotus.engine.cache.core.exception.StampParameterIllegalException;
+import cn.herodotus.engine.cache.jetcache.utils.JetCacheUtils;
 import com.alicp.jetcache.AutoReleaseLock;
 import com.alicp.jetcache.Cache;
+import com.alicp.jetcache.anno.CacheType;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.time.Duration;
@@ -45,24 +48,40 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class AbstractStampManager<K, V> implements StampManager<K, V> {
 
+    private static final Duration DEFAULT_EXPIRE = Duration.ofMinutes(30);
+
+    private String cacheName;
+    private CacheType cacheType;
+    private Duration expire;
+    private Cache<K, V> cache;
+
+    public AbstractStampManager(String cacheName) {
+       this(cacheName, CacheType.BOTH);
+    }
+
+    public AbstractStampManager(String cacheName, CacheType cacheType) {
+       this(cacheName, cacheType, DEFAULT_EXPIRE);
+    }
+
+    public AbstractStampManager(String cacheName, CacheType cacheType, Duration expire) {
+        this.cacheName = cacheName;
+        this.cacheType = cacheType;
+        this.expire = expire;
+        this.cache = JetCacheUtils.create(this.cacheName, this.cacheType, this.expire);
+    }
+
     /**
      * 指定数据存储缓存
      *
      * @return {@link Cache}
      */
-    protected abstract Cache<K, V> getCache();
-
-    private static final Duration DEFAULT_EXPIRE = Duration.ofMinutes(1);
-
-    private Duration expire;
+    protected Cache<K, V> getCache() {
+        return this.cache;
+    }
 
     @Override
     public Duration getExpire() {
-        if (ObjectUtils.isEmpty(this.expire) || this.expire.equals(Duration.ZERO)) {
-            return DEFAULT_EXPIRE;
-        } else {
-            return this.expire;
-        }
+        return this.expire;
     }
 
     public void setExpire(Duration expire) {

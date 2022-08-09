@@ -26,12 +26,9 @@
 package cn.herodotus.engine.oauth2.compliance.stamp;
 
 import cn.herodotus.engine.cache.jetcache.stamp.AbstractStampManager;
-import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
 import cn.herodotus.engine.oauth2.core.constants.OAuth2Constants;
+import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
 import cn.hutool.core.util.IdUtil;
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.CreateCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,17 +43,10 @@ public class LockedUserDetailsStampManager extends AbstractStampManager<String, 
 
     private final OAuth2ComplianceProperties complianceProperties;
 
-    @CreateCache(name = OAuth2Constants.CACHE_NAME_TOKEN_LOCKED_USER_DETAIL, cacheType = CacheType.BOTH)
-    protected Cache<String, String> cache;
-
     @Autowired
     public LockedUserDetailsStampManager(OAuth2ComplianceProperties complianceProperties) {
+        super(OAuth2Constants.CACHE_NAME_TOKEN_LOCKED_USER_DETAIL);
         this.complianceProperties = complianceProperties;
-    }
-
-    @Override
-    protected Cache<String, String> getCache() {
-        return this.cache;
     }
 
     @Override

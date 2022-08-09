@@ -29,8 +29,10 @@ import cn.herodotus.engine.cache.jetcache.stamp.AbstractStampManager;
 import cn.herodotus.engine.captcha.core.properties.CaptchaProperties;
 import cn.herodotus.engine.captcha.core.provider.ResourceProvider;
 import cn.hutool.core.img.ImgUtil;
+import com.alicp.jetcache.anno.CacheType;
 
 import java.awt.image.BufferedImage;
+import java.time.Duration;
 
 /**
  * <p>Description: 基础绘制器 </p>
@@ -44,6 +46,18 @@ public abstract class AbstractRenderer<K, V> extends AbstractStampManager<K, V> 
     protected static final String BASE64_GIF_IMAGE_PREFIX = "data:image/gif;base64,";
 
     private ResourceProvider resourceProvider;
+
+    public AbstractRenderer(String cacheName) {
+        super(cacheName);
+    }
+
+    public AbstractRenderer(String cacheName, CacheType cacheType) {
+        super(cacheName, cacheType);
+    }
+
+    public AbstractRenderer(String cacheName, CacheType cacheType, Duration expire) {
+        super(cacheName, cacheType, expire);
+    }
 
     public void setResourceProvider(ResourceProvider resourceProvider) {
         this.resourceProvider = resourceProvider;
