@@ -47,6 +47,21 @@ public class SmsProperties {
     private Boolean enabled;
 
     /**
+     * 启用短信沙盒测试模式
+     */
+    private Boolean sandbox = false;
+
+    /**
+     * 短信沙盒测试模式中，创建的默认验证码。
+     */
+    private String testCode = "123456";
+
+    /**
+     * 验证码短信模版名称
+     */
+    private String verificationCodeTemplateId = "VERIFICATION_CODE";
+
+    /**
      * 超时时长，默认5分钟
      */
     private Duration expire = Duration.ofMinutes(5);
@@ -93,10 +108,38 @@ public class SmsProperties {
         this.enabled = enabled;
     }
 
+    public Boolean getSandbox() {
+        return sandbox;
+    }
+
+    public void setSandbox(Boolean sandbox) {
+        this.sandbox = sandbox;
+    }
+
+    public String getTestCode() {
+        return testCode;
+    }
+
+    public void setTestCode(String testCode) {
+        this.testCode = testCode;
+    }
+
+    public String getVerificationCodeTemplateId() {
+        return verificationCodeTemplateId;
+    }
+
+    public void setVerificationCodeTemplateId(String verificationCodeTemplateId) {
+        this.verificationCodeTemplateId = verificationCodeTemplateId;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("timeout", expire)
+                .add("enabled", enabled)
+                .add("sandbox", sandbox)
+                .add("testCode", testCode)
+                .add("verificationCodeTemplateId", verificationCodeTemplateId)
+                .add("expire", expire)
                 .add("length", length)
                 .add("defaultChannel", defaultChannel)
                 .toString();

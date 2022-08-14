@@ -25,6 +25,8 @@
 
 package cn.herodotus.engine.oauth2.core.definition.domain;
 
+import cn.herodotus.engine.oauth2.core.jackson2.HerodotusUserDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import org.apache.commons.collections4.CollectionUtils;
@@ -40,27 +42,31 @@ import java.util.*;
 /**
  * @author gengwei.zheng
  */
+@JsonDeserialize(using = HerodotusUserDeserializer.class)
 public class HerodotusUser implements UserDetails, CredentialsContainer {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
-    private final String userId;
+    private String userId;
 
     private String password;
 
-    private final String username;
+    private String username;
 
-    private final Set<GrantedAuthority> authorities;
+    private Set<GrantedAuthority> authorities;
 
-    private final boolean accountNonExpired;
+    private boolean accountNonExpired;
 
-    private final boolean accountNonLocked;
+    private boolean accountNonLocked;
 
-    private final boolean credentialsNonExpired;
+    private boolean credentialsNonExpired;
 
-    private final boolean enabled;
+    private boolean enabled;
 
-    private final Set<String> roles;
+    private Set<String> roles;
+
+    public HerodotusUser() {
+    }
 
     /**
      * Calls the more complex constructor with all boolean arguments set to {@code true}.

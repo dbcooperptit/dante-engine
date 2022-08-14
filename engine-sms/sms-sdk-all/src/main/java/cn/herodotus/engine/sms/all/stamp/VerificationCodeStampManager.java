@@ -50,11 +50,23 @@ public class VerificationCodeStampManager extends AbstractStampManager<String, S
 
     @Override
     public String nextStamp(String key) {
-        return RandomUtil.randomNumbers(smsProperties.getLength());
+        if (smsProperties.getSandbox()) {
+            return smsProperties.getTestCode();
+        } else {
+            return RandomUtil.randomNumbers(smsProperties.getLength());
+        }
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         super.setExpire(smsProperties.getExpire());
+    }
+
+    public Boolean getSandbox() {
+        return smsProperties.getSandbox();
+    }
+
+    public String getVerificationCodeTemplateId() {
+        return smsProperties.getVerificationCodeTemplateId();
     }
 }
