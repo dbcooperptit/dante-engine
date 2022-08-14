@@ -34,6 +34,7 @@ package cn.herodotus.engine.assistant.core.constants;
 public interface BaseConstants {
 
     String NONE = "none";
+    String CODE = "code";
     String LOWERCASE_DEFAULT = "default";
     String DEFAULT_TREE_ROOT_ID = "0";
 
@@ -112,6 +113,5 @@ public interface BaseConstants {
 
     String OPEN_ID = "openid";
     String LICENSE = "license";
-
     String AUTHORITIES = "authorities";
 }

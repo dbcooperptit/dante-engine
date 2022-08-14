@@ -29,6 +29,7 @@ import cn.herodotus.engine.access.core.definition.AccessHandler;
 import cn.herodotus.engine.access.core.definition.AccessResponse;
 import cn.herodotus.engine.access.core.definition.AccessUserDetails;
 import cn.herodotus.engine.access.core.exception.AccessIdentityVerificationFailedException;
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.domain.AccessPrincipal;
 import cn.herodotus.engine.sms.all.processor.SmsSendStrategyFactory;
 import cn.herodotus.engine.sms.all.stamp.VerificationCodeStampManager;
@@ -54,10 +55,15 @@ public class PhoneNumberAccessHandler implements AccessHandler {
     @Override
     public AccessResponse preProcess(String core, String... params) {
         String code = verificationCodeStampManager.create(core);
-        Template template = new Template();
-        template.setType("VERIFICATION_CODE");
-        template.setParams(ImmutableMap.of("code", code));
-        boolean result = smsSendStrategyFactory.send(template, core);
+        boolean result;
+        if (verificationCodeStampManager.getSandbox()) {
+            result = true;
+        } else {
+            Template template = new Template();
+            template.setType(verificationCodeStampManager.getVerificationCodeTemplateId());
+            template.setParams(ImmutableMap.of(BaseConstants.CODE, code));
+            result = smsSendStrategyFactory.send(template, core);
+        }
 
         AccessResponse accessResponse = new AccessResponse();
         accessResponse.setSuccess(result);

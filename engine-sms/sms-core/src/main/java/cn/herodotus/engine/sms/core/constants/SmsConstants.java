@@ -40,6 +40,8 @@ public interface SmsConstants extends BaseConstants {
 
     String CACHE_NAME_TOKEN_VERIFICATION_CODE = CACHE_TOKEN_BASE_PREFIX + "verification:";
 
+    String REGION_SMS_TEMPLATE = AREA_PREFIX + "sms:template";
+
     String CHANNEL_ALIYUN = "ALIYUN";
     String CHANNEL_BAIDU_CLOUD = "BAIDU";
     String CHANNEL_CHINA_MOBILE = "CHINA_MOBILE";
@@ -51,7 +53,6 @@ public interface SmsConstants extends BaseConstants {
     String CHANNEL_TENCENT_CLOUD = "TENCENT";
     String CHANNEL_UPYUN = "UPYUN";
     String CHANNEL_YUNPIAN = "YUNPIAN";
-
     String CHANNEL_RECLUSE = "RECLUSE";
 
     String PROPERTY_PREFIX_ALIYUN = PROPERTY_PREFIX_SMS + ".aliyun";

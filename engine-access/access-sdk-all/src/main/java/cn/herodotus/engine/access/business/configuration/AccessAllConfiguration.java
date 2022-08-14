@@ -94,8 +94,12 @@ public class AccessAllConfiguration {
     }
 
     @Configuration(proxyBeanMethods = false)
-    @ConditionalOnBean(AccessHandlerStrategyFactory.class)
     static class ControllerConfiguration {
+
+        @PostConstruct
+        public void init() {
+            log.debug("[Herodotus] |- SDK [Engine Access All Controller] Auto Configure.");
+        }
 
         @Bean
         @ConditionalOnSmsEnabled
