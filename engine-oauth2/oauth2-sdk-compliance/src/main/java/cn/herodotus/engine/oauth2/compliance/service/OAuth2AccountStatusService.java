@@ -30,14 +30,12 @@ import cn.herodotus.engine.oauth2.compliance.definition.AccountStatusChangeServi
 import cn.herodotus.engine.oauth2.compliance.stamp.LockedUserDetailsStampManager;
 import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
 import cn.herodotus.engine.oauth2.core.definition.service.EnhanceUserDetailsService;
-import cn.herodotus.engine.oauth2.server.authorization.processor.HerodotusUserDetailsService;
 import cn.herodotus.engine.web.core.domain.UserStatus;
 import jodd.util.StringUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +76,6 @@ public class OAuth2AccountStatusService {
         return null;
     }
 
-    @Async
     public void lock(String username) {
         String userId = getUserId(username);
         if (ObjectUtils.isNotEmpty(userId)) {
@@ -88,7 +85,6 @@ public class OAuth2AccountStatusService {
         }
     }
 
-    @Async
     public void enable(String userId) {
         if (ObjectUtils.isNotEmpty(userId)) {
             accountStatusChangeService.process(new UserStatus(userId, DataItemStatus.ENABLE.name()));
