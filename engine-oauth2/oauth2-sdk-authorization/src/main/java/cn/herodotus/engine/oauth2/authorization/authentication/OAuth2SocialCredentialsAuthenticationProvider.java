@@ -56,6 +56,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.support.WebRequestDataBinder;
 
+import java.security.Principal;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -131,14 +132,21 @@ public class OAuth2SocialCredentialsAuthenticationProvider extends AbstractUserD
 
         // Default to configured scopes
         Set<String> authorizedScopes = registeredClient.getScopes();
-        if (!CollectionUtils.isEmpty(socialCredentialsAuthentication.getScopes())) {
-            for (String requestedScope : socialCredentialsAuthentication.getScopes()) {
+        Set<String> requestedScopes = socialCredentialsAuthentication.getScopes();
+        if (!CollectionUtils.isEmpty(requestedScopes)) {
+            for (String requestedScope : requestedScopes) {
                 if (!registeredClient.getScopes().contains(requestedScope)) {
                     throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
                 }
             }
-            authorizedScopes = new LinkedHashSet<>(socialCredentialsAuthentication.getScopes());
+            authorizedScopes = new LinkedHashSet<>(requestedScopes);
         }
+
+        OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
+                .principalName(usernamePasswordAuthentication.getName())
+                .authorizationGrantType(HerodotusGrantType.SOCIAL)
+                .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes)
+                .attribute(Principal.class.getName(), usernamePasswordAuthentication);
 
         // @formatter:off
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
@@ -151,13 +159,8 @@ public class OAuth2SocialCredentialsAuthenticationProvider extends AbstractUserD
                 .authorizationGrant(socialCredentialsAuthentication);
         // @formatter:on
 
-        OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
-                .principalName(usernamePasswordAuthentication.getName())
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes);
-
         // ----- Access token -----
-        OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
+        OAuth2TokenContext tokenContext = tokenContextBuilder.build();
         OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
         if (generatedAccessToken == null) {
             OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
@@ -187,7 +190,6 @@ public class OAuth2SocialCredentialsAuthenticationProvider extends AbstractUserD
                 throw new OAuth2AuthenticationException(error);
             }
             refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
-
             authorizationBuilder.refreshToken(refreshToken);
         }
 
