@@ -44,6 +44,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.security.Principal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -93,14 +94,21 @@ public class OAuth2ClientCredentialsAuthenticationProvider implements Authentica
 
         // Default to configured scopes
         Set<String> authorizedScopes = registeredClient.getScopes();
-        if (!CollectionUtils.isEmpty(clientCredentialsAuthentication.getScopes())) {
-            for (String requestedScope : clientCredentialsAuthentication.getScopes()) {
+        Set<String> requestedScopes = clientCredentialsAuthentication.getScopes();
+        if (!CollectionUtils.isEmpty(requestedScopes)) {
+            for (String requestedScope : requestedScopes) {
                 if (!registeredClient.getScopes().contains(requestedScope)) {
                     throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
                 }
             }
-            authorizedScopes = new LinkedHashSet<>(clientCredentialsAuthentication.getScopes());
+            authorizedScopes = new LinkedHashSet<>(requestedScopes);
         }
+
+        OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
+                .principalName(clientPrincipal.getName())
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes)
+                .attribute(Principal.class.getName(), clientPrincipal);
 
         // @formatter:off
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
@@ -113,10 +121,7 @@ public class OAuth2ClientCredentialsAuthenticationProvider implements Authentica
                 .authorizationGrant(clientCredentialsAuthentication);
         // @formatter:on
 
-        OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
-                .principalName(clientPrincipal.getName())
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes);
+
 
         // ----- Access token -----
         OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();

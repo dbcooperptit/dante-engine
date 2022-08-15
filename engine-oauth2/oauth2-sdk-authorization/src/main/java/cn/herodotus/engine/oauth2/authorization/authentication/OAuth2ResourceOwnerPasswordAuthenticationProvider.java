@@ -52,6 +52,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.security.Principal;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -134,14 +135,21 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider extends AbstractU
 
         // Default to configured scopes
         Set<String> authorizedScopes = registeredClient.getScopes();
-        if (!CollectionUtils.isEmpty(resourceOwnerPasswordAuthentication.getScopes())) {
-            for (String requestedScope : resourceOwnerPasswordAuthentication.getScopes()) {
+        Set<String> requestedScopes = resourceOwnerPasswordAuthentication.getScopes();
+        if (!CollectionUtils.isEmpty(requestedScopes)) {
+            for (String requestedScope : requestedScopes) {
                 if (!registeredClient.getScopes().contains(requestedScope)) {
                     throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
                 }
             }
-            authorizedScopes = new LinkedHashSet<>(resourceOwnerPasswordAuthentication.getScopes());
+            authorizedScopes = new LinkedHashSet<>(requestedScopes);
         }
+
+        OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
+                .principalName(usernamePasswordAuthentication.getName())
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes)
+                .attribute(Principal.class.getName(), usernamePasswordAuthentication);
 
         // @formatter:off
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
@@ -154,13 +162,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider extends AbstractU
                 .authorizationGrant(resourceOwnerPasswordAuthentication);
         // @formatter:on
 
-        OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
-                .principalName(usernamePasswordAuthentication.getName())
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes);
-
         // ----- Access token -----
-        OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
+        OAuth2TokenContext tokenContext = tokenContextBuilder.build();
         OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
         if (generatedAccessToken == null) {
             OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
@@ -190,7 +193,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider extends AbstractU
                 throw new OAuth2AuthenticationException(error);
             }
             refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
-
             authorizationBuilder.refreshToken(refreshToken);
         }
 
