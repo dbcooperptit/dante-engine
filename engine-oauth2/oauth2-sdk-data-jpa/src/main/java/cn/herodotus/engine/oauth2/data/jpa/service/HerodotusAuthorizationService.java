@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
@@ -92,39 +91,26 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
         return result;
     }
 
-    public void clearExpireAccessToken() {
-        this.herodotusAuthorizationRepository.deleteByAccessTokenExpiresAtBefore(LocalDateTime.now());
-        log.debug("[Herodotus] |- HerodotusAuthorization Service clearExpireAccessToken.");
-    }
-
-    public void deleteByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName) {
-        this.herodotusAuthorizationRepository.deleteByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
-        log.debug("[Herodotus] |- HerodotusAuthorization Service deleteByRegisteredClientIdAndPrincipalName.");
-    }
-
     public List<HerodotusAuthorization> findAllByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName) {
-        List<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findAllByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
+        List<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findAllByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(registeredClientId, principalName, LocalDateTime.now());
         log.debug("[Herodotus] |- HerodotusAuthorization Service findAllByRegisteredClientIdAndPrincipalName.");
         return result;
     }
 
-    @Transactional
     public int findAuthorizationCount(String registeredClientId, String principalName) {
-        clearExpireAccessToken();
         List<HerodotusAuthorization> items = findAllByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
         if (CollectionUtils.isNotEmpty(items)) {
             return items.size();
         }
-
         return 0;
     }
 
-    public Optional<HerodotusAuthorization> findByDetection(String token) {
+    public Optional<HerodotusAuthorization> findByStateOrAuthorizationCodeValueOrAccessTokenValueOrRefreshTokenValue(String token) {
 
         Specification<HerodotusAuthorization> specification = (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            predicates.add(criteriaBuilder.equal(root.get("authorizationCode"), token));
             predicates.add(criteriaBuilder.equal(root.get("state"), token));
+            predicates.add(criteriaBuilder.equal(root.get("authorizationCode"), token));
             predicates.add(criteriaBuilder.equal(root.get("accessToken"), token));
             predicates.add(criteriaBuilder.equal(root.get("refreshToken"), token));
 

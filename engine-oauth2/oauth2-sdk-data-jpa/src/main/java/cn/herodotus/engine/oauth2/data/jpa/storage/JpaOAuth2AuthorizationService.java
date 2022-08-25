@@ -47,6 +47,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
@@ -88,13 +89,8 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
     @Override
     public void remove(OAuth2Authorization authorization) {
-        if (StringUtils.hasText(authorization.getId())) {
-            this.herodotusAuthorizationService.deleteById(authorization.getId());
-        } else if (StringUtils.hasText(authorization.getRegisteredClientId()) && StringUtils.hasText(authorization.getRegisteredClientId())) {
-            this.herodotusAuthorizationService.deleteByRegisteredClientIdAndPrincipalName(authorization.getRegisteredClientId(), authorization.getPrincipalName());
-        } else {
-            this.herodotusAuthorizationService.clearExpireAccessToken();
-        }
+        Assert.notNull(authorization, "authorization cannot be null");
+        this.herodotusAuthorizationService.deleteById(authorization.getId());
         log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service remove entity.");
     }
 
@@ -117,18 +113,19 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
     @Override
     public OAuth2Authorization findByToken(String token, OAuth2TokenType tokenType) {
+        Assert.hasText(token, "token cannot be empty");
 
         Optional<HerodotusAuthorization> result;
         if (tokenType == null) {
-            result = this.herodotusAuthorizationService.findByDetection(token);
-        } else if (OAuth2ParameterNames.ACCESS_TOKEN.equals(tokenType.getValue())) {
-            result = this.herodotusAuthorizationService.findByAccessToken(token);
-        } else if (OAuth2ParameterNames.REFRESH_TOKEN.equals(tokenType.getValue())) {
-            result = this.herodotusAuthorizationService.findByRefreshToken(token);
+            result = this.herodotusAuthorizationService.findByStateOrAuthorizationCodeValueOrAccessTokenValueOrRefreshTokenValue(token);
         } else if (OAuth2ParameterNames.STATE.equals(tokenType.getValue())) {
             result = this.herodotusAuthorizationService.findByState(token);
         } else if (OAuth2ParameterNames.CODE.equals(tokenType.getValue())) {
             result = this.herodotusAuthorizationService.findByAuthorizationCode(token);
+        } else if (OAuth2ParameterNames.ACCESS_TOKEN.equals(tokenType.getValue())) {
+            result = this.herodotusAuthorizationService.findByAccessToken(token);
+        } else if (OAuth2ParameterNames.REFRESH_TOKEN.equals(tokenType.getValue())) {
+            result = this.herodotusAuthorizationService.findByRefreshToken(token);
         } else {
             result = Optional.empty();
         }
