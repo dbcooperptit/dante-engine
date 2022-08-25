@@ -79,26 +79,12 @@ public interface HerodotusAuthorizationRepository extends BaseRepository<Herodot
     Optional<HerodotusAuthorization> findByRefreshToken(String refreshToken);
 
     /**
-     * 根据客户端ID和用户名称删除
+     * 根据客户端ID和用户名查询未过期Token
      *
      * @param registeredClientId 客户端ID
      * @param principalName      用户名称
-     */
-    void deleteByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
-
-    /**
-     * 清除已过期token
-     *
-     * @param localDateTime 时间
-     */
-    void deleteByAccessTokenExpiresAtBefore(LocalDateTime localDateTime);
-
-    /**
-     * 根据客户端ID和用户名查询
-     *
-     * @param registeredClientId 客户端ID
-     * @param principalName      用户名称
+     * @param localDateTime      时间
      * @return 认证信息列表
      */
-    List<HerodotusAuthorization> findAllByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
+    List<HerodotusAuthorization> findAllByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(String registeredClientId, String principalName, LocalDateTime localDateTime);
 }

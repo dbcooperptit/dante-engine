@@ -119,6 +119,7 @@ public enum ResultErrorCodes {
     CREDENTIALS_EXPIRED(ErrorCode.CREDENTIALS_EXPIRED, "该账户密码凭证已过期"),
     INVALID_CLIENT(ErrorCode.INVALID_CLIENT, "客户端身份验证失败"),
     INVALID_TOKEN(ErrorCode.INVALID_TOKEN, "提供的访问令牌已过期、吊销、格式错误或无效"),
+    INVALID_GRANT(ErrorCode.INVALID_GRANT, "提供的授权授予或刷新令牌无效、已过期或已撤销"),
     UNAUTHORIZED_CLIENT(ErrorCode.UNAUTHORIZED_CLIENT, "客户端无权使用此方法请求授权码或访问令牌"),
     USERNAME_NOT_FOUND(ErrorCode.USERNAME_NOT_FOUND,"用户名或密码错误"),
     SESSION_EXPIRED(ErrorCode.SESSION_EXPIRED,"Session 已过期，请刷新页面后再使用"),
@@ -144,8 +145,7 @@ public enum ResultErrorCodes {
     /**
      * 412.* 未经授权 Precondition Failed 客户端请求信息的先决条件错误
      */
-    INVALID_GRANT(ErrorCode.INVALID_GRANT, "用户名或密码错误"),
-    INVALID_REDIRECT_URI(ErrorCode.INVALID_REDIRECT_URI, "URI重定向的值无效"),
+    INVALID_REDIRECT_URI(ErrorCode.INVALID_REDIRECT_URI, "OAuth2 URI 重定向的值无效"),
     INVALID_REQUEST(ErrorCode.INVALID_REQUEST, "无效的请求，参数使用错误或无效."),
     INVALID_SCOPE(ErrorCode.INVALID_SCOPE, "授权范围错误"),
 

@@ -68,8 +68,8 @@ public class SecurityGlobalExceptionHandler {
     static {
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCESS_DENIED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCESS_DENIED));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INSUFFICIENT_SCOPE, GlobalExceptionHandler.getForbiddenResult(ResultErrorCodes.INSUFFICIENT_SCOPE));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_CLIENT, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_CLIENT));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_GRANT, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_GRANT));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_CLIENT, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.INVALID_CLIENT));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_GRANT, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.INVALID_GRANT));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REDIRECT_URI, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_REDIRECT_URI));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_REQUEST, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_REQUEST));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.INVALID_SCOPE, GlobalExceptionHandler.getPreconditionFailedResult(ResultErrorCodes.INVALID_SCOPE));
@@ -87,7 +87,7 @@ public class SecurityGlobalExceptionHandler {
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCOUNT_LOCKED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCOUNT_LOCKED));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.ACCOUNT_ENDPOINT_LIMITED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.ACCOUNT_ENDPOINT_LIMITED));
         EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.USERNAME_NOT_FOUND, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.USERNAME_NOT_FOUND));
-        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.SESSION_EXPIRED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.USERNAME_NOT_FOUND));
+        EXCEPTION_DICTIONARY.put(OAuth2ErrorCodes.SESSION_EXPIRED, GlobalExceptionHandler.getUnauthorizedResult(ResultErrorCodes.SESSION_EXPIRED));
     }
 
     /**

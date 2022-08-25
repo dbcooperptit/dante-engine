@@ -57,7 +57,6 @@ import javax.annotation.PostConstruct;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(CacheProperties.class)
 @Import({CaffeineConfiguration.class, RedisConfiguration.class})
-
 @AutoConfigureAfter(JetCacheAutoConfiguration.class)
 public class JetCacheConfiguration {
 
@@ -70,8 +69,8 @@ public class JetCacheConfiguration {
 
     @Bean
     @ConditionalOnClass(CacheManager.class)
-    public JetCacheCreateCacheFactory jetCacheCreateCacheFactory(CacheManager cacheManager) {
-        JetCacheCreateCacheFactory factory = new JetCacheCreateCacheFactory(cacheManager);
+    public JetCacheCreateCacheFactory jetCacheCreateCacheFactory(CacheManager jcCacheManager) {
+        JetCacheCreateCacheFactory factory = new JetCacheCreateCacheFactory(jcCacheManager);
         JetCacheUtils.setJetCacheCreateCacheFactory(factory);
         log.trace("[Herodotus] |- Bean [Jet Cache Create Cache Factory] Auto Configure.");
         return factory;
