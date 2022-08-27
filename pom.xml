@@ -105,7 +105,6 @@
         <module>engine-rest</module>
         <module>engine-captcha</module>
         <module>engine-oss</module>
-        <module>engine-temporal</module>
         <module>engine-pay</module>
         <module>engine-websocket</module>
         <module>engine-message</module>
@@ -115,6 +114,7 @@
         <module>engine-protect</module>
         <module>engine-access</module>
         <module>engine-sms</module>
+        <module>engine-nosql</module>
     </modules>
 
 </project>

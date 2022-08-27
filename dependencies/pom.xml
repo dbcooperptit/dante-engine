@@ -185,6 +185,7 @@
         <bcpkix-jdk15on.version>1.70</bcpkix-jdk15on.version>
         <tea-xml.version>0.1.5</tea-xml.version>
         <dom4j.version>2.1.3</dom4j.version>
+        <postgresql.version>42.5.0</postgresql.version>
     </properties>
 
     <dependencyManagement>
@@ -397,6 +398,23 @@
                 <version>${dante-engine.version}</version>
             </dependency>
 
+            <!-- nosql -->
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>nosql-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>nosql-sdk-couchdb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>nosql-sdk-influxdb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- oauth2 -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
@@ -572,23 +590,6 @@
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>sms-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-
-            <!-- temporal -->
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>temporal-core</artifactId>
-                <version>${dante-engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>temporal-sdk-influxdb</artifactId>
-                <version>${dante-engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>temporal-spring-boot-starter</artifactId>
-                <version>${dante-engine.version}</version>
             </dependency>
 
             <!-- web -->
@@ -1047,6 +1048,12 @@
                 <groupId>org.dom4j</groupId>
                 <artifactId>dom4j</artifactId>
                 <version>${dom4j.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
             </dependency>
 
         </dependencies>
