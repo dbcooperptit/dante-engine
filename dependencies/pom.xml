@@ -38,7 +38,7 @@
 
     <groupId>cn.herodotus.engine</groupId>
     <artifactId>dependencies</artifactId>
-    <version>2.7.3.1</version>
+    <version>2.7.3.2</version>
     <packaging>pom</packaging>
 
     <description>基于 Spring Authorization Server 的 Dante Cloud Dependencies</description>
@@ -130,9 +130,9 @@
         <xstream.version>1.4.19</xstream.version>
 
         <!-- 应用开发辅助工具组件 -->
-        <redisson.version>3.17.5</redisson.version>
+        <redisson.version>3.17.6</redisson.version>
         <p6spy.version>3.9.1</p6spy.version>
-        <springdoc.version>1.6.9</springdoc.version>
+        <springdoc.version>1.6.11</springdoc.version>
         <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
         <skywalking.version>8.11.0</skywalking.version>
         <minio.version>8.4.3</minio.version>
@@ -168,7 +168,7 @@
         <qiniu-java-sdk.version>7.11.0</qiniu-java-sdk.version>
         <yunpian-java-sdk.version>1.2.7</yunpian-java-sdk.version>
         <!--支付 SDK-->
-        <alipay-sdk-java.version>4.33.12.ALL</alipay-sdk-java.version>
+        <alipay-sdk-java.version>4.33.26.ALL</alipay-sdk-java.version>
         <!--第三方应用集成SDK-->
         <com.baidu.aip.version>4.16.11</com.baidu.aip.version>
         <aliyun-java-sdk-green.version>3.6.5</aliyun-java-sdk-green.version>
