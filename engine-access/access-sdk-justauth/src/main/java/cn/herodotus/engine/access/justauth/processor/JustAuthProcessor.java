@@ -25,14 +25,21 @@
 
 package cn.herodotus.engine.access.justauth.processor;
 
+import cn.herodotus.engine.access.core.exception.AccessConfigErrorException;
+import cn.herodotus.engine.access.core.exception.IllegalAccessSourceException;
 import cn.herodotus.engine.access.justauth.properties.JustAuthProperties;
 import cn.herodotus.engine.access.justauth.stamp.JustAuthStateStampManager;
 import cn.hutool.core.util.EnumUtil;
 import me.zhyd.oauth.config.AuthConfig;
 import me.zhyd.oauth.config.AuthDefaultSource;
-import me.zhyd.oauth.config.AuthSource;
 import me.zhyd.oauth.request.*;
 import me.zhyd.oauth.utils.AuthStateUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>Description: JustAuth请求的生成器 </p>
@@ -57,6 +64,17 @@ public class JustAuthProcessor {
         return justAuthStateStampManager;
     }
 
+    public AuthRequest getAuthRequest(String source) {
+        AuthDefaultSource authDefaultSource = parseAuthDefaultSource(source);
+        AuthConfig authConfig = getAuthConfig(authDefaultSource);
+        return getAuthRequest(authDefaultSource, authConfig);
+    }
+
+    public AuthRequest getAuthRequest(String source, AuthConfig authConfig) {
+        AuthDefaultSource authDefaultSource = parseAuthDefaultSource(source);
+        return getAuthRequest(authDefaultSource, authConfig);
+    }
+
     /**
      * 返回带state参数的授权url，授权回调时会带上这个state
      *
@@ -68,29 +86,52 @@ public class JustAuthProcessor {
         return authRequest.authorize(AuthStateUtils.createState());
     }
 
-    /**
-     * 获取默认的 Request
-     *
-     * @param source {@link AuthSource}
-     * @return {@link AuthRequest}
-     */
-    public AuthRequest getAuthRequest(String source) {
+    public String getAuthorizeUrl(String source, AuthConfig authConfig) {
+        AuthRequest authRequest = this.getAuthRequest(source, authConfig);
+        return authRequest.authorize(AuthStateUtils.createState());
+    }
 
+    public Map<String, String> getAuthorizeUrls() {
+        Map<String, AuthConfig> configs = justAuthProperties.getConfigs();
+        if(MapUtils.isEmpty(configs)) {
+            throw new AccessConfigErrorException();
+        }
+
+        return configs.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> {
+            AuthRequest authRequest = this.getAuthRequest(entry.getKey(), entry.getValue());
+            return authRequest.authorize(AuthStateUtils.createState());
+        }));
+    }
+
+
+
+    @NotNull
+    private AuthConfig getAuthConfig(AuthDefaultSource authDefaultSource) {
+        Map<String, AuthConfig> configs = justAuthProperties.getConfigs();
+        if(MapUtils.isEmpty(configs)) {
+            throw new AccessConfigErrorException();
+        }
+
+        AuthConfig authConfig = configs.get(authDefaultSource.name());
+        // 找不到对应关系，直接返回空
+        if (ObjectUtils.isEmpty(authConfig)) {
+            throw new AccessConfigErrorException();
+        }
+        return authConfig;
+    }
+
+    private static AuthDefaultSource parseAuthDefaultSource(String source) {
         AuthDefaultSource authDefaultSource;
 
         try {
             authDefaultSource = EnumUtil.fromString(AuthDefaultSource.class, source.toUpperCase());
         } catch (IllegalArgumentException e) {
-            // 无自定义匹配
-            return null;
+            throw new IllegalAccessSourceException();
         }
+        return authDefaultSource;
+    }
 
-        AuthConfig authConfig = justAuthProperties.getConfigs().get(authDefaultSource.name());
-        // 找不到对应关系，直接返回空
-        if (authConfig == null) {
-            return null;
-        }
-
+    private AuthRequest getAuthRequest(AuthDefaultSource authDefaultSource, AuthConfig authConfig) {
         switch (authDefaultSource) {
             case GITHUB:
                 return new AuthGithubRequest(authConfig, this.getJustAuthStateRedisCache());

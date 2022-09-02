@@ -81,12 +81,12 @@ public class JustAuthConfiguration {
         return justAuthProcessor;
     }
 
-    @Bean(AccountType.WECHAT_MINI_APP_HANDLER)
+    @Bean(AccountType.JUST_AUTH_HANDLER)
     @ConditionalOnBean(JustAuthProcessor.class)
     @ConditionalOnMissingBean
     public JustAuthAccessHandler justAuthAccessHandler(JustAuthProcessor justAuthProcessor) {
         JustAuthAccessHandler justAuthAccessHandler = new JustAuthAccessHandler(justAuthProcessor);
-        log.trace("[Herodotus] |- Bean [Just Auth Access Handler] Auto Configure.");
+        log.debug("[Herodotus] |- Bean [Just Auth Access Handler] Auto Configure.");
         return justAuthAccessHandler;
     }
 }

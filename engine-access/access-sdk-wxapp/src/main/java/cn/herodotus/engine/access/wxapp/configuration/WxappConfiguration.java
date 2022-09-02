@@ -69,12 +69,12 @@ public class WxappConfiguration {
         return wxappProcessor;
     }
 
-    @Bean(AccountType.JUST_AUTH_HANDLER)
+    @Bean(AccountType.WECHAT_MINI_APP_HANDLER)
     @ConditionalOnBean(WxappProcessor.class)
     @ConditionalOnMissingBean
     public WxappAccessHandler wxappAccessHandler(WxappProcessor wxappProcessor) {
         WxappAccessHandler wxappAccessHandler = new WxappAccessHandler(wxappProcessor);
-        log.trace("[Herodotus] |- Bean [Wxapp Access Handler] Auto Configure.");
+        log.debug("[Herodotus] |- Bean [Wxapp Access Handler] Auto Configure.");
         return wxappAccessHandler;
     }
 }
