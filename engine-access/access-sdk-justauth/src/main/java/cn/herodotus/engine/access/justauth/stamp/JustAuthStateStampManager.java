@@ -53,7 +53,7 @@ public class JustAuthStateStampManager extends AbstractStampManager<String, Stri
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        super.setExpire(justAuthProperties.getCache().getTimeout());
+        super.setExpire(justAuthProperties.getTimeout());
     }
 
     @Override

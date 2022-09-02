@@ -23,58 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.access.justauth.properties;
+package cn.herodotus.engine.access.core.exception;
 
-import cn.herodotus.engine.access.core.constants.AccessConstants;
-import me.zhyd.oauth.config.AuthConfig;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import java.time.Duration;
-import java.util.Map;
+import cn.herodotus.engine.access.core.constants.AccessErrorCode;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: 用于支持JustAuth第三方登录的配置 </p>
+ * <p>Description: 非法的外部访问参数类型错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/5/16 10:24
+ * @date : 2022/1/26 12:02
  */
-@ConfigurationProperties(prefix = AccessConstants.PROPERTY_ACCESS_JUSTAUTH)
-public class JustAuthProperties {
+public class IllegalAccessSourceException extends PlatformException {
 
-    /**
-     * 是否开启
-     */
-    private Boolean enabled;
-    /**
-     * State 缓存时长，默认5分钟
-     */
-    private Duration timeout = Duration.ofMinutes(5);
-    /**
-     * 第三方系统登录配置信息
-     */
-    private Map<String, AuthConfig> configs;
-
-    public Boolean getEnabled() {
-        return enabled;
+    public IllegalAccessSourceException() {
+        super();
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public IllegalAccessSourceException(String message) {
+        super(message);
     }
 
-    public Duration getTimeout() {
-        return timeout;
+    public IllegalAccessSourceException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public void setTimeout(Duration timeout) {
-        this.timeout = timeout;
+    public IllegalAccessSourceException(Throwable cause) {
+        super(cause);
     }
 
-    public Map<String, AuthConfig> getConfigs() {
-        return configs;
+    public IllegalAccessSourceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    public void setConfigs(Map<String, AuthConfig> configs) {
-        this.configs = configs;
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(AccessErrorCode.ILLEGAL_ACCESS_SOURCE, "社交登录Source参数错误", HttpStatus.SC_PRECONDITION_FAILED);
     }
 }
