@@ -92,25 +92,23 @@ public class JustAuthProcessor {
     }
 
     public Map<String, String> getAuthorizeUrls() {
+        Map<String, AuthConfig> configs = getConfigs();
+        return configs.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> getAuthorizeUrl(entry.getKey(), entry.getValue())));
+    }
+
+    @NotNull
+    private Map<String, AuthConfig> getConfigs() {
         Map<String, AuthConfig> configs = justAuthProperties.getConfigs();
         if(MapUtils.isEmpty(configs)) {
             throw new AccessConfigErrorException();
         }
-
-        return configs.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> {
-            AuthRequest authRequest = this.getAuthRequest(entry.getKey(), entry.getValue());
-            return authRequest.authorize(AuthStateUtils.createState());
-        }));
+        return configs;
     }
-
 
 
     @NotNull
     private AuthConfig getAuthConfig(AuthDefaultSource authDefaultSource) {
-        Map<String, AuthConfig> configs = justAuthProperties.getConfigs();
-        if(MapUtils.isEmpty(configs)) {
-            throw new AccessConfigErrorException();
-        }
+        Map<String, AuthConfig> configs = getConfigs();
 
         AuthConfig authConfig = configs.get(authDefaultSource.name());
         // 找不到对应关系，直接返回空
