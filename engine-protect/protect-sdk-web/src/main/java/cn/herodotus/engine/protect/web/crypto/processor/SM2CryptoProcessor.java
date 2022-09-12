@@ -76,7 +76,7 @@ public class SM2CryptoProcessor implements AsymmetricCryptoProcessor {
         sm2.setMode(SM2Engine.Mode.C1C3C2);
 
         String result = StrUtil.utf8Str(sm2.decryptFromBcd(content, KeyType.PrivateKey));
-        log.debug("[Herodotus] |- SM2 crypto decrypt data, value is : [{}]", result);
+        log.trace("[Herodotus] |- SM2 crypto decrypt data, value is : [{}]", result);
 
         return result;
     }
@@ -86,7 +86,7 @@ public class SM2CryptoProcessor implements AsymmetricCryptoProcessor {
         SM2 sm2 = SmUtil.sm2(null, publicKey);
 
         String result = sm2.encryptBcd(content, KeyType.PublicKey);
-        log.debug("[Herodotus] |- SM2 crypto encrypt data, value is : [{}]", result);
+        log.trace("[Herodotus] |- SM2 crypto encrypt data, value is : [{}]", result);
         return result;
     }
 

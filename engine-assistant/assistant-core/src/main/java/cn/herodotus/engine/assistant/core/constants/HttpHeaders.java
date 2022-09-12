@@ -41,4 +41,5 @@ public interface HttpHeaders {
     String X_REAL_IP = "X-Real-IP";
     String X_HERODOTUS_SESSION = "X-Herodotus-Session";
     String X_HERODOTUS_FROM_IN = "X-Herodotus-From-In";
+    String X_HERODOTUS_TENANT_ID = "X-Herodotus-Tenant-Id";
 }

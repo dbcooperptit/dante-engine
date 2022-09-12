@@ -25,7 +25,12 @@
 
 package cn.herodotus.engine.data.jpa.hibernate.cache.spi;
 
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.core.thread.TenantContextHolder;
+import cn.hutool.crypto.SecureUtil;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.cache.spi.support.DomainDataStorageAccess;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.slf4j.Logger;
@@ -51,6 +56,32 @@ public class HerodotusDomainDataStorageAccess implements DomainDataStorageAccess
         this.cache = cache;
     }
 
+    private String secure(Object key) {
+        String original = String.valueOf(key);
+        if (StringUtils.isNotBlank(original) && StringUtils.startsWith(original, "sql:")) {
+            String recent = SecureUtil.md5(original);
+            log.trace("[Herodotus] |- SPI - Secure the sql type key [{}] to [{}]", original, recent);
+            return recent;
+        }
+        return original;
+    }
+
+    private String getTenantId() {
+        String tenantId = TenantContextHolder.getTenantId();
+        String result = StringUtils.isNotBlank(tenantId) ? tenantId : BaseConstants.DEFAULT_TENANT_ID;
+        log.trace("[Herodotus] |- SPI - Tenant identifier for jpa second level cache is : [{}]", result);
+        return StringUtils.toRootLowerCase(result);
+    }
+
+    private String wrapper(Object key) {
+        String original = secure(key);
+        String tenantId = getTenantId();
+
+        String result = tenantId + SymbolConstants.COLON + original;
+        log.trace("[Herodotus] |- SPI - Current cache key is : [{}]", result);
+        return result;
+    }
+
     private Object get(Object key) {
         Cache.ValueWrapper value = cache.get(key);
 
@@ -62,34 +93,39 @@ public class HerodotusDomainDataStorageAccess implements DomainDataStorageAccess
 
     @Override
     public boolean contains(Object key) {
-        Object value = this.get(key);
-        log.trace("[Herodotus] |- SPI - check is key : [{}] exist.", key);
+        String wrapperKey = wrapper(key);
+        Object value = this.get(wrapperKey);
+        log.trace("[Herodotus] |- SPI - check is key : [{}] exist.", wrapperKey);
         return ObjectUtils.isNotEmpty(value);
     }
 
     @Override
     public Object getFromCache(Object key, SharedSessionContractImplementor session) {
-        Object value = this.get(key);
-        log.trace("[Herodotus] |- SPI - get from cache key is : [{}], value is : [{}]", key, value);
+        String wrapperKey = wrapper(key);
+        Object value = this.get(wrapperKey);
+        log.trace("[Herodotus] |- SPI - get from cache key is : [{}], value is : [{}]", wrapperKey, value);
         return value;
     }
 
     @Override
     public void putIntoCache(Object key, Object value, SharedSessionContractImplementor session) {
-        log.trace("[Herodotus] |- SPI - put into cache key is : [{}], value is : [{}]", key, value);
-        cache.put(key, value);
+        String wrapperKey = wrapper(key);
+        log.trace("[Herodotus] |- SPI - put into cache key is : [{}], value is : [{}]", wrapperKey, value);
+        cache.put(wrapperKey, value);
     }
 
     @Override
     public void removeFromCache(Object key, SharedSessionContractImplementor session) {
-        log.trace("[Herodotus] |- SPI - remove from cache key is : [{}]", key);
-        cache.evict(key);
+        String wrapperKey = wrapper(key);
+        log.trace("[Herodotus] |- SPI - remove from cache key is : [{}]", wrapperKey);
+        cache.evict(wrapperKey);
     }
 
     @Override
     public void evictData(Object key) {
-        log.trace("[Herodotus] |- SPI - evict key : [{}] from cache.", key);
-        cache.evict(key);
+        String wrapperKey = wrapper(key);
+        log.trace("[Herodotus] |- SPI - evict key : [{}] from cache.", wrapperKey);
+        cache.evict(wrapperKey);
     }
 
     @Override

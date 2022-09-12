@@ -27,6 +27,7 @@ package cn.herodotus.engine.protect.web.autoconfigure;
 
 import cn.herodotus.engine.protect.web.configuration.HttpCryptoConfiguration;
 import cn.herodotus.engine.protect.web.configuration.SecureConfiguration;
+import cn.herodotus.engine.protect.web.configuration.TenantConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +44,8 @@ import javax.annotation.PostConstruct;
 @Configuration(proxyBeanMethods = false)
 @Import({
         HttpCryptoConfiguration.class,
-        SecureConfiguration.class
+        SecureConfiguration.class,
+        TenantConfiguration.class
 })
 public class AutoConfiguration {
 

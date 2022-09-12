@@ -26,10 +26,8 @@
 package cn.herodotus.engine.cache.jetcache.enhance;
 
 import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
-import cn.hutool.crypto.SecureUtil;
 import com.alicp.jetcache.Cache;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
@@ -49,25 +47,11 @@ public class JetCacheSpringCache extends AbstractValueAdaptingCache {
 
     private final String cacheName;
     private final Cache<Object, Object> cache;
-    private final boolean desensitization;
 
-    public JetCacheSpringCache(String cacheName, Cache<Object, Object> cache, boolean allowNullValues, boolean desensitization) {
+    public JetCacheSpringCache(String cacheName, Cache<Object, Object> cache, boolean allowNullValues) {
         super(allowNullValues);
         this.cacheName = cacheName;
         this.cache = cache;
-        this.desensitization = desensitization;
-    }
-
-    private String secure(Object key) {
-        String original = String.valueOf(key);
-        if (desensitization) {
-            if (StringUtils.isNotBlank(original) && StringUtils.startsWith(original, "sql:")) {
-                String recent = SecureUtil.md5(original);
-                log.trace("[Herodotus] |- CACHE - Secure the sql type key [{}] to [{}]", original, recent);
-                return recent;
-            }
-        }
-        return original;
     }
 
     @Override
@@ -83,9 +67,7 @@ public class JetCacheSpringCache extends AbstractValueAdaptingCache {
     @Override
     @Nullable
     protected Object lookup(Object key) {
-        String secure = secure(key);
-
-        Object value = cache.get(secure);
+        Object value = cache.get(key);
         if (ObjectUtils.isNotEmpty(value)) {
             log.trace("[Herodotus] |- CACHE - Lookup data in herodotus cache, value is : [{}]", JacksonUtils.toJson(value));
             return value;
@@ -98,16 +80,15 @@ public class JetCacheSpringCache extends AbstractValueAdaptingCache {
     @Override
     @Nullable
     public <T> T get(Object key, Callable<T> valueLoader) {
-        String secure = secure(key);
 
-        log.trace("[Herodotus] |- CACHE - Get data in herodotus cache, key: {}", secure);
+        log.trace("[Herodotus] |- CACHE - Get data in herodotus cache, key: {}", key);
 
-        return (T) fromStoreValue(cache.computeIfAbsent(secure, k -> {
+        return (T) fromStoreValue(cache.computeIfAbsent(key, k -> {
             try {
                 return toStoreValue(valueLoader.call());
             }
             catch (Throwable ex) {
-                throw new ValueRetrievalException(secure, valueLoader, ex);
+                throw new ValueRetrievalException(key, valueLoader, ex);
             }
         }));
     }
@@ -115,33 +96,29 @@ public class JetCacheSpringCache extends AbstractValueAdaptingCache {
     @Override
     @Nullable
     public void put(Object key, @Nullable Object value) {
-        String secure = secure(key);
-        log.trace("[Herodotus] |- CACHE - Put data in herodotus cache, key: {}", secure);
-        cache.put(secure, this.toStoreValue(value));
+        log.trace("[Herodotus] |- CACHE - Put data in herodotus cache, key: {}", key);
+        cache.put(key, this.toStoreValue(value));
     }
 
 
     @Override
     @Nullable
     public ValueWrapper putIfAbsent(Object key, @Nullable Object value) {
-        String secure = secure(key);
-        log.trace("[Herodotus] |- CACHE - PutIfPresent data in herodotus cache, key: {}", secure);
-        Object existing = cache.putIfAbsent(secure, toStoreValue(value));
+        log.trace("[Herodotus] |- CACHE - PutIfPresent data in herodotus cache, key: {}", key);
+        Object existing = cache.putIfAbsent(key, toStoreValue(value));
         return toValueWrapper(existing);
     }
 
     @Override
     public void evict(Object key) {
-        String secure = secure(key);
-        log.trace("[Herodotus] |- CACHE - Evict data in herodotus cache, key: {}", secure);
-        cache.remove(secure);
+        log.trace("[Herodotus] |- CACHE - Evict data in herodotus cache, key: {}", key);
+        cache.remove(key);
     }
 
     @Override
     public boolean evictIfPresent(Object key) {
-        String secure = secure(key);
-        log.trace("[Herodotus] |- CACHE - EvictIfPresent data in herodotus cache, key: {}", secure);
-        return cache.remove(secure);
+        log.trace("[Herodotus] |- CACHE - EvictIfPresent data in herodotus cache, key: {}", key);
+        return cache.remove(key);
     }
 
     @Override
@@ -149,7 +126,4 @@ public class JetCacheSpringCache extends AbstractValueAdaptingCache {
         log.trace("[Herodotus] |- CACHE - Clear data in herodotus cache.");
         cache.close();
     }
-
-
-
 }

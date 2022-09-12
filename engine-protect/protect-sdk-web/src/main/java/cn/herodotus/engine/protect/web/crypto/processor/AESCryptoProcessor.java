@@ -53,7 +53,7 @@ public class AESCryptoProcessor implements SymmetricCryptoProcessor {
     public String decrypt(String data, String key) {
         AES aes = SecureUtil.aes(StrUtil.utf8Bytes(key));
         byte[] result = aes.decrypt(Base64.decode(StrUtil.utf8Bytes(data)));
-        log.debug("[Herodotus] |- AES crypto decrypt data, value is : [{}]", result);
+        log.trace("[Herodotus] |- AES crypto decrypt data, value is : [{}]", result);
         return StrUtil.utf8Str(result);
     }
 
@@ -61,7 +61,7 @@ public class AESCryptoProcessor implements SymmetricCryptoProcessor {
     public String encrypt(String data, String key) {
         AES aes = SecureUtil.aes(StrUtil.utf8Bytes(key));
         byte[] result = aes.encrypt(StrUtil.utf8Bytes(data));
-        log.debug("[Herodotus] |- AES crypto encrypt data, value is : [{}]", result);
+        log.trace("[Herodotus] |- AES crypto encrypt data, value is : [{}]", result);
         return StrUtil.utf8Str(result);
     }
 }

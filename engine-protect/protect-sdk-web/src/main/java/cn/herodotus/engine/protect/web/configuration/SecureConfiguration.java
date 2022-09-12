@@ -55,7 +55,7 @@ public class SecureConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Rest Secure] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Engine Protect Secure] Auto Configure.");
     }
 
     @Bean
@@ -73,8 +73,6 @@ public class SecureConfiguration {
         log.trace("[Herodotus] |- Bean [Access Limited Stamp Manager] Auto Configure.");
         return accessLimitedStampManager;
     }
-
-
 
     @Bean
     @ConditionalOnMissingBean
@@ -103,6 +101,4 @@ public class SecureConfiguration {
         log.trace("[Herodotus] |- Bean [Xss Http Servlet Filter] Auto Configure.");
         return xssHttpServletFilter;
     }
-
-
 }

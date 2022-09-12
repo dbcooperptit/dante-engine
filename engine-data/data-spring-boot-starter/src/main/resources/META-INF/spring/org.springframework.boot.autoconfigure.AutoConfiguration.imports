@@ -1,0 +1,2 @@
+cn.herodotus.engine.data.autoconfigure.AutoConfiguration
+cn.herodotus.engine.data.jpa.configuration.DataJpaConfiguration

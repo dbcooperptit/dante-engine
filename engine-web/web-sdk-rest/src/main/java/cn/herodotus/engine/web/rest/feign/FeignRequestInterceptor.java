@@ -26,6 +26,7 @@
 package cn.herodotus.engine.web.rest.feign;
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.core.thread.TenantContextHolder;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.google.common.net.HttpHeaders;
 import feign.RequestInterceptor;
@@ -77,6 +78,16 @@ public class FeignRequestInterceptor implements RequestInterceptor {
             }
 
             log.debug("[Herodotus] |- Feign Request Interceptor copy all need transfer header!");
+
+            // 检查 Tenant Id 的可用性。
+            String tenantIdHeader = cn.herodotus.engine.assistant.core.constants.HttpHeaders.X_HERODOTUS_TENANT_ID;
+            if (!headers.containsKey(tenantIdHeader)) {
+                String tenantId = TenantContextHolder.getTenantId();
+                if (StringUtils.isNotBlank(tenantId)) {
+                    log.info("[Herodotus] |- Feign Request Interceptor Tenant is : {}", tenantId);
+                    requestTemplate.header(tenantIdHeader, tenantId);
+                }
+            }
 
             // 微服务之间传递的唯一标识,区分大小写所以通过httpServletRequest查询
             if (headers.containsKey(HttpHeaders.X_REQUEST_ID)) {
