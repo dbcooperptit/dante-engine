@@ -36,6 +36,8 @@ public interface BaseConstants {
     String NONE = "none";
     String CODE = "code";
     String LOWERCASE_DEFAULT = "default";
+
+    String DEFAULT_TENANT_ID = "master";
     String DEFAULT_TREE_ROOT_ID = "0";
 
     /* ---------- 配置属性通用常量 ---------- */
@@ -48,6 +50,7 @@ public interface BaseConstants {
     String PROPERTY_PREFIX_HERODOTUS = "herodotus";
 
     String PROPERTY_SPRING_CLOUD = PROPERTY_PREFIX_SPRING + ".cloud";
+    String PROPERTY_SPRING_JPA = PROPERTY_PREFIX_SPRING + ".jpa";
     String PROPERTY_SPRING_REDIS = PROPERTY_PREFIX_SPRING + ".redis";
 
     String ANNOTATION_PREFIX = "${";

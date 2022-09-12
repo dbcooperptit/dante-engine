@@ -90,7 +90,7 @@ public class RSACryptoProcessor implements AsymmetricCryptoProcessor {
         byte[] base64Data = Base64.decode(content);
         RSA rsa = SecureUtil.rsa(privateKey, null);
         String result = StrUtil.utf8Str(rsa.decrypt(base64Data, KeyType.PrivateKey));
-        log.debug("[Herodotus] |- RSA crypto decrypt data, value is : [{}]", result);
+        log.trace("[Herodotus] |- RSA crypto decrypt data, value is : [{}]", result);
         return result;
     }
 
@@ -101,7 +101,7 @@ public class RSACryptoProcessor implements AsymmetricCryptoProcessor {
         RSA rsa = SecureUtil.rsa(null, key);
         byte[] encryptedData = rsa.encrypt(content, KeyType.PublicKey);
         String result = Base64.encode(encryptedData);
-        log.debug("[Herodotus] |- RSA crypto decrypt data, value is : [{}]", result);
+        log.trace("[Herodotus] |- RSA crypto decrypt data, value is : [{}]", result);
         return result;
     }
 }

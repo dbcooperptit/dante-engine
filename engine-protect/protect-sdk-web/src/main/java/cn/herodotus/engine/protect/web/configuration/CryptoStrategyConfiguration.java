@@ -50,11 +50,11 @@ import javax.annotation.PostConstruct;
 @Configuration(proxyBeanMethods = false)
 public class CryptoStrategyConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(HttpCryptoConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(CryptoStrategyConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Asymmetric Crypto] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Engine Protect Crypto Strategy] Auto Configure.");
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -65,7 +65,7 @@ public class CryptoStrategyConfiguration {
         @ConditionalOnMissingBean
         public AsymmetricCryptoProcessor sm2CryptoProcessor() {
             SM2CryptoProcessor sm2CryptoProcessor = new SM2CryptoProcessor();
-            log.debug("[Herodotus] |- Strategy [SM Asymmetric SM2 Crypto Processor] Auto Configure.");
+            log.trace("[Herodotus] |- Strategy [SM Asymmetric SM2 Crypto Processor] Auto Configure.");
             return sm2CryptoProcessor;
         }
 
@@ -73,7 +73,7 @@ public class CryptoStrategyConfiguration {
         @ConditionalOnMissingBean
         public SymmetricCryptoProcessor sm4CryptoProcessor() {
             SM4CryptoProcessor sm4CryptoProcessor = new SM4CryptoProcessor();
-            log.debug("[Herodotus] |- Strategy [SM Symmetric SM4 Crypto Processor] Auto Configure.");
+            log.trace("[Herodotus] |- Strategy [SM Symmetric SM4 Crypto Processor] Auto Configure.");
             return sm4CryptoProcessor;
         }
     }
@@ -86,7 +86,7 @@ public class CryptoStrategyConfiguration {
         @ConditionalOnMissingBean
         public AsymmetricCryptoProcessor rsaCryptoProcessor() {
             RSACryptoProcessor rsaCryptoProcessor = new RSACryptoProcessor();
-            log.debug("[Herodotus] |- Strategy [Standard Asymmetric RSA Crypto Processor] Auto Configure.");
+            log.trace("[Herodotus] |- Strategy [Standard Asymmetric RSA Crypto Processor] Auto Configure.");
             return rsaCryptoProcessor;
         }
 
@@ -94,7 +94,7 @@ public class CryptoStrategyConfiguration {
         @ConditionalOnMissingBean
         public SymmetricCryptoProcessor aesCryptoProcessor() {
             AESCryptoProcessor aesCryptoProcessor = new AESCryptoProcessor();
-            log.debug("[Herodotus] |- Strategy [Standard Symmetric AES Crypto Processor] Auto Configure.");
+            log.trace("[Herodotus] |- Strategy [Standard Symmetric AES Crypto Processor] Auto Configure.");
             return aesCryptoProcessor;
         }
     }

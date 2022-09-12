@@ -46,20 +46,16 @@ public class HerodotusCacheManager extends JetCacheSpringCacheManager {
 
     private static final Logger log = LoggerFactory.getLogger(HerodotusCacheManager.class);
 
-    private final JetCacheCreateCacheFactory jetCacheCreateCacheFactory;
     private final CacheProperties cacheProperties;
 
     public HerodotusCacheManager(JetCacheCreateCacheFactory jetCacheCreateCacheFactory, CacheProperties cacheProperties) {
         super(jetCacheCreateCacheFactory);
-        this.jetCacheCreateCacheFactory = jetCacheCreateCacheFactory;
         this.cacheProperties = cacheProperties;
         this.setAllowNullValues(cacheProperties.getAllowNullValues());
-        this.setDesensitization(cacheProperties.getDesensitization());
     }
 
     public HerodotusCacheManager(JetCacheCreateCacheFactory jetCacheCreateCacheFactory, CacheProperties cacheProperties, String... cacheNames) {
         super(jetCacheCreateCacheFactory, cacheNames);
-        this.jetCacheCreateCacheFactory = jetCacheCreateCacheFactory;
         this.cacheProperties = cacheProperties;
     }
 
@@ -70,9 +66,8 @@ public class HerodotusCacheManager extends JetCacheSpringCacheManager {
             String key = StringUtils.replace(name, SymbolConstants.COLON, cacheProperties.getSeparator());
             if (expires.containsKey(key)) {
                 Expire expire = expires.get(key);
-                log.debug("[Herodotus] |- CACHE - Cache [{}] is setted to use CUSTEM exprie.", name);
-                com.alicp.jetcache.Cache<Object, Object> cache = jetCacheCreateCacheFactory.create(name, expire.getTtl(), isAllowNullValues(), true);
-                return new JetCacheSpringCache(name, cache, isAllowNullValues(), isDesensitization());
+                log.debug("[Herodotus] |- CACHE - Cache [{}] is set to use CUSTOM expire.", name);
+                return super.createJetCache(name, expire.getTtl());
             }
         }
         return super.createJetCache(name);

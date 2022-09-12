@@ -47,6 +47,7 @@ public class XssHttpServletFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+
         XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper(request);
         log.trace ("[Herodotus] |- XssHttpServletFilter wrapper request for [{}].", request.getRequestURI());
         filterChain.doFilter(xssRequest, servletResponse);
