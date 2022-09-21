@@ -48,7 +48,7 @@ public class MultiTenancyIdentifierResolver implements CurrentTenantIdentifierRe
     public String resolveCurrentTenantIdentifier() {
         String currentTenantId = TenantContextHolder.getTenantId();
         String result = StringUtils.isNotBlank(currentTenantId) ? currentTenantId : BaseConstants.DEFAULT_TENANT_ID;
-        log.debug("[Herodotus] |- Resolve Current Tenant Identifier is : [{}]", result);
+        log.trace("[Herodotus] |- Resolve Current Tenant Identifier is : [{}]", result);
         return result;
     }
 

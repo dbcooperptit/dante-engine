@@ -43,6 +43,8 @@ import javax.annotation.PostConstruct;
 /**
  * <p>Description: OAuth2 Manager 模块配置 </p>
  *
+ * {@link org.springframework.security.oauth2.jwt.JwtTimestampValidator}
+ *
  * @author : gengwei.zheng
  * @date : 2022/2/26 12:35
  */
