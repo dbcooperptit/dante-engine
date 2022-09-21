@@ -91,14 +91,9 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
         return result;
     }
 
-    public List<HerodotusAuthorization> findAllByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName) {
-        List<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findAllByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(registeredClientId, principalName, LocalDateTime.now());
-        log.debug("[Herodotus] |- HerodotusAuthorization Service findAllByRegisteredClientIdAndPrincipalName.");
-        return result;
-    }
-
     public int findAuthorizationCount(String registeredClientId, String principalName) {
-        List<HerodotusAuthorization> items = findAllByRegisteredClientIdAndPrincipalName(registeredClientId, principalName);
+        List<HerodotusAuthorization> items = this.herodotusAuthorizationRepository.findAllByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(registeredClientId, principalName, LocalDateTime.now());
+        log.debug("[Herodotus] |- HerodotusAuthorization Service findAllByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter.");
         if (CollectionUtils.isNotEmpty(items)) {
             return items.size();
         }
@@ -122,5 +117,10 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
         Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findOne(specification);
         log.debug("[Herodotus] |- HerodotusAuthorization Service findByDetection.");
         return result;
+    }
+
+    public void clearHistoryToken() {
+        this.herodotusAuthorizationRepository.deleteByRefreshTokenExpiresAtBefore(LocalDateTime.now());
+        log.debug("[Herodotus] |- HerodotusAuthorization Service clearExpireAccessToken.");
     }
 }

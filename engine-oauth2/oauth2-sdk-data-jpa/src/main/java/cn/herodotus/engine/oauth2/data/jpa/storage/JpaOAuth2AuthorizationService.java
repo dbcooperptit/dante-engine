@@ -47,6 +47,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -87,11 +88,15 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service save entity.");
     }
 
+    @Transactional
     @Override
     public void remove(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
         this.herodotusAuthorizationService.deleteById(authorization.getId());
         log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service remove entity.");
+        // TODO： 后期还是考虑改为异步任务的形式，先临时放在这里。
+        this.herodotusAuthorizationService.clearHistoryToken();
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service clear history token.");
     }
 
     @Override
