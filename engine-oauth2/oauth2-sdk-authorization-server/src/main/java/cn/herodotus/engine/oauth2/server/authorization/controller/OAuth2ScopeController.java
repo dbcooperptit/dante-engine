@@ -77,15 +77,15 @@ public class OAuth2ScopeController extends BaseWriteableRestController<OAuth2Sco
         return this.scopeService;
     }
 
-    @Operation(summary = "给应用分配Scope", description = "给应用分配Scope",
+    @Operation(summary = "给Scope分配权限", description = "给Scope分配权限",
             responses = {
                     @ApiResponse(description = "查询到的角色", content = @Content(mediaType = "application/json", schema = @Schema(implementation = OAuth2ScopeDto.class))),
             })
     @Parameters({
             @Parameter(name = "scope", required = true, description = "范围请求参数"),
     })
-    @PutMapping
-    public Result<OAuth2Scope> authorize(@RequestBody OAuth2ScopeDto scope) {
+    @PostMapping("/assigned")
+    public Result<OAuth2Scope> assigned(@RequestBody OAuth2ScopeDto scope) {
 
         Set<OAuth2Authority> authorities = new HashSet<>();
         if (CollectionUtils.isNotEmpty(scope.getAuthorities())) {
