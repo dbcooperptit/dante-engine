@@ -26,6 +26,9 @@
 package cn.herodotus.engine.oauth2.authorization.authentication;
 
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2AuthenticationProviderUtils;
+import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusGrantedAuthority;
+import cn.herodotus.engine.oauth2.core.definition.service.ClientDetailsService;
+import cn.hutool.core.util.ReflectUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -35,6 +38,7 @@ import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientCredentialsAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.context.ProviderContextHolder;
@@ -63,6 +67,7 @@ public class OAuth2ClientCredentialsAuthenticationProvider implements Authentica
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
+    private final ClientDetailsService clientDetailsService;
 
     /**
      * Constructs an {@code OAuth2ClientCredentialsAuthenticationProvider} using the provided parameters.
@@ -72,11 +77,12 @@ public class OAuth2ClientCredentialsAuthenticationProvider implements Authentica
      * @since 0.2.3
      */
     public OAuth2ClientCredentialsAuthenticationProvider(OAuth2AuthorizationService authorizationService,
-                                                         OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
+                                                         OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, ClientDetailsService clientDetailsService) {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
+        this.clientDetailsService = clientDetailsService;
     }
 
     @Override
@@ -84,8 +90,7 @@ public class OAuth2ClientCredentialsAuthenticationProvider implements Authentica
         OAuth2ClientCredentialsAuthenticationToken clientCredentialsAuthentication =
                 (OAuth2ClientCredentialsAuthenticationToken) authentication;
 
-        org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken clientPrincipal =
-                OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient(clientCredentialsAuthentication);
+        OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient(clientCredentialsAuthentication);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
         if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.CLIENT_CREDENTIALS)) {
@@ -104,6 +109,12 @@ public class OAuth2ClientCredentialsAuthenticationProvider implements Authentica
             authorizedScopes = new LinkedHashSet<>(requestedScopes);
         }
 
+        Set<HerodotusGrantedAuthority> authorities = clientDetailsService.findAuthoritiesById(registeredClient.getClientId());
+        if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(authorities)) {
+            ReflectUtil.setFieldValue(clientPrincipal, "authorities", authorities);
+            log.debug("[Herodotus] |- Assign authorities to OAuth2ClientAuthenticationToken.");
+        }
+
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(clientPrincipal.getName())
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
@@ -120,8 +131,6 @@ public class OAuth2ClientCredentialsAuthenticationProvider implements Authentica
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .authorizationGrant(clientCredentialsAuthentication);
         // @formatter:on
-
-
 
         // ----- Access token -----
         OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();

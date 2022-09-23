@@ -25,6 +25,8 @@
 
 package cn.herodotus.engine.event.core.definition;
 
+import cn.herodotus.engine.web.core.context.ServiceContext;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -41,6 +43,9 @@ public abstract class AbstractEntityListener implements ApplicationContextAware 
     private ApplicationContext applicationContext;
 
     protected ApplicationContext getApplicationContext() {
+        if (ObjectUtils.isEmpty(applicationContext)) {
+            return ServiceContext.getInstance().getApplicationContext();
+        }
         return applicationContext;
     }
 
