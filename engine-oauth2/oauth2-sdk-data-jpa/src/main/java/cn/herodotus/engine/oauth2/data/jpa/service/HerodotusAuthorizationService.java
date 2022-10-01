@@ -123,4 +123,9 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
         this.herodotusAuthorizationRepository.deleteByRefreshTokenExpiresAtBefore(LocalDateTime.now());
         log.debug("[Herodotus] |- HerodotusAuthorization Service clearExpireAccessToken.");
     }
+
+    public void kickOutToken(String registeredClientId, String principalName) {
+        this.herodotusAuthorizationRepository.deleteByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(registeredClientId, principalName, LocalDateTime.now());
+        log.debug("[Herodotus] |- HerodotusAuthorization Service kickOutToken.");
+    }
 }
