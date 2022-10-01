@@ -27,7 +27,9 @@ package cn.herodotus.engine.oauth2.data.jpa.repository;
 
 import cn.herodotus.engine.data.core.repository.BaseRepository;
 import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorization;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.QueryHints;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.QueryHint;
 import java.time.LocalDateTime;
@@ -100,5 +102,18 @@ public interface HerodotusAuthorizationRepository extends BaseRepository<Herodot
      *
      * @param localDateTime 时间
      */
+    @Modifying
+    @Transactional
     void deleteByRefreshTokenExpiresAtBefore(LocalDateTime localDateTime);
+
+    /**
+     * 根据 Client ID、PrincipalName 和 AccessToken 过期时间，删除已经在使用的Token。
+     *
+     * @param registeredClientId 客户端ID
+     * @param principalName      用户名
+     * @param localDateTime      时间
+     */
+    @Modifying
+    @Transactional
+    void deleteByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(String registeredClientId, String principalName, LocalDateTime localDateTime);
 }

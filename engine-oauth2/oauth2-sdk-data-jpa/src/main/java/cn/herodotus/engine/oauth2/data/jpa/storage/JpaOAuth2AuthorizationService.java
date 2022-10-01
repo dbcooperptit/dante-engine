@@ -116,6 +116,11 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         return count;
     }
 
+    public void kickOutToken(String registeredClientId, String principalName) {
+        this.herodotusAuthorizationService.kickOutToken(registeredClientId, principalName);
+        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service kickOutToken.");
+    }
+
     @Override
     public OAuth2Authorization findByToken(String token, OAuth2TokenType tokenType) {
         Assert.hasText(token, "token cannot be empty");

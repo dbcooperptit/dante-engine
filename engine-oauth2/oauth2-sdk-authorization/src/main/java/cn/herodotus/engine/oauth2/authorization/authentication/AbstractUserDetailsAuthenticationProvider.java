@@ -118,13 +118,20 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements Authe
             throw new CredentialsExpiredException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.credentialsExpired", "User credentials have expired"));
         }
 
-        if (complianceProperties.getSignInEndpointLimited().getEnabled()) {
+        if (complianceProperties.getSignInEndpointLimited().getEnabled() && !complianceProperties.getSignInKickOutLimited().getEnabled()) {
             if (authorizationService instanceof JpaOAuth2AuthorizationService) {
                 JpaOAuth2AuthorizationService jpaOAuth2AuthorizationService = (JpaOAuth2AuthorizationService) authorizationService;
                 int count = jpaOAuth2AuthorizationService.findAuthorizationCount(registeredClientId, user.getUsername());
                 if (count >= complianceProperties.getSignInEndpointLimited().getMaximum()) {
                     throw new AccountEndpointLimitedException("Use same endpoint signIn exceed limit");
                 }
+            }
+        }
+
+        if (!complianceProperties.getSignInEndpointLimited().getEnabled() && complianceProperties.getSignInKickOutLimited().getEnabled()) {
+            if (authorizationService instanceof JpaOAuth2AuthorizationService) {
+                JpaOAuth2AuthorizationService jpaOAuth2AuthorizationService = (JpaOAuth2AuthorizationService) authorizationService;
+                jpaOAuth2AuthorizationService.kickOutToken(registeredClientId, user.getUsername());
             }
         }
 

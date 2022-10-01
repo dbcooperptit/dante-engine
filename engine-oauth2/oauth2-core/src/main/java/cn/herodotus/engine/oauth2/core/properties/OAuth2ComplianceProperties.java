@@ -44,6 +44,8 @@ public class OAuth2ComplianceProperties {
 
     private SignInFailureLimited signInFailureLimited = new SignInFailureLimited();
 
+    private SignInKickOutLimited signInKickOutLimited = new SignInKickOutLimited();
+
     public SignInEndpointLimited getSignInEndpointLimited() {
         return signInEndpointLimited;
     }
@@ -58,6 +60,14 @@ public class OAuth2ComplianceProperties {
 
     public void setSignInFailureLimited(SignInFailureLimited signInFailureLimited) {
         this.signInFailureLimited = signInFailureLimited;
+    }
+
+    public SignInKickOutLimited getSignInKickOutLimited() {
+        return signInKickOutLimited;
+    }
+
+    public void setSignInKickOutLimited(SignInKickOutLimited signInKickOutLimited) {
+        this.signInKickOutLimited = signInKickOutLimited;
     }
 
     public static class SignInFailureLimited {
@@ -105,11 +115,20 @@ public class OAuth2ComplianceProperties {
             this.expire = expire;
         }
 
+        public Boolean getAutoUnlock() {
+            return autoUnlock;
+        }
+
+        public void setAutoUnlock(Boolean autoUnlock) {
+            this.autoUnlock = autoUnlock;
+        }
+
         @Override
         public String toString() {
             return MoreObjects.toStringHelper(this)
                     .add("enabled", enabled)
                     .add("maxTimes", maxTimes)
+                    .add("autoUnlock", autoUnlock)
                     .add("expire", expire)
                     .toString();
         }
@@ -119,7 +138,7 @@ public class OAuth2ComplianceProperties {
         /**
          * 同一终端登录限制是否开启，默认开启。
          */
-        private Boolean enabled = true;
+        private Boolean enabled = false;
 
         /**
          * 统一终端，允许同时登录的最大数量
@@ -151,11 +170,34 @@ public class OAuth2ComplianceProperties {
         }
     }
 
+    public static class SignInKickOutLimited {
+        /**
+         * 是否开启 Session 踢出功能，默认开启
+         */
+        private Boolean enabled = true;
+
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        @Override
+        public String toString() {
+            return MoreObjects.toStringHelper(this)
+                    .add("enabled", enabled)
+                    .toString();
+        }
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("signInEndpointLimited", signInEndpointLimited)
                 .add("signInFailureLimited", signInFailureLimited)
+                .add("signInKickOutLimited", signInKickOutLimited)
                 .toString();
     }
 }
