@@ -114,7 +114,7 @@ public class OAuth2Application extends BaseSysEntity {
 
     @Column(name = "access_token_format")
     @Enumerated(EnumType.ORDINAL)
-    private TokenFormat accessTokenFormat = TokenFormat.SELF_CONTAINED;
+    private TokenFormat accessTokenFormat = TokenFormat.REFERENCE;
 
     @Column(name = "access_token_validity")
     private Duration accessTokenValidity = Duration.ofSeconds(5);

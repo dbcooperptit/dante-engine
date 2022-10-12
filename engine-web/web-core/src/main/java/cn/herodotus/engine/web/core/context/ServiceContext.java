@@ -27,9 +27,9 @@ package cn.herodotus.engine.web.core.context;
 
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import cn.herodotus.engine.assistant.core.enums.Protocol;
+import cn.herodotus.engine.assistant.core.enums.Target;
 import cn.herodotus.engine.assistant.core.utils.ConvertUtils;
 import cn.herodotus.engine.web.core.enums.Architecture;
-import cn.herodotus.engine.web.core.enums.DataAccessStrategy;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
@@ -52,7 +52,7 @@ public class ServiceContext {
     /**
      * 数据访问策略，默认：
      */
-    private DataAccessStrategy dataAccessStrategy = DataAccessStrategy.REMOTE;
+    private Target dataAccessStrategy = Target.REMOTE;
 
     /**
      * 协议头类型
@@ -119,11 +119,11 @@ public class ServiceContext {
         this.architecture = architecture;
     }
 
-    public DataAccessStrategy getDataAccessStrategy() {
+    public Target getDataAccessStrategy() {
         return dataAccessStrategy;
     }
 
-    public void setDataAccessStrategy(DataAccessStrategy dataAccessStrategy) {
+    public void setDataAccessStrategy(Target dataAccessStrategy) {
         this.dataAccessStrategy = dataAccessStrategy;
     }
 

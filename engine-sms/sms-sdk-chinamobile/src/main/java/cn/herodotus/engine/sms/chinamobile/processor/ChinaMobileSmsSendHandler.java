@@ -31,8 +31,8 @@ import cn.herodotus.engine.sms.core.domain.Template;
 import cn.herodotus.engine.sms.core.enums.SmsSupplier;
 import cn.herodotus.engine.sms.core.exception.ParameterOrdersInvalidException;
 import cn.herodotus.engine.sms.core.exception.TemplateIdInvalidException;
-import com.ejlchina.okhttps.HttpResult;
-import com.ejlchina.okhttps.OkHttps;
+import cn.zhxu.okhttps.HttpResult;
+import cn.zhxu.okhttps.OkHttps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

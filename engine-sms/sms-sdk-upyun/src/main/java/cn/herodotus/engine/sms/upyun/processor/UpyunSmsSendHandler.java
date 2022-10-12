@@ -33,8 +33,8 @@ import cn.herodotus.engine.sms.core.exception.TemplateIdInvalidException;
 import cn.herodotus.engine.sms.upyun.domain.UpyunSmsRequest;
 import cn.herodotus.engine.sms.upyun.domain.UpyunSmsResponse;
 import cn.herodotus.engine.sms.upyun.properties.UpyunSmsProperties;
-import com.ejlchina.okhttps.HttpResult;
-import com.ejlchina.okhttps.OkHttps;
+import cn.zhxu.okhttps.HttpResult;
+import cn.zhxu.okhttps.OkHttps;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.http.HttpHeaders;
 

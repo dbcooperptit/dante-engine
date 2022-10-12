@@ -25,6 +25,7 @@
 
 package cn.herodotus.engine.oauth2.core.properties;
 
+import cn.herodotus.engine.assistant.core.enums.Target;
 import cn.herodotus.engine.oauth2.core.constants.OAuth2Constants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -34,12 +35,7 @@ import java.util.List;
 /**
  * <p> Description : 服务安全配置 </p>
  * <p>
- * loginPage()： 自定义登录页面
- * loginProcessingUrl()：将用户名和密码提交到的URL
- * defaultSuccessUrl()： 成功登录后跳转的URL。 如果是直接从登录页面登录，会跳转到该URL；如果是从其他页面跳转到登录页面，登录后会跳转到原来页面。可设置true来任何时候到跳转该URL。
- * successForwardUrl()：成功登录后重定向的URL
- * failureUrl()：登录失败后跳转的URL，指定的路径要能匿名访问
- * failureForwardUrl()：登录失败后重定向的URL
+ * 所有服务会使用到的安全相关配置，包括认证服务和资源服务。
  *
  * @author : gengwei.zheng
  * @date : 2019/11/28 13:08
@@ -47,7 +43,19 @@ import java.util.List;
 @ConfigurationProperties(prefix = OAuth2Constants.PROPERTY_PREFIX_SECURITY)
 public class SecurityProperties implements Serializable {
 
+    /**
+     * Token 校验是采用远程方式还是本地方式。
+     */
+    private Target validate = Target.REMOTE;
     private Matcher matcher = new Matcher();
+
+    public Target getValidate() {
+        return validate;
+    }
+
+    public void setValidate(Target validate) {
+        this.validate = validate;
+    }
 
     public Matcher getMatcher() {
         return matcher;

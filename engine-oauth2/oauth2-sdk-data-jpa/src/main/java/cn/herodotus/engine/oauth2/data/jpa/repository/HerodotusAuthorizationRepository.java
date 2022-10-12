@@ -88,7 +88,6 @@ public interface HerodotusAuthorizationRepository extends BaseRepository<Herodot
      * @param localDateTime      时间
      * @return 认证信息列表
      */
-    @QueryHints(@QueryHint(name = org.hibernate.annotations.QueryHints.CACHEABLE, value = "true"))
     List<HerodotusAuthorization> findAllByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(String registeredClientId, String principalName, LocalDateTime localDateTime);
 
     /**
@@ -105,15 +104,4 @@ public interface HerodotusAuthorizationRepository extends BaseRepository<Herodot
     @Modifying
     @Transactional
     void deleteByRefreshTokenExpiresAtBefore(LocalDateTime localDateTime);
-
-    /**
-     * 根据 Client ID、PrincipalName 和 AccessToken 过期时间，删除已经在使用的Token。
-     *
-     * @param registeredClientId 客户端ID
-     * @param principalName      用户名
-     * @param localDateTime      时间
-     */
-    @Modifying
-    @Transactional
-    void deleteByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(String registeredClientId, String principalName, LocalDateTime localDateTime);
 }

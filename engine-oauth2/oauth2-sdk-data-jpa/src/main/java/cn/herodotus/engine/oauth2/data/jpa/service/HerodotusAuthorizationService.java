@@ -91,15 +91,6 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
         return result;
     }
 
-    public int findAuthorizationCount(String registeredClientId, String principalName) {
-        List<HerodotusAuthorization> items = this.herodotusAuthorizationRepository.findAllByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(registeredClientId, principalName, LocalDateTime.now());
-        log.debug("[Herodotus] |- HerodotusAuthorization Service findAllByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter.");
-        if (CollectionUtils.isNotEmpty(items)) {
-            return items.size();
-        }
-        return 0;
-    }
-
     public Optional<HerodotusAuthorization> findByStateOrAuthorizationCodeValueOrAccessTokenValueOrRefreshTokenValue(String token) {
 
         Specification<HerodotusAuthorization> specification = (root, criteriaQuery, criteriaBuilder) -> {
@@ -124,8 +115,19 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
         log.debug("[Herodotus] |- HerodotusAuthorization Service clearExpireAccessToken.");
     }
 
-    public void kickOutToken(String registeredClientId, String principalName) {
-        this.herodotusAuthorizationRepository.deleteByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(registeredClientId, principalName, LocalDateTime.now());
-        log.debug("[Herodotus] |- HerodotusAuthorization Service kickOutToken.");
+    public List<HerodotusAuthorization> findAvailableAuthorizations(String registeredClientId, String principalName) {
+        List<HerodotusAuthorization> authorizations = this.herodotusAuthorizationRepository.findAllByRegisteredClientIdAndPrincipalNameAndAccessTokenExpiresAtAfter(registeredClientId, principalName, LocalDateTime.now());
+        log.debug("[Herodotus] |- HerodotusAuthorization Service findAvailableAuthorizations.");
+        return authorizations;
+    }
+
+    public int findAuthorizationCount(String registeredClientId, String principalName) {
+        List<HerodotusAuthorization> authorizations = findAvailableAuthorizations(registeredClientId, principalName);
+        int count = 0;
+        if (CollectionUtils.isNotEmpty(authorizations)) {
+            count = authorizations.size();
+        }
+        log.debug("[Herodotus] |- HerodotusAuthorization Service current authorization count is [{}].", count);
+        return count;
     }
 }
