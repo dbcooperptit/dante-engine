@@ -25,9 +25,9 @@
 
 package cn.herodotus.engine.assistant.core.definition.http;
 
-import com.ejlchina.okhttps.HTTP;
-import com.ejlchina.okhttps.MsgConvertor;
-import com.ejlchina.okhttps.jackson.JacksonMsgConvertor;
+import cn.zhxu.okhttps.HTTP;
+import cn.zhxu.okhttps.MsgConvertor;
+import cn.zhxu.okhttps.jackson.JacksonMsgConvertor;
 
 /**
  * <p>File: AbstractRestApiService </p>

@@ -51,7 +51,7 @@ public class OAuth2AuthenticationProviderUtils {
         throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
     }
 
-    static <T extends OAuth2Token> OAuth2Authorization invalidate(
+    public static <T extends OAuth2Token> OAuth2Authorization invalidate(
             OAuth2Authorization authorization, T token) {
 
         // @formatter:off

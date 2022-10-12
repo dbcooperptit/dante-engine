@@ -25,9 +25,11 @@
 
 package cn.herodotus.engine.oauth2.server.authorization.service;
 
+import cn.herodotus.engine.assistant.core.enums.Target;
 import cn.herodotus.engine.assistant.core.exception.transaction.TransactionRollbackException;
 import cn.herodotus.engine.data.core.repository.BaseRepository;
 import cn.herodotus.engine.data.core.service.BaseLayeredService;
+import cn.herodotus.engine.oauth2.core.properties.SecurityProperties;
 import cn.herodotus.engine.oauth2.data.jpa.repository.HerodotusRegisteredClientRepository;
 import cn.herodotus.engine.oauth2.data.jpa.utils.OAuth2AuthorizationUtils;
 import cn.herodotus.engine.oauth2.server.authorization.entity.OAuth2Application;
@@ -66,12 +68,14 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
     private final RegisteredClientRepository registeredClientRepository;
     private final HerodotusRegisteredClientRepository herodotusRegisteredClientRepository;
     private final OAuth2ApplicationRepository applicationRepository;
+    private final SecurityProperties securityProperties;
 
     @Autowired
-    public OAuth2ApplicationService(RegisteredClientRepository registeredClientRepository, HerodotusRegisteredClientRepository herodotusRegisteredClientRepository, OAuth2ApplicationRepository applicationRepository) {
+    public OAuth2ApplicationService(RegisteredClientRepository registeredClientRepository, HerodotusRegisteredClientRepository herodotusRegisteredClientRepository, OAuth2ApplicationRepository applicationRepository, SecurityProperties securityProperties) {
         this.registeredClientRepository = registeredClientRepository;
         this.herodotusRegisteredClientRepository = herodotusRegisteredClientRepository;
         this.applicationRepository = applicationRepository;
+        this.securityProperties = securityProperties;
     }
 
     @Override
@@ -174,7 +178,7 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
         tokenSettingsBuilder.refreshTokenTimeToLive(application.getRefreshTokenValidity());
         // 是否可重用刷新令牌
         tokenSettingsBuilder.reuseRefreshTokens(application.getReuseRefreshTokens());
-        tokenSettingsBuilder.accessTokenFormat(new OAuth2TokenFormat(application.getAccessTokenFormat().getFormat()));
+        tokenSettingsBuilder.accessTokenFormat(getTokenFormat());
         if (ObjectUtils.isNotEmpty(application.getIdTokenSignatureAlgorithm())) {
             SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.from(application.getIdTokenSignatureAlgorithm().name());
             if (ObjectUtils.isNotEmpty(signatureAlgorithm)) {
@@ -182,5 +186,13 @@ public class OAuth2ApplicationService extends BaseLayeredService<OAuth2Applicati
             }
         }
         return tokenSettingsBuilder.build();
+    }
+
+    private OAuth2TokenFormat getTokenFormat() {
+        if (securityProperties.getValidate() == Target.REMOTE) {
+            return new OAuth2TokenFormat("reference");
+        } else {
+            return new OAuth2TokenFormat("self-contained");
+        }
     }
 }

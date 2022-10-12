@@ -61,6 +61,11 @@ public class SecretKey implements Serializable {
     private String privateKey;
 
     /**
+     * 本系统授权码模式中后台返回的 State
+     */
+    private String state;
+
+    /**
      * 创建时间戳
      */
     private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -108,6 +113,14 @@ public class SecretKey implements Serializable {
         this.timestamp = timestamp;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -132,6 +145,7 @@ public class SecretKey implements Serializable {
                 .add("symmetricKey", symmetricKey)
                 .add("publicKey", publicKey)
                 .add("privateKey", privateKey)
+                .add("state", state)
                 .add("timestamp", timestamp)
                 .toString();
     }

@@ -25,37 +25,29 @@
 
 package cn.herodotus.engine.oauth2.authorization.customizer;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
-import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>Description: 自定义 TokenCustomizer </p>
  * <p>
  * 用于自定义的 Herodotus User Details 解析。如果使用 Security 默认的 <code>org.springframework.security.core.userdetails.User</code> 则不需要使用该类
  *
+ * An OAuth2TokenCustomizer<JwtEncodingContext> declared with a generic type of JwtEncodingContext (implements OAuth2TokenContext) provides the ability to customize the headers and claims of a Jwt.
+ *
  * @author : gengwei.zheng
  * @date : 2022/2/23 22:17
  */
-public class HerodotusTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext> {
+public class HerodotusJwtTokenCustomizer extends AbstractTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext> {
 
     @Override
     public void customize(JwtEncodingContext context) {
@@ -70,36 +62,7 @@ public class HerodotusTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodi
             if (token.isAuthenticated() && OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
                 Authentication authentication = context.getPrincipal();
                 if (ObjectUtils.isNotEmpty(authentication)) {
-
-                    Map<String, Object> attributes = new HashMap<>();
-
-                    if (CollectionUtils.isNotEmpty(authentication.getAuthorities())) {
-                        Set<String> authorities = authentication.getAuthorities().stream()
-                                .map(GrantedAuthority::getAuthority)
-                                .collect(Collectors.toSet());
-                        attributes.put(BaseConstants.AUTHORITIES, authorities);
-                    }
-                    Set<String> authorizedScopes = context.getAuthorizedScopes();
-                    if (CollectionUtils.isNotEmpty(authorizedScopes)) {
-                        attributes.put(OAuth2ParameterNames.SCOPE, authorizedScopes);
-                    }
-
-                    if (authentication instanceof UsernamePasswordAuthenticationToken) {
-                        HerodotusUser principal = (HerodotusUser) authentication.getPrincipal();
-                        String userId = principal.getUserId();
-                        attributes.put(BaseConstants.OPEN_ID, userId);
-                    }
-
-                    if (authentication instanceof OAuth2AccessTokenAuthenticationToken) {
-                        Object details = authentication.getDetails();
-                        if (ObjectUtils.isNotEmpty(details) && details instanceof HerodotusUser) {
-                            HerodotusUser principal = (HerodotusUser) details;
-                            String userId = principal.getUserId();
-                            attributes.put(BaseConstants.OPEN_ID, userId);
-                        }
-                    }
-
-                    attributes.put("license", "Herodotus Cloud");
+                    Map<String, Object> attributes = createCustomInfo(authentication, context.getAuthorizedScopes());
                     JwtClaimsSet.Builder jwtClaimSetBuilder = context.getClaims();
                     jwtClaimSetBuilder.claims(claims -> claims.putAll(attributes));
                 }

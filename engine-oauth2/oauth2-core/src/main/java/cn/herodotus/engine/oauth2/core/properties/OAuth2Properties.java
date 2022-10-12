@@ -30,8 +30,12 @@ import cn.herodotus.engine.oauth2.core.enums.Certificate;
 import com.google.common.base.MoreObjects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 /**
  * <p>Description: OAuth2 配置属性 </p>
+ *
+ * 仅认证服务会使用到的安全相关配置，这是与 SecurityProperties 的主要区别。
  *
  * @author : gengwei.zheng
  * @date : 2022/3/6 16:36
@@ -126,6 +130,38 @@ public class OAuth2Properties {
                     .add("jksStorePassword", jksStorePassword)
                     .add("jksKeyAlias", jksKeyAlias)
                     .toString();
+        }
+    }
+
+    /**
+     * 用于手动的指定 Request Matcher 安全规则。
+     * <p>
+     * permitAll 比较常用，因此先只增加该项。后续可根据需要添加
+     */
+    public static class Matcher {
+        /**
+         * 静态资源过滤
+         */
+        private List<String> staticResources;
+        /**
+         * Security "permitAll" 权限列表。
+         */
+        private List<String> permitAll;
+
+        public List<String> getStaticResources() {
+            return staticResources;
+        }
+
+        public void setStaticResources(List<String> staticResources) {
+            this.staticResources = staticResources;
+        }
+
+        public List<String> getPermitAll() {
+            return permitAll;
+        }
+
+        public void setPermitAll(List<String> permitAll) {
+            this.permitAll = permitAll;
         }
     }
 }

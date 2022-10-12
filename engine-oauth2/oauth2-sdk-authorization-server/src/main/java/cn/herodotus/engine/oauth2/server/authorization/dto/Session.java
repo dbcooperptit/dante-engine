@@ -46,6 +46,11 @@ public class Session extends AbstractDto {
      */
     private String publicKey;
 
+    /**
+     * 本系统授权码模式校验参数
+     */
+    private String state;
+
     public String getSessionId() {
         return sessionId;
     }
@@ -62,11 +67,20 @@ public class Session extends AbstractDto {
         this.publicKey = publicKey;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("sessionId", sessionId)
                 .add("publicKey", publicKey)
+                .add("state", state)
                 .toString();
     }
 }

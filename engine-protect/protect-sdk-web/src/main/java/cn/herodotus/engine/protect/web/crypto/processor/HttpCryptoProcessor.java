@@ -115,6 +115,7 @@ public class HttpCryptoProcessor extends AbstractStampManager<String, SecretKey>
         String symmetricKey = symmetricCryptoProcessor.createKey();
         secretKey.setSymmetricKey(symmetricKey);
         secretKey.setIdentity(key);
+        secretKey.setState(IdUtil.fastUUID());
 
         log.debug("[Herodotus] |- Generate secret key, value is : [{}]", secretKey);
         return secretKey;

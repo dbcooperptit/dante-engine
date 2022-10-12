@@ -27,12 +27,9 @@ package cn.herodotus.engine.nosql.couchdb.service;
 
 import cn.herodotus.engine.nosql.couchdb.definition.AbstractCouchdbService;
 import cn.herodotus.engine.nosql.couchdb.domain.Response;
-import com.ejlchina.data.TypeRef;
-import com.ejlchina.okhttps.OkHttps;
-import org.apache.commons.lang3.StringUtils;
+import cn.zhxu.data.TypeRef;
+import cn.zhxu.okhttps.OkHttps;
 import org.springframework.stereotype.Service;
-
-import java.util.regex.Pattern;
 
 /**
  * <p>Description: CouchDB 数据库操作服务 </p>

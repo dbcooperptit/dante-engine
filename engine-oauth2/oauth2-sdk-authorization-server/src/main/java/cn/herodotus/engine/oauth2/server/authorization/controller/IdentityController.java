@@ -26,11 +26,11 @@
 package cn.herodotus.engine.oauth2.server.authorization.controller;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
+import cn.herodotus.engine.assistant.core.domain.SecretKey;
 import cn.herodotus.engine.oauth2.server.authorization.dto.Session;
 import cn.herodotus.engine.oauth2.server.authorization.dto.SessionCreate;
 import cn.herodotus.engine.oauth2.server.authorization.dto.SessionExchange;
 import cn.herodotus.engine.oauth2.server.authorization.service.InterfaceSecurityService;
-import cn.herodotus.engine.assistant.core.domain.SecretKey;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -80,6 +80,7 @@ public class IdentityController {
             Session session = new Session();
             session.setSessionId(secretKey.getIdentity());
             session.setPublicKey(secretKey.getPublicKey());
+            session.setState(secretKey.getState());
 
             return Result.content(session);
         }

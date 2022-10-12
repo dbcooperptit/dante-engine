@@ -26,6 +26,7 @@
 package cn.herodotus.engine.oauth2.authorization.authentication;
 
 import cn.herodotus.engine.oauth2.authorization.domain.UserAuthenticationDetails;
+import cn.herodotus.engine.oauth2.authorization.utils.OAuth2AuthenticationProviderUtils;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2EndpointUtils;
 import cn.herodotus.engine.oauth2.core.constants.OAuth2ErrorCodes;
 import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
@@ -33,6 +34,8 @@ import cn.herodotus.engine.oauth2.core.definition.service.EnhanceUserDetailsServ
 import cn.herodotus.engine.oauth2.core.exception.AccountEndpointLimitedException;
 import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
 import cn.herodotus.engine.oauth2.data.jpa.storage.JpaOAuth2AuthorizationService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -45,10 +48,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2RefreshToken;
+import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -131,7 +138,17 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements Authe
         if (!complianceProperties.getSignInEndpointLimited().getEnabled() && complianceProperties.getSignInKickOutLimited().getEnabled()) {
             if (authorizationService instanceof JpaOAuth2AuthorizationService) {
                 JpaOAuth2AuthorizationService jpaOAuth2AuthorizationService = (JpaOAuth2AuthorizationService) authorizationService;
-                jpaOAuth2AuthorizationService.kickOutToken(registeredClientId, user.getUsername());
+                List<OAuth2Authorization> authorizations = jpaOAuth2AuthorizationService.findAvailableAuthorizations(registeredClientId, user.getUsername());
+                if (CollectionUtils.isNotEmpty(authorizations)) {
+                    authorizations.forEach(authorization -> {
+                        OAuth2Authorization.Token<OAuth2RefreshToken> refreshToken = authorization.getToken(OAuth2RefreshToken.class);
+                        if (ObjectUtils.isNotEmpty(refreshToken)) {
+                            authorization = OAuth2AuthenticationProviderUtils.invalidate(authorization, refreshToken.getToken());
+                        }
+                        log.debug("[Herodotus] |- Sign in user [{}] with token id [{}] will be kicked out.", user.getUsername(), authorization.getId());
+                        jpaOAuth2AuthorizationService.save(authorization);
+                    });
+                }
             }
         }
 

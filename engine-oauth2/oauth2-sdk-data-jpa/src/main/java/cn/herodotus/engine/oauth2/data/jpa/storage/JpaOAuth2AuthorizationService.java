@@ -34,6 +34,7 @@ import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,10 +53,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * <p>Description: 基于 JPA 的 OAuth2 认证服务 </p>
@@ -84,7 +87,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
     @Override
     public void save(OAuth2Authorization authorization) {
-        this.herodotusAuthorizationService.save(toEntity(authorization));
+        this.herodotusAuthorizationService.saveOrUpdate(toEntity(authorization));
         log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service save entity.");
     }
 
@@ -116,9 +119,13 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         return count;
     }
 
-    public void kickOutToken(String registeredClientId, String principalName) {
-        this.herodotusAuthorizationService.kickOutToken(registeredClientId, principalName);
-        log.debug("[Herodotus] |- Jpa OAuth2 Authorization Service kickOutToken.");
+    public List<OAuth2Authorization> findAvailableAuthorizations(String registeredClientId, String principalName) {
+        List<HerodotusAuthorization> authorizations = this.herodotusAuthorizationService.findAvailableAuthorizations(registeredClientId, principalName);
+        if (CollectionUtils.isNotEmpty(authorizations)) {
+            return authorizations.stream().map(this::toObject).collect(Collectors.toList());
+        }
+
+        return new ArrayList<>();
     }
 
     @Override

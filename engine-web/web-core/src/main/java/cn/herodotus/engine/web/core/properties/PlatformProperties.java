@@ -26,9 +26,9 @@
 package cn.herodotus.engine.web.core.properties;
 
 import cn.herodotus.engine.assistant.core.enums.Protocol;
+import cn.herodotus.engine.assistant.core.enums.Target;
 import cn.herodotus.engine.web.core.constants.WebConstants;
 import cn.herodotus.engine.web.core.enums.Architecture;
-import cn.herodotus.engine.web.core.enums.DataAccessStrategy;
 import com.google.common.base.MoreObjects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -46,9 +46,9 @@ public class PlatformProperties {
      */
     private Architecture architecture = Architecture.DISTRIBUTED;
     /**
-     * 数据访问策略，默认：
+     * 数据访问策略，默认：远程
      */
-    private DataAccessStrategy dataAccessStrategy = DataAccessStrategy.REMOTE;
+    private Target dataAccessStrategy = Target.REMOTE;
 
     /**
      * 接口地址默认采用的Http协议类型
@@ -67,11 +67,11 @@ public class PlatformProperties {
         this.architecture = architecture;
     }
 
-    public DataAccessStrategy getDataAccessStrategy() {
+    public Target getDataAccessStrategy() {
         return dataAccessStrategy;
     }
 
-    public void setDataAccessStrategy(DataAccessStrategy dataAccessStrategy) {
+    public void setDataAccessStrategy(Target dataAccessStrategy) {
         this.dataAccessStrategy = dataAccessStrategy;
     }
 

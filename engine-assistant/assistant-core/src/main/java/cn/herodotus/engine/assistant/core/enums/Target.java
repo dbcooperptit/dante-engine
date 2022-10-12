@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020-2030 ZHENGGENGWEI(码匠君)<herodotus@aliyun.com>
  *
- * Dante Engine Licensed under the Apache License, Version 2.0 (the "License");
+ * Dante Engine licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -23,23 +23,25 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.web.core.enums;
+package cn.herodotus.engine.assistant.core.enums;
 
 /**
- * <p>Description: 数据访问策略枚举类型 </p>
+ * <p>Description: 目标枚举 </p>
+ *
+ * 统一的目标策略使用枚举。
  *
  * @author : gengwei.zheng
- * @date : 2021/5/22 16:08
+ * @date : 2022/10/10 19:33
  */
-public enum DataAccessStrategy {
+public enum Target {
 
     /**
-     * 本地访问，利用service直连数据库
+     * 目标为服务本地
      */
     LOCAL,
 
     /**
-     * 远程访问，利用Feign等远程访问数据
+     * 目标为远程访问
      */
     REMOTE;
 }
