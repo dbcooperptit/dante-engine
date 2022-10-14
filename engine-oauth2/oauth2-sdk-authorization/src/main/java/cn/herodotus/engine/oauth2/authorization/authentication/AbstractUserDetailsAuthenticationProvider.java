@@ -25,11 +25,9 @@
 
 package cn.herodotus.engine.oauth2.authorization.authentication;
 
-import cn.herodotus.engine.oauth2.authorization.domain.UserAuthenticationDetails;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2AuthenticationProviderUtils;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2EndpointUtils;
 import cn.herodotus.engine.oauth2.core.constants.OAuth2ErrorCodes;
-import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
 import cn.herodotus.engine.oauth2.core.definition.service.EnhanceUserDetailsService;
 import cn.herodotus.engine.oauth2.core.exception.AccountEndpointLimitedException;
 import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
@@ -48,11 +46,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -67,7 +63,7 @@ import java.util.Map;
  * @date : 2022/7/6 16:07
  * @see org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider
  */
-public abstract class AbstractUserDetailsAuthenticationProvider implements AuthenticationProvider {
+public abstract class AbstractUserDetailsAuthenticationProvider extends AbstractAuthenticationProvider {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractUserDetailsAuthenticationProvider.class);
 
@@ -179,20 +175,5 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements Authe
         }
 
         return authentication;
-    }
-
-    protected OAuth2AccessTokenAuthenticationToken getOAuth2AccessTokenAuthenticationToken(Authentication source, OAuth2AccessTokenAuthenticationToken destination) {
-        if (source instanceof UsernamePasswordAuthenticationToken) {
-            if (source.getPrincipal() instanceof HerodotusUser) {
-                HerodotusUser user = (HerodotusUser) source.getPrincipal();
-                UserAuthenticationDetails details = new UserAuthenticationDetails();
-                details.setUserId(user.getUserId());
-                details.setUserName(user.getUsername());
-                details.setRoles(user.getRoles());
-                destination.setDetails(details);
-            }
-        }
-
-        return destination;
     }
 }
