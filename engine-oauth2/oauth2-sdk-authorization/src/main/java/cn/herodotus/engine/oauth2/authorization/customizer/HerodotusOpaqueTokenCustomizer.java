@@ -35,6 +35,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsSet;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -63,7 +64,8 @@ public class HerodotusOpaqueTokenCustomizer extends AbstractTokenCustomizer impl
                 if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
                     Authentication authentication = context.getPrincipal();
                     if (ObjectUtils.isNotEmpty(authentication)) {
-                        Map<String, Object> attributes = createCustomInfo(authentication, context.getAuthorizedScopes());
+                        Map<String, Object> attributes = new HashMap<>();
+                        appendAll(attributes, authentication, context.getAuthorizedScopes());
                         OAuth2TokenClaimsSet.Builder tokenClaimSetBuilder = context.getClaims();
                         tokenClaimSetBuilder.claims(claims -> claims.putAll(attributes));
                     }

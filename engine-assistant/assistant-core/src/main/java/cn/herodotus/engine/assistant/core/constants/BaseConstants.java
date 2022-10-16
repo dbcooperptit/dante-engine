@@ -115,13 +115,9 @@ public interface BaseConstants {
     String AUTHORITY_PREFIX = "OP_";
 
     String OPEN_ID = "openid";
+    String ROLES = "roles";
     String LICENSE = "license";
+    String SOURCE = "source";
     String AUTHORITIES = "authorities";
 
-    String PARAM_CLIENT_ID = "client_id";
-    String PARAM_CLIENT_SECRET = "client_secret";
-    String PARAM_SCOPE = "scope";
-    String PARAM_STATE = "state";
-    String PARAM_RESPONSE_TYPE = "response_type";
-    String PARAM_REDIRECT_URI = "redirect_uri";
 }

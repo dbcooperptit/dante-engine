@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.oauth2.authorization.authentication;
 
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.domain.AccessPrincipal;
-import cn.herodotus.engine.oauth2.authorization.constants.OAuth2SocialParameterNames;
 import cn.herodotus.engine.oauth2.authorization.exception.SocialCredentialsParameterBindingFailedException;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2AuthenticationProviderUtils;
 import cn.herodotus.engine.oauth2.core.definition.HerodotusGrantType;
@@ -88,7 +88,7 @@ public class OAuth2SocialCredentialsAuthenticationProvider extends AbstractUserD
 
     @Override
     protected UserDetails retrieveUser(Map<String, Object> additionalParameters) throws AuthenticationException {
-        String source = (String) additionalParameters.get(OAuth2SocialParameterNames.SOURCE);
+        String source = (String) additionalParameters.get(BaseConstants.SOURCE);
         AccessPrincipal accessPrincipal = parameterBinder(additionalParameters);
 
         try {
