@@ -31,7 +31,6 @@ import cn.herodotus.engine.oauth2.core.definition.service.ClientDetailsService;
 import cn.hutool.core.util.ReflectUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.*;
@@ -43,13 +42,10 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.context.ProviderContextHolder;
 import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import java.security.Principal;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -60,7 +56,7 @@ import java.util.Set;
  * @author : gengwei.zheng
  * @date : 2022/3/31 14:57
  */
-public class OAuth2ClientCredentialsAuthenticationProvider implements AuthenticationProvider {
+public class OAuth2ClientCredentialsAuthenticationProvider extends AbstractAuthenticationProvider {
 
     private static final Logger log = LoggerFactory.getLogger(OAuth2ClientCredentialsAuthenticationProvider.class);
 
@@ -98,16 +94,7 @@ public class OAuth2ClientCredentialsAuthenticationProvider implements Authentica
         }
 
         // Default to configured scopes
-        Set<String> authorizedScopes = registeredClient.getScopes();
-        Set<String> requestedScopes = clientCredentialsAuthentication.getScopes();
-        if (!CollectionUtils.isEmpty(requestedScopes)) {
-            for (String requestedScope : requestedScopes) {
-                if (!registeredClient.getScopes().contains(requestedScope)) {
-                    throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
-                }
-            }
-            authorizedScopes = new LinkedHashSet<>(requestedScopes);
-        }
+        Set<String> authorizedScopes = validateScopes(clientCredentialsAuthentication.getScopes(), registeredClient);
 
         Set<HerodotusGrantedAuthority> authorities = clientDetailsService.findAuthoritiesById(registeredClient.getClientId());
         if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(authorities)) {
@@ -133,39 +120,10 @@ public class OAuth2ClientCredentialsAuthenticationProvider implements Authentica
         // @formatter:on
 
         // ----- Access token -----
-        OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
-        OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
-        if (generatedAccessToken == null) {
-            OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-                    "The token generator failed to generate the access token.", ERROR_URI);
-            throw new OAuth2AuthenticationException(error);
-        }
-        OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
-                generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
-                generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
-        if (generatedAccessToken instanceof ClaimAccessor) {
-            authorizationBuilder.token(accessToken, (metadata) ->
-                    metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()));
-        } else {
-            authorizationBuilder.accessToken(accessToken);
-        }
+        OAuth2AccessToken accessToken = createOAuth2AccessToken(tokenContextBuilder, authorizationBuilder, this.tokenGenerator, ERROR_URI);
 
         // ----- Refresh token -----
-        OAuth2RefreshToken refreshToken = null;
-        if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
-                // Do not issue refresh token to public client
-                !clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE)) {
-            tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
-            OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(tokenContext);
-            if (!(generatedRefreshToken instanceof OAuth2RefreshToken)) {
-                OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-                        "The token generator failed to generate the refresh token.", ERROR_URI);
-                throw new OAuth2AuthenticationException(error);
-            }
-            refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
-
-            authorizationBuilder.refreshToken(refreshToken);
-        }
+        OAuth2RefreshToken refreshToken = creatOAuth2RefreshToken(tokenContextBuilder, authorizationBuilder, this.tokenGenerator, ERROR_URI, clientPrincipal, registeredClient);
 
         OAuth2Authorization authorization = authorizationBuilder.build();
 

@@ -26,18 +26,12 @@
 package cn.herodotus.engine.cache.redis.configuration;
 
 import cn.herodotus.engine.cache.redis.annotation.ConditionalOnRedisSessionSharing;
-import cn.herodotus.engine.cache.redis.session.HerodotusCookieWebSessionIdResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.FlushMode;
-import org.springframework.session.SaveMode;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
-import org.springframework.session.data.redis.config.annotation.web.server.EnableRedisWebSession;
-import org.springframework.web.reactive.function.server.ServerResponse;
-import org.springframework.web.server.session.WebSessionIdResolver;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -65,25 +59,10 @@ public class RedisSessionConfiguration {
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(HttpServletRequest.class)
     @EnableRedisHttpSession(flushMode = FlushMode.IMMEDIATE)
-    public static class RedisHttpSessionConfiguration {
+    public static class HttpSessionConfiguration {
         @PostConstruct
         public void postConstruct() {
             log.debug("[Herodotus] |- SDK [Engine Cache Redis Http Session] Auto Configure.");
-        }
-    }
-
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnClass(ServerResponse.class)
-    @EnableRedisWebSession(saveMode = SaveMode.ALWAYS)
-    public static class RedisWebSessionConfiguration {
-        @PostConstruct
-        public void postConstruct() {
-            log.debug("[Herodotus] |- SDK [Engine Cache Redis Web Session] Auto Configure.");
-        }
-
-        @Bean
-        public WebSessionIdResolver webSessionIdResolver() {
-            return new HerodotusCookieWebSessionIdResolver();
         }
     }
 }

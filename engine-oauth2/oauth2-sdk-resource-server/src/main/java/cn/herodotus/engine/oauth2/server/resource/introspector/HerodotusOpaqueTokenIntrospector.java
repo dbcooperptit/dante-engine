@@ -238,7 +238,7 @@ public class HerodotusOpaqueTokenIntrospector implements OpaqueTokenIntrospector
         claims.computeIfPresent(BaseConstants.AUTHORITIES, (k, v) -> {
             if (v instanceof ArrayList) {
                 List<String> values = (List<String>) v;
-                return values.stream().map(value -> authorities.add(new HerodotusGrantedAuthority(value))).collect(Collectors.toList());
+                values.forEach(value -> authorities.add(new HerodotusGrantedAuthority(value)));
             }
             return v;
         });

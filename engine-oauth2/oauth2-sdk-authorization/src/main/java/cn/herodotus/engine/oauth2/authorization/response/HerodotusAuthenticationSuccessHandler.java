@@ -30,6 +30,7 @@ import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
 import cn.herodotus.engine.assistant.core.json.jackson2.utils.JacksonUtils;
 import cn.herodotus.engine.oauth2.authorization.domain.UserAuthenticationDetails;
 import cn.herodotus.engine.protect.web.crypto.processor.HttpCryptoProcessor;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -41,9 +42,9 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
+import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.util.CollectionUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -74,6 +75,7 @@ public class HerodotusAuthenticationSuccessHandler implements AuthenticationSucc
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
         log.debug("[Herodotus] |- OAuth2 authentication success for [{}]", request.getRequestURI());
 
         OAuth2AccessTokenAuthenticationToken accessTokenAuthentication =
@@ -95,23 +97,33 @@ public class HerodotusAuthenticationSuccessHandler implements AuthenticationSucc
             builder.refreshToken(refreshToken.getTokenValue());
         }
 
-        String sessionId = request.getHeader(HttpHeaders.X_HERODOTUS_SESSION);
-        Object details = authentication.getDetails();
-        if (StringUtils.isNotBlank(sessionId) && ObjectUtils.isNotEmpty(details) && details instanceof UserAuthenticationDetails) {
-            UserAuthenticationDetails authenticationDetails = (UserAuthenticationDetails) details;
-            String data = JacksonUtils.toJson(authenticationDetails);
-            String encryptData = httpCryptoProcessor.encrypt(sessionId, data);
-            Map<String, Object> parameters = new HashMap<>(additionalParameters);
-            parameters.put(BaseConstants.OPEN_ID, encryptData);
-            builder.additionalParameters(parameters);
+        if (isOidcUserInfoPattern(additionalParameters)) {
+            builder.additionalParameters(additionalParameters);
         } else {
-            if (!CollectionUtils.isEmpty(additionalParameters)) {
-                builder.additionalParameters(additionalParameters);
+            String sessionId = request.getHeader(HttpHeaders.X_HERODOTUS_SESSION);
+            Object details = authentication.getDetails();
+            if (isHerodotusUserInfoPattern(sessionId, details)) {
+                UserAuthenticationDetails authenticationDetails = (UserAuthenticationDetails) details;
+                String data = JacksonUtils.toJson(authenticationDetails);
+                String encryptData = httpCryptoProcessor.encrypt(sessionId, data);
+                Map<String, Object> parameters = new HashMap<>(additionalParameters);
+                parameters.put(BaseConstants.OPEN_ID, encryptData);
+                builder.additionalParameters(parameters);
+            } else {
+                log.warn("[Herodotus] |- OAuth2 authentication can not get use info.");
             }
         }
 
         OAuth2AccessTokenResponse accessTokenResponse = builder.build();
         ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
         this.accessTokenHttpResponseConverter.write(accessTokenResponse, null, httpResponse);
+    }
+
+    private boolean isHerodotusUserInfoPattern(String sessionId, Object details) {
+        return StringUtils.isNotBlank(sessionId) && ObjectUtils.isNotEmpty(details) && details instanceof UserAuthenticationDetails;
+    }
+
+    private boolean isOidcUserInfoPattern(Map<String, Object> additionalParameters) {
+        return MapUtils.isNotEmpty(additionalParameters) && additionalParameters.containsKey(OidcParameterNames.ID_TOKEN);
     }
 }

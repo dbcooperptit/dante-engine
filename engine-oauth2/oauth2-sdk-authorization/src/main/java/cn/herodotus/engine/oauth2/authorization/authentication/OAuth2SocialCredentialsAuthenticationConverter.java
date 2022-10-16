@@ -25,9 +25,9 @@
 
 package cn.herodotus.engine.oauth2.authorization.authentication;
 
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
 import cn.herodotus.engine.assistant.core.enums.AccountType;
-import cn.herodotus.engine.oauth2.authorization.constants.OAuth2SocialParameterNames;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2EndpointUtils;
 import cn.herodotus.engine.oauth2.core.definition.HerodotusGrantType;
 import cn.herodotus.engine.protect.core.exception.SessionInvalidException;
@@ -82,7 +82,7 @@ public class OAuth2SocialCredentialsAuthenticationConverter implements Authentic
         }
 
         // source (REQUIRED)
-        String source = OAuth2EndpointUtils.checkRequiredParameter(parameters, OAuth2SocialParameterNames.SOURCE);
+        String source = OAuth2EndpointUtils.checkRequiredParameter(parameters, BaseConstants.SOURCE);
         // others (REQUIRED)
         // TODO：2022-03-31 这里主要是作为参数的检查，社交登录内容比较多，后续根据实际情况添加
         if (StringUtils.hasText(source)) {
