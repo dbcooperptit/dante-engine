@@ -37,6 +37,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -79,13 +80,18 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
 
             String clientId = authenticationToken.getRegisteredClient().getId();
 
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            if (ObjectUtils.isNotEmpty(request) && StringUtils.isNotBlank(username)) {
-                complianceService.save(username, clientId, "用户登录", request);
-                String key = SecureUtil.md5(username);
-                boolean hasKey = stampManager.containKey(key);
-                if (hasKey) {
-                    stampManager.delete(key);
+            RequestAttributes requestAttributes =  RequestContextHolder.getRequestAttributes();
+            if (ObjectUtils.isNotEmpty(requestAttributes) && requestAttributes instanceof ServletRequestAttributes) {
+                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+                HttpServletRequest request = servletRequestAttributes.getRequest();
+
+                if (ObjectUtils.isNotEmpty(request) && StringUtils.isNotBlank(username)) {
+                    complianceService.save(username, clientId, "用户登录", request);
+                    String key = SecureUtil.md5(username);
+                    boolean hasKey = stampManager.containKey(key);
+                    if (hasKey) {
+                        stampManager.delete(key);
+                    }
                 }
             } else {
                 log.warn("[Herodotus] |- Can not get request and username, skip!");
