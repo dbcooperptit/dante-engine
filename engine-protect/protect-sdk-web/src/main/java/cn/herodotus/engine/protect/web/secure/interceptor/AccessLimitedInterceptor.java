@@ -26,15 +26,14 @@
 package cn.herodotus.engine.protect.web.secure.interceptor;
 
 import cn.herodotus.engine.protect.core.annotation.AccessLimited;
+import cn.herodotus.engine.protect.core.definition.AbstractBaseHandlerInterceptor;
 import cn.herodotus.engine.protect.core.exception.FrequentRequestsException;
 import cn.herodotus.engine.protect.web.secure.stamp.AccessLimitedStampManager;
-import cn.hutool.crypto.SecureUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +47,7 @@ import java.time.format.DateTimeParseException;
  * @author : gengwei.zheng
  * @date : 2021/8/25 22:09
  */
-public class AccessLimitedInterceptor implements HandlerInterceptor {
+public class AccessLimitedInterceptor extends AbstractBaseHandlerInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(AccessLimitedInterceptor.class);
 
@@ -90,10 +89,7 @@ public class AccessLimitedInterceptor implements HandlerInterceptor {
                 }
             }
 
-            String flag = handlerMethod.toString();
-            log.debug("[Herodotus] |- AccessLimitedInterceptor process for request [{}].", flag);
-
-            String key = SecureUtil.md5(flag);
+            String key = generateRequestKey(request);
             String expireKey = key + "_expire";
             Long times = accessLimitedStampManager.get(key);
 
