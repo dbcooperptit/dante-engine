@@ -27,7 +27,7 @@ package cn.herodotus.engine.oauth2.authorization.authentication;
 
 import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.domain.AccessPrincipal;
-import cn.herodotus.engine.oauth2.authorization.exception.SocialCredentialsParameterBindingFailedException;
+import cn.herodotus.engine.oauth2.core.exception.SocialCredentialsParameterBindingFailedException;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2AuthenticationProviderUtils;
 import cn.herodotus.engine.oauth2.core.definition.HerodotusGrantType;
 import cn.herodotus.engine.oauth2.core.definition.service.EnhanceUserDetailsService;

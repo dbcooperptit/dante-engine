@@ -23,29 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.authorization.exception;
+package cn.herodotus.engine.oauth2.core.exception;
 
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: Oauth2 使用的验证码参数错误 </p>
+ * <p>Description: Oauth2 使用的验证码不匹配错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/12/24 12:02
+ * @date : 2021/12/24 12:08
  */
-public class OAuth2CaptchaArgumentIllegalException extends OAuth2CaptchaException {
+public class OAuth2CaptchaMismatchException extends OAuth2CaptchaException {
 
-    public OAuth2CaptchaArgumentIllegalException(String msg, Throwable cause) {
+    public OAuth2CaptchaMismatchException(String msg, Throwable cause) {
         super(msg, cause);
     }
 
-    public OAuth2CaptchaArgumentIllegalException(String msg) {
+    public OAuth2CaptchaMismatchException(String msg) {
         super(msg);
     }
 
     @Override
     public Feedback getFeedback() {
-        return new Feedback(40613, "验证码参数格式错误", HttpStatus.SC_NOT_ACCEPTABLE);
+        return new Feedback(40612, "验证码不匹配", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

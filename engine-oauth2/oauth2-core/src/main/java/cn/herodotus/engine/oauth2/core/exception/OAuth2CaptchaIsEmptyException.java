@@ -23,23 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.authorization.exception;
+package cn.herodotus.engine.oauth2.core.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: 无法解析SocialType错误 </p>
+ * <p>Description: 验证码为空 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/5/16 9:37
+ * @date : 2021/12/24 18:08
  */
-public class SocialCredentialsParameterBindingFailedException extends AuthenticationException {
+public class OAuth2CaptchaIsEmptyException extends OAuth2CaptchaException {
 
-    public SocialCredentialsParameterBindingFailedException(String msg, Throwable cause) {
+    public OAuth2CaptchaIsEmptyException(String msg, Throwable cause) {
         super(msg, cause);
     }
 
-    public SocialCredentialsParameterBindingFailedException(String msg) {
+    public OAuth2CaptchaIsEmptyException(String msg) {
         super(msg);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return new Feedback(40611, "验证码不能为空", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.authorization.exception;
+package cn.herodotus.engine.oauth2.core.exception;
 
 import cn.herodotus.engine.assistant.core.definition.exception.HerodotusException;
 import cn.herodotus.engine.assistant.core.domain.Feedback;

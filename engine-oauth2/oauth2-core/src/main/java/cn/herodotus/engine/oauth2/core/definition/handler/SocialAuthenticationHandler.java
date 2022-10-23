@@ -23,29 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.authorization.exception;
+package cn.herodotus.engine.oauth2.core.definition.handler;
 
-import cn.herodotus.engine.assistant.core.domain.Feedback;
-import org.apache.http.HttpStatus;
+import cn.herodotus.engine.assistant.core.domain.AccessPrincipal;
+import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusUser;
+import org.springframework.security.core.AuthenticationException;
 
 /**
- * <p>Description: Oauth2 使用的验证码不匹配错误 </p>
+ * <p>Description: 社交登录处理器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/12/24 12:08
+ * @date : 2021/4/4 17:34
  */
-public class OAuth2CaptchaMismatchException extends OAuth2CaptchaException {
+public interface SocialAuthenticationHandler {
 
-    public OAuth2CaptchaMismatchException(String msg, Throwable cause) {
-        super(msg, cause);
-    }
+    /**
+     * 社交登录
+     * <p>
+     * 1. 首先在第三方系统进行认证，或者手机号码、扫码认证。返回认证后的信息
+     * 2. 根据认证返回的信息，在系统中查询是否有对应的用户信息。
+     * 2.1. 如果有对应的信息，根据需要更新社交用户的信息，然后返回系统用户信息，进行登录。
+     * 2.2. 如果没有对应信息，就先进行用户的注册，然后进行社交用户和系统用户的绑定。
+     *
+     * @param source          社交登录提供者分类
+     * @param accessPrincipal 社交登录所需要的信息 {@link AccessPrincipal}
+     * @return 系统用户
+     * @throws AuthenticationException {@link AuthenticationException} 认证错误
+     */
+    HerodotusUser authentication(String source, AccessPrincipal accessPrincipal) throws AuthenticationException;
 
-    public OAuth2CaptchaMismatchException(String msg) {
-        super(msg);
-    }
-
-    @Override
-    public Feedback getFeedback() {
-        return new Feedback(40612, "验证码不匹配", HttpStatus.SC_NOT_ACCEPTABLE);
-    }
 }
