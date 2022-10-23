@@ -23,29 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.authorization.exception;
+package cn.herodotus.engine.oauth2.core.exception;
 
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import org.apache.http.HttpStatus;
 
 /**
- * <p>Description: 验证码为空 </p>
+ * <p>Description: Oauth2 使用的验证码不匹配错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/12/24 18:08
+ * @date : 2021/12/24 12:04
  */
-public class OAuth2CaptchaIsEmptyException extends OAuth2CaptchaException {
+public class OAuth2CaptchaHasExpiredException extends OAuth2CaptchaException {
 
-    public OAuth2CaptchaIsEmptyException(String msg, Throwable cause) {
+    public OAuth2CaptchaHasExpiredException(String msg, Throwable cause) {
         super(msg, cause);
     }
 
-    public OAuth2CaptchaIsEmptyException(String msg) {
+    public OAuth2CaptchaHasExpiredException(String msg) {
         super(msg);
     }
 
     @Override
     public Feedback getFeedback() {
-        return new Feedback(40611, "验证码不能为空", HttpStatus.SC_NOT_ACCEPTABLE);
+        return new Feedback(40610, "验证码已过期", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }

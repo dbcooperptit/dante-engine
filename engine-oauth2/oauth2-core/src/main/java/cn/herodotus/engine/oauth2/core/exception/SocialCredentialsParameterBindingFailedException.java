@@ -23,29 +23,23 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.authorization.exception;
+package cn.herodotus.engine.oauth2.core.exception;
 
-import cn.herodotus.engine.assistant.core.domain.Feedback;
-import org.apache.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 
 /**
- * <p>Description: Oauth2 使用的验证码不匹配错误 </p>
+ * <p>Description: 无法解析SocialType错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/12/24 12:04
+ * @date : 2021/5/16 9:37
  */
-public class OAuth2CaptchaHasExpiredException extends OAuth2CaptchaException {
+public class SocialCredentialsParameterBindingFailedException extends AuthenticationException {
 
-    public OAuth2CaptchaHasExpiredException(String msg, Throwable cause) {
+    public SocialCredentialsParameterBindingFailedException(String msg, Throwable cause) {
         super(msg, cause);
     }
 
-    public OAuth2CaptchaHasExpiredException(String msg) {
+    public SocialCredentialsParameterBindingFailedException(String msg) {
         super(msg);
-    }
-
-    @Override
-    public Feedback getFeedback() {
-        return new Feedback(40610, "验证码已过期", HttpStatus.SC_NOT_ACCEPTABLE);
     }
 }
