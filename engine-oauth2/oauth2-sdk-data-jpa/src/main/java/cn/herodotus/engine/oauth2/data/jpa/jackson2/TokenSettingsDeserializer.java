@@ -23,35 +23,35 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.engine.oauth2.core.jackson2;
+package cn.herodotus.engine.oauth2.data.jpa.jackson2;
 
-import cn.herodotus.engine.oauth2.core.definition.domain.HerodotusGrantedAuthority;
+import cn.herodotus.engine.assistant.core.json.jackson2.utils.JsonNodeUtils;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.MissingNode;
+import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
- * <p>Description: HerodotusGrantedAuthority 反序列化 </p>
+ * <p>Description: TokenSettingsDeserializer </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/3/17 20:28
+ * @date : 2022/10/24 23:29
  */
-public class HerodotusGrantedAuthorityDeserializer extends JsonDeserializer<HerodotusGrantedAuthority> {
-    @Override
-    public HerodotusGrantedAuthority deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JacksonException {
-        ObjectMapper mapper = (ObjectMapper) jp.getCodec();
-        JsonNode jsonNode = mapper.readTree(jp);
-        String authority = readJsonNode(jsonNode, "authority").asText();
-        return new HerodotusGrantedAuthority(authority);
-    }
+public class TokenSettingsDeserializer extends JsonDeserializer<TokenSettings> {
 
-    private JsonNode readJsonNode(JsonNode jsonNode, String field) {
-        return jsonNode.has(field) ? jsonNode.get(field) : MissingNode.getInstance();
+    @Override
+    public TokenSettings deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+        ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
+        JsonNode jsonNode = mapper.readTree(jsonParser);
+
+        Map<String, Object> settings = JsonNodeUtils.findValue(jsonNode, "settings", JsonNodeUtils.STRING_OBJECT_MAP, mapper);
+
+        return TokenSettings.withSettings(settings).build();
     }
 }
