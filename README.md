@@ -192,7 +192,7 @@ dante-engine
 
 ## 交流反馈
 
-- 欢迎提交[ISSUS](https://gitee.com/dromara/dante-cloud/issues) ，请写清楚问题的具体原因，重现步骤和环境(上下文)
+- 欢迎提交[ISSUS](https://gitee.com/dromara/dante-cloud/issues) ，请写清楚问题的具体原因，重现步骤和环境
 
 ## 关联项目
 
