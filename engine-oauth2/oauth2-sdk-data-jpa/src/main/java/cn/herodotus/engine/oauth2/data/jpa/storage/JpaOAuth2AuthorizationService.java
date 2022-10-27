@@ -28,6 +28,7 @@ package cn.herodotus.engine.oauth2.data.jpa.storage;
 import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import cn.herodotus.engine.oauth2.core.jackson2.HerodotusJackson2Module;
 import cn.herodotus.engine.oauth2.data.jpa.entity.HerodotusAuthorization;
+import cn.herodotus.engine.oauth2.data.jpa.jackson2.OAuth2TokenJackson2Module;
 import cn.herodotus.engine.oauth2.data.jpa.service.HerodotusAuthorizationService;
 import cn.herodotus.engine.oauth2.data.jpa.utils.OAuth2AuthorizationUtils;
 import cn.hutool.core.date.DateUtil;
@@ -83,6 +84,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         this.objectMapper.registerModules(securityModules);
         this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
         this.objectMapper.registerModules(new HerodotusJackson2Module());
+        this.objectMapper.registerModules(new OAuth2TokenJackson2Module());
     }
 
     @Override
