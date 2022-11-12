@@ -34,6 +34,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
+import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -64,6 +65,9 @@ public class Result<T> implements Serializable {
     @Schema(title = "http状态码")
     private int status;
 
+    @Schema(title = "链路 TraceId")
+    private String traceId = TraceContext.traceId();
+
     @Schema(title = "响应时间戳", pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date timestamp = new Date();
@@ -85,6 +89,10 @@ public class Result<T> implements Serializable {
 
     public String getPath() {
         return path;
+    }
+
+    public String getTraceId() {
+        return traceId;
     }
 
     public T getData() {
@@ -126,6 +134,11 @@ public class Result<T> implements Serializable {
     public Result<T> type(ResultErrorCodes resultErrorCodes) {
         this.code = resultErrorCodes.getCode();
         this.message = resultErrorCodes.getMessage();
+        return this;
+    }
+
+    public Result<T> traceId(String traceId) {
+        this.traceId = traceId;
         return this;
     }
 
@@ -281,6 +294,7 @@ public class Result<T> implements Serializable {
                 .add("status", status)
                 .add("timestamp", timestamp)
                 .add("error", error)
+                .add("traceId", traceId)
                 .toString();
     }
 
@@ -293,6 +307,7 @@ public class Result<T> implements Serializable {
         result.put("status", status);
         result.put("timestamp", timestamp);
         result.put("error", error);
+        result.put("traceId", traceId);
         return result;
     }
 }
