@@ -35,13 +35,15 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationCode;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationProvider;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.context.ProviderContextHolder;
+import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContextHolder;
 import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.util.Assert;
@@ -94,8 +96,8 @@ public final class OAuth2AuthorizationCodeAuthenticationProvider extends Abstrac
         OAuth2AuthorizationCodeAuthenticationToken authorizationCodeAuthentication =
                 (OAuth2AuthorizationCodeAuthenticationToken) authentication;
 
-        OAuth2ClientAuthenticationToken clientPrincipal =
-                OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient(authorizationCodeAuthentication);
+        OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils.
+                getAuthenticatedClientElseThrowInvalidClient(authorizationCodeAuthentication);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
         OAuth2Authorization authorization = this.authorizationService.findByToken(
@@ -103,6 +105,7 @@ public final class OAuth2AuthorizationCodeAuthenticationProvider extends Abstrac
         if (authorization == null) {
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_GRANT);
         }
+
         OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode =
                 authorization.getToken(OAuth2AuthorizationCode.class);
 
@@ -114,6 +117,8 @@ public final class OAuth2AuthorizationCodeAuthenticationProvider extends Abstrac
                 // Invalidate the authorization code given that a different client is attempting to use it
                 authorization = OAuth2AuthenticationProviderUtils.invalidate(authorization, authorizationCode.getToken());
                 this.authorizationService.save(authorization);
+
+                log.warn("Invalidated authorization code used by registered client '{}'", registeredClient.getId());
             }
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_GRANT);
         }
@@ -133,9 +138,9 @@ public final class OAuth2AuthorizationCodeAuthenticationProvider extends Abstrac
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
                 .principal(usernamePasswordAuthentication)
-                .providerContext(ProviderContextHolder.getProviderContext())
+                .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorization(authorization)
-                .authorizedScopes(authorization.getAttribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME))
+                .authorizedScopes(authorization.getAuthorizedScopes())
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrant(authorizationCodeAuthentication);
         // @formatter:on

@@ -54,7 +54,7 @@ import javax.annotation.PostConstruct;
  * @date : 2022/5/23 17:00
  */
 @Configuration(proxyBeanMethods = false)
-@Import(RedisSessionConfiguration.class)
+@Import(RedisSessionSharingConfiguration.class)
 public class RedisConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(RedisConfiguration.class);

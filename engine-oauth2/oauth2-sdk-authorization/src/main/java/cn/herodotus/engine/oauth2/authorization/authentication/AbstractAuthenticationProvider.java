@@ -36,6 +36,7 @@ import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -66,6 +67,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
                     "The token generator failed to generate the access token.", errorUri);
             throw new OAuth2AuthenticationException(error);
         }
+
         OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
                 generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
                 generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
@@ -75,14 +77,17 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
         } else {
             authorizationBuilder.accessToken(accessToken);
         }
+
         return accessToken;
     }
 
     protected OAuth2RefreshToken creatOAuth2RefreshToken(DefaultOAuth2TokenContext.Builder tokenContextBuilder, OAuth2Authorization.Builder authorizationBuilder, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, String errorUri, OAuth2ClientAuthenticationToken clientPrincipal, RegisteredClient registeredClient) {
         OAuth2RefreshToken refreshToken = null;
+
         if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
                 // Do not issue refresh token to public client
                 !clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE)) {
+
             OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
             OAuth2Token generatedRefreshToken = tokenGenerator.generate(tokenContext);
             if (!(generatedRefreshToken instanceof OAuth2RefreshToken)) {
@@ -90,14 +95,17 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
                         "The token generator failed to generate the refresh token.", errorUri);
                 throw new OAuth2AuthenticationException(error);
             }
+
             refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
             authorizationBuilder.refreshToken(refreshToken);
         }
+
         return refreshToken;
     }
 
     protected OidcIdToken createOidcIdToken(DefaultOAuth2TokenContext.Builder tokenContextBuilder, OAuth2Authorization.Builder authorizationBuilder, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, String errorUri, Set<String> requestedScopes) {
         OidcIdToken idToken;
+
         if (requestedScopes.contains(OidcScopes.OPENID)) {
             OAuth2TokenContext tokenContext = tokenContextBuilder
                     .tokenType(ID_TOKEN_TOKEN_TYPE)
@@ -109,6 +117,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
                         "The token generator failed to generate the ID token.", errorUri);
                 throw new OAuth2AuthenticationException(error);
             }
+
             idToken = new OidcIdToken(generatedIdToken.getTokenValue(), generatedIdToken.getIssuedAt(),
                     generatedIdToken.getExpiresAt(), ((Jwt) generatedIdToken).getClaims());
             authorizationBuilder.token(idToken, (metadata) ->
