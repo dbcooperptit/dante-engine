@@ -27,10 +27,10 @@ package cn.herodotus.engine.oauth2.authorization.authentication;
 
 import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 import cn.herodotus.engine.assistant.core.domain.AccessPrincipal;
-import cn.herodotus.engine.oauth2.core.exception.SocialCredentialsParameterBindingFailedException;
 import cn.herodotus.engine.oauth2.authorization.utils.OAuth2AuthenticationProviderUtils;
 import cn.herodotus.engine.oauth2.core.definition.HerodotusGrantType;
 import cn.herodotus.engine.oauth2.core.definition.service.EnhanceUserDetailsService;
+import cn.herodotus.engine.oauth2.core.exception.SocialCredentialsParameterBindingFailedException;
 import cn.herodotus.engine.oauth2.core.properties.OAuth2ComplianceProperties;
 import cn.hutool.core.bean.BeanUtil;
 import org.slf4j.Logger;
@@ -46,16 +46,16 @@ import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.context.ProviderContextHolder;
+import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContextHolder;
 import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.support.WebRequestDataBinder;
 
-import java.security.Principal;
 import java.util.Map;
 import java.util.Set;
 
@@ -134,13 +134,12 @@ public class OAuth2SocialCredentialsAuthenticationProvider extends AbstractUserD
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
                 .authorizationGrantType(HerodotusGrantType.SOCIAL)
-                .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes)
-                .attribute(Principal.class.getName(), usernamePasswordAuthentication);
+                .authorizedScopes(authorizedScopes);
 
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
                 .principal(usernamePasswordAuthentication)
-                .providerContext(ProviderContextHolder.getProviderContext())
+                .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorizedScopes(authorizedScopes)
                 .tokenType(OAuth2TokenType.ACCESS_TOKEN)
                 .authorizationGrantType(HerodotusGrantType.SOCIAL)

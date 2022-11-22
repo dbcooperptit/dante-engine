@@ -36,16 +36,16 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientCredentialsAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.context.ProviderContextHolder;
+import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContextHolder;
 import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.util.Assert;
 
-import java.security.Principal;
 import java.util.Set;
 
 /**
@@ -86,7 +86,8 @@ public class OAuth2ClientCredentialsAuthenticationProvider extends AbstractAuthe
         OAuth2ClientCredentialsAuthenticationToken clientCredentialsAuthentication =
                 (OAuth2ClientCredentialsAuthenticationToken) authentication;
 
-        OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient(clientCredentialsAuthentication);
+        OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils
+                .getAuthenticatedClientElseThrowInvalidClient(clientCredentialsAuthentication);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
         if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.CLIENT_CREDENTIALS)) {
@@ -105,14 +106,13 @@ public class OAuth2ClientCredentialsAuthenticationProvider extends AbstractAuthe
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(clientPrincipal.getName())
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .attribute(OAuth2Authorization.AUTHORIZED_SCOPE_ATTRIBUTE_NAME, authorizedScopes)
-                .attribute(Principal.class.getName(), clientPrincipal);
+                .authorizedScopes(authorizedScopes);
 
         // @formatter:off
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
                 .principal(clientPrincipal)
-                .providerContext(ProviderContextHolder.getProviderContext())
+                .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorizedScopes(authorizedScopes)
                 .tokenType(OAuth2TokenType.ACCESS_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
