@@ -70,7 +70,7 @@ public class OkHttpAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Web OkHttp] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Web OkHttp] Auto Configure.");
     }
 
     @Bean

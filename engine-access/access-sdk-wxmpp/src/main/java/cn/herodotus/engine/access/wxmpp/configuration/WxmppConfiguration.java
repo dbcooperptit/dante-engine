@@ -54,7 +54,7 @@ public class WxmppConfiguration {
 
     @PostConstruct
     public void init() {
-        log.debug("[Herodotus] |- SDK [Engine Access Wxmpp] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Access Wxmpp] Auto Configure.");
     }
 
     @Bean

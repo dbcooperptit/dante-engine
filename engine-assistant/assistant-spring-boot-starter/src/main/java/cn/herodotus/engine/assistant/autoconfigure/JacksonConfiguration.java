@@ -63,7 +63,7 @@ public class JacksonConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Assistant Jackson] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Assistant Jackson] Auto Configure.");
     }
 
     @Bean(name = "jacksonObjectMapper")
@@ -123,7 +123,7 @@ public class JacksonConfiguration {
 
         @PostConstruct
         public void postConstruct() {
-            log.debug("[Herodotus] |- SDK [Engine Assistant Jackson Utils] Auto Configure.");
+            log.debug("[Herodotus] |- SDK [Assistant Jackson Utils] Auto Configure.");
         }
     }
 }

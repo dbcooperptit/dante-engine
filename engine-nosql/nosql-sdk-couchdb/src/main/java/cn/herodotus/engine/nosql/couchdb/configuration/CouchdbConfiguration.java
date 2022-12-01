@@ -52,6 +52,6 @@ public class CouchdbConfiguration {
 
     @PostConstruct
     public void init() {
-        log.info("[Herodotus] |- SDK [Engine Nosql CouchDB] Auto Configure.");
+        log.info("[Herodotus] |- SDK [Nosql CouchDB] Auto Configure.");
     }
 }

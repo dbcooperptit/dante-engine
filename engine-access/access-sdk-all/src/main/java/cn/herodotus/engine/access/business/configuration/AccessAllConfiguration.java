@@ -68,7 +68,7 @@ public class AccessAllConfiguration {
 
     @PostConstruct
     public void init() {
-        log.debug("[Herodotus] |- SDK [Engine Access All] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Access All] Auto Configure.");
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -98,7 +98,7 @@ public class AccessAllConfiguration {
 
         @PostConstruct
         public void init() {
-            log.debug("[Herodotus] |- SDK [Engine Access All Controller] Auto Configure.");
+            log.debug("[Herodotus] |- SDK [Access All Controller] Auto Configure.");
         }
 
         @Bean

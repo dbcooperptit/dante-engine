@@ -51,7 +51,7 @@ public class JdSmsConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Sms Jd] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Sms Jd] Auto Configure.");
     }
 
     /**

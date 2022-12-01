@@ -29,7 +29,6 @@ import cn.herodotus.engine.cache.core.properties.CacheProperties;
 import cn.herodotus.engine.cache.redis.enhance.HerodotusRedisCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,12 +58,9 @@ public class RedisConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(RedisConfiguration.class);
 
-    @Autowired
-    private CacheProperties cacheProperties;
-
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Cache Redis] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Cache Redis] Auto Configure.");
     }
 
     private RedisSerializer<String> keySerializer() {
@@ -116,7 +112,7 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, CacheProperties cacheProperties) {
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
 
         // 注意：这里 RedisCacheConfiguration 每一个方法调用之后，都会返回一个新的 RedisCacheConfiguration 对象，所以要注意对象的引用关系。

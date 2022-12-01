@@ -44,6 +44,6 @@ public class AutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Engine Facility Starter] Auto Configure.");
+        log.info("[Herodotus] |- Starter [Facility Starter] Auto Configure.");
     }
 }

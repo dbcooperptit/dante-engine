@@ -62,7 +62,7 @@ public class HttpClientAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Web HttpClient] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Web HttpClient] Auto Configure.");
     }
 
     private final Timer connectionManagerTimer = new Timer(
