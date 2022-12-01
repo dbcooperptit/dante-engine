@@ -54,7 +54,7 @@ public class WxpayConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Pay Wxpay] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Pay Wxpay] Auto Configure.");
     }
 
     @Bean

@@ -65,7 +65,7 @@ public class FacilitySentinelAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Facility Sentinel] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Facility Sentinel] Auto Configure.");
     }
 
     @Bean

@@ -52,7 +52,7 @@ public class UpyunSmsConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Sms Upyun] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Sms Upyun] Auto Configure.");
     }
 
     /**

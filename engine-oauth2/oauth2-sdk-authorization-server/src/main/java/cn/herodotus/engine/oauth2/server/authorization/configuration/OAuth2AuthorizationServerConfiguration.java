@@ -67,6 +67,6 @@ public class OAuth2AuthorizationServerConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine OAuth2 Authorization Server] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [OAuth2 Authorization Server] Auto Configure.");
     }
 }

@@ -66,7 +66,7 @@ public class MultiTenancyConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Data Multi Tenancy] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Data Multi Tenancy] Auto Configure.");
     }
 
     @Bean

@@ -77,7 +77,7 @@ public class OpenApiConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Engine Web Rest Swagger] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Web Rest Swagger] Auto Configure.");
     }
 
     @Bean
