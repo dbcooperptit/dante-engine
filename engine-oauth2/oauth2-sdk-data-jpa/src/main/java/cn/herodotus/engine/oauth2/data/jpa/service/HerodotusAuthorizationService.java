@@ -74,19 +74,19 @@ public class HerodotusAuthorizationService extends BaseLayeredService<HerodotusA
     }
 
     public Optional<HerodotusAuthorization> findByAuthorizationCode(String authorizationCode) {
-        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByAuthorizationCode(authorizationCode);
+        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByAuthorizationCodeValue(authorizationCode);
         log.debug("[Herodotus] |- HerodotusAuthorization Service findByAuthorizationCode.");
         return result;
     }
 
     public Optional<HerodotusAuthorization> findByAccessToken(String accessToken) {
-        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByAccessToken(accessToken);
+        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByAccessTokenValue(accessToken);
         log.debug("[Herodotus] |- HerodotusAuthorization Service findByAccessToken.");
         return result;
     }
 
     public Optional<HerodotusAuthorization> findByRefreshToken(String refreshToken) {
-        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByRefreshToken(refreshToken);
+        Optional<HerodotusAuthorization> result = this.herodotusAuthorizationRepository.findByRefreshTokenValue(refreshToken);
         log.debug("[Herodotus] |- HerodotusAuthorization Service findByRefreshToken.");
         return result;
     }
