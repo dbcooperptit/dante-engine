@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.data.jpa.tenancy;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
 import cn.herodotus.engine.data.jpa.properties.MultiTenancyDataSource;
 import cn.herodotus.engine.data.jpa.properties.MultiTenancyProperties;
 import com.zaxxer.hikari.HikariConfig;

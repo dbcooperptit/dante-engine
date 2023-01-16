@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.rest.protect.crypto.enhance;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
-import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
+import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.definition.constants.HttpHeaders;
 import cn.herodotus.engine.rest.core.annotation.Crypto;
 import cn.herodotus.engine.rest.protect.crypto.processor.HttpCryptoProcessor;
 import org.apache.commons.lang3.ObjectUtils;

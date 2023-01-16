@@ -90,7 +90,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public String getParameter(String name) {
-        String header = super.getHeader(name);
+        String header = super.getParameter(name);
         // 如果Header为空，则直接返回，否则进行清洗
         return StringUtils.isBlank(header) ? header : cleaning(header);
     }
