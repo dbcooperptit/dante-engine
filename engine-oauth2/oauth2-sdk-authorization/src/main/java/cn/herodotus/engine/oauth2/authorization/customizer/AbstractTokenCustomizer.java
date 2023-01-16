@@ -89,5 +89,7 @@ public abstract class AbstractTokenCustomizer {
     private void putUserInfo(Map<String, Object> attributes, HerodotusUser principal) {
         attributes.put(BaseConstants.OPEN_ID, principal.getUserId());
         attributes.put(BaseConstants.ROLES, principal.getRoles());
+        attributes.put(BaseConstants.AVATAR, principal.getAvatar());
+        attributes.put(BaseConstants.EMPLOYEE_ID, principal.getEmployeeId());
     }
 }
