@@ -25,8 +25,8 @@
 
 package cn.herodotus.engine.rest.core.definition;
 
-import cn.herodotus.engine.assistant.core.constants.HttpHeaders;
-import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.core.definition.constants.HttpHeaders;
+import cn.herodotus.engine.assistant.core.definition.constants.SymbolConstants;
 import cn.hutool.crypto.SecureUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

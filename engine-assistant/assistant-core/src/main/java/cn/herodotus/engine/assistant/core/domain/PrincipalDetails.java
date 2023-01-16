@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.assistant.core.domain;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 

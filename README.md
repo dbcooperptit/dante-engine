@@ -12,7 +12,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.0-brightgreen" alt="Nacos 2.2.0"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.7.3-red" alt="Version 2.7.7.3"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.7.4-red" alt="Version 2.7.7.4"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -107,13 +107,12 @@ dante-engine
 ├    ├── nosql-sdk-couchdb -- Couchdb Nosql 数据库接入管理组件模块
 ├    └── nosql-sdk-influxdb -- Influxdb 时序数据库接入管理组件模块
 ├── engine-oauth2 -- OAuth2 认证模块
-├    ├── oauth2-core -- OAuth2 共性通用代码
-├    ├── oauth2-sdk-authorization -- Spring Authorization Server Granter 扩展组件模块
-├    ├── oauth2-sdk-authorization-server -- Spring Authorization Server 管理代码模块
+├    ├── oauth2-core -- OAuth2 共性通用代码模块
+├    ├── oauth2-sdk-authentication -- Spring Authorization Server 认证逻辑模块
+├    ├── oauth2-sdk-authentication-server -- Spring Authorization Server 认证服务器管理基础模块
+├    ├── oauth2-sdk-authorization -- Spring Authorization Server 授权逻辑处理模块
 ├    ├── oauth2-sdk-compliance -- Spring Authorization Server 应用安全合规支撑组件模块
-├    ├── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
-├    ├── oauth2-sdk-metadata -- 鉴权元数据处理代码模块
-├    └── oauth2-sdk-resource-server -- OAuth2 资源服务器通用代码模块
+├    └── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
 ├── engine-oss -- 对象存储模块
 ├    ├── oss-core -- 对象存储共性通用代码
 ├    ├── oss-sdk-minio -- Minio 组件模块
@@ -140,7 +139,7 @@ dante-engine
 ├    ├── sms-sdk-tencent -- 腾讯短信发送组件模块
 ├    ├── sms-sdk-upyun -- 又拍短信发送组件模块
 ├    ├── sms-sdk-yunpian -- 云片短信发送组件模块
-├    └── sms-spring-boot-starter -- SMS 模块统一 Starter(包括通用CRUD代码)
+├    └── sms-spring-boot-starter -- SMS 模块统一 Starter
 ├── engine-web -- Web处理模块
 ├    ├── web-core -- Web 应用共性通用代码模块组件
 ├    ├── web-sdk-rest -- Web 应用基础支撑模块组件
