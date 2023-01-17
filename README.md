@@ -12,7 +12,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.0-brightgreen" alt="Nacos 2.2.0"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.7.4-red" alt="Version 2.7.7.4"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.7.5-red" alt="Version 2.7.7.5"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -92,6 +92,7 @@ dante-engine
 ├    └── data-spring-boot-starter -- Data 模块统一 Starter
 ├── engine-event -- Spring 事件模块
 ├    ├── event-core -- 事件组件共性代码模块
+├    ├── event-message-spring-boot-starter -- Kafka Message 统一 Starter
 ├    ├── event-pay-spring-boot-starter -- 支付事件统一 Starter
 ├    └── event-security-spring-boot-starter --安全事件统一 Starter
 ├── engine-facility -- 微服务基础设施模块
@@ -101,6 +102,8 @@ dante-engine
 ├    └── facility-spring-boot-starter -- Facility 模块统一 Starter
 ├── engine-message -- 消息模块
 ├    ├── message-core -- 消息共性通用代码
+├    ├── message-sdk-mailing -- 站内消息、私信通用代码模块
+├    ├── message-sdk-websocket -- 基于 WebSocket 的消息代码模块
 ├    └── message-spring-boot-starter -- Message  模块统一 Starter
 ├── engine-nosql -- Nosql 数据库接入管理模块
 ├    ├── nosql-core -- nosql基础共性通用代码
@@ -144,11 +147,7 @@ dante-engine
 ├    ├── web-core -- Web 应用共性通用代码模块组件
 ├    ├── web-sdk-rest -- Web 应用基础支撑模块组件
 ├    ├── web-sdk-scan -- 接口权限扫描组件模块
-├    └── web-spring-boot-starter -- Web 模块统一 Starter
-├── engine-websocket -- Websocket模块
-├    ├── websocket-core -- Websocket模块共性通用代码
-├    ├── websocket-sdk-accelerator -- Websocket基础逻辑组件模块
-└──  └── websocket-spring-boot-starter -- Websocket 模块统一 Starter
+└──  └── web-spring-boot-starter -- Web 模块统一 Starter
 ```
 
 ## 阅读顺序

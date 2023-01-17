@@ -25,11 +25,9 @@
 
 package cn.herodotus.engine.message.autoconfigure;
 
-import cn.herodotus.engine.message.configuartion.QueueConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import javax.annotation.PostConstruct;
 
@@ -40,10 +38,9 @@ import javax.annotation.PostConstruct;
  * @date : 2022/2/4 17:08
  */
 @Configuration(proxyBeanMethods = false)
-@Import({QueueConfiguration.class})
 public class AutoConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(QueueConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {

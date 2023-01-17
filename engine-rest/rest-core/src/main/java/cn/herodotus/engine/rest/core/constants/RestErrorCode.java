@@ -35,7 +35,7 @@ import cn.herodotus.engine.assistant.core.definition.constants.ErrorCode;
  */
 public interface RestErrorCode extends ErrorCode {
 
-    int SESSION_INVALID = PROTECT_MODULE_406_BEGIN + 1;
+    int SESSION_INVALID = REST_MODULE_406_BEGIN + 1;
     int REPEAT_SUBMISSION = SESSION_INVALID + 1;
     int FREQUENT_REQUESTS = REPEAT_SUBMISSION + 1;
 }
