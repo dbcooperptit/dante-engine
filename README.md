@@ -12,7 +12,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.0-brightgreen" alt="Nacos 2.2.0"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.7.2-red" alt="Version 2.7.7.2"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.7.5-red" alt="Version 2.7.7.5"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -92,6 +92,7 @@ dante-engine
 ├    └── data-spring-boot-starter -- Data 模块统一 Starter
 ├── engine-event -- Spring 事件模块
 ├    ├── event-core -- 事件组件共性代码模块
+├    ├── event-message-spring-boot-starter -- Kafka Message 统一 Starter
 ├    ├── event-pay-spring-boot-starter -- 支付事件统一 Starter
 ├    └── event-security-spring-boot-starter --安全事件统一 Starter
 ├── engine-facility -- 微服务基础设施模块
@@ -101,19 +102,20 @@ dante-engine
 ├    └── facility-spring-boot-starter -- Facility 模块统一 Starter
 ├── engine-message -- 消息模块
 ├    ├── message-core -- 消息共性通用代码
+├    ├── message-sdk-mailing -- 站内消息、私信通用代码模块
+├    ├── message-sdk-websocket -- 基于 WebSocket 的消息代码模块
 ├    └── message-spring-boot-starter -- Message  模块统一 Starter
 ├── engine-nosql -- Nosql 数据库接入管理模块
 ├    ├── nosql-core -- nosql基础共性通用代码
 ├    ├── nosql-sdk-couchdb -- Couchdb Nosql 数据库接入管理组件模块
 ├    └── nosql-sdk-influxdb -- Influxdb 时序数据库接入管理组件模块
 ├── engine-oauth2 -- OAuth2 认证模块
-├    ├── oauth2-core -- OAuth2 共性通用代码
-├    ├── oauth2-sdk-authorization -- Spring Authorization Server Granter 扩展组件模块
-├    ├── oauth2-sdk-authorization-server -- Spring Authorization Server 管理代码模块
+├    ├── oauth2-core -- OAuth2 共性通用代码模块
+├    ├── oauth2-sdk-authentication -- Spring Authorization Server 认证逻辑模块
+├    ├── oauth2-sdk-authentication-server -- Spring Authorization Server 认证服务器管理基础模块
+├    ├── oauth2-sdk-authorization -- Spring Authorization Server 授权逻辑处理模块
 ├    ├── oauth2-sdk-compliance -- Spring Authorization Server 应用安全合规支撑组件模块
-├    ├── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
-├    ├── oauth2-sdk-metadata -- 鉴权元数据处理代码模块
-├    └── oauth2-sdk-resource-server -- OAuth2 资源服务器通用代码模块
+├    └── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
 ├── engine-oss -- 对象存储模块
 ├    ├── oss-core -- 对象存储共性通用代码
 ├    ├── oss-sdk-minio -- Minio 组件模块
@@ -124,12 +126,9 @@ dante-engine
 ├    ├── pay-sdk-all -- 支付方式整合组件模块
 ├    ├── pay-sdk-wxpay -- 微信支付组件模块
 ├    └── pay-spring-boot-starter -- Pay 模块统一 Starter
-├── engine-protect -- Rest API 防护组件
-├    ├── protect-core -- Rest API 防护共性代码模块组件
-├    ├── protect-sdk-web -- 前后端数据加密、接口幂等、防刷、Xss和SQL注入防护组件模块
-├    └── protect-sdk-spring-boot-starter -- Protect 模块统一 Starter
 ├── engine-rest -- 服务Rest接口模块
 ├    ├── rest-core -- 服务Rest接口共性通用代码
+├    ├── rest-sdk-protect -- 前后端数据加密、接口幂等、防刷、Xss和SQL注入Rest API 防护组件模块
 ├    └── rest-spring-boot-starter -- Rest 模块统一 Starter(包括通用CRUD代码)
 ├── engine-sms -- 短信接入模块
 ├    ├── sms-core -- 短信共性通用代码模块
@@ -143,16 +142,12 @@ dante-engine
 ├    ├── sms-sdk-tencent -- 腾讯短信发送组件模块
 ├    ├── sms-sdk-upyun -- 又拍短信发送组件模块
 ├    ├── sms-sdk-yunpian -- 云片短信发送组件模块
-├    └── sms-spring-boot-starter -- SMS 模块统一 Starter(包括通用CRUD代码)
+├    └── sms-spring-boot-starter -- SMS 模块统一 Starter
 ├── engine-web -- Web处理模块
 ├    ├── web-core -- Web 应用共性通用代码模块组件
 ├    ├── web-sdk-rest -- Web 应用基础支撑模块组件
 ├    ├── web-sdk-scan -- 接口权限扫描组件模块
-├    └── web-spring-boot-starter -- Web 模块统一 Starter
-├── engine-websocket -- Websocket模块
-├    ├── websocket-core -- Websocket模块共性通用代码
-├    ├── websocket-sdk-accelerator -- Websocket基础逻辑组件模块
-└──  └── websocket-spring-boot-starter -- Websocket 模块统一 Starter
+└──  └── web-spring-boot-starter -- Web 模块统一 Starter
 ```
 
 ## 阅读顺序

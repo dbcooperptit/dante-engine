@@ -30,7 +30,7 @@ import cn.herodotus.engine.cache.core.properties.CacheProperties;
 import cn.herodotus.engine.cache.jetcache.enhance.HerodotusCacheManager;
 import cn.herodotus.engine.cache.jetcache.enhance.JetCacheCreateCacheFactory;
 import cn.herodotus.engine.cache.jetcache.utils.JetCacheUtils;
-import cn.herodotus.engine.cache.redis.configuration.RedisConfiguration;
+import cn.herodotus.engine.cache.redis.configuration.CacheRedisConfiguration;
 import com.alicp.jetcache.CacheManager;
 import com.alicp.jetcache.autoconfigure.JetCacheAutoConfiguration;
 import org.slf4j.Logger;
@@ -56,7 +56,7 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(CacheProperties.class)
-@Import({CaffeineConfiguration.class, RedisConfiguration.class})
+@Import({CaffeineConfiguration.class, CacheRedisConfiguration.class})
 @AutoConfigureAfter(JetCacheAutoConfiguration.class)
 public class JetCacheConfiguration {
 

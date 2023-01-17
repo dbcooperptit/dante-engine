@@ -27,7 +27,7 @@ package cn.herodotus.engine.cache.redisson.configuration;
 
 import cn.herodotus.engine.cache.redisson.annotation.ConditionalOnRedissonEnabled;
 import cn.herodotus.engine.cache.redisson.properties.RedissonProperties;
-import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.core.definition.constants.SymbolConstants;
 import cn.herodotus.engine.assistant.core.utils.ResourceUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;

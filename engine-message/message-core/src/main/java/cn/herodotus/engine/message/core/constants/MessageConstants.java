@@ -25,7 +25,7 @@
 
 package cn.herodotus.engine.message.core.constants;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
 
 /**
  * <p>Description: 消息模块常量 </p>
@@ -35,7 +35,29 @@ import cn.herodotus.engine.assistant.core.constants.BaseConstants;
  */
 public interface MessageConstants extends BaseConstants {
 
-    String PROPERTY_PREFIX_QUEUE = PROPERTY_PREFIX_HERODOTUS + ".queue";
+    String MSG_AREA_PREFIX = AREA_PREFIX + "msg:";
 
-    String ITEM_KAFKA_ENABLED = PROPERTY_PREFIX_QUEUE + ".kafka" + PROPERTY_ENABLED;
+    String REDIS_CURRENT_ONLINE_USER = MSG_AREA_PREFIX + "online:user";
+    String REGION_MESSAGE_ANNOUNCEMENT = MSG_AREA_PREFIX + "system_announcement";
+    String REGION_MESSAGE_DIALOGUE_CONTACT = MSG_AREA_PREFIX + "personal:contact";
+    String REGION_MESSAGE_DIALOGUE = MSG_AREA_PREFIX + "personal:dialogue";
+    String REGION_MESSAGE_DIALOGUE_DETAIL = MSG_AREA_PREFIX + "personal:dialogue:detail";
+    String REGION_MESSAGE_NOTIFICATION = MSG_AREA_PREFIX + "notification_queue";
+    String REGION_MESSAGE_PULL_STAMP = MSG_AREA_PREFIX + "pull_stamp";
+
+    String PROPERTY_PREFIX_MESSAGE = PROPERTY_PREFIX_HERODOTUS + ".message";
+
+    String PROPERTY_PREFIX_ENGINE_IO = PROPERTY_PREFIX_MESSAGE + ".engineio";
+    String PROPERTY_PREFIX_WEBSOCKET = PROPERTY_PREFIX_MESSAGE + ".websocket";
+
+    String WEBSOCKET_CHANNEL_PROXY_BROADCAST = "/broadcast";
+    String WEBSOCKET_CHANNEL_PROXY_PERSONAL = "/personal";
+    String WEBSOCKET_DESTINATION_BROADCAST_NOTICE = WEBSOCKET_CHANNEL_PROXY_BROADCAST + "/notice";
+    String WEBSOCKET_DESTINATION_BROADCAST_ONLINE = WEBSOCKET_CHANNEL_PROXY_BROADCAST + "/online";
+    String WEBSOCKET_DESTINATION_PERSONAL_MESSAGE = WEBSOCKET_CHANNEL_PROXY_PERSONAL + "/message";
+
+    String ENGINE_IO_INTERCEPTOR_PATH = "/engine.io/";
+    String ENGINE_IO_ATTRIBUTE_BRIDGE = "engineIo.bridge";
+    String ENGINE_IO_ATTRIBUTE_QUERY = "engineIo.query";
+    String ENGINE_IO_ATTRIBUTE_HEADERS = "engineIo.headers";
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020-2030 ZHENGGENGWEI(码匠君)<herodotus@aliyun.com>
  *
- * Dante Engine Licensed under the Apache License, Version 2.0 (the "License");
+ * Dante Engine licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -16,7 +16,7 @@
  * Dante Engine 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *
  * 1.请不要删除和修改根目录下的LICENSE文件。
- * 2.请不要删除和修改 Dante Engine 源码头部的版权声明。
+ * 2.请不要删除和修改 Dante Cloud 源码头部的版权声明。
  * 3.请保留源码和相关描述文件的项目出处，作者声明等。
  * 4.分发源码时候，请注明软件出处 https://gitee.com/herodotus/dante-engine
  * 5.在修改包名，模块名称，项目代码等时，请注明软件出处 https://gitee.com/herodotus/dante-engine
@@ -65,6 +65,10 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
 
     private Set<String> roles;
 
+    private String employeeId;
+
+    private String avatar;
+
     public HerodotusUser() {
     }
 
@@ -79,7 +83,7 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
      * Calls the more complex constructor with all boolean arguments set to {@code true}.
      */
     public HerodotusUser(String userId, String username, String password, Collection<? extends GrantedAuthority> authorities, Set<String> roles) {
-        this(userId, username, password, true, true, true, true, authorities, roles);
+        this(userId, username, password, true, true, true, true, authorities, roles, null, null);
     }
 
     /**
@@ -102,7 +106,7 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
      */
     public HerodotusUser(String userId, String username, String password, boolean enabled, boolean accountNonExpired,
                          boolean credentialsNonExpired, boolean accountNonLocked,
-                         Collection<? extends GrantedAuthority> authorities, Set<String> roles) {
+                         Collection<? extends GrantedAuthority> authorities, Set<String> roles, String employeeId, String avatar) {
         Assert.isTrue(username != null && !"".equals(username) && password != null,
                 "Cannot pass null or empty values to constructor");
         this.userId = userId;
@@ -114,6 +118,8 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
         this.accountNonLocked = accountNonLocked;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
         this.roles = CollectionUtils.isNotEmpty(roles) ? roles : new HashSet<>();
+        this.employeeId = employeeId;
+        this.avatar = avatar;
     }
 
     @Override
@@ -162,6 +168,14 @@ public class HerodotusUser implements UserDetails, CredentialsContainer {
 
     public Set<String> getRoles() {
         return roles;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 
     private static SortedSet<GrantedAuthority> sortAuthorities(Collection<? extends GrantedAuthority> authorities) {
