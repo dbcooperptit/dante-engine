@@ -38,7 +38,7 @@
 
     <groupId>cn.herodotus.engine</groupId>
     <artifactId>dependencies</artifactId>
-    <version>2.7.7.4</version>
+    <version>2.7.7.5</version>
     <packaging>pom</packaging>
 
     <description>基于 Spring Authorization Server 的 Dante Cloud Dependencies</description>
@@ -359,6 +359,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
+                <artifactId>event-message-spring-boot-starter</artifactId>
+                <version>${dante-engine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
                 <artifactId>event-pay-spring-boot-starter</artifactId>
                 <version>${dante-engine.version}</version>
             </dependency>
@@ -394,6 +399,16 @@
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>message-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>message-sdk-mailing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.engine</groupId>
+                <artifactId>message-sdk-websocket</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -593,23 +608,6 @@
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>web-spring-boot-starter</artifactId>
-                <version>${dante-engine.version}</version>
-            </dependency>
-
-            <!-- websocket -->
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>websocket-core</artifactId>
-                <version>${dante-engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>websocket-sdk-accelerator</artifactId>
-                <version>${dante-engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.engine</groupId>
-                <artifactId>websocket-spring-boot-starter</artifactId>
                 <version>${dante-engine.version}</version>
             </dependency>
 

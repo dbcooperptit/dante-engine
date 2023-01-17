@@ -63,6 +63,8 @@ public interface BaseConstants {
     String PROPERTY_PREFIX_REST = PROPERTY_PREFIX_HERODOTUS + ".rest";
     String PROPERTY_PREFIX_SWAGGER = PROPERTY_PREFIX_HERODOTUS + ".swagger";
 
+    String PROPERTY_PREFIX_EVENT = PROPERTY_PREFIX_HERODOTUS + ".event";
+
     String ITEM_SWAGGER_ENABLED = PROPERTY_PREFIX_SWAGGER + PROPERTY_ENABLED;
 
 
@@ -123,5 +125,7 @@ public interface BaseConstants {
     String ROLES = "roles";
     String SOURCE = "source";
     String USERNAME = "username";
+
+    String SPRING_SESSION_ID_ATTR_NAME = "SPRING.SESSION.ID";
 
 }
