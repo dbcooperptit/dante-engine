@@ -57,10 +57,13 @@ public class SecurityMatcherConfigurer {
             "/v3/api-docs/**",
             "/openapi.json",
             "/favicon.ico");
-    private static final List<String> DEFAULT_PERMIT_ALL_RESOURCES = Lists.newArrayList("/open/**", "/oauth2/sign-out");
+    private static final List<String> DEFAULT_PERMIT_ALL_RESOURCES = Lists.newArrayList("/open/**", "/oauth2/sign-out", "/stomp/ws");
+    private static final List<String> DEFAULT_HAS_AUTHENTICATED_RESOURCES = Lists.newArrayList("/engine-rest/**");
 
     private List<String> staticResources;
     private List<String> permitAllResources;
+
+    private List<String> hasAuthenticatedResources;
 
     private final SecurityProperties securityProperties;
 
@@ -68,6 +71,7 @@ public class SecurityMatcherConfigurer {
         this.securityProperties = securityProperties;
         this.staticResources = new ArrayList<>();
         this.permitAllResources = new ArrayList<>();
+        this.hasAuthenticatedResources = new ArrayList<>();
     }
 
 
@@ -85,12 +89,23 @@ public class SecurityMatcherConfigurer {
         return this.permitAllResources;
     }
 
+    public List<String> getHasAuthenticatedList() {
+        if (CollectionUtils.isEmpty(this.hasAuthenticatedResources)) {
+            this.hasAuthenticatedResources = merge(securityProperties.getMatcher().getHasAuthenticated(), DEFAULT_HAS_AUTHENTICATED_RESOURCES);
+        }
+        return this.hasAuthenticatedResources;
+    }
+
     public String[] getStaticResourceArray() {
-        return convertToArray(getStaticResourceList());
+        return toArray(getStaticResourceList());
     }
 
     public String[] getPermitAllArray() {
-        return convertToArray(getPermitAllList());
+        return toArray(getPermitAllList());
+    }
+
+    public String[] getHasAuthenticatedArray() {
+        return toArray(getHasAuthenticatedList());
     }
 
 
@@ -105,7 +120,7 @@ public class SecurityMatcherConfigurer {
         if (CollectionUtils.isEmpty(customResources)) {
             return defaultResources;
         } else {
-            return CollectionUtils.collate(customResources, defaultResources);
+            return CollectionUtils.collate(customResources, defaultResources, false);
         }
     }
 
@@ -115,7 +130,7 @@ public class SecurityMatcherConfigurer {
      * @param resources List
      * @return String[]
      */
-    private String[] convertToArray(List<String> resources) {
+    private String[] toArray(List<String> resources) {
         if (CollectionUtils.isNotEmpty(resources)) {
             String[] result = new String[resources.size()];
             return resources.toArray(result);
