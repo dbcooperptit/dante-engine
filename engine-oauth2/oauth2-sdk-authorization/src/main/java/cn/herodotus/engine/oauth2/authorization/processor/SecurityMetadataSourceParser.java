@@ -260,6 +260,8 @@ public class SecurityMetadataSourceParser {
      * <p>
      * 如果实际应用不满足可以，自己扩展AccessDecisionVoter或者AccessDecisionManager
      *
+     * {@link org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer}
+     *
      * @param securityAttribute {@link SecurityAttribute}
      * @return security权限定义集合
      */

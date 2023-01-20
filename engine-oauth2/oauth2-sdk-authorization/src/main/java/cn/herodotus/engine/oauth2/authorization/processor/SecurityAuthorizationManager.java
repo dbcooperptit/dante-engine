@@ -13,6 +13,7 @@ package cn.herodotus.engine.oauth2.authorization.processor;
 import cn.herodotus.engine.assistant.core.definition.constants.HttpHeaders;
 import cn.herodotus.engine.oauth2.authorization.definition.HerodotusRequestMatcher;
 import cn.herodotus.engine.oauth2.authorization.storage.SecurityMetadataSourceStorage;
+import cn.herodotus.engine.oauth2.core.enums.PermissionExpression;
 import cn.herodotus.engine.web.core.utils.WebUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
@@ -70,22 +72,32 @@ public class SecurityAuthorizationManager implements FilterInvocationSecurityMet
         String method = request.getMethod();
 
         if (WebUtils.isStaticResources(url)) {
-            log.trace("[Herodotus] |- Is Static Resource : [{}], Passed!", url);
+            log.trace("[Herodotus] |- Is static resource : [{}], Passed!", url);
             return null;
         }
 
-        if (WebUtils.isPathMatch(securityMatcherConfigurer.getPermitAllArray(), url)) {
-            log.trace("[Herodotus] |- Is White List Resource : [{}], Passed!", url);
+        if (WebUtils.isPathMatch(securityMatcherConfigurer.getPermitAllList(), url)) {
+            log.trace("[Herodotus] |- Is permit all Resource : [{}], Passed!", url);
             return null;
         }
 
         String feignInnerFlag = request.getHeader(HttpHeaders.X_HERODOTUS_FROM_IN);
         if (StringUtils.isNotBlank(feignInnerFlag)) {
-            log.trace("[Herodotus] |- Is Feign Inner Invoke : [{}], Passed!", url);
+            log.trace("[Herodotus] |- Is feign inner invoke : [{}], Passed!", url);
             return null;
         }
 
-        return findConfigAttribute(url, method, request);
+        if (WebUtils.isPathMatch(securityMatcherConfigurer.getHasAuthenticatedList(), url)) {
+            log.trace("[Herodotus] |- Is has authenticated resource : [{}], Passed!", url);
+            return null;
+        }
+
+        Collection<ConfigAttribute> result = findConfigAttribute(url, method, request);
+        if (CollectionUtils.isEmpty(result)) {
+            return SecurityConfig.createList(PermissionExpression.DENY_ALL.getValue());
+        } else {
+            return result;
+        }
     }
 
     @Override
