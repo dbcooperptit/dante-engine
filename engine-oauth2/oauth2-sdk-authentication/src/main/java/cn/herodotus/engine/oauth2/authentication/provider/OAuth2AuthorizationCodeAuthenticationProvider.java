@@ -100,11 +100,15 @@ public final class OAuth2AuthorizationCodeAuthenticationProvider extends Abstrac
                 getAuthenticatedClientElseThrowInvalidClient(authorizationCodeAuthentication);
         RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
+        log.trace("Retrieved registered client");
+
         OAuth2Authorization authorization = this.authorizationService.findByToken(
                 authorizationCodeAuthentication.getCode(), AUTHORIZATION_CODE_TOKEN_TYPE);
         if (authorization == null) {
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_GRANT);
         }
+
+        log.trace("Retrieved authorization with authorization code");
 
         OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode =
                 authorization.getToken(OAuth2AuthorizationCode.class);

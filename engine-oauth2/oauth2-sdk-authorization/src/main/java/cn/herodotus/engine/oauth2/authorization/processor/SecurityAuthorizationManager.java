@@ -94,6 +94,7 @@ public class SecurityAuthorizationManager implements FilterInvocationSecurityMet
 
         Collection<ConfigAttribute> result = findConfigAttribute(url, method, request);
         if (CollectionUtils.isEmpty(result)) {
+            log.warn("[] |- No permission data found in storage for request : [{}]", url);
             return SecurityConfig.createList(PermissionExpression.DENY_ALL.getValue());
         } else {
             return result;
