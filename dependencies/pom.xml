@@ -38,7 +38,7 @@
 
     <groupId>cn.herodotus.engine</groupId>
     <artifactId>dependencies</artifactId>
-    <version>2.7.9.0</version>
+    <version>2.7.9.1</version>
     <packaging>pom</packaging>
 
     <description>基于 Spring Authorization Server 的 Dante Cloud Dependencies</description>
@@ -112,7 +112,7 @@
 
         <!--Maven Plugin 相关组件-->
         <archetype-packaging.verison>3.2.1</archetype-packaging.verison>
-        <docker-maven-plugin.version>0.41.0</docker-maven-plugin.version>
+        <docker-maven-plugin.version>0.42.0</docker-maven-plugin.version>
         <mapstruct-processor.version>1.5.3.Final</mapstruct-processor.version>
         <maven-archetype-plugin.version>3.2.1</maven-archetype-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
@@ -129,7 +129,7 @@
         <guava.version>31.1-jre</guava.version>
 
         <!-- 应用开发辅助工具组件 -->
-        <redisson.version>3.19.3</redisson.version>
+        <redisson.version>3.20.0</redisson.version>
         <p6spy.version>3.9.1</p6spy.version>
         <springdoc.version>1.6.14</springdoc.version>
         <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
@@ -145,7 +145,7 @@
         <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
 
         <!-- 国内开源通用组件 -->
-        <hutool.version>5.8.12</hutool.version>
+        <hutool.version>5.8.13</hutool.version>
         <okhttps.version>4.0.1</okhttps.version>
         <weixin-java-sdk.version>4.4.8.B</weixin-java-sdk.version>
         <just-auth.verison>1.16.5</just-auth.verison>
@@ -163,7 +163,7 @@
         <!--SMS SDK-->
         <aliyun-java-sdk-core.version>4.6.3</aliyun-java-sdk-core.version>
         <dysmsapi20170525.version>2.0.23</dysmsapi20170525.version>
-        <tencentcloud-sdk-java.version>3.1.699</tencentcloud-sdk-java.version>
+        <tencentcloud-sdk-java.version>3.1.706</tencentcloud-sdk-java.version>
         <com.jdcloud.sdk.version>1.3.3</com.jdcloud.sdk.version>
         <qiniu-java-sdk.version>7.12.1</qiniu-java-sdk.version>
 
@@ -185,7 +185,7 @@
         <tea-xml.version>0.1.5</tea-xml.version>
         <dom4j.version>2.1.4</dom4j.version>
         <postgresql.version>42.5.4</postgresql.version>
-        <log4j2.version>2.19.0</log4j2.version>
+        <log4j2.version>2.20.0</log4j2.version>
         <snakeyaml.version>1.33</snakeyaml.version>
         <jackson-bom.version>2.14.2</jackson-bom.version>
 
