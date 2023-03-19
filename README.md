@@ -23,9 +23,9 @@
     <a href="https://gitee.com/dromara/dante-cloud"><img src="https://gitee.com/dromara/dante-cloud/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
 </p>
 <p align="center">
-    <a href="https://github.com/herodotus-cloud/dante-cloud">主工程 Github 仓库</a> &nbsp; | &nbsp;
-    <a href="https://gitee.com/dromara/dante-cloud">主工程 Gitee 仓库</a> &nbsp; | &nbsp;
-    <a href="https://gitee.com/dromara/dante-engine/tree/3.0.0/">v3.0.0</a> &nbsp; | &nbsp;
+    <a href="https://github.com/herodotus-cloud/dante-cloud/tree/3.0.0/">主工程 Github 仓库</a> &nbsp; | &nbsp;
+    <a href="https://gitee.com/dromara/dante-cloud/tree/3.0.0/">主工程 Gitee 仓库</a> &nbsp; | &nbsp;
+    <a href="https://gitee.com/herodotus/dante-engine/tree/3.0.0/">v3.0.0</a> &nbsp; | &nbsp;
     <a href="https://www.herodotus.cn">文档</a>
 </p>
 
