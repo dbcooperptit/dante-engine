@@ -37,9 +37,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionAuthenticatedPrincipal;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -112,13 +112,18 @@ public class SecurityUtils {
 
     /**
      * 获取认证用户信息
+     * <p>
+     * 该方法仅能获取有限用户信息。从实用角度建议使用本系统提供的其它获取用户方式。
      *
      * @return 自定义 UserDetails {@link HerodotusUser}
      */
-    @SuppressWarnings("unchecked")
     public static HerodotusUser getPrincipal() {
         if (isAuthenticated()) {
             Authentication authentication = getAuthentication();
+            if (authentication.getPrincipal() instanceof OAuth2IntrospectionAuthenticatedPrincipal) {
+                OAuth2IntrospectionAuthenticatedPrincipal introspectionPrincipal = (OAuth2IntrospectionAuthenticatedPrincipal) authentication.getPrincipal();
+                return new HerodotusUser(null, introspectionPrincipal.getUsername(), null, introspectionPrincipal.getAuthorities());
+            }
             if (authentication.getPrincipal() instanceof HerodotusUser) {
                 return (HerodotusUser) authentication.getPrincipal();
             }
