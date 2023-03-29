@@ -33,11 +33,15 @@
 
 ## 说明
 
-自11月24日，Spring Boot 3.0 以及 Spring Cloud 2022.0.0、Spring Cloud Tencent 等全新版本发布，整个Java 社区也步入的 Java 17 和 Spring Boot 3 的新时代。
+自11月24日，Spring Boot 3.0 以及 Spring Cloud 2022.0.0、Spring Cloud Tencent 等全新版本发布，整个Java 社区也步入的 Java 17
+和 Spring Boot 3 的新时代。
 
-紧跟 Java 技术和 Spring 社区的发展，让更多质量更好、性能更优的新特性服务于实际的开发工作，Dante Cloud 也同步进行升级及适配，开发了全新的 3.0 版本。
+紧跟 Java 技术和 Spring 社区的发展，让更多质量更好、性能更优的新特性服务于实际的开发工作，Dante Cloud 也同步进行升级及适配，开发了全新的
+3.0 版本。
 
-基于 Spring Authorization Server 1.1.0、Spring Boot 3.0.5、Spring Cloud 2022.0.1、Spring Cloud Tencent 1.10.2-2022.0.0、Spring Cloud Alibaba 2022.0.0.0-RC1、Nacos 2.2.1-RC 等主流技术栈开发的 Dante Cloud v3.0.1 已经正式发布，关注请移步 [v3.0.0 分支](https://gitee.com/dromara/dante-cloud/tree/3.0.0/)
+基于 Spring Authorization Server 1.1.0、Spring Boot 3.0.5、Spring Cloud 2022.0.1、Spring Cloud Tencent
+1.10.2-2022.0.0、Spring Cloud Alibaba 2022.0.0.0-RC1、Nacos 2.2.1 等主流技术栈开发的 Dante Cloud v3.0.1
+已经正式发布，关注请移步 [【v3.0.0 分支】](https://gitee.com/herodotus/dante-engine/tree/3.0.0/)
 
 ## 特点
 
@@ -55,7 +59,8 @@
 
 1. 虽然模块看似很多，但是每个模块职责单一、代码清晰，更有利于聚焦和定位问题。
 2. 通过对微服务架构的“庖丁解牛”，初学者不再需要在代码的海洋里“遨游”，通过针对性地了解各个模块，以点带面快速掌握微服务架构整体结构。
-3. 模块间的依赖极大的降低，想要替换为 `Spring Authorization Server`，影响到的代码和范围将会很小。该工程也是使用 `Spring Authorization Server` 的前序工作
+3. 模块间的依赖极大的降低，想要替换为 `Spring Authorization Server`
+   ，影响到的代码和范围将会很小。该工程也是使用 `Spring Authorization Server` 的前序工作
 4. 每个模块均是最小化依赖第三包，规避依赖包过度依赖，特别是 starter 过多依赖，导致不可预知、难以调试、不好修改等问题。
 5. 降低微服务系统代码量，独立组件可提前编译并上传至Maven仓库，降低工程代码编译耗时，改进 CICD 效率。
 
@@ -195,6 +200,7 @@ dante-engine
 ## 关联项目
 
 - Dante 主工程地址：[https://gitee.com/dromara/dante-cloud](https://gitee.com/dromara/dante-cloud)
-- Dante 单体版示例工程地址：[https://gitee.com/herodotus/dante-cloud-athena](https://gitee.com/herodotus/dante-cloud-athena)
+- Dante
+  单体版示例工程地址：[https://gitee.com/herodotus/dante-cloud-athena](https://gitee.com/herodotus/dante-cloud-athena)
 - Dante 前端工程地址：[https://gitee.com/herodotus/dante-cloud-ui](https://gitee.com/herodotus/dante-cloud-ui)
 
