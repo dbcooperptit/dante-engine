@@ -1,4 +1,4 @@
-<p align="center"><img src="./documents/readme/images/logo2.png" height="150" width="200" alt="logo"/></p>
+<p align="center"><img src="./documents/readme/images/new-logo.png" height="300" width="400" alt="logo"/></p>
 <h2 align="center">简洁优雅 · 稳定高效 | 宁静致远 · 精益求精 </h2>
 <p align="center">Dante Engine 基于 Spring Boot 2.X， 是 Dante Cloud 微服务架构内核核心组件库，可用于任何 Spring Boot 工程</p>
 
@@ -33,9 +33,15 @@
 
 ## 说明
 
-自11月24日，Spring Boot 3.0 以及 Spring Cloud 2022.0.0、Spring Cloud Tencent 等全新版本发布，整个Java 社区也步入的 Java 17 和 Spring Boot 3 的新时代。紧跟 Java 技术和 Spring 社区的发展，让更多质量更好、性能更优的新特性服务于实际的开发工作，Dante Cloud 也同步进行升级及适配，开发了全新的 3.0 版本。
+自11月24日，Spring Boot 3.0 以及 Spring Cloud 2022.0.0、Spring Cloud Tencent 等全新版本发布，整个Java 社区也步入的 Java 17
+和 Spring Boot 3 的新时代。
 
-基于 Spring Authorization Server 1.0.0、Spring Boot 3.0.1、Spring Cloud 2022.0.0、Spring Cloud Tencent 1.8.2-2022.0.0、Spring Cloud Alibaba 2022.0.0.0-RC1、Nacos 2.2.1-RC 等主流技术栈开发的 Dante Cloud v3.0.1 已经正式发布，关注请移步 [v3.0.0 分支](https://gitee.com/dromara/dante-cloud/tree/3.0.0/)
+紧跟 Java 技术和 Spring 社区的发展，让更多质量更好、性能更优的新特性服务于实际的开发工作，Dante Cloud 也同步进行升级及适配，开发了全新的
+3.0 版本。
+
+基于 Spring Authorization Server 1.1.0、Spring Boot 3.0.5、Spring Cloud 2022.0.1、Spring Cloud Tencent
+1.10.2-2022.0.0、Spring Cloud Alibaba 2022.0.0.0-RC1、Nacos 2.2.1 等主流技术栈开发的 Dante Cloud v3.0.1
+已经正式发布，关注请移步 [【v3.0.0 分支】](https://gitee.com/herodotus/dante-engine/tree/3.0.0/)
 
 ## 特点
 
@@ -53,7 +59,8 @@
 
 1. 虽然模块看似很多，但是每个模块职责单一、代码清晰，更有利于聚焦和定位问题。
 2. 通过对微服务架构的“庖丁解牛”，初学者不再需要在代码的海洋里“遨游”，通过针对性地了解各个模块，以点带面快速掌握微服务架构整体结构。
-3. 模块间的依赖极大的降低，想要替换为 `Spring Authorization Server`，影响到的代码和范围将会很小。该工程也是使用 `Spring Authorization Server` 的前序工作
+3. 模块间的依赖极大的降低，想要替换为 `Spring Authorization Server`
+   ，影响到的代码和范围将会很小。该工程也是使用 `Spring Authorization Server` 的前序工作
 4. 每个模块均是最小化依赖第三包，规避依赖包过度依赖，特别是 starter 过多依赖，导致不可预知、难以调试、不好修改等问题。
 5. 降低微服务系统代码量，独立组件可提前编译并上传至Maven仓库，降低工程代码编译耗时，改进 CICD 效率。
 
@@ -65,43 +72,43 @@ dante-engine
 ├── documents -- 需要放置的文档位置
 ├    └── readme -- README 相关素材放置目录
 ├── engine-access -- 外部登录接入模块
-├    ├── access-core -- 外部登录通用代码组件
-├    ├── access-sdk-all -- 外部登录集成组件
-├    ├── access-sdk-justauth -- JustAuth登录组件
-├    ├── access-sdk-wxapp -- 微信小程序登录组件
-├    ├── access-sdk-wxmpp -- 微信公众号登录组件
+├    ├── access-core -- 外部登录通用代码
+├    ├── access-sdk-all -- 外部登录集成
+├    ├── access-sdk-justauth -- JustAuth登录
+├    ├── access-sdk-wxapp -- 微信小程序登录
+├    ├── access-sdk-wxmpp -- 微信公众号登录
 ├    └── access-spring-boot-starter -- 外部登录  模块统一 Starter
 ├── engine-assistant -- 核心通用代码包
-├    ├── assistant-core -- 核心通用代码组件
+├    ├── assistant-core -- 核心通用代码
 ├    └── assistant-spring-boot-starter -- Assistant  模块统一 Starter
 ├── engine-cache -- 缓存模块
-├    ├── cache-core -- 缓存通用代码组件
-├    ├── cache-sdk-caffeine -- Caffeine 缓存配置相关代码组件模块
-├    ├── cache-sdk-jetcache -- JetCache 组件相关代码模块
-├    ├── cache-sdk-redis -- Caffeine 缓存配置相关代码组件模块
-├    ├── cache-sdk-redisson -- Redisson 组件相关代码模块
+├    ├── cache-core -- 缓存通用代码
+├    ├── cache-sdk-caffeine -- Caffeine 缓存配置相关代码模块
+├    ├── cache-sdk-jetcache -- JetCache 相关代码模块
+├    ├── cache-sdk-redis -- Caffeine 缓存配置相关代码模块
+├    ├── cache-sdk-redisson -- Redisson 相关代码模块
 ├    └── cache-spring-boot-starter -- Cache  模块统一 Starter
 ├── engine-captcha -- 验证码模块
 ├    ├── captcha-core -- 验证码共性通用代码
-├    ├── captcha-sdk-behavior -- 行为验证码组件（包括拼图滑块、文字点选）
-├    ├── captcha-sdk-graphic -- 传统图形验证码组件（包括算数类型、中文类型、字母类型、GIF类型）
-├    ├── captcha-sdk-hutool -- Hutool验证码组件（包括圆圈干扰、扭曲干扰、线段干扰）
+├    ├── captcha-sdk-behavior -- 行为验证码（包括拼图滑块、文字点选）
+├    ├── captcha-sdk-graphic -- 传统图形验证码（包括算数类型、中文类型、字母类型、GIF类型）
+├    ├── captcha-sdk-hutool -- Hutool验证码（包括圆圈干扰、扭曲干扰、线段干扰）
 ├    └── captcha-spring-boot-starter -- Captcha  模块统一 Starter
 ├── engine-data -- 数据访问模块
 ├    ├── data-core -- 数据访问共性通用代码
-├    ├── data-sdk-jpa -- JPA 及Hibernate 组件相关代码模块
-├    ├── data-sdk-mybatis-plus -- MybatisPlus 组件相关代码模块
-├    ├── data-sdk-p6spy -- P6spy 组件相关代码模块
+├    ├── data-sdk-jpa -- JPA 及Hibernate 相关代码模块
+├    ├── data-sdk-mybatis-plus -- MybatisPlus 相关代码模块
+├    ├── data-sdk-p6spy -- P6spy 相关代码模块
 ├    └── data-spring-boot-starter -- Data 模块统一 Starter
 ├── engine-event -- Spring 事件模块
-├    ├── event-core -- 事件组件共性代码模块
+├    ├── event-core -- 事件共性代码模块
 ├    ├── event-message-spring-boot-starter -- Kafka Message 统一 Starter
 ├    ├── event-pay-spring-boot-starter -- 支付事件统一 Starter
 ├    └── event-security-spring-boot-starter --安全事件统一 Starter
 ├── engine-facility -- 微服务基础设施模块
 ├    ├── facility-core -- 基础设施共性通用代码
-├    ├── facility-sdk-log -- 微服务日志中心组件模块
-├    ├── facility-sdk-sentinel -- Sentinel 组件模块
+├    ├── facility-sdk-log -- 微服务日志中心模块
+├    ├── facility-sdk-sentinel -- Sentinel 模块
 ├    └── facility-spring-boot-starter -- Facility 模块统一 Starter
 ├── engine-message -- 消息模块
 ├    ├── message-core -- 消息共性通用代码
@@ -110,45 +117,45 @@ dante-engine
 ├    └── message-spring-boot-starter -- Message  模块统一 Starter
 ├── engine-nosql -- Nosql 数据库接入管理模块
 ├    ├── nosql-core -- nosql基础共性通用代码
-├    ├── nosql-sdk-couchdb -- Couchdb Nosql 数据库接入管理组件模块
-├    └── nosql-sdk-influxdb -- Influxdb 时序数据库接入管理组件模块
+├    ├── nosql-sdk-couchdb -- Couchdb Nosql 数据库接入管理模块
+├    └── nosql-sdk-influxdb -- Influxdb 时序数据库接入管理模块
 ├── engine-oauth2 -- OAuth2 认证模块
 ├    ├── oauth2-core -- OAuth2 共性通用代码模块
 ├    ├── oauth2-sdk-authentication -- Spring Authorization Server 认证逻辑模块
 ├    ├── oauth2-sdk-authentication-server -- Spring Authorization Server 认证服务器管理基础模块
 ├    ├── oauth2-sdk-authorization -- Spring Authorization Server 授权逻辑处理模块
-├    ├── oauth2-sdk-compliance -- Spring Authorization Server 应用安全合规支撑组件模块
+├    ├── oauth2-sdk-compliance -- Spring Authorization Server 应用安全合规支撑模块
 ├    └── oauth2-sdk-data-jpa -- 基于 Spring Data JPA 封装的 Spring Authorization Server 数据访问代码模块
 ├── engine-oss -- 对象存储模块
 ├    ├── oss-core -- 对象存储共性通用代码
-├    ├── oss-sdk-minio -- Minio 组件模块
+├    ├── oss-sdk-minio -- Minio 模块
 ├    └── oss-spring-boot-starter -- Oss 模块统一 Starter
 ├── engine-pay -- 支付模块
 ├    ├── pay-core -- 支付共性通用代码
-├    ├── pay-sdk-alipay -- 支付宝支付组件模块
-├    ├── pay-sdk-all -- 支付方式整合组件模块
-├    ├── pay-sdk-wxpay -- 微信支付组件模块
+├    ├── pay-sdk-alipay -- 支付宝支付模块
+├    ├── pay-sdk-all -- 支付方式整合模块
+├    ├── pay-sdk-wxpay -- 微信支付模块
 ├    └── pay-spring-boot-starter -- Pay 模块统一 Starter
 ├── engine-rest -- 服务Rest接口模块
 ├    ├── rest-core -- 服务Rest接口共性通用代码
-├    ├── rest-sdk-protect -- 前后端数据加密、接口幂等、防刷、Xss和SQL注入Rest API 防护组件模块
+├    ├── rest-sdk-protect -- 前后端数据加密、接口幂等、防刷、Xss和SQL注入Rest API 防护模块
 ├    └── rest-spring-boot-starter -- Rest 模块统一 Starter(包括通用CRUD代码)
 ├── engine-sms -- 短信接入模块
 ├    ├── sms-core -- 短信共性通用代码模块
-├    ├── sms-sdk-aliyun -- 阿里云短信发送组件模块
-├    ├── sms-sdk-all -- 短信整合组件模块
-├    ├── sms-sdk-chinamobile -- 移动短信发送组件模块
-├    ├── sms-sdk-huawei -- 华为短信发送组件模块
-├    ├── sms-sdk-jd -- 京东短信发送组件模块
-├    ├── sms-sdk-netease -- 网易短信发送组件模块
-├    ├── sms-sdk-qiniu -- 七牛短信发送组件模块
-├    ├── sms-sdk-tencent -- 腾讯短信发送组件模块
-├    ├── sms-sdk-upyun -- 又拍短信发送组件模块
+├    ├── sms-sdk-aliyun -- 阿里云短信发送模块
+├    ├── sms-sdk-all -- 短信整合模块
+├    ├── sms-sdk-chinamobile -- 移动短信发送模块
+├    ├── sms-sdk-huawei -- 华为短信发送模块
+├    ├── sms-sdk-jd -- 京东短信发送模块
+├    ├── sms-sdk-netease -- 网易短信发送模块
+├    ├── sms-sdk-qiniu -- 七牛短信发送模块
+├    ├── sms-sdk-tencent -- 腾讯短信发送模块
+├    ├── sms-sdk-upyun -- 又拍短信发送模块
 ├    └── sms-spring-boot-starter -- SMS 模块统一 Starter
 ├── engine-web -- Web处理模块
-├    ├── web-core -- Web 应用共性通用代码模块组件
-├    ├── web-sdk-rest -- Web 应用基础支撑模块组件
-├    ├── web-sdk-scan -- 接口权限扫描组件模块
+├    ├── web-core -- Web 应用共性通用代码模块
+├    ├── web-sdk-rest -- Web 应用基础支撑模块
+├    ├── web-sdk-scan -- 接口权限扫描模块
 └──  └── web-spring-boot-starter -- Web 模块统一 Starter
 ```
 
@@ -161,13 +168,11 @@ dante-engine
 1. engine-assistant
 2. engine-cache
 3. engine-data
-4. engine-web
-5. engine-protect
-6. engine-rest
-7. engine-oauth2
-8. engine-facility
-9. engine-event
-10. engine-message
+4. engine-rest
+5. engine-oauth2
+6. engine-facility
+7. engine-event
+8. engine-message
 
 ### 二、独立性阅读
 
@@ -176,8 +181,9 @@ dante-engine
 * engine-captcha
 * engine-oss
 * engine-pay
-* engine-temporal
-* engine-websocket
+* engine-nosql
+* engine-sms
+* engine-access
 
 ## 参与贡献
 
@@ -193,6 +199,7 @@ dante-engine
 ## 关联项目
 
 - Dante 主工程地址：[https://gitee.com/dromara/dante-cloud](https://gitee.com/dromara/dante-cloud)
-- Dante 单体版示例工程地址：[https://gitee.com/herodotus/dante-cloud-athena](https://gitee.com/herodotus/dante-cloud-athena)
+- Dante
+  单体版示例工程地址：[https://gitee.com/herodotus/dante-cloud-athena](https://gitee.com/herodotus/dante-cloud-athena)
 - Dante 前端工程地址：[https://gitee.com/herodotus/dante-cloud-ui](https://gitee.com/herodotus/dante-cloud-ui)
 
